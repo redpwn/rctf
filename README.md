@@ -12,7 +12,7 @@ We have designed rctf with the following attributes in mind:
 
 ## Main Features
 
-* simple integration with redpwn's CTF deployment framework
+* simple integration with redpwn's [CTF deployment framework](https://gitlab.com/redpwn/redpwnctf-deployment)
 * dynamic scoring
 
 ## Installation
