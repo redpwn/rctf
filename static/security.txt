@@ -1,0 +1,4 @@
+Contact: mailto:rctf@arinerron.com
+Preferred-Languages: en
+Canonical: https://ctf.redpwn.net/security.txt
+Policy: https://github.com/redpwn/rctf/blob/master/SECURITY.md
