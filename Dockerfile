@@ -7,7 +7,7 @@ COPY package.json ./
 COPY yarn.lock ./
 
 ENV NODE_ENV production
-RUN yarn --production
+RUN yarn
 
 COPY . .
 

@@ -1,7 +1,17 @@
 {
+  "name": "rctf",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "lint": "standard"
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
-    "cookie-session": "^1.4.0",
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "standard": "^14.3.1"
   }
 }
