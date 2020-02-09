@@ -14,5 +14,15 @@
   },
   "devDependencies": {
     "standard": "^14.3.1"
-  }
+  },
+  "description": "rctf is RedpwnCTF's CTF platform. It is developed and maintained by the [redpwn](https://redpwn.net) CTF team.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redpwn/rctf.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/redpwn/rctf/issues"
+  },
+  "homepage": "https://github.com/redpwn/rctf#readme"
 }
