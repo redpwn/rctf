@@ -1,3 +1,4 @@
+const client = require("./client")
 
 module.exports = {
   getUser: ({ id }) => {
