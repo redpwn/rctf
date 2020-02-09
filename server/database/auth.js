@@ -5,9 +5,9 @@ const ret = {
     return db.query("SELECT * FROM users WHERE id = $1", [id])
       .then(res => res.rows[0])
   },
-  makeUser: ({ name, email, division, password }) => {
-    return db.query("INSERT INTO users (name, email, division, password) VALUES ($1, $2, $3, $4) RETURNING *",
-        [name, email, division, password]
+  makeUser: ({ id, name, email, division, password }) => {
+    return db.query("INSERT INTO users (id, name, email, division, password) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+        [id, name, email, division, password]
       )
       .then(res => res.rows[0])
   },

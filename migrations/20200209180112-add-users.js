@@ -17,7 +17,7 @@ exports.setup = function(options, seedLink) {
 exports.up = function(pgm) {
   pgm.createExtension("uuid-ossp")
   pgm.createTable("users", {
-    id: { type: "uuid", primaryKey: true, default: pgm.func('uuid_generate_v4()')  },
+    id: { type: "uuid", primaryKey: true },
     name: { type: "string", unique: true, notNull: true },
     email: { type: "string", unique: true, notNull: true },
     password: { type: "string", notNull: true },
