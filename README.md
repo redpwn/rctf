@@ -25,3 +25,16 @@ The application is built on a PostgreSQL database. You should add the appropriat
 yarn run migrate up
 ```
 
+## Development
+
+For hot reloading, use nodemon.
+
+```javascript
+yarn dev
+```
+
+To fix style errors, use standard. 
+
+```
+yarn lint --fix
+```
