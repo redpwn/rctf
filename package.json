@@ -8,12 +8,18 @@
     "lint": "standard",
     "start": "node index.js"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint"
+    }
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "husky": "^4.2.1",
     "standard": "^14.3.1"
   },
   "description": "rctf is RedpwnCTF's CTF platform. It is developed and maintained by the [redpwn](https://redpwn.net) CTF team.",
