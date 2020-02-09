@@ -7,6 +7,6 @@ const app = express()
 app.use(bodyParser.json())
 
 const staticPath = path.join(__dirname, '/static')
-app.use('/static', express.static(staticPath))
+app.use(express.static(staticPath, { extensions: ['html'] }))
 
 module.exports = app
