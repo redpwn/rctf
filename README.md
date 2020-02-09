@@ -17,4 +17,11 @@ We have designed rctf with the following attributes in mind:
 
 ## Installation
 
-_TODO_
+### Database
+
+The application is built on a PostgreSQL database. You should add the appropriate connection string in `.env`. Then run the following command to setup the database. 
+
+```
+yarn run migrate up
+```
+
