@@ -6,12 +6,14 @@
   "private": true,
   "scripts": {
     "lint": "standard",
-    "start": "node index.js"
+    "start": "node index.js",
+    "migrate": "node-pg-migrate"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "node-pg-migrate": "^4.2.2",
     "pg": "^7.18.1"
   },
   "devDependencies": {
