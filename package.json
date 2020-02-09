@@ -10,6 +10,7 @@
     "migrate": "node-pg-migrate"
   },
   "dependencies": {
+    "ajv": "^6.11.0",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
