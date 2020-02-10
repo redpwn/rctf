@@ -1,8 +1,8 @@
 exports.up = function (pgm) {
   pgm.createTable('solves', {
     id: { type: 'uuid', primaryKey: true },
-    challengeid: { type: 'string', unique: true, notNull: true },
-    userid: { type: 'string', unique: true, notNull: true },
+    challengeid: { type: 'string', notNull: true },
+    userid: { type: 'string', notNull: true },
   })
 }
   
