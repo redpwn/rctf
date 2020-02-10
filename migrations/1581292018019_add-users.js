@@ -13,7 +13,3 @@ exports.down = function (pgm) {
   pgm.dropTable('users')
   pgm.dropExtension('uuid-ossp')
 }
-
-exports._meta = {
-  version: 1
-}
