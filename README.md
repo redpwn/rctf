@@ -1,6 +1,6 @@
 # rctf - RedpwnCTF's CTF Platform
 
-rctf is RedpwnCTF's CTF platform. It is developd and maintained by the [redpwn](https://redpwn.net) CTF team.
+rctf is RedpwnCTF's CTF platform. It is developed and maintained by the [redpwn](https://redpwn.net) CTF team.
 
 ## Design Goals
 
