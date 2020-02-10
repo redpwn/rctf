@@ -1,3 +1,3 @@
 module.exports = {
-    token: require('./token')
-  }
+  token: require('./token')
+}

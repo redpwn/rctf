@@ -10,47 +10,48 @@ module.exports = {
   requireAuth: false,
   schema: {},
   handler: async ({ req, uuid }) => {
+    const solveAmount = {}
+    const challengeValues = {}
+    const userSolves = {}
+    const userScores = []
 
-    let solveAmount = {}
-    let challengeValues = {}
-    let userSolves = {}
-    let userScores = []
-    
     const solves = await db.leaderboard.getSolves()
     const users = await db.leaderboard.getUsers()
 
-    for(let i = 0; i < solves.length; i++){
+    for (let i = 0; i < solves.length; i++) {
       // Accumulate in solveAmount
-      if(!(solves[i].challengeid in solveAmount)){
+      if (!(solves[i].challengeid in solveAmount)) {
         solveAmount[solves[i].challengeid] = 1
-      }else{
+      } else {
         solveAmount[solves[i].challengeid] += 1
       }
       // Store which challenges each user solved for later
-      if(!(solves[i].userid in userSolves)){
+      if (!(solves[i].userid in userSolves)) {
         userSolves[solves[i].userid] = [solves[i].challengeid]
-      }else{
+      } else {
         userSolves[solves[i].userid].push(solves[i].challengeid)
       }
     }
 
-    for(let i = 0; i < challenges.getAllChallenges().length; i++){
-      const challenge = challenges.getAllChallenges()[i]
-      if(!(challenge.id in solveAmount)){
+    const allChallenges = challenges.getAllChallenges()
+
+    for (let i = 0; i < allChallenges.length; i++) {
+      const challenge = allChallenges[i]
+      if (!(challenge.id in solveAmount)) {
         // There are currently no solves
         challengeValues[challenge.id] = getScore('dynamic', challenge.points.min, challenge.points.max, 0)
-      }else{
+      } else {
         challengeValues[challenge.id] = getScore('dynamic', challenge.points.min, challenge.points.max, solveAmount[challenge.id])
       }
     }
 
-    for(let i = 0; i < users.length; i++){
-      if(!(users[i].userid in userSolves)){
+    for (let i = 0; i < users.length; i++) {
+      if (!(users[i].userid in userSolves)) {
         // The user has not solved anything
         userScores.push([users[i].name, 0])
-      }else{
+      } else {
         let currScore = 0
-        for(let j = 0; j < userSolves[users[i].userid].length; j++){
+        for (let j = 0; j < userSolves[users[i].userid].length; j++) {
           // Add the score for the specific solve loaded fr om the challengeValues array using ids
           currScore += challengeValues[userSolves[users[i].userid][j]]
         }
