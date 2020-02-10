@@ -9,7 +9,12 @@ const routes = [
   require('./auth-login')
 ]
 
-const routeValidators = routes.map((route) => new Ajv().compile(route.schema))
+const routeValidators = routes.map((route) => {
+  if (route.schema === undefined) {
+    return undefined
+  }
+  return new Ajv().compile(route.schema)
+})
 
 routes.forEach((route, i) => {
   router[route.method](route.path, async (req, res) => {
