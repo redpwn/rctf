@@ -11,7 +11,7 @@ module.exports = {
         max: 100
       },
       files: ['static/security.txt'],
-      id: 'random-uuid-here'
+      id: 'unique/id-here'
     }]
   },
   getChallenge: id => {
