@@ -8,7 +8,6 @@ module.exports = {
   method: 'get',
   path: '/leaderboard',
   requireAuth: false,
-  schema: {},
   handler: async ({ req, uuid }) => {
     const solveAmount = {}
     const challengeValues = {}
