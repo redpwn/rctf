@@ -14,8 +14,8 @@ module.exports = {
     const userSolves = {}
     const userScores = []
 
-    const solves = await db.leaderboard.getSolves()
-    const users = await db.leaderboard.getUsers()
+    const solves = await db.solves.getSolves()
+    const users = await db.users.getUsers()
 
     for (let i = 0; i < solves.length; i++) {
       // Accumulate in solveAmount
