@@ -6,7 +6,8 @@ const auth = require('../auth')
 const router = express.Router()
 
 const routes = [
-  require('./auth-login')
+  require('./auth-login'),
+  require('./leaderboard')
 ]
 
 const routeValidators = routes.map((route) => {

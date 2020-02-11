@@ -1,5 +1,4 @@
 exports.up = function (pgm) {
-  pgm.createExtension('uuid-ossp')
   pgm.createTable('users', {
     id: { type: 'uuid', primaryKey: true },
     name: { type: 'string', unique: true, notNull: true },
@@ -11,9 +10,4 @@ exports.up = function (pgm) {
 
 exports.down = function (pgm) {
   pgm.dropTable('users')
-  pgm.dropExtension('uuid-ossp')
-}
-
-exports._meta = {
-  version: 1
 }

@@ -12,7 +12,7 @@ We have designed rctf with the following attributes in mind:
 
 ## Main Features
 
-* simple integration with redpwn's [CTF deployment framework](https://gitlab.com/redpwn/redpwnctf-deployment)
+* simple integration with redpwn's [CTF deployment framework](https://github.com/redpwn/rdeploy)
 * dynamic scoring
 
 ## Installation
@@ -25,3 +25,16 @@ The application is built on a PostgreSQL database. You should add the appropriat
 yarn run migrate up
 ```
 
+## Development
+
+For hot reloading, use nodemon.
+
+```javascript
+yarn dev
+```
+
+To fix style errors, use standard. 
+
+```
+yarn lint --fix
+```

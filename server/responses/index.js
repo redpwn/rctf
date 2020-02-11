@@ -23,6 +23,10 @@ const responseList = {
     status: 401,
     message: 'The password is incorrect.'
   },
+  goodLeaderboard: {
+    status: 200,
+    message: 'The retrieval of the leaderbard was successful.'
+  },
   badBody: {
     status: 400,
     message: 'The request body does not meet requirements.'
