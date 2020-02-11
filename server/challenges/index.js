@@ -1,23 +1,25 @@
+const config = require('../../config')
+const path = require('path')
+
+let challenges
+
+const resetChallenges = () => {
+  const module = path.join('../../', config.rDeployDirectory, 'config.json')
+
+  delete require.cache[require.resolve(module)]
+  challenges = require(module)
+}
+
+resetChallenges()
+
 module.exports = {
   getAllChallenges: () => {
-    return [{
-      name: 'Test',
-      category: 'Pwn',
-      author: 'Test',
-      flag: 'flag{example_flag_here}',
-      description: 'A test challenge',
-      points: {
-        min: 50,
-        max: 100
-      },
-      files: ['static/security.txt'],
-      id: 'unique/id-here'
-    }]
+    return challenges
   },
   getChallenge: id => {
-
+    return challenges.filter(a => a.id === id)[0]
   },
   resetCache: () => {
-
+    resetChallenges()
   }
 }
