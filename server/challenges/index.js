@@ -4,6 +4,7 @@ module.exports = {
       name: 'Test',
       category: 'Pwn',
       author: 'Test',
+      flag: 'flag{example_flag_here}',
       description: 'A test challenge',
       points: {
         min: 50,
