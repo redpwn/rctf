@@ -18,7 +18,7 @@ module.exports = {
       },
       required: ['flag']
     },
-    schema: {
+    params: {
       type: 'object',
       properties: {
         id: {
@@ -29,21 +29,25 @@ module.exports = {
     }
   },
   handler: async ({ req, uuid }) => {
-    const challengeid = req.body.challengeid
+    const challengeid = req.params.id
     const submittedFlag = req.body.flag
 
-    const solved = await db.solves.getSolvesByUserIdAndChallId({ userid: uuid, challengeid: challengeid })
+    const challenge = challenges.getChallenge(challengeid)
 
-    if (solved === undefined) {
-      // Challenge has not yet been solved, verify flag
-      if (submittedFlag === challenges.getChallenge(challengeid).flag) {
-        db.solves.newSolve({ id: uuidv4(), challengeid: challengeid, userid: uuid })
-        return responses.goodFlag
-      } else {
+    if(challenge){
+      if(submittedFlag === challenge.flag){
+        const solved = await db.solves.getSolvesByUserIdAndChallId({ userid: uuid, challengeid: challengeid })
+        if(solved === undefined){
+          db.solves.newSolve({ id: uuidv4(), challengeid: challengeid, userid: uuid })
+          return responses.goodFlag
+        }else{
+          return responses.alreadySolved
+        }
+      }else{
         return responses.badFlag
       }
-    } else {
-      return responses.alreadySolved
+    }else{
+      return responses.badChallenge
     }
   }
 }

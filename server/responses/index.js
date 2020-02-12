@@ -35,6 +35,10 @@ const responseList = {
     status: 200,
     message: 'The flag was incorrect'
   },
+  badChallenge: {
+    status: 404,
+    message: 'The challenge was not found'
+  },
   alreadySolved: {
     status: 200,
     message: 'The flag was already submitted'
