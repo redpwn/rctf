@@ -57,7 +57,7 @@ routes.forEach((route, i) => {
       if (validator[param] !== undefined) {
         return validator[param](req[param])
       }
-      return false
+      return true
     })
 
     if (!allValid) {
