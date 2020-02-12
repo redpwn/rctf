@@ -6,36 +6,48 @@ const uuidv4 = require('uuid/v4')
 
 module.exports = {
   method: 'post',
-  path: '/submitflag',
+  path: '/challs/:id/submit',
   requireAuth: true,
   schema: {
-    type: 'object',
-    properties: {
-      challengeid: {
-        type: 'string'
+    body: {
+      type: 'object',
+      properties: {
+        flag: {
+          type: 'string'
+        }
       },
-      flag: {
-        type: 'string'
-      }
+      required: ['flag']
     },
-    required: ['challengeid', 'flag']
+    params: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'string'
+        }
+      },
+      required: ['id']
+    }
   },
   handler: async ({ req, uuid }) => {
-    const challengeid = req.body.challengeid
+    const challengeid = req.params.id
     const submittedFlag = req.body.flag
 
-    const solved = await db.solves.getSolvesByUserIdAndChallId({ userid: uuid, challengeid: challengeid })
+    const challenge = challenges.getChallenge(challengeid)
 
-    if (solved === undefined) {
-      // Challenge has not yet been solved, verify flag
-      if (submittedFlag === challenges.getChallenge(challengeid).flag) {
-        db.solves.newSolve({ id: uuidv4(), challengeid: challengeid, userid: uuid })
-        return responses.goodFlag
+    if (challenge) {
+      if (submittedFlag === challenge.flag) {
+        const solved = await db.solves.getSolvesByUserIdAndChallId({ userid: uuid, challengeid: challengeid })
+        if (solved === undefined) {
+          db.solves.newSolve({ id: uuidv4(), challengeid: challengeid, userid: uuid })
+          return responses.goodFlag
+        } else {
+          return responses.alreadySolved
+        }
       } else {
         return responses.badFlag
       }
     } else {
-      return responses.alreadySolved
+      return responses.badChallenge
     }
   }
 }
