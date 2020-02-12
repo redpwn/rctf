@@ -1,7 +1,7 @@
 const db = require('./db')
 
 const ret = {
-  getUsers: () => {
+  getAllUsers: () => {
     return db.query('SELECT id AS userid, name FROM users')
       .then(res => res.rows)
   }

@@ -7,7 +7,8 @@ const router = express.Router()
 
 const routes = [
   require('./auth-login'),
-  require('./leaderboard')
+  require('./leaderboard'),
+  require('./submitflag')
 ]
 
 const routeValidators = routes.map((route) => {
