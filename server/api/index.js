@@ -15,13 +15,13 @@ const routeValidators = routes.map((route) => {
   if (route.schema === undefined) {
     return {}
   }
-  
+
   const ret = {}
   if (route.schema.body !== undefined) {
-    ret.body = new Ajv().compile(route.schema.body);
+    ret.body = new Ajv().compile(route.schema.body)
   }
   if (route.schema.params !== undefined) {
-    ret.params = new Ajv().compile(route.schema.params);
+    ret.params = new Ajv().compile(route.schema.params)
   }
   return ret
 })

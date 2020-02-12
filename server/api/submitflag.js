@@ -6,19 +6,27 @@ const uuidv4 = require('uuid/v4')
 
 module.exports = {
   method: 'post',
-  path: '/submitflag',
+  path: '/chall/:id/submit',
   requireAuth: true,
   schema: {
-    type: 'object',
-    properties: {
-      challengeid: {
-        type: 'string'
+    body: {
+      type: 'object',
+      properties: {
+        flag: {
+          type: 'string'
+        }
       },
-      flag: {
-        type: 'string'
-      }
+      required: ['flag']
     },
-    required: ['challengeid', 'flag']
+    schema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'string'
+        }
+      },
+      required: ['id']
+    }
   },
   handler: async ({ req, uuid }) => {
     const challengeid = req.body.challengeid
