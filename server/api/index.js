@@ -11,18 +11,18 @@ const routes = [
   require('./submitflag')
 ]
 
+const validationParams = ['body', 'params', 'query']
 const routeValidators = routes.map((route) => {
   if (route.schema === undefined) {
     return {}
   }
 
   const ret = {}
-  if (route.schema.body !== undefined) {
-    ret.body = new Ajv().compile(route.schema.body)
-  }
-  if (route.schema.params !== undefined) {
-    ret.params = new Ajv().compile(route.schema.params)
-  }
+  validationParams.forEach(param => {
+    if (route.schema[param] !== undefined) {
+      ret[param] = new Ajv().compile(route.schema[param])
+    }
+  })
   return ret
 })
 
@@ -53,11 +53,14 @@ routes.forEach((route, i) => {
     }
 
     const validator = routeValidators[i]
-    if (validator.body !== undefined && !validator.body(req.body)) {
-      sendResponse(responses.badBody)
-      return
-    }
-    if (validator.params !== undefined && !validator.params(req.params)) {
+    const allValid = validationParams.every(param => {
+      if (validator[param] !== undefined) {
+        return validator[param](req[param])
+      }
+      return false
+    })
+
+    if (!allValid) {
       sendResponse(responses.badBody)
       return
     }
