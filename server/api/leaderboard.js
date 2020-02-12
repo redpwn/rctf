@@ -8,7 +8,7 @@ module.exports = {
   method: 'get',
   path: '/leaderboard',
   requireAuth: false,
-  handler: async ({ req, uuid }) => {
+  handler: async ({ req }) => {
     const solveAmount = {}
     const challengeValues = {}
     const userSolves = {}
@@ -60,8 +60,6 @@ module.exports = {
 
     const sortedUsers = userScores.sort((a, b) => b[1] - a[1])
 
-    return [responses.goodLeaderboard, {
-      sortedUsers
-    }]
+    return [responses.goodLeaderboard, sortedUsers]
   }
 }
