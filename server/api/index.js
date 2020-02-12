@@ -13,9 +13,17 @@ const routes = [
 
 const routeValidators = routes.map((route) => {
   if (route.schema === undefined) {
-    return undefined
+    return {}
   }
-  return new Ajv().compile(route.schema)
+  
+  const ret = {}
+  if (route.schema.body !== undefined) {
+    ret.body = new Ajv().compile(route.schema.body);
+  }
+  if (route.schema.params !== undefined) {
+    ret.params = new Ajv().compile(route.schema.params);
+  }
+  return ret
 })
 
 routes.forEach((route, i) => {
@@ -45,7 +53,11 @@ routes.forEach((route, i) => {
     }
 
     const validator = routeValidators[i]
-    if (validator !== undefined && !validator(req.body)) {
+    if (validator.body !== undefined && !validator.body(req.body)) {
+      sendResponse(responses.badBody)
+      return
+    }
+    if (validator.params !== undefined && !validator.params(req.params)) {
       sendResponse(responses.badBody)
       return
     }
