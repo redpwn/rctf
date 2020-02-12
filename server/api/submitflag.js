@@ -34,19 +34,19 @@ module.exports = {
 
     const challenge = challenges.getChallenge(challengeid)
 
-    if(challenge){
-      if(submittedFlag === challenge.flag){
+    if (challenge) {
+      if (submittedFlag === challenge.flag) {
         const solved = await db.solves.getSolvesByUserIdAndChallId({ userid: uuid, challengeid: challengeid })
-        if(solved === undefined){
+        if (solved === undefined) {
           db.solves.newSolve({ id: uuidv4(), challengeid: challengeid, userid: uuid })
           return responses.goodFlag
-        }else{
+        } else {
           return responses.alreadySolved
         }
-      }else{
+      } else {
         return responses.badFlag
       }
-    }else{
+    } else {
       return responses.badChallenge
     }
   }
