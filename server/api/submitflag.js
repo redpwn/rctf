@@ -6,7 +6,7 @@ const uuidv4 = require('uuid/v4')
 
 module.exports = {
   method: 'post',
-  path: '/chall/:id/submit',
+  path: '/challs/:id/submit',
   requireAuth: true,
   schema: {
     body: {
