@@ -25,7 +25,8 @@
     "express": "^4.17.1",
     "node-pg-migrate": "^4.2.2",
     "pg": "^7.18.1",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
     "ava": "^3.3.0",

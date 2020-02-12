@@ -16,7 +16,7 @@ module.exports = {
     },
     required: ['email', 'password']
   },
-  handler: ({ req, uuid }) => {
+  handler: async ({ req, uuid }) => {
     return [responses.goodLogin, {
       uuid
     }]

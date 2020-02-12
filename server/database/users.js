@@ -1,11 +1,7 @@
 const db = require('./db')
 
 const ret = {
-  getSolves: () => {
-    return db.query('SELECT * FROM solves')
-      .then(res => res.rows)
-  },
-  getUsers: () => {
+  getAllUsers: () => {
     return db.query('SELECT id AS userid, name FROM users')
       .then(res => res.rows)
   }

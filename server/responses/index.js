@@ -27,6 +27,18 @@ const responseList = {
     status: 200,
     message: 'The retrieval of the leaderbard was successful.'
   },
+  goodFlag: {
+    status: 200,
+    message: 'The flag was submitted successfully'
+  },
+  badFlag: {
+    status: 200,
+    message: 'The flag was incorrect'
+  },
+  alreadySolved: {
+    status: 200,
+    message: 'The flag was already submitted'
+  },
   badBody: {
     status: 400,
     message: 'The request body does not meet requirements.'

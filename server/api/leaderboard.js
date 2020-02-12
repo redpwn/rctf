@@ -1,7 +1,7 @@
 const db = require('../database')
-
-const { responses } = require('../responses')
 const challenges = require('../challenges')
+const { responses } = require('../responses')
+
 const { getScore } = require('../util/scores')
 
 module.exports = {
@@ -14,8 +14,8 @@ module.exports = {
     const userSolves = {}
     const userScores = []
 
-    const solves = await db.leaderboard.getSolves()
-    const users = await db.leaderboard.getUsers()
+    const solves = await db.solves.getAllSolves()
+    const users = await db.users.getAllUsers()
 
     for (let i = 0; i < solves.length; i++) {
       // Accumulate in solveAmount
