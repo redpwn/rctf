@@ -1,23 +1,32 @@
+const config = require('../../config')
+const util = require('../util')
+const path = require('path')
+
+let challenges
+// Mapping from challenge.id to challenge
+const challMap = new Map()
+
+const resetChallenges = () => {
+  const module = path.join('../../', config.rDeployDirectory, 'config.json')
+
+  challenges = util.reloadModule(module)
+
+  challMap.clear()
+  challenges.forEach(c => {
+    challMap.set(c.id, c)
+  })
+}
+
+resetChallenges()
+
 module.exports = {
   getAllChallenges: () => {
-    return [{
-      name: 'Test',
-      category: 'Pwn',
-      author: 'Test',
-      flag: 'flag{example_flag_here}',
-      description: 'A test challenge',
-      points: {
-        min: 50,
-        max: 100
-      },
-      files: ['static/security.txt'],
-      id: 'unique/id-here'
-    }]
+    return challenges
   },
   getChallenge: id => {
-
+    return challMap.get(id)
   },
   resetCache: () => {
-
+    resetChallenges()
   }
 }

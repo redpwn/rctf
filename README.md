@@ -15,6 +15,20 @@ We have designed rctf with the following attributes in mind:
 * simple integration with redpwn's [CTF deployment framework](https://github.com/redpwn/rdeploy)
 * dynamic scoring
 
+## Deployment
+
+### Problem Data
+
+To build, simply copy the exported directory from [rDeploy](https://github.com/redpwn/rdeploy) to `config.rDeployDirectory` (defaults to `.rdeploy`). 
+
+```bash
+~ $ ls
+rdeploy rctf
+~ $ cd rdeploy
+~/rdeploy $ python main.py build
+~/rdeploy $ cp -r export ../rctf/.rdeploy
+```
+
 ## Installation
 
 ### Database
