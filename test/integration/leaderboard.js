@@ -9,5 +9,5 @@ test('returns array', async t => {
     .expect(200)
 
   t.is(resp.body.kind, 'goodLeaderboard')
-  t.truthy(Array.isArray(resp.body.data.sortedUsers))
+  t.truthy(Array.isArray(resp.body.data))
 })
