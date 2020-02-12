@@ -4,14 +4,16 @@ const path = require('path')
 
 let challenges
 // Mapping from challenge.id to challenge
-const challMap = {}
+const challMap = new Map()
 
 const resetChallenges = () => {
   const module = path.join('../../', config.rDeployDirectory, 'config.json')
 
   challenges = util.reloadModule(module)
+
+  challMap.clear()
   challenges.forEach(c => {
-    challMap[c.id] = c
+    challMap.set(c.id, c)
   })
 }
 
@@ -22,7 +24,7 @@ module.exports = {
     return challenges
   },
   getChallenge: id => {
-    return challMap[id]
+    return challMap.get(id)
   },
   resetCache: () => {
     resetChallenges()
