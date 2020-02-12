@@ -14,3 +14,7 @@ Desktop.ini
 $RECYCLE.BIN
 
 *.swp
+
+# nyc test runner
+.nyc_output
+coverage

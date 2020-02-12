@@ -10,7 +10,8 @@
     "migrate": "node-pg-migrate",
     "build": "sh client/build.sh",
     "watch": "preact watch --src client/src --template client/index.html",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "nyc ava"
   },
   "husky": {
     "hooks": {
@@ -23,15 +24,18 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "node-pg-migrate": "^4.2.2",
-    "pg": "^7.18.1"
+    "pg": "^7.18.1",
+    "supertest": "^4.0.2"
   },
   "devDependencies": {
+    "ava": "^3.3.0",
     "husky": "^4.2.1",
     "jss": "^10.0.4",
     "jss-camel-case": "^6.1.0",
     "jss-nested": "^6.0.1",
     "jss-vendor-prefixer": "^8.0.1",
     "nodemon": "^2.0.2",
+    "nyc": "^15.0.0",
     "preact": "^10.3.1",
     "preact-cli": "^2.2.1",
     "promise-polyfill": "^8.1.3",
