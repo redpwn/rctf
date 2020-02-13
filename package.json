@@ -8,10 +8,10 @@
     "lint": "standard",
     "start": "node index.js",
     "migrate": "node-pg-migrate",
-    "build": "sh client/build.sh",
-    "watch": "preact watch --src client/src --template client/index.html",
     "dev": "nodemon index.js",
-    "test": "nyc ava"
+    "test": "nyc ava",
+    "client:build": "sh client/build.sh",
+    "client:watch": "preact watch --src client/src --template client/index.html"
   },
   "husky": {
     "hooks": {
@@ -22,6 +22,7 @@
     "ajv": "^6.11.0",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
+    "email-validator": "^2.0.4",
     "express": "^4.17.1",
     "node-pg-migrate": "^4.2.2",
     "pg": "^7.18.1",

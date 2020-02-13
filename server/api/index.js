@@ -41,7 +41,7 @@ routes.forEach((route, i) => {
         sendResponse(responses.badToken)
         return
       }
-      uuid = await auth.token.getUserId(authHeader.slice('Bearer '.length))
+      uuid = await auth.token.getUserId(authHeader.slice('Bearer '.length), auth.token.tokenKinds.auth)
     }
 
     const validator = routeValidators[i]

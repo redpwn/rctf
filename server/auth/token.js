@@ -5,7 +5,9 @@ const randomBytes = promisify(crypto.randomBytes)
 const tokenKey = Buffer.from(process.env.APP_TOKEN_KEY, 'base64')
 
 const tokenKinds = {
-  auth: 0
+  auth: 0,
+  team: 1,
+  login: 2
 }
 
 const encryptToken = async (content) => {
@@ -31,21 +33,21 @@ const decryptToken = async (token) => {
   }
 }
 
-const getUserId = async (token) => {
+const getUserId = async (token, expectedTokenKind) => {
   const content = await decryptToken(token)
   if (content === null) {
     return null
   }
   const { k: kind, id: userId } = content
-  if (kind !== tokenKinds.auth) {
+  if (kind !== expectedTokenKind) {
     return null
   }
   return userId
 }
 
-const getToken = async (userId) => {
+const getToken = async (userId, tokenKind) => {
   const token = await encryptToken({
-    k: tokenKinds.auth,
+    k: tokenKind,
     id: userId
   })
   return token
@@ -53,5 +55,6 @@ const getToken = async (userId) => {
 
 module.exports = {
   getUserId,
-  getToken
+  getToken,
+  tokenKinds
 }
