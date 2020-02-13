@@ -2,7 +2,7 @@ const db = require('../database')
 const challenges = require('../challenges')
 const { responses } = require('../responses')
 
-const { getScore } = require('../util/scores')
+const util = require('../util')
 
 module.exports = {
   method: 'get',
@@ -38,9 +38,9 @@ module.exports = {
       const challenge = allChallenges[i]
       if (!(challenge.id in solveAmount)) {
         // There are currently no solves
-        challengeValues[challenge.id] = getScore('dynamic', challenge.points.min, challenge.points.max, 0)
+        challengeValues[challenge.id] = util.scores.getScore('dynamic', challenge.points.min, challenge.points.max, 0)
       } else {
-        challengeValues[challenge.id] = getScore('dynamic', challenge.points.min, challenge.points.max, solveAmount[challenge.id])
+        challengeValues[challenge.id] = util.scores.getScore('dynamic', challenge.points.min, challenge.points.max, solveAmount[challenge.id])
       }
     }
 
