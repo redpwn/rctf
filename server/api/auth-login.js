@@ -5,16 +5,18 @@ module.exports = {
   path: '/auth/login',
   requireAuth: true,
   schema: {
-    type: 'object',
-    properties: {
-      email: {
-        type: 'string'
+    body: {
+      type: 'object',
+      properties: {
+        email: {
+          type: 'string'
+        },
+        password: {
+          type: 'string'
+        }
       },
-      password: {
-        type: 'string'
-      }
-    },
-    required: ['email', 'password']
+      required: ['email', 'password']
+    }
   },
   handler: async ({ req, uuid }) => {
     return [responses.goodLogin, {
