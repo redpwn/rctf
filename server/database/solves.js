@@ -16,6 +16,9 @@ const ret = {
   newSolve: ({ id, userid, challengeid }) => {
     return db.query('INSERT INTO solves (id, challengeid, userid) VALUES ($1, $2, $3) RETURNING *', [id, challengeid, userid])
       .then(res => res.rows[0])
+  },
+  removeSolvesByUserId: ({ userid }) => {
+    return db.query('DELETE FROM solves WHERE userid = $1', [userid])
   }
 }
 
