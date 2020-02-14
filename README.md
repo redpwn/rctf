@@ -39,7 +39,7 @@ You should copy the `.env.example` to `.env`.
 ~/rctf $ cp .env.example .env
 ```
 
-Note that the `APP_TOKEN_KEY` should be a base64 encoded string of length 32 bytes. You can generate one with the following command.  
+Note that the `RCTF_TOKEN_KEY` should be a base64 encoded string of length 32 bytes. You can generate one with the following command.  
 
 ```
 $ openssl rand -base64 32
