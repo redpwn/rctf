@@ -31,6 +31,21 @@ rdeploy rctf
 
 ## Installation
 
+### Environment
+
+You should copy the `.env.example` to `.env`. 
+
+```
+~/rctf $ cp .env.example .env
+```
+
+Note that the `APP_TOKEN_KEY` should be a base64 encoded string of length 32 bytes. You can generate one with the following command.  
+
+```
+$ openssl rand -base64 32
+j9qpC+J9lrvx/F7uQ9wGKawhzfPyPb1aM+JPeLfsFX8=
+```
+
 ### Database
 
 The application is built on a PostgreSQL database. You should add the appropriate connection string in `.env`. Then run the following command to setup the database. 
