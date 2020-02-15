@@ -2,12 +2,12 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>rCTF</title>
+		<title><%= htmlWebpackPlugin.options.view.ctfName %></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 	</head>
 	<body>
-    <script src="/assets<%= htmlWebpackPlugin.files.chunks['bundle'].entry %>"></script>
+    <script src="<%= htmlWebpackPlugin.options.view.assetsPrefix %><%= htmlWebpackPlugin.files.chunks['bundle'].entry %>"></script>
 	</body>
 </html>
