@@ -1,4 +1,8 @@
 module.exports = {
   rDeployDirectory: '.rdeploy',
-  tokenKey: process.env.RCTF_TOKEN_KEY
+  divisions: {
+    eligible: 0,
+    ineligible: 1
+  },
+  loginTimeout: 10 * 60 * 1000
 }
