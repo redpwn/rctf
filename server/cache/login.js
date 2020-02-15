@@ -11,13 +11,15 @@ const prefixes = {
 }
 
 const redisSet = promisify(client.set.bind(client))
+const redisDel = promisify(client.del.bind(client))
 
 const makeLogin = async ({ id }) => {
   await redisSet(`${prefixes.login}:${id}`, '0', 'px', config.loginTimeout)
 }
 
 const useLogin = async ({ id }) => {
-  await redisSet(`${prefixes.login}:${id}`, '1', 'xx', 'keepttl')
+  const result = await redisDel(`${prefixes.login}:${id}`)
+  return result === 1
 }
 
 module.exports = {

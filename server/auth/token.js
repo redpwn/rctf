@@ -2,13 +2,21 @@ const { promisify } = require('util')
 const crypto = require('crypto')
 
 const randomBytes = promisify(crypto.randomBytes)
-const tokenKey = Buffer.from(process.env.APP_TOKEN_KEY, 'base64')
+const tokenKey = Buffer.from(process.env.RCTF_TOKEN_KEY, 'base64')
 
 const tokenKinds = {
   auth: 0,
   team: 1,
-  login: 2
+  verify: 2
 }
+
+const tokenExpiries = {
+  [tokenKinds.auth]: Infinity,
+  [tokenKinds.team]: Infinity,
+  [tokenKinds.verify]: 1000 * 60 * 10
+}
+
+const timeNow = () => Math.floor(Date.now() / 1000)
 
 const encryptToken = async (content) => {
   const iv = await randomBytes(12)
@@ -33,28 +41,32 @@ const decryptToken = async (token) => {
   }
 }
 
-const getUserId = async (token, expectedTokenKind) => {
+const getData = async (expectedTokenKind, token) => {
   const content = await decryptToken(token)
   if (content === null) {
     return null
   }
-  const { k: kind, id: userId } = content
+  const { k: kind, t: createdAt, d: data } = content
   if (kind !== expectedTokenKind) {
     return null
   }
-  return userId
+  if (createdAt + tokenExpiries[kind] < timeNow()) {
+    return null
+  }
+  return data
 }
 
-const getToken = async (userId, tokenKind) => {
+const getToken = async (tokenKind, data) => {
   const token = await encryptToken({
     k: tokenKind,
-    id: userId
+    t: timeNow(),
+    d: data
   })
   return token
 }
 
 module.exports = {
-  getUserId,
+  getData,
   getToken,
   tokenKinds
 }
