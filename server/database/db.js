@@ -1,8 +1,8 @@
-const connectionString = process.env.RCTF_DATABASE_URL
+const config = require('../../config')
 
 const { Pool } = require('pg')
 const pool = new Pool({
-  connectionString
+  connectionString: config.databaseUrl
 })
 
 module.exports = pool
