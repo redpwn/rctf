@@ -1,25 +1,26 @@
 const test = require('ava')
 const request = require('supertest')
 const app = require('../../app')
+const { removeUserByEmail } = require('../../server/database').auth
 
 const config = require('../../config')
-const { responses } = require('../../server/responses')
+const { responseList } = require('../../server/responses')
 
 const testUser = {
   email: 'test@test.com',
   name: 'test',
-  division: config.divisions[0]
+  division: Object.values(config.divisions)[0]
 }
 
 test('fails with badEmail', async t => {
   const resp = await request(app)
     .post(process.env.API_ENDPOINT + '/auth/submit')
     .send({
+      ...testUser,
       register: true,
-      email: 'notanemail',
-      ...testUser
+      email: 'notanemail'
     })
-    .expect(responses.badEmail.status)
+    .expect(responseList.badEmail.status)
 
   t.is(resp.body.kind, 'badEmail')
 })
@@ -29,11 +30,11 @@ test('fails with badUnknownEmail', async t => {
   const resp = await request(app)
     .post(process.env.API_ENDPOINT + '/auth/submit')
     .send({
+      ...testUser,
       register: false,
-      email: unknownEmail,
-      ...testUser
+      email: unknownEmail
     })
-    .expect(responses.badUnknownEmail.status)
+    .expect(responseList.badUnknownEmail.status)
 
   t.is(resp.body.kind, 'badUnknownEmail')
 })
@@ -44,21 +45,23 @@ test.serial('when not verifyEmail, succeeds with goodVerify', async t => {
   let resp = await request(app)
     .post(process.env.API_ENDPOINT + '/auth/submit')
     .send({
-      register: true,
-      ...testUser
+      ...testUser,
+      register: true
     })
-    .expect(responses.goodVerify.status)
+    .expect(responseList.goodVerify.status)
 
   t.is(resp.body.kind, 'goodVerify')
-  t.truthy(resp.body.data.authToken instanceof String)
-  t.truthy(resp.body.data.teamToken instanceof String)
+  t.true(typeof resp.body.data.authToken === 'string')
+  t.true(typeof resp.body.data.teamToken === 'string')
 
   resp = await request(app)
     .get(process.env.API_ENDPOINT + '/auth/test')
     .set('Authorization', ' Bearer ' + resp.body.data.authToken)
-    .expect(responses.validToken.status)
+    .expect(responseList.validToken.status)
 
   t.is(resp.body.kind, 'validToken')
+
+  config.verifyEmail = true
 })
 
 test.serial('duplicate fails with badKnownEmail', async t => {
@@ -67,12 +70,18 @@ test.serial('duplicate fails with badKnownEmail', async t => {
   const resp = await request(app)
     .post(process.env.API_ENDPOINT + '/auth/submit')
     .send({
-      register: true,
-      ...testUser
+      ...testUser,
+      register: true
     })
-    .expect(responses.badKnownEmail.status)
+    .expect(responseList.badKnownEmail.status)
 
   t.is(resp.body.kind, 'badKnownEmail')
 })
 
 // TODO: remember too remove test user
+
+test.after.always('cleanup test user', async t => {
+  await removeUserByEmail({
+    email: testUser.email
+  })
+})
