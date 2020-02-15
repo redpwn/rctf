@@ -44,11 +44,13 @@ routes.forEach((route, i) => {
       }))
     }
 
-    try {
-      req.body = JSON.parse(req.body)
-    } catch (e) {
-      sendResponse(responses.badJson)
-      return
+    if (req.body instanceof Buffer) {
+      try {
+        req.body = JSON.parse(req.body)
+      } catch (e) {
+        sendResponse(responses.badJson)
+        return
+      }
     }
 
     let uuid
