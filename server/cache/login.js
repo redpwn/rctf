@@ -3,7 +3,7 @@ const redis = require('redis')
 const config = require('../../config')
 
 const client = redis.createClient({
-  url: process.env.RCTF_REDIS_URL
+  url: config.redisUrl
 })
 
 const prefixes = {

@@ -1,8 +1,9 @@
 const { promisify } = require('util')
 const crypto = require('crypto')
+const config = require('../../config')
 
 const randomBytes = promisify(crypto.randomBytes)
-const tokenKey = Buffer.from(process.env.RCTF_TOKEN_KEY, 'base64')
+const tokenKey = Buffer.from(config.tokenKey, 'base64')
 
 const tokenKinds = {
   auth: 0,

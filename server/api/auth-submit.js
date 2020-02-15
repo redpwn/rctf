@@ -21,14 +21,15 @@ module.exports = {
         name: {
           type: 'string'
         },
-        eligible: {
-          type: 'boolean'
+        division: {
+          type: 'number',
+          enum: Object.values(config.divisions)
         },
         register: {
           type: 'boolean'
         }
       },
-      required: ['email', 'name', 'eligible', 'register']
+      required: ['email', 'name', 'division', 'register']
     }
   },
   handler: async ({ req }) => {
@@ -43,18 +44,13 @@ module.exports = {
     if (user !== undefined && req.body.register) {
       return responses.badKnownEmail
     }
-    let division
-    if (req.body.eligible) {
-      division = config.divisions.eligible
-    } else {
-      division = config.divisions.ineligible
-    }
     const uuid = uuidv4()
     await cache.login.makeLogin({ id: uuid })
     const verifyToken = await auth.token.getToken(auth.token.tokenKinds.verify, {
       id: uuid,
-      division,
       email,
+      name: req.body.name,
+      division: req.body.division,
       register: req.body.register
     })
     await util.email.sendVerification({
