@@ -22,7 +22,6 @@
   },
   "dependencies": {
     "ajv": "^6.11.0",
-    "dotenv": "^8.2.0",
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
     "mustache": "^4.0.0",
@@ -35,6 +34,7 @@
   },
   "devDependencies": {
     "ava": "^3.3.0",
+    "dotenv": "^8.2.0",
     "husky": "^4.2.1",
     "jss": "^10.0.4",
     "jss-camel-case": "^6.1.0",
