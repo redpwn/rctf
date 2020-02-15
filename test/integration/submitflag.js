@@ -1,6 +1,7 @@
 const test = require('ava')
 const request = require('supertest')
 const app = require('../../app')
+const uuidv4 = require('uuid/v4')
 
 const db = require('../../server/database')
 const challenges = require('../../server/challenges')
@@ -16,8 +17,10 @@ test('fails with unauthorized', async t => {
   t.is(resp.body.kind, 'badToken')
 })
 
+const uuid = uuidv4()
+
 test('fails with badBody', async t => {
-  const authToken = await auth.token.getToken('5b7790fd-6922-4a06-9f8c-1dcbc9ae165f')
+  const authToken = await auth.token.getToken(uuid)
   const resp = await request(app)
     .post(process.env.API_ENDPOINT + '/challs/ATfo410xfN_TEST/submit')
     .set('Authorization', ' Bearer ' + authToken)
@@ -27,7 +30,7 @@ test('fails with badBody', async t => {
 })
 
 test.serial('fails with badFlag', async t => {
-  const authToken = await auth.token.getToken('5b7790fd-6922-4a06-9f8c-1dcbc9ae165f')
+  const authToken = await auth.token.getToken(uuid)
   const resp = await request(app)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
@@ -38,7 +41,7 @@ test.serial('fails with badFlag', async t => {
 })
 
 test.serial('succeeds with goodFlag', async t => {
-  const authToken = await auth.token.getToken('5b7790fd-6922-4a06-9f8c-1dcbc9ae165f')
+  const authToken = await auth.token.getToken(uuid)
   const resp = await request(app)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
@@ -49,7 +52,7 @@ test.serial('succeeds with goodFlag', async t => {
 })
 
 test.serial('fails with alreadySolved', async t => {
-  const authToken = await auth.token.getToken('5b7790fd-6922-4a06-9f8c-1dcbc9ae165f')
+  const authToken = await auth.token.getToken(uuid)
   const resp = await request(app)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
@@ -60,5 +63,5 @@ test.serial('fails with alreadySolved', async t => {
 })
 
 test.after.always('remove solves from test user', async t => {
-  await db.solves.removeSolvesByUserId({ userid: '5b7790fd-6922-4a06-9f8c-1dcbc9ae165f' })
+  await db.solves.removeSolvesByUserId({ userid: uuid })
 })
