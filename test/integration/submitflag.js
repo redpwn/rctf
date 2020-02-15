@@ -21,9 +21,11 @@ test('fails with unauthorized', async t => {
 const uuid = uuidv4()
 
 test('fails with badBody', async t => {
+  const badChallenge = uuidv4()
+
   const authToken = await auth.token.getToken(uuid)
   const resp = await request(app)
-    .post(process.env.API_ENDPOINT + '/challs/ATfo410xfN_TEST/submit')
+    .post(process.env.API_ENDPOINT + `/challs/${badChallenge}/submit`)
     .set('Authorization', ' Bearer ' + authToken)
     .expect(responses.badBody.status)
 
