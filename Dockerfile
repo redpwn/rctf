@@ -1,16 +1,20 @@
-FROM node:10
+FROM node:10-slim
 
-RUN mkdir /app
 WORKDIR /app
 
-COPY package.json ./
-COPY yarn.lock ./
+ARG rctf_name
+ENV RCTF_NAME=${rctf_name}
 
+COPY package.json yarn.lock ./
+RUN yarn
+COPY . .
+RUN yarn build
+
+RUN rm -r node_modules
 ENV NODE_ENV production
+ENV PORT 8000
 RUN yarn
 
-COPY . .
-
-USER node
+EXPOSE 8000
 
 CMD ["node", "index.js"]
