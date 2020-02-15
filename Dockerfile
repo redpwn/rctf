@@ -8,9 +8,8 @@ ENV RCTF_NAME=${rctf_name}
 COPY package.json yarn.lock ./
 RUN yarn
 COPY . .
-RUN yarn build
+RUN yarn build && rm -r node_modules
 
-RUN rm -r node_modules
 ENV NODE_ENV production
 ENV PORT 8000
 RUN yarn

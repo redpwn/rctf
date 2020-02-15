@@ -1,4 +1,6 @@
-require('dotenv').config()
+try {
+  require('dotenv').config()
+} catch (e) {}
 
 const app = require('./app')
 
