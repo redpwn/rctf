@@ -47,6 +47,10 @@ const responseList = {
     status: 200,
     message: 'The flag was already submitted'
   },
+  validToken: {
+    status: 200,
+    message: 'The authorization token is valid'
+  },
   badBody: {
     status: 400,
     message: 'The request body does not meet requirements.'
