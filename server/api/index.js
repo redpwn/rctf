@@ -7,6 +7,9 @@ const router = express.Router()
 
 const routes = [
   require('./auth-login'),
+  require('./auth-submit'),
+  require('./auth-verify'),
+  require('./auth-test'),
   require('./leaderboard'),
   require('./submitflag')
 ]
@@ -42,6 +45,15 @@ routes.forEach((route, i) => {
       }))
     }
 
+    if (req.body instanceof Buffer) {
+      try {
+        req.body = JSON.parse(req.body)
+      } catch (e) {
+        sendResponse(responses.badJson)
+        return
+      }
+    }
+
     let uuid
     if (route.requireAuth) {
       const authHeader = req.get('authorization')
@@ -49,7 +61,11 @@ routes.forEach((route, i) => {
         sendResponse(responses.badToken)
         return
       }
-      uuid = await auth.token.getUserId(authHeader.slice('Bearer '.length))
+      uuid = await auth.token.getData(auth.token.tokenKinds.auth, authHeader.slice('Bearer '.length))
+      if (uuid === null) {
+        sendResponse(responses.badToken)
+        return
+      }
     }
 
     const validator = routeValidators[i]

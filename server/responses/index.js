@@ -1,15 +1,23 @@
 const responseList = {
+  goodVerify: {
+    status: 200,
+    message: 'The email was verified.'
+  },
   goodLogin: {
     status: 200,
     message: 'The login was successful.'
   },
-  goodRegister: {
+  goodVerifySent: {
     status: 200,
-    message: 'The account was created.'
+    message: 'The account verification email was sent.'
   },
   badEmail: {
     status: 400,
     message: 'The email address is malformed.'
+  },
+  badUnknownUser: {
+    status: 404,
+    message: 'The user does not exist.'
   },
   badUnknownEmail: {
     status: 404,
@@ -18,10 +26,6 @@ const responseList = {
   badKnownEmail: {
     status: 409,
     message: 'An account with this email already exists.'
-  },
-  badPassword: {
-    status: 401,
-    message: 'The password is incorrect.'
   },
   goodLeaderboard: {
     status: 200,
@@ -43,6 +47,10 @@ const responseList = {
     status: 200,
     message: 'The flag was already submitted'
   },
+  validToken: {
+    status: 200,
+    message: 'The authorization token is valid'
+  },
   badBody: {
     status: 400,
     message: 'The request body does not meet requirements.'
@@ -50,6 +58,10 @@ const responseList = {
   badToken: {
     status: 401,
     message: 'The token provided is invalid.'
+  },
+  badJson: {
+    status: 400,
+    message: 'The request JSON body is malformed.'
   },
   errorInternal: {
     status: 500,

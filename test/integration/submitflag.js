@@ -1,9 +1,11 @@
 const test = require('ava')
 const request = require('supertest')
 const app = require('../../app')
+const uuidv4 = require('uuid/v4')
 
 const db = require('../../server/database')
 const challenges = require('../../server/challenges')
+const { responseList } = require('../../server/responses')
 const auth = require('../../server/auth')
 
 const chall = challenges.getAllChallenges()[0]
@@ -16,49 +18,53 @@ test('fails with unauthorized', async t => {
   t.is(resp.body.kind, 'badToken')
 })
 
+const uuid = uuidv4()
+
 test('fails with badBody', async t => {
-  const authToken = await auth.token.getToken('5b7790fd-6922-4a06-9f8c-1dcbc9ae165f')
+  const badChallenge = uuidv4()
+
+  const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app)
-    .post(process.env.API_ENDPOINT + '/challs/ATfo410xfN_TEST/submit')
+    .post(process.env.API_ENDPOINT + `/challs/${encodeURIComponent(badChallenge)}/submit`)
     .set('Authorization', ' Bearer ' + authToken)
-    .expect(400)
+    .expect(responseList.badBody.status)
 
   t.is(resp.body.kind, 'badBody')
 })
 
 test.serial('fails with badFlag', async t => {
-  const authToken = await auth.token.getToken('5b7790fd-6922-4a06-9f8c-1dcbc9ae165f')
+  const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: 'wrong_flag' })
-    .expect(200)
+    .expect(responseList.badFlag.status)
 
   t.is(resp.body.kind, 'badFlag')
 })
 
 test.serial('succeeds with goodFlag', async t => {
-  const authToken = await auth.token.getToken('5b7790fd-6922-4a06-9f8c-1dcbc9ae165f')
+  const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: chall.flag })
-    .expect(200)
+    .expect(responseList.goodFlag.status)
 
   t.is(resp.body.kind, 'goodFlag')
 })
 
 test.serial('fails with alreadySolved', async t => {
-  const authToken = await auth.token.getToken('5b7790fd-6922-4a06-9f8c-1dcbc9ae165f')
+  const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: chall.flag })
-    .expect(200)
+    .expect(responseList.alreadySolved.status)
 
   t.is(resp.body.kind, 'alreadySolved')
 })
 
 test.after.always('remove solves from test user', async t => {
-  await db.solves.removeSolvesByUserId({ userid: '5b7790fd-6922-4a06-9f8c-1dcbc9ae165f' })
+  await db.solves.removeSolvesByUserId({ userid: uuid })
 })

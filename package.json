@@ -11,7 +11,9 @@
     "build": "sh client/build.sh",
     "watch": "preact watch --src client/src --template client/index.html",
     "dev": "nodemon index.js",
-    "test": "nyc ava"
+    "test": "nyc ava",
+    "client:build": "sh client/build.sh",
+    "client:watch": "preact watch --src client/src --template client/index.html"
   },
   "husky": {
     "hooks": {
@@ -20,16 +22,19 @@
   },
   "dependencies": {
     "ajv": "^6.11.0",
-    "body-parser": "^1.19.0",
-    "dotenv": "^8.2.0",
+    "email-validator": "^2.0.4",
     "express": "^4.17.1",
+    "mustache": "^4.0.0",
     "node-pg-migrate": "^4.2.2",
+    "nodemailer": "^6.4.2",
     "pg": "^7.18.1",
+    "redis": "^3.0.2",
     "supertest": "^4.0.2",
     "uuid": "^3.4.0"
   },
   "devDependencies": {
     "ava": "^3.3.0",
+    "dotenv": "^8.2.0",
     "husky": "^4.2.1",
     "jss": "^10.0.4",
     "jss-camel-case": "^6.1.0",
