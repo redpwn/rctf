@@ -5,6 +5,7 @@ const uuidv4 = require('uuid/v4')
 
 const db = require('../../server/database')
 const challenges = require('../../server/challenges')
+const { responses } = require('../../server/responses')
 const auth = require('../../server/auth')
 
 const chall = challenges.getAllChallenges()[0]
@@ -24,7 +25,7 @@ test('fails with badBody', async t => {
   const resp = await request(app)
     .post(process.env.API_ENDPOINT + '/challs/ATfo410xfN_TEST/submit')
     .set('Authorization', ' Bearer ' + authToken)
-    .expect(400)
+    .expect(responses.badBody.status)
 
   t.is(resp.body.kind, 'badBody')
 })
@@ -35,7 +36,7 @@ test.serial('fails with badFlag', async t => {
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: 'wrong_flag' })
-    .expect(200)
+    .expect(responses.badFlag.status)
 
   t.is(resp.body.kind, 'badFlag')
 })
@@ -46,7 +47,7 @@ test.serial('succeeds with goodFlag', async t => {
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: chall.flag })
-    .expect(200)
+    .expect(responses.goodFlag.status)
 
   t.is(resp.body.kind, 'goodFlag')
 })
@@ -57,7 +58,7 @@ test.serial('fails with alreadySolved', async t => {
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: chall.flag })
-    .expect(200)
+    .expect(responses.alreadySolved.status)
 
   t.is(resp.body.kind, 'alreadySolved')
 })
