@@ -5,6 +5,6 @@ module.exports = {
   path: '/auth/test',
   requireAuth: true,
   handler: async () => {
-    return [responses.validToken]
+    return responses.validToken
   }
 }
