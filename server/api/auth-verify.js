@@ -19,7 +19,10 @@ module.exports = {
     }
   },
   handler: async ({ req }) => {
-    const tokenData = await auth.token.getData(auth.token.tokenKinds.verify, req.body.verifyToken)
+    return module.exports.handleToken(req.body.verifyToken)
+  },
+  handleToken: async token => {
+    const tokenData = await auth.token.getData(auth.token.tokenKinds.verify, token)
     if (tokenData === null) {
       return responses.badToken
     }
