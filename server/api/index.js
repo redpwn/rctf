@@ -9,6 +9,7 @@ const routes = [
   require('./auth-login'),
   require('./auth-submit'),
   require('./auth-verify'),
+  require('./auth-test'),
   require('./leaderboard'),
   require('./submitflag')
 ]

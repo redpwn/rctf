@@ -4,6 +4,7 @@ const cache = require('../cache')
 const database = require('../database')
 const util = require('../util')
 const auth = require('../auth')
+const verifyEndpoint = require('./auth-verify')
 const config = require('../../config')
 const { responses } = require('../responses')
 
@@ -53,10 +54,16 @@ module.exports = {
       division: req.body.division,
       register: req.body.register
     })
-    await util.email.sendVerification({
-      email,
-      token: verifyToken
-    })
-    return responses.goodVerifySent
+
+    if (config.verifyEmail) {
+      await util.email.sendVerification({
+        email,
+        token: verifyToken
+      })
+      return responses.goodVerifySent
+    } else {
+      // Pretend user sent token to verify endpoint
+      return verifyEndpoint.handleToken(verifyToken)
+    }
   }
 }
