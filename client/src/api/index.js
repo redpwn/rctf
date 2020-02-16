@@ -1,9 +1,9 @@
 import { route } from 'preact-router'
 import config from '../config'
 
-const badToken = () => {
+const relog = () => {
   localStorage.removeItem('token')
-  route('/login')
+  route('/register')
 }
 
 export const request = (method, endpoint, data) => {
@@ -15,9 +15,13 @@ export const request = (method, endpoint, data) => {
     },
     body: JSON.stringify(data)
   })
-    .json()
+    .then(resp => resp.json())
+    .then(resp => {
+      if (resp.kind === 'badToken') return relog()
+
+      return resp
+    })
     .catch(err => {
       console.debug(err)
-      badToken()
     })
 }
