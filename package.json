@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "ava": "^3.3.0",
+    "babel-eslint": "^10.0.3",
     "dotenv": "^8.2.0",
     "font-awesome": "^4.7.0",
     "husky": "^4.2.1",
