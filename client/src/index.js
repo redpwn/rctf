@@ -1,17 +1,23 @@
+import Router from 'preact-router'
+import Registration from './components/registration'
+import Header from './components/header'
 import 'promise-polyfill/src/polyfill'
 import 'unfetch/polyfill/index'
 import 'regenerator-runtime/runtime'
 import { Component } from 'preact'
-import withStyles from './jss'
 
-export default withStyles({
-  root: {
-    color: 'red'
-  }
-}, class App extends Component {
-  render ({ classes }) {
+import 'cirrus-ui'
+import 'font-awesome/css/font-awesome.css'
+
+export default class App extends Component {
+  render () {
     return (
-      <h1 class={classes.root}>test</h1>
+      <div id='app'>
+        <Header />
+        <Router>
+          <Registration path='/register' />
+        </Router>
+      </div>
     )
   }
-})
+}
