@@ -6,10 +6,11 @@ export const login = ({ teamToken }) => {
   })
 }
 
-export const register = ({ email, name, division, register }) => {
+export const register = ({ email, name, division }) => {
   return request('POST', '/auth/submit', {
     email,
     name,
-    division
+    division: Number.parseInt(division),
+    register: true
   })
 }

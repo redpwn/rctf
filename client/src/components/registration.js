@@ -18,7 +18,8 @@ export default withStyles({
     this.state = {
       name: '',
       email: '',
-      division: ''
+      division: '',
+      disabled: false
     }
   }
 
@@ -26,8 +27,7 @@ export default withStyles({
     document.title = 'Registration' + config.ctfTitle
   }
 
-  render ({ classes }, { name, email, division }) {
-    console.log(this.state)
+  render ({ classes }, { name, email, division, disabled }) {
     return (
       <div class='row u-center'>
         <div class={classes.root + ' col-6'}>
@@ -53,24 +53,23 @@ export default withStyles({
               </select>
             </div>
           </div>
-          <button class={classes.submit + ' btn-info u-center'} name='btn' type='submit' onClick={e => this.register()}>Register</button>
+          <button disabled={disabled} class={classes.submit + ' btn-info u-center'} name='btn' type='submit' onClick={e => this.register()}>Register</button>
           <span class='fg-danger info' />
         </div>
       </div>
     )
   }
 
-  handleChange (name, e) {
-    this.setState(state => {
-      return {
-        ...state,
-        [name]: e.target.value
-      }
-    })
-  }
-
   register () {
+    this.setState({
+      disabled: true
+    })
+
     register(this.state)
-      .then(console.log)
+      .then(() => {
+        this.setState({
+          disabled: false
+        })
+      })
   }
 })
