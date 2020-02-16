@@ -7,7 +7,7 @@ export const login = ({ teamToken }) => {
 }
 
 export const signup = ({ email, name, division, register }) => {
-  return request('POST', '/auth/signup', {
+  return request('POST', '/auth/submit', {
     email,
     name,
     division

@@ -1,4 +1,5 @@
 import { Component } from 'preact'
+import config from '../config'
 import withStyles from './jss'
 
 export default withStyles({
@@ -6,11 +7,11 @@ export default withStyles({
     padding: '25px'
   },
   submit: {
-    'margin-top': '25px'
+    marginTop: '25px'
   }
 }, class Register extends Component {
   componentDidMount () {
-    document.title = 'Registration'
+    document.title = 'Registration' + config.ctfTitle
   }
 
   render ({ classes }) {

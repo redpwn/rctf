@@ -7,7 +7,6 @@ const badToken = () => {
 }
 
 export const request = (method, endpoint, data) => {
-  // fetch endpoint with HTTP method, data as body
   return fetch(config.apiEndpoint + endpoint, {
     method,
     headers: {
