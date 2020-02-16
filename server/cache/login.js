@@ -1,10 +1,6 @@
 const { promisify } = require('util')
-const redis = require('redis')
 const config = require('../../config')
-
-const client = redis.createClient({
-  url: config.redisUrl
-})
+const client = require('./client')
 
 const prefixes = {
   login: 'l'

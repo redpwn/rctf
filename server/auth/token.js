@@ -14,7 +14,7 @@ const tokenKinds = {
 const tokenExpiries = {
   [tokenKinds.auth]: Infinity,
   [tokenKinds.team]: Infinity,
-  [tokenKinds.verify]: 1000 * 60 * 10
+  [tokenKinds.verify]: config.loginTimeout
 }
 
 const timeNow = () => Math.floor(Date.now() / 1000)

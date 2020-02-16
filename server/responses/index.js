@@ -67,6 +67,10 @@ const responseList = {
     status: 400,
     message: 'The request JSON body is malformed.'
   },
+  badEndpoint: {
+    status: 404,
+    message: 'The request endpoint could not be found.'
+  },
   errorInternal: {
     status: 500,
     message: 'An internal error occurred.'

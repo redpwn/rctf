@@ -1,65 +1,40 @@
-const db = require('../database')
-const challenges = require('../challenges')
 const { responses } = require('../responses')
-
-const util = require('../util')
+const cache = require('../cache')
+const config = require('../../config')
 
 module.exports = {
   method: 'get',
   path: '/leaderboard',
   requireAuth: false,
-  handler: async ({ req }) => {
-    const solveAmount = {}
-    const challengeValues = {}
-    const userSolves = {}
-    const userScores = []
-
-    const solves = await db.solves.getAllSolves()
-    const users = await db.users.getAllUsers()
-
-    for (let i = 0; i < solves.length; i++) {
-      // Accumulate in solveAmount
-      if (!(solves[i].challengeid in solveAmount)) {
-        solveAmount[solves[i].challengeid] = 1
-      } else {
-        solveAmount[solves[i].challengeid] += 1
-      }
-      // Store which challenges each user solved for later
-      if (!(solves[i].userid in userSolves)) {
-        userSolves[solves[i].userid] = [solves[i].challengeid]
-      } else {
-        userSolves[solves[i].userid].push(solves[i].challengeid)
-      }
-    }
-
-    const allChallenges = challenges.getAllChallenges()
-
-    for (let i = 0; i < allChallenges.length; i++) {
-      const challenge = allChallenges[i]
-      if (!(challenge.id in solveAmount)) {
-        // There are currently no solves
-        challengeValues[challenge.id] = util.scores.getScore('dynamic', challenge.points.min, challenge.points.max, 0)
-      } else {
-        challengeValues[challenge.id] = util.scores.getScore('dynamic', challenge.points.min, challenge.points.max, solveAmount[challenge.id])
-      }
-    }
-
-    for (let i = 0; i < users.length; i++) {
-      if (!(users[i].userid in userSolves)) {
-        // The user has not solved anything
-        userScores.push([users[i].name, 0])
-      } else {
-        let currScore = 0
-        for (let j = 0; j < userSolves[users[i].userid].length; j++) {
-          // Add the score for the specific solve loaded fr om the challengeValues array using ids
-          currScore += challengeValues[userSolves[users[i].userid][j]]
+  schema: {
+    query: {
+      type: 'object',
+      properties: {
+        limit: {
+          type: 'string'
+        },
+        offset: {
+          type: 'string'
         }
-        userScores.push([users[i].name, currScore])
-      }
+      },
+      required: ['limit', 'offset']
     }
-
-    const sortedUsers = userScores.sort((a, b) => b[1] - a[1])
-
-    return [responses.goodLeaderboard, sortedUsers]
+  },
+  handler: async ({ req }) => {
+    const limit = parseInt(req.query.limit)
+    const offset = parseInt(req.query.offset)
+    if (limit < 0 ||
+      offset < 0 ||
+      limit > config.leaderboardMaxLimit ||
+      offset > config.leaderboardMaxOffset) {
+      return responses.badBody
+    }
+    const result = await cache.leaderboard.getRange({
+      start: offset,
+      end: offset + limit
+    })
+    return [responses.goodLeaderboard, {
+      leaderboard: result
+    }]
   }
 }
