@@ -11,7 +11,7 @@
     "build": "sh client/build.sh",
     "watch": "preact watch --src client/src --template client/index.html",
     "dev": "nodemon index.js",
-    "test": "nyc ava",
+    "test": "nyc --skip-full ava",
     "client:build": "sh client/build.sh",
     "client:watch": "preact watch --src client/src --template client/index.html"
   },
