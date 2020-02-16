@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "lint": "standard",
+    "lint": "standard --env browser",
     "start": "node index.js",
     "migrate": "node-pg-migrate --database-url-var=RCTF_DATABASE_URL",
     "build": "sh client/build.sh",
@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "ajv": "^6.11.0",
+    "cirrus-ui": "^0.5.5",
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
     "mustache": "^4.0.0",
@@ -35,6 +36,7 @@
   "devDependencies": {
     "ava": "^3.3.0",
     "dotenv": "^8.2.0",
+    "font-awesome": "^4.7.0",
     "husky": "^4.2.1",
     "jss": "^10.0.4",
     "jss-camel-case": "^6.1.0",
