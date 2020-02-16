@@ -10,11 +10,6 @@ We have designed rctf with the following attributes in mind:
 * simplicity
 * "modernness" (no PHP)
 
-## Main Features
-
-* simple integration with redpwn's [CTF deployment framework](https://github.com/redpwn/rdeploy)
-* dynamic scoring
-
 ## Deployment
 
 ### Problem Data
@@ -56,14 +51,26 @@ yarn run migrate up
 
 ## Development
 
+### Backend
+
 For hot reloading, use nodemon.
 
 ```javascript
 yarn dev
 ```
 
-To fix style errors, use standard. 
+There is a precommit hook that will block commits that fail to meet the style guide. To fix style errors, use standard. 
 
 ```
 yarn lint --fix
+```
+
+### Frontend
+
+The frontend is built on [Preact](https://preactjs.com/) and [Cirrus](https://spiderpig86.github.io/Cirrus/). 
+
+All of the frontend code is in `/client`. To automatically watch the directory for changes, use the `watch` command. 
+
+```
+yarn watch
 ```
