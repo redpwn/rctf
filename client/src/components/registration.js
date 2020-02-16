@@ -18,19 +18,21 @@ export default withStyles({
     this.state = {
       name: '',
       email: '',
-      division: ''
+      division: '',
+      disabled: false
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount () {
     document.title = 'Registration' + config.ctfTitle
   }
 
-  render ({ classes }, { name, email, division }) {
-    console.log(this.state)
+  render ({ classes }, { name, email, division, disabled }) {
     return (
       <div class='row u-center'>
-        <div class={classes.root + ' col-6'}>
+        <form class={classes.root + ' col-6'} onSubmit={this.handleSubmit}>
           <div class='form-section'>
             <div class='input-control'>
               <input class='input-contains-icon' id='name' name='name' placeholder='Team Name' type='text' value={name} onChange={this.linkState('name')} />
@@ -53,24 +55,25 @@ export default withStyles({
               </select>
             </div>
           </div>
-          <button class={classes.submit + ' btn-info u-center'} name='btn' type='submit' onClick={e => this.register()}>Register</button>
+          <button disabled={disabled} class={classes.submit + ' btn-info u-center'} name='btn' type='submit'>Register</button>
           <span class='fg-danger info' />
-        </div>
+        </form>
       </div>
     )
   }
 
-  handleChange (name, e) {
-    this.setState(state => {
-      return {
-        ...state,
-        [name]: e.target.value
-      }
-    })
-  }
+  handleSubmit (e) {
+    e.preventDefault()
 
-  register () {
+    this.setState({
+      disabled: true
+    })
+
     register(this.state)
-      .then(console.log)
+      .then(() => {
+        this.setState({
+          disabled: false
+        })
+      })
   }
 })
