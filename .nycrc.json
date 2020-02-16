@@ -1,4 +1,4 @@
 {
   "all": true,
-  "exclude": ["migrations", "test", ".rdeploy"]
+  "exclude": ["migrations", "test", ".rdeploy", "client"]
 }
