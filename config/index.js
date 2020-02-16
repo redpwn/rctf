@@ -12,5 +12,6 @@ module.exports = {
     eligible: 0,
     ineligible: 1
   },
-  loginTimeout: 10 * 60 * 1000
+  loginTimeout: 10 * 60 * 1000,
+  leaderboardUpdateInterval: 10 * 1000
 }

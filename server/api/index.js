@@ -29,21 +29,23 @@ const routeValidators = routes.map((route) => {
   return ret
 })
 
+const makeSendResponse = (res) => (responseKind, data = null) => {
+  const response = responseList[responseKind]
+  if (response === undefined) {
+    throw new Error(`unknown response ${responseKind}`)
+  }
+  res.set('content-type', 'application/json')
+  res.status(response.status)
+  res.send(JSON.stringify({
+    kind: responseKind,
+    message: response.message,
+    data
+  }))
+}
+
 routes.forEach((route, i) => {
   router[route.method](route.path, async (req, res) => {
-    const sendResponse = (responseKind, data = null) => {
-      const response = responseList[responseKind]
-      if (response === undefined) {
-        throw new Error(`unknown response ${responseKind}`)
-      }
-      res.set('content-type', 'application/json')
-      res.status(response.status)
-      res.send(JSON.stringify({
-        kind: responseKind,
-        message: response.message,
-        data
-      }))
-    }
+    const sendResponse = makeSendResponse(res)
 
     if (req.body instanceof Buffer) {
       try {
@@ -98,6 +100,10 @@ routes.forEach((route, i) => {
       sendResponse(response)
     }
   })
+})
+
+router.use((req, res) => {
+  makeSendResponse(res)(responses.badEndpoint)
 })
 
 module.exports = router
