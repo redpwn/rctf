@@ -7685,11 +7685,6 @@ preact-context@^1.1.3:
   resolved "https://registry.yarnpkg.com/preact-context/-/preact-context-1.1.4.tgz#866ebd35bef5788f73fc453f06f01b03ddf8f4ff"
   integrity sha512-gcCjPJ65R0MiW9hDu8W/3WAmyTElIvwLyEO6oLQiM6/TbLKLxCpBCWV8GJjx52TTEyUr60HLDcmoCXZlslelzQ==
 
-preact-localstorage@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/preact-localstorage/-/preact-localstorage-1.0.2.tgz#8f633dbec38e8b9222f86381275afc61b0fa3fe7"
-  integrity sha512-F490p/txuivO3BuFZhMYZxP14sbjqm7n5R5IeM5EP6WcO83JCVE8V1q3+Q9POlIW2y1Ql/dzXHJyDiNqKeMuqA==
-
 preact-render-to-string@^3.6.0, preact-render-to-string@^3.8.2:
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-3.8.2.tgz#bd72964d705a57da3a9e72098acaa073dd3ceff9"

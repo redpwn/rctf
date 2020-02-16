@@ -1,9 +1,8 @@
 import { route } from 'preact-router'
-import preactLocalStorage from 'preact-localstorage'
 import config from '../config'
 
 const badToken = () => {
-  preactLocalStorage.remove('token')
+  localStorage.removeItem('token')
   route('/login')
 }
 
@@ -13,7 +12,7 @@ export const request = (method, endpoint, data) => {
     method,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + preactLocalStorage.get('token')
+      Authorization: 'Bearer ' + localStorage.getItem('token')
     },
     body: JSON.stringify(data)
   })
