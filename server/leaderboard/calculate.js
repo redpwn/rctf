@@ -1,5 +1,5 @@
 const { workerData, parentPort } = require('worker_threads')
-const util = require('../util')
+const utilScores = require('../util/scores')
 
 const { solves, users, allChallenges } = workerData
 
@@ -31,9 +31,9 @@ for (let i = 0; i < allChallenges.length; i++) {
   const challenge = allChallenges[i]
   if (!(challenge.id in solveAmount)) {
     // There are currently no solves
-    challengeValues.set(challenge.id, util.scores.getScore('dynamic', challenge.points.min, challenge.points.max, 0))
+    challengeValues.set(challenge.id, utilScores.getScore('dynamic', challenge.points.min, challenge.points.max, 0))
   } else {
-    challengeValues.set(challenge.id, util.scores.getScore('dynamic', challenge.points.min, challenge.points.max, solveAmount.get(challenge.id)))
+    challengeValues.set(challenge.id, utilScores.getScore('dynamic', challenge.points.min, challenge.points.max, solveAmount.get(challenge.id)))
   }
 }
 
@@ -49,6 +49,8 @@ for (let i = 0; i < users.length; i++) {
 }
 
 const sortedUsers = userScores.sort((a, b) => {
+  // sort the users by score
+  // if two user's scores are the same, sort by last solve time
   const scoreCompare = b[2] - a[2]
   if (scoreCompare !== 0) {
     return scoreCompare

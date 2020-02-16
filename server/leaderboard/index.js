@@ -26,5 +26,9 @@ const runUpdate = async () => {
   })
 }
 
-setInterval(runUpdate, config.leaderboardUpdateInterval)
-runUpdate()
+module.exports = {
+  start: () => {
+    setInterval(runUpdate, config.leaderboardUpdateInterval)
+    runUpdate()
+  }
+}

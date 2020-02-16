@@ -17,13 +17,16 @@ const setLeaderboard = async (leaderboard) => {
 }
 
 const getRange = async ({ start, end }) => {
-  let redisResult = []
-  try {
-    redisResult = await redisLrange('leaderboard', start * 3, end * 3 - 1)
-  } catch (e) {}
+  const redisResult = await redisLrange('leaderboard', start * 3, end * 3 - 1)
   const result = []
-  for (let i = 0; i < redisResult.length / 3; i++) {
-    result.push([redisResult[i], redisResult[i + 1], parseInt(redisResult[i + 2])])
+  for (let i = 0; i < redisResult.length; i += 3) {
+    // format the flat redis list response into an array of arrays
+    // i is the user id, i + 1 is the user name, i + 2 is the user score
+    result.push({
+      id: redisResult[i],
+      name: redisResult[i + 1],
+      score: parseInt(redisResult[i + 2])
+    })
   }
   return result
 }
