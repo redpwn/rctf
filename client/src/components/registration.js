@@ -13,16 +13,11 @@ export default withStyles({
     marginTop: '25px'
   }
 }, class Register extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      name: '',
-      email: '',
-      division: '',
-      disabled: false
-    }
-
-    this.handleSubmit = this.handleSubmit.bind(this)
+  state = {
+    name: '',
+    email: '',
+    division: '',
+    disabled: false
   }
 
   componentDidMount () {
@@ -62,7 +57,7 @@ export default withStyles({
     )
   }
 
-  handleSubmit (e) {
+  handleSubmit = (e) => {
     e.preventDefault()
 
     this.setState({
