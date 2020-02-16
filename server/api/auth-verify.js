@@ -24,11 +24,11 @@ module.exports = {
   handleToken: async token => {
     const tokenData = await auth.token.getData(auth.token.tokenKinds.verify, token)
     if (tokenData === null) {
-      return responses.badToken
+      return responses.badTokenVerification
     }
     const tokenUnused = await cache.login.useLogin({ id: tokenData.id })
     if (!tokenUnused) {
-      return responses.badToken
+      return responses.badTokenVerification
     }
     let uuid
     if (tokenData.register) {

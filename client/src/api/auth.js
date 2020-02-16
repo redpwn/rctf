@@ -1,7 +1,7 @@
 import { request } from './index'
 
 export const login = ({ teamToken }) => {
-  return request('POST', '/auth/verify', {
+  return request('POST', '/auth/login', {
     teamToken
   })
 }

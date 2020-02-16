@@ -20,7 +20,7 @@ module.exports = {
   handler: async ({ req }) => {
     const uuid = await auth.token.getData(auth.token.tokenKinds.team, req.body.teamToken)
     if (uuid === null) {
-      return responses.badToken
+      return responses.badTokenVerification
     }
     const user = await database.auth.getUserById({ id: uuid })
     if (user === undefined) {
