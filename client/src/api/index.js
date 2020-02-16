@@ -16,10 +16,10 @@ export const request = (method, endpoint, data) => {
     body: JSON.stringify(data)
   })
     .then(resp => resp.json())
-    .then(data => {
-      if (data.kind === 'badToken') return relog()
+    .then(resp => {
+      if (resp.kind === 'badToken') return relog()
 
-      return data
+      return resp
     })
     .catch(err => {
       console.debug(err)

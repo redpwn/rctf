@@ -21,6 +21,8 @@ export default withStyles({
       division: '',
       disabled: false
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount () {
@@ -30,7 +32,7 @@ export default withStyles({
   render ({ classes }, { name, email, division, disabled }) {
     return (
       <div class='row u-center'>
-        <div class={classes.root + ' col-6'}>
+        <form class={classes.root + ' col-6'} onSubmit={this.handleSubmit}>
           <div class='form-section'>
             <div class='input-control'>
               <input class='input-contains-icon' id='name' name='name' placeholder='Team Name' type='text' value={name} onChange={this.linkState('name')} />
@@ -53,14 +55,16 @@ export default withStyles({
               </select>
             </div>
           </div>
-          <button disabled={disabled} class={classes.submit + ' btn-info u-center'} name='btn' type='submit' onClick={e => this.register()}>Register</button>
+          <button disabled={disabled} class={classes.submit + ' btn-info u-center'} name='btn' type='submit'>Register</button>
           <span class='fg-danger info' />
-        </div>
+        </form>
       </div>
     )
   }
 
-  register () {
+  handleSubmit (e) {
+    e.preventDefault()
+
     this.setState({
       disabled: true
     })

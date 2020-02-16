@@ -13,4 +13,10 @@ export const register = ({ email, name, division }) => {
     division: Number.parseInt(division),
     register: true
   })
+    .then(resp => {
+      if (resp.kind === 'verifyEmail') {
+        localStorage.setItem('token', resp.data.authToken)
+        localStorage.setItem('teamToken', resp.data.teamToken)
+      }
+    })
 }
