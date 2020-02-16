@@ -15,7 +15,7 @@ export const request = (method, endpoint, data) => {
     },
     body: JSON.stringify(data)
   })
-    .json()
+    .then(resp => resp.json())
     .catch(err => {
       console.debug(err)
       badToken()

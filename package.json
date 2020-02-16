@@ -42,6 +42,7 @@
     "jss-camel-case": "^6.1.0",
     "jss-nested": "^6.0.1",
     "jss-vendor-prefixer": "^8.0.1",
+    "linkstate": "^1.1.1",
     "nodemon": "^2.0.2",
     "nyc": "^15.0.0",
     "preact": "^10.3.1",
