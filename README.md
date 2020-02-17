@@ -17,7 +17,7 @@ We have designed rCTF with the following attributes in mind:
 The automatic installation script works on Debian-based distributions and Arch Linux. It depends on `curl`.
 
 ```bash
-curl https://install.rctf.redpwn.net | sh
+# curl https://install.rctf.redpwn.net | sh
 ```
 
 ### Manual
