@@ -14,11 +14,11 @@ bg_red="\e[41m"
 reset="\e[0m"
 
 error() {
-    /bin/echo -e "${bg_red}${bold_fg_white}[*]" "$@" "$reset" 1>&2
+    /bin/echo -e "${bg_red}${bold_fg_white}[-]" "$@" "$reset" 1>&2
 }
 
 info() {
-    /bin/echo -e "${fg_cyan}[-]" "$@" "$reset"
+    /bin/echo -e "${fg_cyan}[*]" "$@" "$reset"
 }
 
 
@@ -36,14 +36,14 @@ fi
 
 PACKAGE_MANAGER="x"
 
-if [ -x "$(apt-get --version)" ]; then
+if [ -x "$(command -v apt-get)" ]; then
     PACKAGE_MANAGER="apt-get"
-elif [ -x "$(yum --version)" ]; then
+elif [ -x "$(command -v yum)" ]; then
     error "Warning: Support for RHEL-like distros is experimental and things might break. Giving you 10 seconds to change your mind (by presing Ctrl+C)..."
     sleep 10
 
     PACKAGE_MANAGER="yum"
-elif [ -x "$(pacman --version)" ]; then
+elif [ -x "$(command -v pacman)" ]; then
     info "redpwn uses arch too btw"
 
     PACKAGE_MANAGER="pacman"
@@ -127,7 +127,7 @@ git checkout "$REPOSITORY_BRANCH"
 
 info "Configuring rCTF..."
 
-/bin/echo -n "\nEnter the CTF name: "
+/bin/echo -ne "Enter the CTF name: "
 read RCTF_NAME
 
 RCTF_TOKEN=${RCTF_SECRET_KEY:-"$(head -c 32 /dev/urandom | base64 -w 0)"}
@@ -144,7 +144,7 @@ sed -i.bak "s/RCTF_TOKEN=.*$/RCTF_TOKEN=$RCTF_TOKEN/g" .env
 info "Finished installation to ${INSTALL_PATH}."
 
 
-echo -n "Would you like to run 'docker-compose up' and start rCTF now (y/N)?"
+/bin/echo -ne "Would you like to run 'docker-compose up' and start rCTF now (y/N)? "
 read result
 
 if [ "$result" = "y" ]; then
