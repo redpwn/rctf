@@ -28,11 +28,11 @@ export default withStyles({
 
   render ({ classes }, { name, email, division, disabledButton, errors }) {
     return (
-      <div class='row u-center' errors={errors}>
-        <Form class={classes.root + ' col-6'} onSubmit={this.handleSubmit} disabled={disabledButton} buttonText='Register'>
-          <input autofocus icon='user-circle' name='name' placeholder='Team Name' type='text' value={name} onChange={this.linkState('name')} />
-          <input icon='envelope-open' name='email' placeholder='Email' type='text' value={email} onChange={this.linkState('email')} />
-          <select class='select' name='division' value={division} onChange={this.linkState('division')}>
+      <div class='row u-center'>
+        <Form class={classes.root + ' col-6'} onSubmit={this.handleSubmit} disabled={disabledButton} errors={errors} buttonText='Register'>
+          <input autofocus required icon='user-circle' name='name' placeholder='Team Name' type='text' value={name} onChange={this.linkState('name')} />
+          <input required icon='envelope-open' name='email' placeholder='Email' type='text' value={email} onChange={this.linkState('email')} />
+          <select required class='select' name='division' value={division} onChange={this.linkState('division')}>
             <option value='' disabled selected>Division</option>
             <option value='0'>High School</option>
             <option value='1'>College</option>

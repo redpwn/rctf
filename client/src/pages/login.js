@@ -4,7 +4,6 @@ import config from '../config'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
-import { route } from 'preact-router'
 import { login } from '../api/auth'
 
 export default withStyles({
@@ -45,25 +44,11 @@ export default withStyles({
     })
 
     login({ teamToken })
-      .then((resp) => {
-        if (resp.kind === 'goodLogin') {
-          localStorage.setItem('token', resp.data.authToken)
-          route('/challenges')
-        } else if (resp.kind === 'badTokenVerification') {
-          this.setState({
-            errors: {
-              teamToken: resp.message
-            },
-            disabledButton: false
-          })
-        } else {
-          this.setState({
-            errors: {
-              teamToken: 'Unknown response from server, please contact ctf administrator'
-            },
-            disabledButton: false
-          })
-        }
+      .then(errors => {
+        this.setState({
+          errors,
+          disabledButton: false
+        })
       })
   }
 })
