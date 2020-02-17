@@ -149,7 +149,7 @@ read result <&1
 
 if [ "$result" = "y" ]; then
     info "Running 'docker-compose up' in ${INSTALL_PATH}..."
-    docker-compose up
+    docker-compose up -d # XXX: is it a problem that this runs as root?
     exit 0
 else
     info "Installation to $INSTALL_PATH complete."
