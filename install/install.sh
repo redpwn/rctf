@@ -100,7 +100,7 @@ elif [ "$PACKAGE_MANAGER" = "yum" ]; then
 
     yum install git
 elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
-    pacman -S docker docker-compose git
+    pacman -Sy --noconfirm --needed docker docker-compose git
 fi
 
 
