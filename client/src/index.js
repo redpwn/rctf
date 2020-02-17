@@ -5,8 +5,8 @@ import 'regenerator-runtime/runtime'
 import { Component } from 'preact'
 
 import Header from './components/header'
-import Registration from './components/registration'
-import Login from './components/login'
+import Registration from './pages/registration'
+import Login from './pages/login'
 
 import 'cirrus-ui'
 import 'font-awesome/css/font-awesome.css'
