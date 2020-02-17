@@ -8,17 +8,17 @@ set -e
 # define functions
 
 
-fg_cyan='\e[36m'
-bold_fg_white='\e[1;37m'
-bg_red='\e[41m'
-reset='\e[0m'
+fg_cyan="\e[36m"
+bold_fg_white="\e[1;37m"
+bg_red="\e[41m"
+reset="\e[0m"
 
 error() {
-    /bin/echo "${bg_red}${bold_fg_white}[*]" "$@" "$reset" 1>&2
+    /bin/echo -e "${bg_red}${bold_fg_white}[*]" "$@" "$reset" 1>&2
 }
 
 info() {
-    /bin/echo "${fg_cyan}[-]" "$@" "$reset"
+    /bin/echo -e "${fg_cyan}[-]" "$@" "$reset"
 }
 
 
