@@ -18,7 +18,7 @@ const ret = {
       .then(res => res.rows[0])
   },
   removeSolvesByUserId: ({ userid }) => {
-    return db.query('DELETE FROM solves WHERE userid = $1', [userid])
+    return db.query('DELETE FROM solves WHERE userid = $1 RETURNING *', [userid])
   }
 }
 

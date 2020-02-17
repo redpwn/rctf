@@ -1,4 +1,4 @@
 {
   "all": true,
-  "exclude": ["migrations", "test", ".rdeploy", "client"]
+  "exclude": ["migrations", "test", ".rdeploy", "client", "build", "preact.config.js"]
 }
