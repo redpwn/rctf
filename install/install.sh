@@ -88,6 +88,7 @@ info "Installing dependencies..."
 
 
 if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
+    apt-get update
     apt-get install --yes docker.io docker-compose git
 elif [ "$PACKAGE_MANAGER" = "yum" ]; then
     info "We are about to install docker via https://get.docker.com/. Please follow along the steps to ensure it is configured properly."
