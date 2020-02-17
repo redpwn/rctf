@@ -14,7 +14,7 @@ services:
     env_file:
       - .env
     volumes:
-      - /var/data/rctf-rdeploy:/app/.rdeploy
+      - ./.rdeploy:/app/.rdeploy
     depends_on:
       - redis
       - postgres
@@ -33,7 +33,8 @@ services:
   postgres:
     user: '999:999'
     image: postgres:9.6.17
-    restart: always
+    environment:
+      - POSTGRES_PASSWORD=${RCTF_POSTGRES_PASSWORD}
     networks:
       - rctf
     volumes:
