@@ -2,16 +2,29 @@ import { Component } from 'preact'
 import withStyles from './jss'
 
 export default withStyles({
-
+  normalize: {
+    '&:focus': {
+      boxShadow: 'none'
+    },
+    '& a:focus': {
+      boxShadow: 'none'
+    }
+  }
 }, class Header extends Component {
-  render ({ classes }) {
+  render ({ classes, paths, currentPath }) {
     return (
       <div class='tab-container tabs-center'>
         <ul>
-          <li><a>Home</a></li>
-          <li><a>About</a></li>
-          <li><a>Register</a></li>
-          <li><a>Login</a></li>
+          {
+            paths.map(route => {
+              const { path, name } = route.props
+              const selectedClass = path === currentPath ? 'selected' : ''
+
+              return (
+                <li key={name} class={`${selectedClass} ${classes.normalize}`}><a href={path}>{name}</a></li>
+              )
+            })
+          }
         </ul>
       </div>
     )
