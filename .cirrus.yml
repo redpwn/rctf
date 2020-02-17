@@ -1,9 +1,29 @@
 container:
   image: node:latest
+  additional_containers:
+    - name: redis
+      image: redis:5.0.7
+      port: 6379
+    - name: postgres
+      image: postgres:9.6.17
+      port: 5432
 
-check_task:
+env:
+  RCTF_DATABASE_URL: postgres://postgres@localhost:5432/rctf
+  RCTF_REDIS_URL: redis://@localhost:6379/0
+
+lint_task:
   node_modules_cache:
     folder: node_modules
     fingerprint_script: cat yarn.lock
     populate_script: yarn install
   test_script: yarn lint
+
+test_task:
+  node_modules_cache:
+    folder: node_modules
+    fingerprint_script: cat yarn.lock
+    populate_script: yarn install
+  test_script: 
+    - cp .env.example .env
+    - yarn test
