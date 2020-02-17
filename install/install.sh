@@ -107,7 +107,7 @@ fi
 info "Enabling docker..."
 
 
-systemctl enable docker
+systemctl enable docker || true # XXX: Debian "masks" docker.service
 systemctl start docker
 
 
