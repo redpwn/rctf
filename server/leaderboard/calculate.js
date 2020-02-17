@@ -41,8 +41,9 @@ for (let i = 0; i < users.length; i++) {
   const userId = users[i].userid
   let currScore = 0
   const solvedChalls = userSolves.get(userId)
+  if (solvedChalls === undefined) continue // If the user has not solved any challenges, do not add to leaderboard
   for (let j = 0; j < solvedChalls.length; j++) {
-    // Add the score for the specific solve loaded fr om the challengeValues array using ids
+    // Add the score for the specific solve loaded from the challengeValues array using ids
     currScore += challengeValues.get(solvedChalls[j])
   }
   userScores.push([userId, users[i].name, currScore, userLastSolves.get(userId)])

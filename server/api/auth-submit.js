@@ -35,15 +35,32 @@ module.exports = {
   },
   handler: async ({ req }) => {
     const email = req.body.email.trim().toLowerCase()
+    const name = req.body.name
     if (!emailValidator.validate(email)) {
       return responses.badEmail
     }
-    const user = await database.auth.getUserByEmail({ email })
-    if (user === undefined && !req.body.register) {
-      return responses.badUnknownEmail
-    }
-    if (user !== undefined && req.body.register) {
-      return responses.badKnownEmail
+    const userByEmail = await database.auth.getUserByEmail({ email })
+    const userByName = await database.auth.getUserByName({ name })
+    if (req.body.register) {
+      // User is trying to register
+      if (userByEmail !== undefined) {
+        // There already exists an account with this email
+        return responses.badKnownEmail
+      }
+      if (userByName !== undefined) {
+        // There already exists an account with this name
+        return responses.badKnownName
+      }
+    } else {
+      // User is trying to recover
+      if (userByEmail === undefined) {
+        // Could not find account with the provided email
+        return responses.badUnknownEmail
+      }
+      if (userByName === undefined) {
+        // Could not find account with the provided name
+        return responses.badUnknownName
+      }
     }
     const uuid = uuidv4()
     await cache.login.makeLogin({ id: uuid })

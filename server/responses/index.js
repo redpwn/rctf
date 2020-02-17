@@ -23,9 +23,21 @@ const responseList = {
     status: 404,
     message: 'The account does not exist.'
   },
+  badUnknownName: {
+    status: 404,
+    message: 'The account does not exist.'
+  },
+  badEmailNameMatch: {
+    status: 409,
+    message: 'The provided email and username do not match.'
+  },
   badKnownEmail: {
     status: 409,
     message: 'An account with this email already exists.'
+  },
+  badKnownName: {
+    status: 409,
+    message: 'An account with this name already exists.'
   },
   goodLeaderboard: {
     status: 200,

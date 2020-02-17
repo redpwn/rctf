@@ -31,7 +31,16 @@ module.exports = {
       return responses.badTokenVerification
     }
     let uuid
+    const userByEmail = await database.auth.getUserByEmail({ email: tokenData.email })
+    const userByName = await database.auth.getUserByName({ name: tokenData.name })
     if (tokenData.register) {
+      // Attempting to register
+      if (userByEmail !== undefined) {
+        return responses.badKnownEmail
+      }
+      if (userByName !== undefined) {
+        return responses.badKnownName
+      }
       try {
         uuid = uuidv4()
         await database.auth.makeUser({
@@ -42,14 +51,20 @@ module.exports = {
           perms: 0
         })
       } catch (e) {
-        return responses.badKnownEmail
+        return responses.errorInternal
       }
     } else {
-      const user = await database.auth.getUserByEmail({ email: tokenData.email })
-      if (user === undefined) {
+      // Attempting to get info
+      if (userByEmail === undefined) {
         return responses.badUnknownEmail
       }
-      uuid = user.id
+      if (userByName === undefined) {
+        return responses.badUnknownName
+      }
+      if (userByEmail.name !== tokenData.name) {
+        return responses.badEmailNameMatch
+      }
+      uuid = userByEmail.id
     }
     const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
     const teamToken = await auth.token.getToken(auth.token.tokenKinds.team, uuid)

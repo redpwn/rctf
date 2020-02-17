@@ -9,6 +9,10 @@ const ret = {
     return db.query('SELECT * FROM users WHERE email = $1', [email])
       .then(res => res.rows[0])
   },
+  getUserByName: ({ name }) => {
+    return db.query('SELECT * FROM users WHERE name = $1', [name])
+      .then(res => res.rows[0])
+  },
   removeUserByEmail: ({ email }) => {
     return db.query('DELETE FROM users WHERE email = $1 RETURNING *', [email])
       .then(res => res.rows[0])
