@@ -26,7 +26,7 @@ export default withStyles({
           <h2 class='level'>{config.ctfName}</h2>
         </div>
         <div class={`${classes.row} row u-center`}>
-          <img src='https://redpwn.net/logo.png' class={`avatar ${classes.logo}`} />
+          <img src={config.logoUrl} class={`avatar ${classes.logo}`} />
         </div>
 
       </div>
