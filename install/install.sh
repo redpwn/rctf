@@ -128,7 +128,7 @@ git checkout "$REPOSITORY_BRANCH"
 info "Configuring rCTF..."
 
 /bin/echo -ne "Enter the CTF name: "
-read RCTF_NAME
+read RCTF_NAME <&1
 
 RCTF_TOKEN_KEY=${RCTF_TOKEN_KEY:-"$(head -c 32 /dev/urandom | base64 -w 0)"}
 
@@ -145,7 +145,7 @@ info "Finished installation to ${INSTALL_PATH}."
 
 
 /bin/echo -ne "Would you like to run 'docker-compose up' and start rCTF now (y/N)? "
-read result
+read result <&1
 
 if [ "$result" = "y" ]; then
     docker-compose up
