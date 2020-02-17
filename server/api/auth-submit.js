@@ -35,16 +35,16 @@ module.exports = {
   },
   handler: async ({ req }) => {
     const email = req.body.email.trim().toLowerCase()
+    const name = req.body.name
     if (!emailValidator.validate(email)) {
       return responses.badEmail
     }
-    const user = await database.auth.getUserByEmail({ email })
-    if (user === undefined && !req.body.register) {
-      return responses.badUnknownEmail
-    }
-    if (user !== undefined && req.body.register) {
-      return responses.badKnownEmail
-    }
+    const userByEmail = await database.auth.getUserByEmail({ email })
+    const userByName = await database.auth.getUserByName({ name })
+
+    const verification = util.auth.nameEmailVerification(req.body.register, userByEmail, userByName)
+    if (verification !== undefined) return verification
+
     const uuid = uuidv4()
     await cache.login.makeLogin({ id: uuid })
     const verifyToken = await auth.token.getToken(auth.token.tokenKinds.verify, {
