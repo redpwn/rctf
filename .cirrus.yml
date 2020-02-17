@@ -26,4 +26,5 @@ test_task:
     populate_script: yarn install
   test_script: 
     - cp .env.example .env
+    - cp -r .rdeploy.example .rdeploy
     - yarn test

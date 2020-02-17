@@ -1,0 +1,13 @@
+[{
+  "files": ["files/example.txt"],
+  "description": "A test challenge",
+  "author": "Test",
+  "port": 1234,
+  "flag": "flag{test_flag_here}",
+  "points": {
+      "max": 500,
+      "min": 50
+  },
+  "id": "pwn/test-challenge",
+  "name": "Test Challenge"
+}]
