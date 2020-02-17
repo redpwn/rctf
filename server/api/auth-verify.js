@@ -2,6 +2,7 @@ const uuidv4 = require('uuid/v4')
 const auth = require('../auth')
 const cache = require('../cache')
 const database = require('../database')
+const util = require('../util')
 const { responses } = require('../responses')
 
 module.exports = {
@@ -33,14 +34,11 @@ module.exports = {
     let uuid
     const userByEmail = await database.auth.getUserByEmail({ email: tokenData.email })
     const userByName = await database.auth.getUserByName({ name: tokenData.name })
+
+    const verification = util.auth.nameEmailVerification(tokenData.register, userByEmail, userByName)
+    if (verification !== undefined) return verification
+
     if (tokenData.register) {
-      // Attempting to register
-      if (userByEmail !== undefined) {
-        return responses.badKnownEmail
-      }
-      if (userByName !== undefined) {
-        return responses.badKnownName
-      }
       try {
         uuid = uuidv4()
         await database.auth.makeUser({
@@ -54,18 +52,9 @@ module.exports = {
         return responses.errorInternal
       }
     } else {
-      // Attempting to get info
-      if (userByEmail === undefined) {
-        return responses.badUnknownEmail
-      }
-      if (userByName === undefined) {
-        return responses.badUnknownName
-      }
-      if (userByEmail.name !== tokenData.name) {
-        return responses.badEmailNameMatch
-      }
       uuid = userByEmail.id
     }
+
     const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
     const teamToken = await auth.token.getToken(auth.token.tokenKinds.team, uuid)
     return [responses.goodVerify, {
