@@ -61,6 +61,9 @@ module.exports = {
         // Could not find account with the provided name
         return responses.badUnknownName
       }
+      if (userByEmail.name !== name) {
+        return responses.badEmailNameMatch
+      }
     }
     const uuid = uuidv4()
     await cache.login.makeLogin({ id: uuid })
