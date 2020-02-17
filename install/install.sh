@@ -130,12 +130,12 @@ info "Configuring rCTF..."
 /bin/echo -ne "Enter the CTF name: "
 read RCTF_NAME
 
-RCTF_TOKEN=${RCTF_SECRET_KEY:-"$(head -c 32 /dev/urandom | base64 -w 0)"}
+RCTF_TOKEN_KEY=${RCTF_TOKEN_KEY:-"$(head -c 32 /dev/urandom | base64 -w 0)"}
 
 cp .env.example .env
 
 sed -i.bak "s/RCTF_NAME=.*$/RCTF_NAME=$RCTF_NAME/g" .env
-sed -i.bak "s/RCTF_TOKEN=.*$/RCTF_TOKEN=$RCTF_TOKEN/g" .env
+sed -i.bak "s/RCTF_TOKEN_KEY=.*$/RCTF_TOKEN_KEY=$RCTF_TOKEN_KEY/g" .env
 
 
 # start docker
