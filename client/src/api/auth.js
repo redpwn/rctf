@@ -31,11 +31,13 @@ export const register = ({ email, name, division }) => {
   })
     .then(resp => {
       switch (resp.kind) {
-        case 'verifyEmail':
+        case 'goodVerify':
           localStorage.setItem('token', resp.data.authToken)
           localStorage.setItem('teamToken', resp.data.teamToken)
 
           return route('/profile')
+        case 'goodVerifySent':
+          return route('/verify')
         case 'badEmail':
         case 'badKnownEmail':
           return {
