@@ -144,13 +144,14 @@ sed -i.bak "s/RCTF_TOKEN_KEY=.*$/RCTF_TOKEN_KEY=$RCTF_TOKEN_KEY/g" .env
 info "Finished installation to ${INSTALL_PATH}."
 
 
-/bin/echo -ne "Would you like to run 'docker-compose up' and start rCTF now (y/N)? "
+/bin/echo -ne "Would you like to start rCTF now (y/N)? "
 read result <&1
 
 if [ "$result" = "y" ]; then
+    info "Running 'docker-compose up' in ${INSTALL_PATH}..."
     docker-compose up
     exit 0
 else
-    echo "Installation complete."
+    info "Installation to $INSTALL_PATH complete."
     exit 0
 fi
