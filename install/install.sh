@@ -88,6 +88,7 @@ info "Installing dependencies..."
 
 
 if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
+    apt-get update
     apt-get install --yes docker.io docker-compose git
 elif [ "$PACKAGE_MANAGER" = "yum" ]; then
     info "We are about to install docker via https://get.docker.com/. Please follow along the steps to ensure it is configured properly."
@@ -100,15 +101,15 @@ elif [ "$PACKAGE_MANAGER" = "yum" ]; then
 
     yum install git
 elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
-    pacman -S docker docker-compose git
+    pacman -Sy --noconfirm --needed docker docker-compose git
 fi
 
 
 info "Enabling docker..."
 
 
-systemctl enable docker || true # XXX: Debian "masks" docker.service
-systemctl start docker || true
+(systemctl enable docker || true) 2>/dev/null # XXX: Debian "masks" docker.service
+(systemctl start docker || true) 2>/dev/null
 
 
 # clone repository
@@ -127,6 +128,7 @@ git checkout "$REPOSITORY_BRANCH"
 
 info "Configuring rCTF..."
 
+
 /bin/echo -ne "Enter the CTF name: "
 read RCTF_NAME <&1
 
@@ -136,6 +138,12 @@ cp .env.example .env
 
 sed -i.bak "s/RCTF_NAME=.*$/RCTF_NAME=$(echo "$RCTF_NAME"  | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')/g" .env
 sed -i.bak "s/RCTF_TOKEN_KEY=.*$/RCTF_TOKEN_KEY=$(echo "$RCTF_TOKEN_KEY"  | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')/g" .env
+
+
+info "Changing permissions of .env (chmod 600 .env)..."
+
+
+chmod 600 .env .env.example
 
 
 # start docker
