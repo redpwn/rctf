@@ -134,8 +134,8 @@ RCTF_TOKEN_KEY=${RCTF_TOKEN_KEY:-"$(head -c 32 /dev/urandom | base64 -w 0)"}
 
 cp .env.example .env
 
-sed -i.bak "s/RCTF_NAME=.*$/RCTF_NAME=$RCTF_NAME/g" .env
-sed -i.bak "s/RCTF_TOKEN_KEY=.*$/RCTF_TOKEN_KEY=$RCTF_TOKEN_KEY/g" .env
+sed -i.bak "s/RCTF_NAME=.*$/RCTF_NAME=$(echo "$RCTF_NAME"  | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')/g" .env
+sed -i.bak "s/RCTF_TOKEN_KEY=.*$/RCTF_TOKEN_KEY=$(echo "$RCTF_TOKEN_KEY"  | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')/g" .env
 
 
 # start docker
