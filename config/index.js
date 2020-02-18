@@ -1,5 +1,6 @@
 module.exports = {
   rDeployDirectory: '.rdeploy',
+  rDeployFiles: 'files',
   verifyEmail: false,
   tokenKey: process.env.RCTF_TOKEN_KEY,
   ctfName: process.env.RCTF_NAME,
