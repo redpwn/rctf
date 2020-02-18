@@ -10,76 +10,53 @@ We have designed rCTF with the following attributes in mind:
 * simplicity
 * "modernness" (no PHP)
 
-## Installation
+## Getting Started
 
-### Automatic
+### Installation
 
-The automatic installation script works on Debian-based distributions and Arch Linux. It depends on `curl`.
+#### Automatic
+The automatic installation script works on Debian-based distributions and Arch Linux. It depends on `curl`. Feel free to [read the script](https://install.rctf.redpwn.net/) before running this command as root (it's fairly short).
 
 ```bash
 # curl https://install.rctf.redpwn.net | sh
 ```
 
-### Manual
+#### Manual
 
-#### Environment
+For instructions on manual installations and deployments, see the [wiki page](https://github.com/redpwn/rctf/wiki/Manual-Deployment).
 
-You should copy the `.env.example` to `.env`. 
+### Management
 
-```bash
-$ cp .env.example .env
+The rCTF CLI management tool [install/rctf.py](`rctf`) (installed in `/usr/bin/` by default by the automatic installation script) makes management of your rCTF installation simple.
+
+#### Starting rCTF
+
+```
+# rctf up
 ```
 
-Note that the `RCTF_TOKEN_KEY` should be a base64 encoded string of length 32 bytes. You can generate one with the following command.  
+#### Stopping rCTF
 
-```bash
-$ openssl rand -base64 32
-j9qpC+J9lrvx/F7uQ9wGKawhzfPyPb1aM+JPeLfsFX8=
+```
+# rctf down
 ```
 
-#### Database
+#### Upgrading rCTF
 
-The application is built on a PostgreSQL database. You should add the appropriate connection string in `.env`. Then run the following command to setup the database. 
-
-```bash
-$ yarn run migrate up
+```
+# rctf update
 ```
 
-## Development
+#### Deploying Challenges to rCTF
 
-### Backend
+##### Using rDeploy
 
-For hot reloading, use nodemon.
+If you use [rDeploy](https://github.com/redpwn/rdeploy), you can automatically import the problem data using the below command:
 
-```bash
-$ yarn dev
+```
+# rctf deploy /path/to/rdeploy/directory/
 ```
 
-There is a precommit hook that will block commits that fail to meet the style guide. To fix style errors, use standard. 
+##### Without rDeploy
 
-```bash
-$ yarn lint --fix
-```
-
-### Frontend
-
-The frontend is built on [Preact](https://preactjs.com/) and [Cirrus](https://spiderpig86.github.io/Cirrus/). 
-
-All of the frontend code is in `/client`. To automatically watch the directory for changes, use the `watch` command. 
-
-```bash
-$ yarn watch
-```
-
-## Deployment
-
-### Problem Data
-
-To build, simply copy the exported directory from [rDeploy](https://github.com/redpwn/rdeploy) to `config.rDeployDirectory` (defaults to `.rdeploy`). 
-
-```bash
-$ cd rdeploy
-$ python main.py build
-$ cp -r export ../rctf/.rdeploy
-```
-
+This is currently not supported, but it will be in the future.
