@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # a script to manage rCTF installations
 
-import sys, os, io
+import sys, os, io, subprocess
 import argparse
 import logging
 
@@ -28,7 +28,8 @@ def check_file(fn):
 def execute(command):
     logging.debug('Executing `%s`...' % command)
     
-    status_code = os.system(command)
+    # shell=False if list, shell=True if str
+    status_code = subprocess.call(command, shell = isinstance(command, str))
 
     if status_code:
         logging.warning('Command failed to execute; exited with status code %d.' % status_code)
@@ -37,9 +38,6 @@ def execute(command):
 
 
 # create simple model of rCTF
-
-
-REPOSITORY_BRANCH = 'master' # XXX: migrate REPOSITORY_BRANCH to an envvar/argument
 
 
 class rCTF:
@@ -85,10 +83,6 @@ class rCTF:
         # XXX: is there a way to make this not error if it fails?
         self.down()
         
-        if not execute('git checkout %s' % REPOSITORY_BRANCH):
-            logging.fatal('Failed to checkout repository branch %s' % REPOSITORY_BRANCH)
-            return False
-
         if not execute('git pull'):
             logging.fatal('Failed to pull latest from repository')
             return False
@@ -110,17 +104,17 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description = 'Manage rCTF installations from the CLI')
     
-    parser.add_argument('--install-path', type = str, default = os.environ.get('RCTF_INSTALL_PATH', os.environ.get('INSTALL_PATH', '/opt/rctf/')), help = 'The path to the rCTF installation to manage')
+    parser.add_argument('--install-path', '--path', '-d', type = str, default = os.environ.get('RCTF_INSTALL_PATH', os.environ.get('INSTALL_PATH', '/opt/rctf/')), help = 'The path to the rCTF installation to manage')
 
     subparsers = parser.add_subparsers(help = 'The sub-command to execute')
 
-    parser_up = subparsers.add_parser('up', help = 'Start rCTF in background')
+    parser_up = subparsers.add_parser('up', aliases = ['start'], help = 'Start rCTF in background')
     parser_up.set_defaults(subcommand = 'up')
     
-    parser_down = subparsers.add_parser('down', help = 'Stop rCTF if running')
+    parser_down = subparsers.add_parser('down', aliases = ['stop'], help = 'Stop rCTF if running')
     parser_down.set_defaults(subcommand = 'down')
 
-    parser_update = subparsers.add_parser('update', help = 'Update the rCTF installation')
+    parser_update = subparsers.add_parser('update', aliases = ['upgrade'], help = 'Update the rCTF installation')
     parser_update.set_defaults(subcommand = 'update')
 
     args = parser.parse_args()
@@ -156,8 +150,7 @@ if __name__ == '__main__':
         logging.info('Successfully updated instance. Run `%s up` to start instance' % sys.argv[0])
         logging.info('Upgrading %s CLI tool...' % sys.argv[0])
         
-        # XXX: command injection? i can't think of a practical scenario here
-        # TODO/BUG: either way there is the possibility an admin could have a directory with a name containing a "
-        if not execute('cp install/rctf.py "%s" && chmod + "%s"' % (sys.argv[0], sys.argv[0])):
+        # XXX: possible argument injection probably not worth fixing
+        if not (execute(['cp', 'install/rctf.py', sys.argv[0]]) and execute(['chmod', '+x', sys.argv[0]])):
             logging.fatal('Failed to upgrade rCTF CLI tool')
             exit(1)
