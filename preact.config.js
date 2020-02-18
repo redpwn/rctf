@@ -7,7 +7,7 @@ export default (webpackConfig, env, helpers) => {
   }
   const { plugin } = helpers.getPluginsByName(webpackConfig, 'HtmlWebpackPlugin')[0]
   plugin.options.view = {
-    assetsPrefix: env.production ? '/assets' : '',
+    assetsPrefix: env.production ? '/static' : '',
     ctfName: config.ctfName
   }
 }
