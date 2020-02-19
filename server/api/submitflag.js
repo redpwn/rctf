@@ -29,6 +29,14 @@ module.exports = {
     }
   },
   handler: async ({ req, uuid }) => {
+    if(Date.now() < config.startTime) {
+      return responses.badNotStarted
+    }
+
+    if(Date.now() >= config.endTime) {
+      return responses.badEnded
+    }
+
     const challengeid = req.params.id
     const submittedFlag = req.body.flag
 

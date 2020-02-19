@@ -16,5 +16,7 @@ module.exports = {
   loginTimeout: 10 * 60 * 1000,
   leaderboardUpdateInterval: 10 * 1000,
   leaderboardMaxLimit: 2 ** 32,
-  leaderboardMaxOffset: 2 ** 32
+  leaderboardMaxOffset: 2 ** 32,
+  startTime: Date.now(),
+  endTime: Date.now() + 24 * 60 * 60 * 1000
 }
