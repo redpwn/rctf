@@ -1,6 +1,7 @@
 const db = require('../database')
 const challenges = require('../challenges')
 const { responses } = require('../responses')
+const config = require('../../config')
 
 const uuidv4 = require('uuid/v4')
 
@@ -29,11 +30,11 @@ module.exports = {
     }
   },
   handler: async ({ req, uuid }) => {
-    if(Date.now() < config.startTime) {
+    if (Date.now() < config.startTime) {
       return responses.badNotStarted
     }
 
-    if(Date.now() >= config.endTime) {
+    if (Date.now() >= config.endTime) {
       return responses.badEnded
     }
 
