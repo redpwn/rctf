@@ -76,7 +76,7 @@ test.serial('duplicate email fails with badKnownEmail', async t => {
   t.is(resp.body.kind, 'badKnownEmail')
 })
 
-test.serial('duplicate name fails with badKnownEmail', async t => {
+test.serial('duplicate name fails with badKnownName', async t => {
   config.verifyEmail = false
 
   const resp = await request(app)
