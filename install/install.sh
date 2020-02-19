@@ -59,7 +59,7 @@ fi
 info "Configuring installation..."
 
 
-RCTF_CLI_INSTALL_PATH={RCTF_CLI_INSTALL_PATH:-"/usr/bin/rctf"}
+RCTF_CLI_INSTALL_PATH=${RCTF_CLI_INSTALL_PATH:-"/usr/bin/rctf"}
 INSTALL_PATH=${INSTALL_PATH:-'/opt/rctf'}
 
 if [ ! -d "$(dirname "$INSTALL_PATH")" ]; then

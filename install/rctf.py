@@ -34,6 +34,11 @@ def execute(command):
     if status_code:
         logging.warning('Command failed to execute; exited with status code %d.' % status_code)
 
+    # XXX: check to make sure this status code isn't just docker?
+    if status_code == 1 and not verify_privileges(): # permission denied
+        logging.warning('Possible permission denied error? Try running as root.\n\n    %s\n' % ' '.join(sys.argv))
+
+
     return status_code == 0
 
 
@@ -51,10 +56,7 @@ class rCTF:
     def up(self):
         os.chdir(self.install_path)
         
-        if not verify_privileges():
-            return False
-
-        if not execute('docker-compose up -d'):
+        if not execute('docker-compose up -d --build'):
             logging.fatal('Failed to start rCTF instance')
             return False
 
@@ -64,9 +66,6 @@ class rCTF:
     def down(self):
         os.chdir(self.install_path)
         
-        if not verify_privileges():
-            return False
-
         if not execute('docker-compose down'):
             logging.fatal('Failed to stop rCTF instance')
             return False
@@ -77,9 +76,6 @@ class rCTF:
     def upgrade(self):
         os.chdir(self.install_path)
         
-        if not verify_privileges():
-            return False
-    
         # XXX: is there a way to make this not error if it fails?
         self.down()
         
@@ -121,7 +117,7 @@ if __name__ == '__main__':
 
     
     if not 'subcommand' in vars(args):
-        logging.info('This is an rCTF management script. For usage, run:\n    %s --help' % sys.argv[0])
+        logging.info('This is an rCTF management script. For usage, run:\n\n    %s --help\n' % sys.argv[0])
         exit(0)
     
 
