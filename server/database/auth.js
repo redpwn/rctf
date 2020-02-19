@@ -9,8 +9,12 @@ const ret = {
     return db.query('SELECT * FROM users WHERE email = $1', [email])
       .then(res => res.rows[0])
   },
-  getUserByName: ({ name }) => {
-    return db.query('SELECT * FROM users WHERE name = $1', [name])
+  getUserByIdAndEmail: ({ id, email }) => {
+    return db.query('SELECT * FROM users WHERE id = $1 AND email = $2', [id, email])
+      .then(res => res.rows[0])
+  },
+  getUserByNameOrEmail: ({ name, email }) => {
+    return db.query('SELECT * FROM users WHERE name = $1 OR email = $2', [name, email])
       .then(res => res.rows[0])
   },
   removeUserByEmail: ({ email }) => {

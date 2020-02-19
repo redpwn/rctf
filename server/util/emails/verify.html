@@ -3,7 +3,14 @@
   xmlns:v="urn:schemas-microsoft-com:vml">
 
 <head>
-  <title>Email verification for {{ ctf_name }}</title>
+  <title>
+    {{ #register }}
+      Email verification for {{ ctf_name }}
+    {{ /register }}
+    {{ #recover }}
+      Account recovery for {{ ctf_name }}
+    {{ /recover }}
+  </title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -273,7 +280,7 @@
 </head>
 
 <body width="100%" style="margin: 0; padding: 0 !important; background: #000000; mso-line-height-rule: exactly;">
-  <center style="width: 100%; background: #000000; padding-bottom: 50px;">
+  <center style="width: 100%; background: #000000;">
     <!--[if mso | IE]>
     <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #000000;">
     <tr>
@@ -304,9 +311,21 @@
                   style="padding-bottom: 15px; font-family: arial, sans-serif; font-size: 15px; line-height: 21px; color: #FFFFFF; text-align: left;">
                   <h1
                     style="font-weight: bold; font-size: 27px; line-height: 27px; color: #FFFFFF; margin: 0 0 15px 0;">
-                    Verify your email for {{ ctf_name }}</h1>
-                  <p style="margin: 0 0 15px;">Before you and your team start catching flags, we need a verified email.</p>
-                  <p style="margin: 0 0 15px;">To verify your email and register for {{ ctf_name }}, click the button below.</p>
+                    {{ #register }}
+                      Verify your email for {{ ctf_name }}
+                    {{ /register }}
+                    {{ #recover }}
+                      Recover your account for {{ ctf_name }}
+                    {{ /recover }}
+                  </h1>
+                  {{ #register }}
+                    <p style="margin: 0 0 15px;">Before you and your team start catching flags, we need a verified email.</p>
+                    <p style="margin: 0 0 15px;">To verify your email and register for {{ ctf_name }}, click the button below.</p>
+                  {{ /register }}
+                  {{ #recover }}
+                    <p style="margin: 0 0 15px;">Before we recover your account, we need to make sure it's actually you.</p>
+                    <p style="margin: 0 0 15px;">To verify your email and recover your {{ ctf_name }} account, click the button below.</p>
+                  {{ /recover }}
                 </td>
               </tr>
               <tr>
@@ -317,10 +336,34 @@
                         <a class="s-btn s-btn__primary" href="{{ origin }}/verify#token={{ token }}"
                           target="_parent"
                           style="background: #BC2226; font-family: arial, sans-serif; font-size: 17px; line-height: 17px; color: #FFFFFF; text-align: center; text-decoration: none; padding: 13px 17px; display: block; border-radius: 4px; white-space: nowrap;">
-                          Register for {{ ctf_name }}</a>
+                          {{ #register }}
+                            Register for {{ ctf_name }}
+                          {{ /register}}
+                          {{ #recover }}
+                            Recover your {{ ctf_name }} account
+                          {{ /recover }}
+                        </a>
                       </td>
                     </tr>
                   </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 30px;" class="sm-p">
+            <table align="left" border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+              <tr>
+                <td style="padding-bottom: 10px; font-size: 12px; line-height: 15px; font-family: arial, sans-serif; color: #9199A1; text-align: left;">
+                  If you didn't attempt this, you can safely ignore this email.
+                </td>
+              </tr>
+              <tr>
+                <td style="font-size: 12px; line-height: 15px; font-family: arial, sans-serif; color: #9199A1; text-align: left;">
+                  <span style="color: #9EA3A9;">Sent by </span>
+                  <a href="{{ origin }}"
+                  style="color: #9199A1; text-decoration: underline;">{{ ctf_name }}</a>
                 </td>
               </tr>
             </table>

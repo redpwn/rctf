@@ -14,7 +14,7 @@ const testUser = {
 
 test('fails with badEmail', async t => {
   const resp = await request(app)
-    .post(process.env.API_ENDPOINT + '/auth/submit')
+    .post(process.env.API_ENDPOINT + '/auth/register')
     .send({
       ...testUser,
       register: true,
@@ -26,12 +26,12 @@ test('fails with badEmail', async t => {
 })
 
 test('fails with badUnknownEmail', async t => {
+  config.verifyEmail = true
+
   const unknownEmail = 'non-existent-email' + Math.random() + '@gmail.com'
   const resp = await request(app)
-    .post(process.env.API_ENDPOINT + '/auth/submit')
+    .post(process.env.API_ENDPOINT + '/auth/recover')
     .send({
-      ...testUser,
-      register: false,
       email: unknownEmail
     })
     .expect(responseList.badUnknownEmail.status)
@@ -43,14 +43,14 @@ test.serial('when not verifyEmail, succeeds with goodVerify', async t => {
   config.verifyEmail = false
 
   let resp = await request(app)
-    .post(process.env.API_ENDPOINT + '/auth/submit')
+    .post(process.env.API_ENDPOINT + '/auth/register')
     .send({
       ...testUser,
       register: true
     })
-    .expect(responseList.goodVerify.status)
+    .expect(responseList.goodRegister.status)
 
-  t.is(resp.body.kind, 'goodVerify')
+  t.is(resp.body.kind, 'goodRegister')
   t.true(typeof resp.body.data.authToken === 'string')
   t.true(typeof resp.body.data.teamToken === 'string')
 
@@ -60,22 +60,34 @@ test.serial('when not verifyEmail, succeeds with goodVerify', async t => {
     .expect(responseList.validToken.status)
 
   t.is(resp.body.kind, 'validToken')
-
-  config.verifyEmail = true
 })
 
-test.serial('duplicate fails with badKnownEmail', async t => {
+test.serial('duplicate email fails with badKnownEmail', async t => {
   config.verifyEmail = false
 
   const resp = await request(app)
-    .post(process.env.API_ENDPOINT + '/auth/submit')
+    .post(process.env.API_ENDPOINT + '/auth/register')
     .send({
       ...testUser,
-      register: true
+      name: String(Math.random())
     })
     .expect(responseList.badKnownEmail.status)
 
   t.is(resp.body.kind, 'badKnownEmail')
+})
+
+test.serial('duplicate name fails with badKnownEmail', async t => {
+  config.verifyEmail = false
+
+  const resp = await request(app)
+    .post(process.env.API_ENDPOINT + '/auth/register')
+    .send({
+      ...testUser,
+      email: 'non-existent-email' + String(Math.random()) + '@gmail.com'
+    })
+    .expect(responseList.badKnownName.status)
+
+  t.is(resp.body.kind, 'badKnownName')
 })
 
 // TODO: remember too remove test user
