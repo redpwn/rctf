@@ -5,6 +5,13 @@ const { enableCORS, serveDownloads } = require('./server/util')
 require('./server/leaderboard').startUpdater()
 
 const app = express()
+if (process.env.NODE_ENV !== 'production' && process.env.TEST_COMPRESSION !== undefined) {
+  const compression = require('compression')
+  app.use(compression({
+    level: 9,
+    filter: () => true
+  }))
+}
 
 app.use(enableCORS)
 
