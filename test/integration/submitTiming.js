@@ -44,14 +44,3 @@ test.serial('fails with badEnded', async t => {
 
   config.endTime = oldTime
 })
-
-test.serial('succeeds with goodFlag', async t => {
-  const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
-  const resp = await request(app)
-    .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
-    .set('Authorization', ' Bearer ' + authToken)
-    .send({ flag: chall.flag })
-    .expect(responseList.goodFlag.status)
-
-  t.is(resp.body.kind, 'goodFlag')
-})
