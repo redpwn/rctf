@@ -4,7 +4,7 @@ rCTF is RedpwnCTF's CTF platform. It is developed and maintained by the [redpwn]
 
 ## Design Goals
 
-We have designed rCTF with the following attributes in mind:
+We have designed rCTF with a focus on these attributes:
 
 * scalability
 * simplicity
@@ -31,7 +31,7 @@ For instructions on manual installations and deployments, see the [wiki page](ht
 
 The rCTF CLI management tool [install/rctf.py](`rctf`) (installed in `/usr/bin/` by default by the automatic installation script) makes management of your rCTF installation simple.
 
-To read more about its usage, see [here](https://github.com/redpwn/rctf/wiki/Managing-rCTF-through-the-CLI).
+To read more about its usage, see the [wiki page](https://github.com/redpwn/rctf/wiki/Managing-rCTF-through-the-CLI).
 
 #### Starting rCTF
 
