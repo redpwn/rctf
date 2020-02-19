@@ -1,5 +1,5 @@
 container:
-  image: node:latest
+  image: node:12-slim
   additional_containers:
     - name: redis
       image: redis:5.0.7
