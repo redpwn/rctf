@@ -1,6 +1,7 @@
 const config = require('../../config')
 const challenges = require('../challenges')
 const { responses } = require('../responses')
+const util = require('../util')
 
 module.exports = {
   method: 'get',
@@ -8,7 +9,7 @@ module.exports = {
   requireAuth: true,
   handler: async () => {
     if (Date.now() < config.startTime) {
-      return responses.badNotStarted
+      return util.notStarted()
     }
 
     const all = challenges.getAllChallenges()
