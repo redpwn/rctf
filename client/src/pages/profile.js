@@ -3,10 +3,21 @@ import config from '../config'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
+import Trophy from '../../../static/assets/icons/trophy.svg'
+import AddressBook from '../../../static/assets/icons/address-book.svg'
+
 export default withStyles({
   quote: {
     fontSize: 'small',
     overflowWrap: 'break-word'
+  },
+  icon: {
+    '& svg': {
+      verticalAlign: 'middle',
+      height: '20px',
+      fill: '#333'
+    },
+    marginRight: '25px'
   }
 }, class Profile extends Component {
   state = {
@@ -39,14 +50,14 @@ export default withStyles({
               <h5 class='title'>{name}</h5>
               <div class='action-bar'>
                 <p>
-                  <span class='icon'>
-                    <i class='fa fa-wrapper fa-trophy x-large' />
+                  <span class={`icon ${classes.icon}`}>
+                    <Trophy />
                   </span>
                   3rd place
                 </p>
                 <p>
-                  <span class='icon'>
-                    <i class='fa fa-wrapper fa-address-book x-large' />
+                  <span class={`icon ${classes.icon}`}>
+                    <AddressBook />
                   </span>
                   High School division
                 </p>
