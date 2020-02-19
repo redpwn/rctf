@@ -169,7 +169,13 @@ info "Finished installation to ${INSTALL_PATH}."
 
 
 /bin/echo -ne "Would you like to start rCTF now (y/N)? "
-read result <&1
+
+# HACK: arch's read version breaks for some reason, but this makes it work for both
+if [ "$PACKAGE_MANAGER" = "pacman" ]; then
+    read result
+else
+    read result <&1
+fi
 
 if [ "$result" = "y" ]; then
     info "Running 'docker-compose up' in ${INSTALL_PATH}..."
