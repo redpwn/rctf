@@ -90,8 +90,6 @@ test.serial('duplicate name fails with badKnownName', async t => {
   t.is(resp.body.kind, 'badKnownName')
 })
 
-// TODO: remember too remove test user
-
 test.after.always('cleanup test user', async t => {
   await removeUserByEmail({
     email: testUser.email
