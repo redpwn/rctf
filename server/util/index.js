@@ -2,6 +2,7 @@
 const config = require('../../config')
 const path = require('path')
 const fs = require('fs')
+const contentDisposition = require('content-disposition')
 
 module.exports = {
   scores: require('./scores'),
@@ -32,18 +33,23 @@ module.exports = {
       if (req.path.startsWith(root)) {
         const filename = req.path.substring(root.length)
 
-        if (filename === path.basename(req.path)) {
-          const filepath = path.join(config.rDeployDirectory, config.rDeployFiles, filename)
+        const filepath = path.join(config.rDeployDirectory, config.rDeployFiles, filename)
 
-          if (filepath.startsWith(path.join(config.rDeployDirectory, config.rDeployFiles))) {
-            if (fs.existsSync(filepath)) {
-              const parts = filename.split('.')
-              parts[0] = parts[0].split('-')[0]
-              const cleanName = parts.join('.')
+        if (filepath.startsWith(path.join(config.rDeployDirectory, config.rDeployFiles))) {
+          fs.access(filepath, fs.constants.R_OK, err => {
+            if (err) return next()
 
-              return res.download(filepath, cleanName)
-            }
-          }
+            const parts = filename.split('.')
+            parts[0] = parts[0].split('-')[0]
+            const cleanName = parts.join('.')
+
+            return res.sendFile(filename, {
+              root: path.join(config.rDeployDirectory, config.rDeployFiles),
+              headers: {
+                'Content-Disposition': contentDisposition(cleanName)
+              }
+            })
+          })
         }
         // Something sketchy is happening...
       }
