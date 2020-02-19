@@ -19,7 +19,6 @@ export default withStyles({
         {
           [].concat(children).map(input => {
             let { icon, error, name } = input.props
-            console.log(icon)
 
             if (errors !== undefined && name !== undefined) error = error || errors[name]
             const hasError = error !== undefined
