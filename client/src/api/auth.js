@@ -42,6 +42,10 @@ export const register = ({ email, name, division }) => {
           return {
             email: resp.message
           }
+        case 'badKnownName':
+          return {
+            name: resp.message
+          }
       }
     })
 }

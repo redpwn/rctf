@@ -5,12 +5,8 @@ import 'regenerator-runtime/runtime'
 import { Component } from 'preact'
 
 import Header from './components/header'
-import Registration from './pages/registration'
-import Login from './pages/login'
-import Home from './pages/home'
-
+import { Home, Registration, Login, Profile } from './pages'
 import 'cirrus-ui'
-import 'font-awesome/css/font-awesome.css'
 
 export default class App extends Component {
   state = {
@@ -18,17 +14,25 @@ export default class App extends Component {
   }
 
   render (props, { currentPath }) {
-    const paths = [
+    const loggedOut = localStorage.getItem('token') === null
+    const loggedOutPaths = [
       <Home key='home' path='/' name='Home' />,
       <Registration key='register' path='/register' name='Register' />,
       <Login key='login' path='/login' name='Login' />
     ]
 
+    const loggedInPaths = [
+      <Profile key='profile' path='/profile' name='Profile' />
+    ]
+
+    const allPaths = loggedInPaths.concat(loggedOutPaths)
+    const currentPaths = loggedOut ? loggedOutPaths : loggedInPaths
+
     return (
       <div id='app'>
-        <Header paths={paths} currentPath={currentPath} />
+        <Header paths={currentPaths} currentPath={currentPath} />
         <Router onChange={this.handleRoute}>
-          {paths}
+          {allPaths}
         </Router>
       </div>
     )

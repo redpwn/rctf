@@ -1,17 +1,19 @@
 const path = require('path')
 const express = require('express')
-const config = require('./config')
+const { enableCORS, serveDownloads } = require('./server/util')
 
-require('./server/leaderboard').start()
+require('./server/leaderboard').startUpdater()
 
 const app = express()
+if (process.env.NODE_ENV !== 'production' && process.env.TEST_COMPRESSION !== undefined) {
+  const compression = require('compression')
+  app.use(compression({
+    level: 9,
+    filter: () => true
+  }))
+}
 
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', config.origin)
-  res.header('Access-Control-Allow-Headers', 'Authorization, Content-Type')
-  res.header('Access-Control-Allow-Methods', 'GET, POST')
-  next()
-})
+app.use(enableCORS)
 
 app.use(express.raw({
   type: 'application/json'
@@ -21,6 +23,7 @@ app.use('/api/v1', require('./server/api'))
 
 const staticPath = path.join(__dirname, '/build')
 app.use(express.static(staticPath, { extensions: ['html'] }))
+app.use(serveDownloads('/static/files'))
 app.use((req, res, next) => {
   if (req.method !== 'GET') {
     next()

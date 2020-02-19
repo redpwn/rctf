@@ -5,6 +5,7 @@ import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
 import { login } from '../api/auth'
+import IdCard from '../../../static/assets/icons/id-card.svg'
 
 export default withStyles({
   root: {
@@ -28,7 +29,7 @@ export default withStyles({
     return (
       <div class='row u-center'>
         <Form class={classes.root + ' col-6'} onSubmit={this.handleSubmit} disabled={disabledButton} buttonText='Login' errors={errors}>
-          <input autofocus name='teamToken' icon='id-card' placeholder='Team Token' type='text' value={teamToken} onChange={this.linkState('teamToken')} />
+          <input autofocus name='teamToken' icon={<IdCard />} placeholder='Team Token' type='text' value={teamToken} onChange={this.linkState('teamToken')} />
         </Form>
       </div>
     )

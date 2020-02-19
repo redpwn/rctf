@@ -1,6 +1,8 @@
 const db = require('../database')
 const challenges = require('../challenges')
 const { responses } = require('../responses')
+const config = require('../../config')
+const util = require('../util')
 
 const uuidv4 = require('uuid/v4')
 
@@ -29,6 +31,14 @@ module.exports = {
     }
   },
   handler: async ({ req, uuid }) => {
+    if (Date.now() < config.startTime) {
+      return util.notStarted()
+    }
+
+    if (Date.now() >= config.endTime) {
+      return responses.badEnded
+    }
+
     const challengeid = req.params.id
     const submittedFlag = req.body.flag
 

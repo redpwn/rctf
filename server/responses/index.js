@@ -90,6 +90,18 @@ const responseList = {
   errorInternal: {
     status: 500,
     message: 'An internal error occurred.'
+  },
+  badNotStarted: {
+    status: 401,
+    message: 'The CTF has not started yet'
+  },
+  badEnded: {
+    status: 401,
+    message: 'The CTF has ended'
+  },
+  goodChallenges: {
+    status: 200,
+    message: 'The retrieval of challenges was successful'
   }
 }
 

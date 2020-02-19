@@ -13,7 +13,7 @@ const chall = challenges.getAllChallenges()[0]
 test('fails with unauthorized', async t => {
   const resp = await request(app)
     .post(process.env.API_ENDPOINT + '/challs/1/submit')
-    .expect(401)
+    .expect(responseList.badToken.status)
 
   t.is(resp.body.kind, 'badToken')
 })
