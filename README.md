@@ -8,7 +8,9 @@ We have designed rCTF with the following attributes in mind:
 
 * scalability
 * simplicity
-* "modernness" (no PHP)
+* customizability
+
+To read more about our motivations for creating this project, see [here](https://github.com/redpwn/rctf/wiki/Purpose-of-rCTF).
 
 ## Getting Started
 
@@ -28,6 +30,8 @@ For instructions on manual installations and deployments, see the [wiki page](ht
 ### Management
 
 The rCTF CLI management tool [install/rctf.py](`rctf`) (installed in `/usr/bin/` by default by the automatic installation script) makes management of your rCTF installation simple.
+
+To read more about its usage, see [here](https://github.com/redpwn/rctf/wiki/Managing-rCTF-through-the-CLI).
 
 #### Starting rCTF
 
@@ -54,9 +58,9 @@ The rCTF CLI management tool [install/rctf.py](`rctf`) (installed in `/usr/bin/`
 If you use [rDeploy](https://github.com/redpwn/rdeploy), you can automatically import the problem data using the below command:
 
 ```
-# rctf deploy /path/to/rdeploy/directory/
+# rctf deploy /path/to/challenge/directory/
 ```
 
 ##### Without rDeploy
 
-This is currently not supported, but it will be in the future.
+This is currently not supported, but it will be in the near future.
