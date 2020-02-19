@@ -5,7 +5,7 @@ const util = require('../util')
 
 module.exports = {
   method: 'get',
-  path: '/challs/',
+  path: '/challs',
   requireAuth: true,
   handler: async () => {
     if (Date.now() < config.startTime) {
