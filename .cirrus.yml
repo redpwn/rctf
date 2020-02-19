@@ -27,4 +27,4 @@ test_task:
   test_script: 
     - cp .env.example .env
     - cp -r .rdeploy.example .rdeploy
-    - yarn test
+    - yarn test --verbose
