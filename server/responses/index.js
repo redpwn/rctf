@@ -98,6 +98,14 @@ const responseList = {
   goodChallenges: {
     status: 200,
     message: 'The retrieval of challenges was successful'
+  },
+  goodUserData: {
+    status: 200,
+    message: 'The user was successfully retrieved'
+  },
+  badUserData: {
+    status: 404,
+    message: 'The user was retrieved unsuccessfully'
   }
 }
 
