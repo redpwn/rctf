@@ -9,7 +9,7 @@ module.exports = {
   handler: async () => {
     if (Date.now() < config.startTime) {
       return responses.badNotStarted
-    } 
+    }
 
     const all = challenges.getAllChallenges()
 
