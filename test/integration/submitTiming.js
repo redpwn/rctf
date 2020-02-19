@@ -40,7 +40,7 @@ test.serial('fails with badEnded', async t => {
     .send({ flag: chall.flag })
     .expect(responseList.badEnded.status)
 
-  t.is(resp.body.kind, 'baEnded')
+  t.is(resp.body.kind, 'badEnded')
 
   config.endTime = oldTime
 })
