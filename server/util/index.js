@@ -3,11 +3,20 @@ const config = require('../../config')
 const path = require('path')
 const fs = require('fs')
 const contentDisposition = require('content-disposition')
+const { responses } = require('../responses')
 
 module.exports = {
   scores: require('./scores'),
   email: require('./email'),
   auth: require('./auth'),
+  notStarted: () => {
+    return [
+      responses.badNotStarted,
+      {
+        startTime: config.startTime
+      }
+    ]
+  },
   reloadModule: m => {
     delete require.cache[require.resolve(m)]
     return require(m)
@@ -18,7 +27,7 @@ module.exports = {
     res.header('Access-Control-Allow-Methods', 'GET, POST')
 
     if (req.method === 'OPTIONS') {
-      res.send(200)
+      res.sendStatus(200)
     } else {
       next()
     }
