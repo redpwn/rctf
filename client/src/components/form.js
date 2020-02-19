@@ -19,7 +19,7 @@ export default withStyles({
         {
           [].concat(children).map(input => {
             let { icon, error, name } = input.props
-            const iconClass = icon === undefined ? '' : 'fa-' + icon
+            console.log(icon)
 
             if (errors !== undefined && name !== undefined) error = error || errors[name]
             const hasError = error !== undefined
@@ -37,7 +37,7 @@ export default withStyles({
                 <div class={`${classes.input} input-control`}>
                   {input}
                   <span class='icon'>
-                    <i class={`fa fa-wrapper small ${iconClass}`} />
+                    {icon === undefined ? null : icon}
                   </span>
                 </div>
               </div>

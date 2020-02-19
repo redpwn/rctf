@@ -7,7 +7,6 @@ import { Component } from 'preact'
 import Header from './components/header'
 import { Home, Registration, Login, Profile } from './pages'
 import 'cirrus-ui'
-import 'font-awesome/css/font-awesome.css'
 
 export default class App extends Component {
   state = {

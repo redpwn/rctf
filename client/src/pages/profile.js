@@ -3,6 +3,9 @@ import config from '../config'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
+import Trophy from '../../../static/assets/icons/trophy.svg'
+import AddressBook from '../../../static/assets/icons/address-book.svg'
+
 export default withStyles({
   quote: {
     fontSize: 'small',
@@ -40,13 +43,13 @@ export default withStyles({
               <div class='action-bar'>
                 <p>
                   <span class='icon'>
-                    <i class='fa fa-wrapper fa-trophy x-large' />
+                    <Trophy />
                   </span>
                   3rd place
                 </p>
                 <p>
                   <span class='icon'>
-                    <i class='fa fa-wrapper fa-address-book x-large' />
+                    <AddressBook />
                   </span>
                   High School division
                 </p>
