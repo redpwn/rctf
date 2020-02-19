@@ -1,8 +1,6 @@
-const uuidv4 = require('uuid/v4')
 const auth = require('../auth')
 const cache = require('../cache')
 const database = require('../database')
-const util = require('../util')
 const { responses } = require('../responses')
 
 module.exports = {
@@ -20,46 +18,36 @@ module.exports = {
     }
   },
   handler: async ({ req }) => {
-    return module.exports.handleToken(req.body.verifyToken)
-  },
-  handleToken: async token => {
-    const tokenData = await auth.token.getData(auth.token.tokenKinds.verify, token)
+    const tokenData = await auth.token.getData(auth.token.tokenKinds.verify, req.body.verifyToken)
     if (tokenData === null) {
       return responses.badTokenVerification
     }
-    const tokenUnused = await cache.login.useLogin({ id: tokenData.id })
+    const tokenUnused = await cache.login.useLogin({ id: tokenData.verifyId })
     if (!tokenUnused) {
       return responses.badTokenVerification
     }
-    let uuid
-    const userByEmail = await database.auth.getUserByEmail({ email: tokenData.email })
-    const userByName = await database.auth.getUserByName({ name: tokenData.name })
-
-    const verification = util.auth.nameEmailVerification(tokenData.register, userByEmail, userByName)
-    if (verification !== undefined) return verification
 
     if (tokenData.register) {
-      try {
-        uuid = uuidv4()
-        await database.auth.makeUser({
-          division: tokenData.division,
-          email: tokenData.email,
-          id: uuid,
-          name: tokenData.name,
-          perms: 0
-        })
-      } catch (e) {
-        return responses.errorInternal
-      }
+      return auth.register.register({
+        division: tokenData.division,
+        email: tokenData.email,
+        name: tokenData.name
+      })
     } else {
-      uuid = userByEmail.id
-    }
+      const user = await database.auth.getUserByIdAndEmail({
+        id: tokenData.userId,
+        email: tokenData.email
+      })
+      if (user === undefined) {
+        return responses.badUnknownUser
+      }
 
-    const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
-    const teamToken = await auth.token.getToken(auth.token.tokenKinds.team, uuid)
-    return [responses.goodVerify, {
-      authToken,
-      teamToken
-    }]
+      const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, user.id)
+      const teamToken = await auth.token.getToken(auth.token.tokenKinds.team, user.id)
+      return [responses.goodVerify, {
+        authToken,
+        teamToken
+      }]
+    }
   }
 }

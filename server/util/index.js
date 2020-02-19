@@ -9,6 +9,7 @@ module.exports = {
   scores: require('./scores'),
   email: require('./email'),
   auth: require('./auth'),
+  normalize: require('./normalize'),
   notStarted: () => {
     return [
       responses.badNotStarted,
