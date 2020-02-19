@@ -10,6 +10,14 @@ export default withStyles({
   quote: {
     fontSize: 'small',
     overflowWrap: 'break-word'
+  },
+  icon: {
+    "& svg": {
+      verticalAlign: "middle",
+      height: "20px",
+      fill: "#333"
+    },
+    marginRight: "25px"
   }
 }, class Profile extends Component {
   state = {
@@ -42,13 +50,13 @@ export default withStyles({
               <h5 class='title'>{name}</h5>
               <div class='action-bar'>
                 <p>
-                  <span class='icon'>
+                  <span class={`icon ${classes.icon}`}>
                     <Trophy />
                   </span>
                   3rd place
                 </p>
                 <p>
-                  <span class='icon'>
+                  <span class={`icon ${classes.icon}`}>
                     <AddressBook />
                   </span>
                   High School division

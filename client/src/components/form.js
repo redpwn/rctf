@@ -8,7 +8,12 @@ export default withStyles({
   submit: {
     marginTop: '25px'
   },
-  input: {
+  icon: {
+    "& svg": {
+      verticalAlign: "middle",
+      height: "16px",
+      fill: "#333"
+    }
   }
 }, class Form extends Component {
   render (props) {
@@ -36,7 +41,11 @@ export default withStyles({
                 <div class={`${classes.input} input-control`}>
                   {input}
                   <span class='icon'>
-                    {icon === undefined ? null : icon}
+                    {icon !== undefined &&
+                      <div class={`icon ${classes.icon}`}>
+                        {icon}
+                      </div>
+                    }
                   </span>
                 </div>
               </div>
