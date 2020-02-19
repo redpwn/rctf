@@ -9,10 +9,10 @@ export default withStyles({
     marginTop: '25px'
   },
   icon: {
-    "& svg": {
-      verticalAlign: "middle",
-      height: "16px",
-      fill: "#333"
+    '& svg': {
+      verticalAlign: 'middle',
+      height: '16px',
+      fill: '#333'
     }
   }
 }, class Form extends Component {
@@ -44,8 +44,7 @@ export default withStyles({
                     {icon !== undefined &&
                       <div class={`icon ${classes.icon}`}>
                         {icon}
-                      </div>
-                    }
+                      </div>}
                   </span>
                 </div>
               </div>

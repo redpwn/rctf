@@ -12,12 +12,12 @@ export default withStyles({
     overflowWrap: 'break-word'
   },
   icon: {
-    "& svg": {
-      verticalAlign: "middle",
-      height: "20px",
-      fill: "#333"
+    '& svg': {
+      verticalAlign: 'middle',
+      height: '20px',
+      fill: '#333'
     },
-    marginRight: "25px"
+    marginRight: '25px'
   }
 }, class Profile extends Component {
   state = {
