@@ -59,6 +59,7 @@ fi
 info "Configuring installation..."
 
 
+RCTF_CLI_INSTALL_PATH=${RCTF_CLI_INSTALL_PATH:-"/usr/bin/rctf"}
 INSTALL_PATH=${INSTALL_PATH:-'/opt/rctf'}
 
 if [ ! -d "$(dirname "$INSTALL_PATH")" ]; then
@@ -89,7 +90,7 @@ info "Installing dependencies..."
 
 if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
     apt-get update
-    apt-get install --yes docker.io docker-compose git
+    apt-get install --yes docker.io docker-compose git python3
 elif [ "$PACKAGE_MANAGER" = "yum" ]; then
     info "We are about to install docker via https://get.docker.com/. Please follow along the steps to ensure it is configured properly."
     
@@ -99,9 +100,9 @@ elif [ "$PACKAGE_MANAGER" = "yum" ]; then
         curl -fsSL https://get.docker.com/ | sh
     '
 
-    yum install git
+    yum install git python3
 elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
-    pacman -Sy --noconfirm --needed docker docker-compose git
+    pacman -Sy --noconfirm --needed docker docker-compose git python
 fi
 
 
@@ -146,6 +147,21 @@ info "Changing permissions of .env (chmod 600 .env)..."
 chmod 600 .env .env.example
 
 
+# copy over cli tool
+
+
+info "Copying CLI tool from $INSTALL_PATH/install/rctf.py to $RCTF_CLI_INSTALL_PATH"
+
+
+cp install/rctf.py "$RCTF_CLI_INSTALL_PATH"
+
+
+info "Setting $RCTF_CLI_INSTALL_PATH as executable..."
+
+
+chmod +x "$RCTF_CLI_INSTALL_PATH"
+
+
 # start docker
 
 
@@ -153,7 +169,13 @@ info "Finished installation to ${INSTALL_PATH}."
 
 
 /bin/echo -ne "Would you like to start rCTF now (y/N)? "
-read result <&1
+
+# HACK: arch's read version breaks for some reason, but this makes it work for both
+if [ "$PACKAGE_MANAGER" = "pacman" ]; then
+    read result
+else
+    read result <&1
+fi
 
 if [ "$result" = "y" ]; then
     info "Running 'docker-compose up' in ${INSTALL_PATH}..."
