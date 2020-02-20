@@ -4,6 +4,7 @@ import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
 import { privateProfile } from '../api/profile'
+import util from '../util'
 import Trophy from '../../../static/assets/icons/trophy.svg'
 import AddressBook from '../../../static/assets/icons/address-book.svg'
 
@@ -39,33 +40,15 @@ export default withStyles({
         this.setState({
           name: data.name,
           division: data.division,
+          placement: util.strings.placementString(data.score.place),
           score: data.score.score,
           teamToken: data.teamToken,
-          solves: data.returnedSolves
-        })
-        let placementStr = String(data.score.place)
-        if (data.score.place >= 11 && data.score.place <= 13) {
-          placementStr += 'th place'
-        } else {
-          switch (data.score.place % 10) {
-            case 1:
-              placementStr += 'st place'
-              break
-            case 2:
-              placementStr += 'nd place'
-              break
-            case 3:
-              placementStr += 'rd place'
-              break
-            default:
-              placementStr += 'th place'
-          }
-        }
-        this.setState({
-          placement: placementStr,
+          solves: data.solves,
           dataLoading: false
         })
       })
+
+    console.log(this.state)
   }
 
   render ({ classes }, { name, division, placement, score, teamToken, solves }) {

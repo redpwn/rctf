@@ -20,17 +20,17 @@ module.exports = {
 
     if (user === undefined) return responses.badUserData
 
-    const solves = await db.solves.getSolvesByUserId({ userid: uuid })
+    const userSolves = await db.solves.getSolvesByUserId({ userid: uuid })
     const teamToken = await auth.token.getToken(auth.token.tokenKinds.team, uuid)
     const score = await cache.leaderboard.getScore({ id: uuid })
     const returnedScore = score === null ? 0 : score
 
-    const returnedSolves = []
+    const solves = []
 
-    solves.forEach(solve => {
+    userSolves.forEach(solve => {
       const chall = challenges.getCleanedChallenge(solve.challengeid)
       // TODO: Should return the challenge point value, currently hard coded
-      returnedSolves.push([chall.category, chall.name, 450])
+      solves.push([chall.category, chall.name, 450])
     })
 
     return [responses.goodUserData, {
@@ -38,7 +38,7 @@ module.exports = {
       division: divisionMap.get(Number(user.division)),
       score: returnedScore,
       teamToken: teamToken,
-      returnedSolves
+      solves
     }]
   }
 }

@@ -105,11 +105,11 @@ const responseList = {
   },
   goodUserData: {
     status: 200,
-    message: 'The user was successfully retrieved'
+    message: 'The user data was successfully retrieved'
   },
   badUserData: {
     status: 404,
-    message: 'The user was retrieved unsuccessfully'
+    message: 'The user was retrieved unsuccessfully. How did you forge an auth token? plz report to redpwn'
   }
 }
 
