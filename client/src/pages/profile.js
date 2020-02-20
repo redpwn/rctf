@@ -92,9 +92,9 @@ export default withStyles({
               <table class='table borderless'>
                 <thead>
                   <tr>
-                    <th><abbr title='category'>Category</abbr></th>
-                    <th><abbr title='name'>Name</abbr></th>
-                    <th><abbr title='points'>Points</abbr></th>
+                    <th>Category</th>
+                    <th>Name</th>
+                    <th>Points</th>
                   </tr>
                 </thead>
                 <tbody>

@@ -5,7 +5,7 @@ import 'regenerator-runtime/runtime'
 import { Component } from 'preact'
 
 import Header from './components/header'
-import { Home, Registration, Login, Profile, Challenges } from './pages'
+import { Home, Registration, Login, Profile, Challenges, Scoreboard } from './pages'
 import 'cirrus-ui'
 
 export default class App extends Component {
@@ -23,7 +23,8 @@ export default class App extends Component {
 
     const loggedInPaths = [
       <Profile key='profile' path='/profile' name='Profile' />,
-      <Challenges key='challs' path='/challs' name='Challenges' />
+      <Challenges key='challs' path='/challs' name='Challenges' />,
+      <Scoreboard key='scoreboard' path='/scores' name='Scoreboard' />
     ]
 
     const allPaths = loggedInPaths.concat(loggedOutPaths)

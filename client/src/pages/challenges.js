@@ -14,7 +14,7 @@ export default withStyles({
     margin: '10px',
     width: '80%'
   }
-}, class Profile extends Component {
+}, class Challenges extends Component {
   state = {
     problems: []
   }
