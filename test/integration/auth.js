@@ -44,9 +44,7 @@ test.serial('when not verifyEmail, succeeds with goodVerify', async t => {
 
   let resp = await request(app)
     .post(process.env.API_ENDPOINT + '/auth/register')
-    .send({
-      ...testUser
-    })
+    .send(testUser)
     .expect(responseList.goodRegister.status)
 
   t.is(resp.body.kind, 'goodRegister')

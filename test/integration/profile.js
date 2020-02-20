@@ -18,9 +18,7 @@ test.serial('succeeds with goodUserData', async t => {
 
   let resp = await request(app)
     .post(process.env.API_ENDPOINT + '/auth/register')
-    .send({
-      ...testUser
-    })
+    .send(testUser)
     .expect(responseList.goodRegister.status)
 
   const authToken = resp.body.data.authToken
