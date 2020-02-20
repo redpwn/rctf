@@ -33,8 +33,6 @@ module.exports = {
       start: offset,
       end: offset + limit
     })
-    return [responses.goodLeaderboard, {
-      leaderboard: result
-    }]
+    return [responses.goodLeaderboard, result]
   }
 }
