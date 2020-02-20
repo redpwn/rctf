@@ -17,9 +17,12 @@ node_js:
   - node
 before_script:
   - psql -c 'create database rctf;' -U postgres
+install:
+  - npm install -g codecov
 script:
   - cp .env.example .env
   - cp -r .rdeploy.example .rdeploy
   - yarn migrate up
   - yarn lint
   - yarn test
+  - codecov
