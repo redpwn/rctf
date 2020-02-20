@@ -12,19 +12,7 @@ module.exports = {
       return util.notStarted()
     }
 
-    const all = challenges.getAllChallenges()
-
-    const cleaned = all.map(({ files, description, author, points, id, name }) => {
-      return {
-        files,
-        description,
-        author,
-        points,
-        id,
-        name
-      }
-    })
-
+    const cleaned = challenges.getCleanedChallenges()
     return [responses.goodChallenges, cleaned]
   }
 }
