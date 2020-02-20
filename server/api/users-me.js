@@ -28,9 +28,9 @@ module.exports = {
     const returnedSolves = []
 
     solves.forEach(solve => {
-      const chall = challenges.getChallenge(solve.challengeid)
-      // TODO: Should return the challenge point value as well and make sure chall.category is implemented
-      returnedSolves.push([chall.category, chall.name])
+      const chall = challenges.getCleanedChallenge(solve.challengeid)
+      // TODO: Should return the challenge point value, currently hard coded
+      returnedSolves.push([chall.category, chall.name, 450])
     })
 
     return [responses.goodUserData, {

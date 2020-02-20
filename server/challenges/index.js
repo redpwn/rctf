@@ -6,6 +6,7 @@ let challenges
 let cleanedChallenges
 // Mapping from challenge.id to challenge
 const challMap = new Map()
+const cleanedChallMap = new Map()
 
 const resetChallenges = () => {
   const module = path.join('../../', config.rDeployDirectory, 'config.json')
@@ -36,6 +37,11 @@ const resetChallenges = () => {
       category: 'pwn' // TODO: Load actual categories
     }
   })
+
+  cleanedChallMap.clear()
+  cleanedChallenges.forEach(c => {
+    cleanedChallMap.set(c.id, c)
+  })
 }
 
 resetChallenges()
@@ -49,6 +55,9 @@ module.exports = {
   },
   getChallenge: id => {
     return challMap.get(id)
+  },
+  getCleanedChallenge: id => {
+    return cleanedChallMap.get(id)
   },
   resetCache: () => {
     resetChallenges()

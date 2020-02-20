@@ -91,7 +91,7 @@ export default withStyles({
                   <span class={`icon ${classes.icon}`}>
                     <Trophy />
                   </span>
-                  {placement}
+                  {placement} with {score} points
                 </p>
                 <p>
                   <span class={`icon ${classes.icon}`}>
@@ -115,9 +115,7 @@ export default withStyles({
                   </tr>
                 </thead>
                 <tbody>
-                  <tr><td>Pwn</td><td>Pwn Challenge 1</td><td>123</td></tr>
-                  <tr><td>Pwn</td><td>Pwn 1</td><td>432</td></tr>
-                  <tr><td>Crypto</td><td>Cryptography</td><td>234</td></tr>
+                  {solves.map(solve => <tr key={solve[1]}><td>{solve[0]}</td><td>{solve[1]}</td><td>{solve[2]}</td></tr>)}
                 </tbody>
               </table>
             </div>
