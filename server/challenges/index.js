@@ -3,6 +3,7 @@ const util = require('../util')
 const path = require('path')
 
 let challenges
+let cleanedChallenges
 // Mapping from challenge.id to challenge
 const challMap = new Map()
 
@@ -15,6 +16,26 @@ const resetChallenges = () => {
   challenges.forEach(c => {
     challMap.set(c.id, c)
   })
+
+  cleanedChallenges = challenges.map(({ files, description, author, points, id, name }) => {
+    const normalizedFiles = files.map(filename => {
+      const cleanedName = util.normalize.normalizeDownload(filename)
+
+      return {
+        name: cleanedName,
+        path: filename
+      }
+    })
+    return {
+      files: normalizedFiles,
+      description,
+      author,
+      points,
+      id,
+      name,
+      category: 'pwn' // TODO: Load actual categories
+    }
+  })
 }
 
 resetChallenges()
@@ -22,6 +43,9 @@ resetChallenges()
 module.exports = {
   getAllChallenges: () => {
     return challenges
+  },
+  getCleanedChallenges: () => {
+    return cleanedChallenges
   },
   getChallenge: id => {
     return challMap.get(id)

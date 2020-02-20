@@ -1,5 +1,5 @@
 [{
-  "files": ["files/example.txt"],
+  "files": ["files/example-sha1hash.txt"],
   "description": "A test challenge",
   "author": "Test",
   "port": 1234,

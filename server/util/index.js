@@ -4,11 +4,13 @@ const path = require('path')
 const fs = require('fs')
 const contentDisposition = require('content-disposition')
 const { responses } = require('../responses')
+const normalize = require('./normalize')
 
 module.exports = {
   scores: require('./scores'),
   email: require('./email'),
   auth: require('./auth'),
+  normalize,
   notStarted: () => {
     return [
       responses.badNotStarted,
@@ -48,9 +50,7 @@ module.exports = {
           fs.access(filepath, fs.constants.R_OK, err => {
             if (err) return next()
 
-            const parts = filename.split('.')
-            parts[0] = parts[0].split('-')[0]
-            const cleanName = parts.join('.')
+            const cleanName = normalize.normalizeDownload(filename)
 
             return res.sendFile(filename, {
               root: path.join(config.rDeployDirectory, config.rDeployFiles),
@@ -59,6 +59,8 @@ module.exports = {
               }
             })
           })
+
+          return
         }
         // Something sketchy is happening...
       }

@@ -17,12 +17,19 @@ const fetchData = async () => {
   }
 }
 
+let calcRunning = false
+
 const runUpdate = async () => {
+  if (calcRunning) {
+    return
+  }
+  calcRunning = true
   const worker = new Worker(path.join(__dirname, 'calculate.js'), {
     workerData: await fetchData()
   })
-  worker.once('message', (data) => {
-    cache.leaderboard.setLeaderboard(data)
+  worker.once('message', async (data) => {
+    await cache.leaderboard.setLeaderboard(data)
+    calcRunning = false
   })
 }
 

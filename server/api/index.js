@@ -7,9 +7,10 @@ const router = express.Router()
 
 const routes = [
   require('./auth-login'),
-  require('./auth-submit'),
-  require('./auth-verify'),
+  require('./auth-recover'),
+  require('./auth-register'),
   require('./auth-test'),
+  require('./auth-verify'),
   require('./leaderboard'),
   require('./submitflag'),
   require('./challenges'),

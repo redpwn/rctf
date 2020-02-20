@@ -1,4 +1,4 @@
-import { request } from './index'
+import { request } from './util'
 import { route } from 'preact-router'
 
 export const login = ({ teamToken }) => {
@@ -23,11 +23,10 @@ export const login = ({ teamToken }) => {
 }
 
 export const register = ({ email, name, division }) => {
-  return request('POST', '/auth/submit', {
+  return request('POST', '/auth/register', {
     email,
     name,
-    division: Number.parseInt(division),
-    register: true
+    division: Number.parseInt(division)
   })
     .then(resp => {
       switch (resp.kind) {

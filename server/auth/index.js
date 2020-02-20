@@ -1,3 +1,4 @@
 module.exports = {
-  token: require('./token')
+  token: require('./token'),
+  register: require('./register')
 }

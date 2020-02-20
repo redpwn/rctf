@@ -3,6 +3,10 @@ const responseList = {
     status: 200,
     message: 'The email was verified.'
   },
+  goodRegister: {
+    status: 200,
+    message: 'The user was created.'
+  },
   goodLogin: {
     status: 200,
     message: 'The login was successful.'
