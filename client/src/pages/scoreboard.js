@@ -27,7 +27,6 @@ export default withStyles({
   }
 
   render ({ classes }, { scores, division }) {
-    console.log(scores)
     return (
       <div class='row u-center' style='align-items: initial !important'>
         <div class='col-3'>
