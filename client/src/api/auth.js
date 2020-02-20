@@ -1,4 +1,4 @@
-import { request } from './index'
+import { request } from './util'
 import { route } from 'preact-router'
 
 export const login = ({ teamToken }) => {
