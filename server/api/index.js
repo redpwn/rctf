@@ -13,7 +13,8 @@ const routes = [
   require('./auth-verify'),
   require('./leaderboard'),
   require('./submitflag'),
-  require('./challenges')
+  require('./challenges'),
+  require('./users-me')
 ]
 
 const validationParams = ['body', 'params', 'query']

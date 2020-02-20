@@ -102,6 +102,14 @@ const responseList = {
   goodChallenges: {
     status: 200,
     message: 'The retrieval of challenges was successful'
+  },
+  goodUserData: {
+    status: 200,
+    message: 'The user data was successfully retrieved'
+  },
+  badUserData: {
+    status: 404,
+    message: 'The user was retrieved unsuccessfully. How did you forge an auth token? plz report to redpwn'
   }
 }
 
