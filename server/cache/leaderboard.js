@@ -15,7 +15,7 @@ const setLeaderboardScript = `
   redis.call("DEL", KEYS[1])
   redis.call("RPUSH", KEYS[1], unpack(leaderboard))
   redis.call("DEL", KEYS[2])
-  redis.call("HMSET", KEYS[2], unpack(positionKeys))
+  redis.call("HSET", KEYS[2], unpack(positionKeys))
 `
 
 const getRangeScript = `
