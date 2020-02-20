@@ -24,5 +24,5 @@ script:
   - cp -r .rdeploy.example .rdeploy
   - yarn migrate up
   - yarn lint
-  - yarn test
+  - yarn test:report
   - codecov
