@@ -4,6 +4,7 @@ import Profile from './profile'
 import Registration from './registration'
 import Challenges from './challenges'
 import Scoreboard from './scoreboard'
+import Error from './Error'
 
 export {
   Home,
@@ -11,5 +12,6 @@ export {
   Profile,
   Registration,
   Challenges,
-  Scoreboard
+  Scoreboard,
+  Error
 }
