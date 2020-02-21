@@ -22,12 +22,16 @@ export default class App extends Component {
     ]
 
     const loggedInPaths = [
-      <Profile key='profile' path='/profile' name='Profile' />,
+      <Profile key='profile' path='/profile/' name='Profile' />,
       <Challenges key='challs' path='/challs' name='Challenges' />,
       <Scoreboard key='scoreboard' path='/scores' name='Scoreboard' />
     ]
 
-    const allPaths = loggedInPaths.concat(loggedOutPaths)
+    let allPaths = [
+      <Profile key='profile' path='/profile/:uuid' name='Profile' />
+    ]
+    allPaths = allPaths.concat(loggedInPaths).concat(loggedOutPaths)
+
     const currentPaths = loggedOut ? loggedOutPaths : loggedInPaths
 
     return (
