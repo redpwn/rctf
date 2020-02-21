@@ -18,7 +18,7 @@ const resetChallenges = () => {
     challMap.set(c.id, c)
   })
 
-  cleanedChallenges = challenges.map(({ files, description, author, points, id, name }) => {
+  cleanedChallenges = challenges.map(({ files, description, author, points, id, name, category }) => {
     const normalizedFiles = files.map(filename => {
       const cleanedName = util.normalize.normalizeDownload(filename)
 
@@ -34,7 +34,7 @@ const resetChallenges = () => {
       points,
       id,
       name,
-      category: 'pwn' // TODO: Load actual categories
+      category
     }
   })
 
