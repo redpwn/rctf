@@ -5,7 +5,7 @@ import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
 import { login } from '../api/auth'
-import IdCard from '../../../static/assets/icons/id-card.svg'
+import IdCard from '../../assets/icons/id-card.svg'
 
 export default withStyles({
   root: {
