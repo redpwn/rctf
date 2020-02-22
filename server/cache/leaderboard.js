@@ -10,6 +10,7 @@ const redisScript = promisify(client.script.bind(client))
 const setLeaderboardScript = redisScript('load', `
   local leaderboard = cjson.decode(ARGV[1])
   local divisions = cjson.decode(ARGV[2])
+  local challengeScores = cjson.decode(ARGV[3])
 
   local divisionBoards = {}
   local divisionCounts = {}
@@ -42,11 +43,12 @@ const setLeaderboardScript = redisScript('load', `
 
   redis.call("DEL", unpack(KEYS))
   redis.call("HSET", KEYS[1], unpack(positionKeys))
-  redis.call("RPUSH", KEYS[2], unpack(globalBoard))
+  redis.call("HSET", KEYS[2], unpack(challengeScores))
+  redis.call("RPUSH", KEYS[3], unpack(globalBoard))
   for i, division in ipairs(divisions) do
     local divisionBoard = divisionBoards[division]
     if #divisionBoard ~= 0 then
-      redis.call("RPUSH", KEYS[i + 2], unpack(divisionBoard))
+      redis.call("RPUSH", KEYS[i + 3], unpack(divisionBoard))
     end
   end
 `)
@@ -57,20 +59,25 @@ const getRangeScript = redisScript('load', `
   return result
 `)
 
-const setLeaderboard = async (leaderboard) => {
+const setLeaderboard = async ({ challengeScores, leaderboard }) => {
   const divisions = Object.values(config.divisions)
   const divisionKeys = divisions.map((division) => 'division-leaderboard:' + division)
+  const keys = [
+    'score-positions',
+    'challenge-scores',
+    'global-leaderboard',
+    ...divisionKeys
+  ]
   if (leaderboard.length === 0) {
-    await redisDel('leaderboard', 'score-positions', ...divisionKeys)
+    await redisDel(...keys)
   } else {
     await redisEvalsha(
       await setLeaderboardScript,
-      2 + divisionKeys.length,
-      'score-positions',
-      'global-leaderboard',
-      ...divisionKeys,
+      3 + divisionKeys.length,
+      ...keys,
       JSON.stringify(leaderboard.flat()),
-      JSON.stringify(divisions)
+      JSON.stringify(divisions),
+      JSON.stringify(challengeScores)
     )
   }
 }
@@ -116,8 +123,17 @@ const getScore = async ({ id }) => {
   }
 }
 
+const getChallengeScore = async ({ id }) => {
+  const redisResult = await redisHget('challenge-scores', id)
+  if (redisResult === null) {
+    return null
+  }
+  return parseInt(redisResult)
+}
+
 module.exports = {
   setLeaderboard,
   getRange,
-  getScore
+  getScore,
+  getChallengeScore
 }
