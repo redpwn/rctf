@@ -1,7 +1,7 @@
 # rCTF - RedpwnCTF's CTF Platform
 
-![Build Status](https://api.travis-ci.org/redpwn/rctf.svg?branch=master)
-![Code Coverage](https://img.shields.io/codecov/c/github/redpwn/rctf.svg?maxAge=2592000)
+[![Build Status](https://travis-ci.com/redpwn/rctf.svg?branch=master)](https://travis-ci.com/redpwn/rctf)
+[![Code Coverage](https://img.shields.io/codecov/c/github/redpwn/rctf.svg)](https://codecov.io/github/redpwn/rctf/)
 
 rCTF is RedpwnCTF's CTF platform. It is developed and maintained by the [redpwn](https://redpwn.net) CTF team.
 
