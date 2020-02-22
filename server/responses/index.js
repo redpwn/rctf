@@ -47,6 +47,10 @@ const responseList = {
     status: 200,
     message: 'The retrieval of the leaderbard was successful.'
   },
+  goodCtftimeLeaderboard: {
+    status: 200,
+    rawContentType: 'application/json'
+  },
   goodFlag: {
     status: 200,
     message: 'The flag was submitted successfully'
