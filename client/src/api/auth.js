@@ -30,7 +30,7 @@ export const register = ({ email, name, division }) => {
   })
     .then(resp => {
       switch (resp.kind) {
-        case 'goodVerify':
+        case 'goodRegister':
           localStorage.setItem('token', resp.data.authToken)
           localStorage.setItem('teamToken', resp.data.teamToken)
 
