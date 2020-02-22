@@ -5,8 +5,8 @@ import withStyles from '../components/jss'
 
 import { privateProfile, publicProfile } from '../api/profile'
 import util from '../util'
-import Trophy from '../../assets/icons/trophy.svg'
-import AddressBook from '../../assets/icons/address-book.svg'
+import Trophy from '../../static/icons/trophy.svg'
+import AddressBook from '../../static/icons/address-book.svg'
 
 export default withStyles({
   quote: {
