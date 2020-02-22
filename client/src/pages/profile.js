@@ -161,7 +161,7 @@ export default withStyles({
                   </tr>
                 </thead>
                 <tbody>
-                  {solves.map(solve => <tr key={solve[1]}><td>{solve[0]}</td><td>{solve[1]}</td><td>{solve[2]}</td></tr>)}
+                  {solves.map(solve => <tr key={solve.name}><td>{solve.category}</td><td>{solve.name}</td><td>{solve.points}</td></tr>)}
                 </tbody>
               </table>
             </div>
