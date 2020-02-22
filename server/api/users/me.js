@@ -1,9 +1,10 @@
-const db = require('../database')
-const challenges = require('../challenges')
-const { responses } = require('../responses')
-const config = require('../../config')
-const auth = require('../auth')
-const cache = require('../cache')
+const db = require('../../database')
+const challenges = require('../../challenges')
+const { responses } = require('../../responses')
+const config = require('../../../config')
+const auth = require('../../auth')
+const cache = require('../../cache')
+const { getChallengeScore } = require('../../cache/leaderboard')
 
 const divisionMap = new Map()
 
@@ -27,11 +28,16 @@ module.exports = {
 
     const solves = []
 
-    userSolves.forEach(solve => {
+    for (const solve of userSolves) {
       const chall = challenges.getCleanedChallenge(solve.challengeid)
-      // TODO: Should return the challenge point value, currently hard coded
-      solves.push([chall.category, chall.name, 450])
-    })
+      solves.push({
+        category: chall.category,
+        name: chall.name,
+        points: await getChallengeScore({
+          id: chall.id
+        })
+      })
+    }
 
     return [responses.goodUserData, {
       name: user.name,
