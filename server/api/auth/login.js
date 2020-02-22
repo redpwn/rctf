@@ -1,6 +1,6 @@
-const database = require('../database')
-const auth = require('../auth')
-const { responses } = require('../responses')
+const database = require('../../database')
+const auth = require('../../auth')
+const { responses } = require('../../responses')
 
 module.exports = {
   method: 'post',

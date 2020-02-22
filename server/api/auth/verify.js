@@ -1,7 +1,7 @@
-const auth = require('../auth')
-const cache = require('../cache')
-const database = require('../database')
-const { responses } = require('../responses')
+const auth = require('../../auth')
+const cache = require('../../cache')
+const database = require('../../database')
+const { responses } = require('../../responses')
 
 module.exports = {
   method: 'post',

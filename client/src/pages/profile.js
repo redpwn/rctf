@@ -38,7 +38,7 @@ export default withStyles({
     this.setState({
       name: name,
       division: division,
-      placement: util.strings.placementString(score.place),
+      placement: util.strings.placementString(score.divisionPlace),
       score: score.score,
       solves: solves,
       loaded: true
@@ -133,7 +133,11 @@ export default withStyles({
                   <span class={`icon ${classes.icon}`}>
                     <Trophy />
                   </span>
-                  {placement} with {score} points
+                  {
+                    score === undefined
+                      ? ('No solves yet')
+                      : (placement + ' with ' + score + ' points')
+                  }
                 </p>
                 <p>
                   <span class={`icon ${classes.icon}`}>
@@ -157,7 +161,7 @@ export default withStyles({
                   </tr>
                 </thead>
                 <tbody>
-                  {solves.map(solve => <tr key={solve[1]}><td>{solve[0]}</td><td>{solve[1]}</td><td>{solve[2]}</td></tr>)}
+                  {solves.map(solve => <tr key={solve.name}><td>{solve.category}</td><td>{solve.name}</td><td>{solve.points}</td></tr>)}
                 </tbody>
               </table>
             </div>

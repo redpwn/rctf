@@ -6,16 +6,12 @@ const auth = require('../auth')
 const router = express.Router()
 
 const routes = [
-  require('./auth-login'),
-  require('./auth-recover'),
-  require('./auth-register'),
-  require('./auth-test'),
-  require('./auth-verify'),
   require('./leaderboard'),
   require('./submitflag'),
   require('./challenges'),
-  require('./users-me'),
-  require('./ctftime-leaderboard')
+  require('./ctftime-leaderboard'),
+  ...require('./users'),
+  ...require('./auth')
 ]
 
 const validationParams = ['body', 'params', 'query']

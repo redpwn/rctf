@@ -1,11 +1,11 @@
 const uuidv4 = require('uuid/v4')
 const emailValidator = require('email-validator')
-const cache = require('../cache')
-const util = require('../util')
-const auth = require('../auth')
-const database = require('../database')
-const config = require('../../config')
-const { responses } = require('../responses')
+const cache = require('../../cache')
+const util = require('../../util')
+const auth = require('../../auth')
+const database = require('../../database')
+const config = require('../../../config')
+const { responses } = require('../../responses')
 
 module.exports = {
   method: 'post',
