@@ -1,48 +1,89 @@
 const { promisify } = require('util')
 const client = require('./client')
+const config = require('../../config')
 
-const redisEval = promisify(client.eval.bind(client))
+const redisEvalsha = promisify(client.evalsha.bind(client))
 const redisHget = promisify(client.hget.bind(client))
 const redisDel = promisify(client.del.bind(client))
+const redisScript = promisify(client.script.bind(client))
 
-const setLeaderboardScript = `
+const setLeaderboardScript = redisScript('load', `
   local leaderboard = cjson.decode(ARGV[1])
-  local positionKeys = {}
-  for i = #leaderboard / 3, 1, -1 do
-    positionKeys[i * 2] = i .. "," .. leaderboard[i * 3]
-    positionKeys[i * 2 - 1] = leaderboard[i * 3 - 2]
-  end
-  redis.call("DEL", KEYS[1])
-  redis.call("RPUSH", KEYS[1], unpack(leaderboard))
-  redis.call("DEL", KEYS[2])
-  redis.call("HSET", KEYS[2], unpack(positionKeys))
-`
+  local divisions = cjson.decode(ARGV[2])
 
-const getRangeScript = `
+  local divisionBoards = {}
+  local divisionCounts = {}
+  local globalBoard = {}
+  local positionKeys = {}
+
+  for _, division in ipairs(divisions) do
+    divisionBoards[division] = {}
+    divisionCounts[division] = 0
+  end
+
+  local numUsers = #leaderboard / 4
+  for i = 1, numUsers, 1 do
+    local division = leaderboard[i * 4 - 1]
+    local divisionPosition = divisionCounts[division] + 1
+    local divisionBoard = divisionBoards[division]
+    
+    divisionCounts[division] = divisionPosition
+    divisionBoard[divisionPosition * 3] = leaderboard[i * 4]
+    divisionBoard[divisionPosition * 3 - 1] = leaderboard[i * 4 - 2]
+    divisionBoard[divisionPosition * 3 - 2] = leaderboard[i * 4 - 3]
+
+    globalBoard[i * 3] = leaderboard[i * 4]
+    globalBoard[i * 3 - 1] = leaderboard[i * 4 - 2]
+    globalBoard[i * 3 - 2] = leaderboard[i * 4 - 3]
+
+    positionKeys[i * 2] = leaderboard[i * 4] .. "," .. i .. "," .. divisionPosition
+    positionKeys[i * 2 - 1] = leaderboard[i * 4 - 3]
+  end
+
+  redis.call("DEL", unpack(KEYS))
+  redis.call("HSET", KEYS[1], unpack(positionKeys))
+  redis.call("RPUSH", KEYS[2], unpack(globalBoard))
+  for i, division in ipairs(divisions) do
+    local divisionBoard = divisionBoards[division]
+    if #divisionBoard ~= 0 then
+      redis.call("RPUSH", KEYS[i + 2], unpack(divisionBoard))
+    end
+  end
+`)
+
+const getRangeScript = redisScript('load', `
   local result = redis.call("LRANGE", KEYS[1], ARGV[1], ARGV[2])
   result[#result + 1] = redis.call("LLEN", KEYS[1])
   return result
-`
+`)
 
 const setLeaderboard = async (leaderboard) => {
+  const divisions = Object.values(config.divisions)
+  const divisionKeys = divisions.map((division) => 'division-leaderboard:' + division)
   if (leaderboard.length === 0) {
-    await redisDel('leaderboard', 'score-positions')
+    await redisDel('leaderboard', 'score-positions', ...divisionKeys)
   } else {
-    await redisEval(
-      setLeaderboardScript,
-      2,
-      'leaderboard',
+    await redisEvalsha(
+      await setLeaderboardScript,
+      2 + divisionKeys.length,
       'score-positions',
-      JSON.stringify(leaderboard.flat())
+      'global-leaderboard',
+      ...divisionKeys,
+      JSON.stringify(leaderboard.flat()),
+      JSON.stringify(divisions)
     )
   }
 }
 
-const getRange = async ({ start, end }) => {
-  const redisResult = await redisEval(
-    getRangeScript,
+const getRange = async ({ start, end, division }) => {
+  let redisList = 'global-leaderboard'
+  if (division !== undefined) {
+    redisList = 'division-leaderboard:' + division
+  }
+  const redisResult = await redisEvalsha(
+    await getRangeScript,
     1,
-    'leaderboard',
+    redisList,
     start * 3,
     end * 3 - 1
   )
@@ -69,8 +110,9 @@ const getScore = async ({ id }) => {
   }
   const split = redisResult.split(',')
   return {
-    place: parseInt(split[0]),
-    score: parseInt(split[1])
+    score: parseInt(split[0]),
+    globalPlace: parseInt(split[1]),
+    divisionPlace: parseInt(split[2])
   }
 }
 

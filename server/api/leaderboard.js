@@ -2,6 +2,8 @@ const { responses } = require('../responses')
 const cache = require('../cache')
 const config = require('../../config')
 
+const stringDivisions = Object.values(config.divisions).map(String)
+
 module.exports = {
   method: 'get',
   path: '/leaderboard',
@@ -15,6 +17,10 @@ module.exports = {
         },
         offset: {
           type: 'string'
+        },
+        division: {
+          type: 'string',
+          enum: stringDivisions
         }
       },
       required: ['limit', 'offset']
@@ -31,7 +37,8 @@ module.exports = {
     }
     const result = await cache.leaderboard.getRange({
       start: offset,
-      end: offset + limit
+      end: offset + limit,
+      division: req.query.division
     })
     return [responses.goodLeaderboard, result]
   }
