@@ -38,7 +38,7 @@ export default withStyles({
     this.setState({
       name: name,
       division: division,
-      placement: util.strings.placementString(score.place),
+      placement: util.strings.placementString(score.divisionPlace),
       score: score.score,
       solves: solves,
       loaded: true
@@ -135,7 +135,7 @@ export default withStyles({
                   </span>
                   {
                     score === undefined
-                      ? ('Currently no solves')
+                      ? ('No solves yet')
                       : (placement + ' with ' + score + ' points')
                   }
                 </p>
