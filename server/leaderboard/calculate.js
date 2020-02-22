@@ -59,4 +59,12 @@ const sortedUsers = userScores.sort((a, b) => {
   return a[4] - b[4]
 }).map((user) => user.slice(0, 4))
 
-parentPort.postMessage(sortedUsers)
+const challengeScores = []
+challengeValues.forEach((score, id) => [
+  challengeScores.push(id, score)
+])
+
+parentPort.postMessage({
+  leaderboard: sortedUsers,
+  challengeScores
+})
