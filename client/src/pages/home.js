@@ -31,7 +31,7 @@ export default withStyles({
         <div class={`${classes.row} row u-center`}>
           <p>
             Infrastructure sponsored by
-            <a href='g.co/cloud'>g.co/cloud</a>
+            <a href='https://g.co/cloud'>g.co/cloud</a>
           </p>
         </div>
       </div>
