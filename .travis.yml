@@ -23,6 +23,7 @@ script:
   - cp .env.example .env
   - cp -r .rdeploy.example .rdeploy
   - yarn migrate up
+  - yarn build
   - yarn lint
   - yarn test:report
   - codecov
