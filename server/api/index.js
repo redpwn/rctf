@@ -15,7 +15,7 @@ const routes = [
   require('./submitflag'),
   require('./challenges'),
   require('./users-me'),
-  require('./users-id')
+  require('./users-id'),
   require('./ctftime-leaderboard')
 ]
 
