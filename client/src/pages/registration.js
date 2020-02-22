@@ -5,8 +5,8 @@ import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
 import { register } from '../api/auth'
-import UserCircle from '../../../static/assets/icons/user-circle.svg'
-import EnvelopeOpen from '../../../static/assets/icons/envelope-open.svg'
+import UserCircle from '../../static/icons/user-circle.svg'
+import EnvelopeOpen from '../../static/icons/envelope-open.svg'
 
 export default withStyles({
   root: {

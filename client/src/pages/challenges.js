@@ -3,7 +3,7 @@ import config from '../config'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
-import { getChallenges } from '../api/challenges'
+import { getChallenges, submitFlag } from '../api/challenges'
 
 export default withStyles({
   frame: {
@@ -16,7 +16,9 @@ export default withStyles({
   }
 }, class Challenges extends Component {
   state = {
-    problems: []
+    problems: [],
+    values: {},
+    errors: {}
   }
 
   componentDidMount () {
@@ -30,7 +32,21 @@ export default withStyles({
       })
   }
 
-  render ({ classes }, { problems }) {
+  submitFlag = id => e => {
+    e.preventDefault()
+
+    submitFlag(id, this.state.values[id])
+      .then(({ error }) => {
+        const nxt = this.state.errors
+        nxt[id] = error
+
+        this.setState({
+          errors: nxt
+        })
+      })
+  }
+
+  render ({ classes }, { problems, values, errors }) {
     return (
       <div class='row u-center' style='align-items: initial !important'>
         <div class='col-3'>
@@ -48,6 +64,10 @@ export default withStyles({
           {
             problems.map(problem => {
               const hasDownloads = problem.files.length !== 0
+
+              const error = errors[problem.id]
+              const hasError = error !== undefined
+
               return (
                 <div class={`frame ${classes.frame}`} key={problem.id}>
                   <div class='frame__body'>
@@ -63,6 +83,17 @@ export default withStyles({
 
                     <div class='content-no-padding u-center'><div class={`divider ${classes.divider}`} /></div>
                     <div class='frame__subtitle'>{problem.description}</div>
+                    <form class='form-section' onSubmit={this.submitFlag(problem.id)}>
+
+                      {
+                        hasError &&
+                          <label class='text-danger info font-light'>{error}</label>
+                      }
+                      <div class='form-group'>
+                        <input class={`form-group-input input-small ${hasError ? 'input-error' : ''}`} placeholder='Flag' value={values[problem.id]} onChange={this.linkState('values.' + problem.id)} />
+                        <button class='form-group-btn btn-small'>Submit</button>
+                      </div>
+                    </form>
 
                     {
                       hasDownloads &&

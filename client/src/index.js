@@ -5,7 +5,7 @@ import 'regenerator-runtime/runtime'
 import { Component } from 'preact'
 
 import Header from './components/header'
-import { Home, Registration, Login, Profile, Challenges, Scoreboard } from './pages'
+import { Home, Registration, Login, Profile, Challenges, Scoreboard, Error, Sponsors } from './pages'
 import 'cirrus-ui'
 
 export default class App extends Component {
@@ -17,6 +17,7 @@ export default class App extends Component {
     const loggedOut = localStorage.getItem('token') === null
     const loggedOutPaths = [
       <Home key='home' path='/' name='Home' />,
+      <Sponsors key='sponsors' path='/sponsors' name='Sponsors' />,
       <Registration key='register' path='/register' name='Register' />,
       <Login key='login' path='/login' name='Login' />
     ]
@@ -28,7 +29,8 @@ export default class App extends Component {
     ]
 
     let allPaths = [
-      <Profile key='profile' path='/profile/:uuid' name='Profile' />
+      <Profile key='multiProfile' path='/profile/:uuid' />,
+      <Error key='error' error='404' default />
     ]
     allPaths = allPaths.concat(loggedInPaths).concat(loggedOutPaths)
 
