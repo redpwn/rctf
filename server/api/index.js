@@ -9,14 +9,10 @@ const routes = [
   require('./leaderboard'),
   require('./submitflag'),
   require('./challenges'),
-  require('./ctftime-leaderboard')
+  require('./ctftime-leaderboard'),
+  ...require('./users'),
+  ...require('./auth')
 ]
-  .concat(
-    require('./users')
-  )
-  .concat(
-    require('./auth')
-  )
 
 const validationParams = ['body', 'params', 'query']
 const routeValidators = routes.map((route) => {
