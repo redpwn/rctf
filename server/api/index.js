@@ -14,7 +14,8 @@ const routes = [
   require('./leaderboard'),
   require('./submitflag'),
   require('./challenges'),
-  require('./users-me')
+  require('./users-me'),
+  require('./ctftime-leaderboard')
 ]
 
 const validationParams = ['body', 'params', 'query']
@@ -37,13 +38,18 @@ const makeSendResponse = (res) => (responseKind, data = null) => {
   if (response === undefined) {
     throw new Error(`unknown response ${responseKind}`)
   }
-  res.set('content-type', 'application/json')
   res.status(response.status)
-  res.send(JSON.stringify({
-    kind: responseKind,
-    message: response.message,
-    data
-  }))
+  if (response.rawContentType !== undefined) {
+    res.set('content-type', response.rawContentType)
+    res.send(data)
+  } else {
+    res.set('content-type', 'application/json')
+    res.send(JSON.stringify({
+      kind: responseKind,
+      message: response.message,
+      data
+    }))
+  }
 }
 
 routes.forEach((route, i) => {
