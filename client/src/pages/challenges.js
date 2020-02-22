@@ -3,7 +3,7 @@ import config from '../config'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
-import { getChallenges, submitFlag } from '../api/challenges'
+import { getChallenges, submitFlag, getPrivateSolves } from '../api/challenges'
 
 export default withStyles({
   frame: {
@@ -18,7 +18,9 @@ export default withStyles({
   state = {
     problems: [],
     values: {},
-    errors: {}
+    errors: {},
+    showSolved: false,
+    solveIDs: []
   }
 
   componentDidMount () {
@@ -28,6 +30,17 @@ export default withStyles({
       .then(problems => {
         this.setState({
           problems
+        })
+      })
+
+    getPrivateSolves()
+      .then(data => {
+        const solveIDs = []
+        data.forEach(solve => {
+          solveIDs.push(solve.id)
+        })
+        this.setState({
+          solveIDs: solveIDs
         })
       })
   }
@@ -46,7 +59,71 @@ export default withStyles({
       })
   }
 
-  render ({ classes }, { problems, values, errors }) {
+  handleShowSolvesCheckbox = () => {
+    this.setState({
+      showSolved: !this.state.showSolved
+    })
+  }
+
+  renderProblem = (classes, problem, values, errors) => {
+    const hasDownloads = problem.files.length !== 0
+
+    const error = errors[problem.id]
+    const hasError = error !== undefined
+
+    return (
+      <div class={`frame ${classes.frame}`} key={problem.id}>
+        <div class='frame__body'>
+          <div class='row u-no-padding'>
+            <div class='col-6 u-no-padding'>
+              <div class='frame__title title'>{problem.category}/{problem.name}</div>
+              <div class='frame__subtitle u-no-margin'>{problem.author}</div>
+            </div>
+            <div class='col-6 u-no-padding u-text-right'>
+              <div class='frame__subtitle faded' style='margin-top: .75rem; margin-bottom: 0'>{problem.points.max} pts</div>
+            </div>
+          </div>
+
+          <div class='content-no-padding u-center'><div class={`divider ${classes.divider}`} /></div>
+          <div class='frame__subtitle'>{problem.description}</div>
+          <form class='form-section' onSubmit={this.submitFlag(problem.id)}>
+
+            {
+              hasError &&
+                <label class='text-danger info font-light'>{error}</label>
+            }
+            <div class='form-group'>
+              <input class={`form-group-input input-small ${hasError ? 'input-error' : ''}`} placeholder='Flag' value={values[problem.id]} onChange={this.linkState('values.' + problem.id)} />
+              <button class='form-group-btn btn-small'>Submit</button>
+            </div>
+          </form>
+
+          {
+            hasDownloads &&
+              <div>
+                <p class='faded frame__subtitle u-no-margin'>Downloads</p>
+                <div class='tag-container'>
+                  {
+                    problem.files.map(file => {
+                      return (
+                        <div class='tag' key={file.path}>
+                          <a href={config.staticEndpoint + '/' + file.path}>
+                            {file.name}
+                          </a>
+                        </div>
+                      )
+                    })
+                  }
+
+                </div>
+              </div>
+          }
+        </div>
+      </div>
+    )
+  }
+
+  render ({ classes }, { problems, values, errors, showSolved, solveIDs }) {
     return (
       <div class='row u-center' style='align-items: initial !important'>
         <div class='col-3'>
@@ -54,7 +131,7 @@ export default withStyles({
             <div class='frame__body'>
               <div class='frame__title title'>Config</div>
               <div class='form-ext-control form-ext-checkbox'>
-                <input id='check1' class='form-ext-input' type='checkbox' />
+                <input id='check1' class='form-ext-input' type='checkbox' checked={showSolved} onClick={() => { this.handleShowSolvesCheckbox() }} />
                 <label class='form-ext-label' for='check1'>Show Solved</label>
               </div>
             </div>
@@ -62,63 +139,15 @@ export default withStyles({
         </div>
         <div class='col-6'>
           {
-            problems.map(problem => {
-              const hasDownloads = problem.files.length !== 0
-
-              const error = errors[problem.id]
-              const hasError = error !== undefined
-
-              return (
-                <div class={`frame ${classes.frame}`} key={problem.id}>
-                  <div class='frame__body'>
-                    <div class='row u-no-padding'>
-                      <div class='col-6 u-no-padding'>
-                        <div class='frame__title title'>{problem.category}/{problem.name}</div>
-                        <div class='frame__subtitle u-no-margin'>{problem.author}</div>
-                      </div>
-                      <div class='col-6 u-no-padding u-text-right'>
-                        <div class='frame__subtitle faded' style='margin-top: .75rem; margin-bottom: 0'>{problem.points.max} pts</div>
-                      </div>
-                    </div>
-
-                    <div class='content-no-padding u-center'><div class={`divider ${classes.divider}`} /></div>
-                    <div class='frame__subtitle'>{problem.description}</div>
-                    <form class='form-section' onSubmit={this.submitFlag(problem.id)}>
-
-                      {
-                        hasError &&
-                          <label class='text-danger info font-light'>{error}</label>
-                      }
-                      <div class='form-group'>
-                        <input class={`form-group-input input-small ${hasError ? 'input-error' : ''}`} placeholder='Flag' value={values[problem.id]} onChange={this.linkState('values.' + problem.id)} />
-                        <button class='form-group-btn btn-small'>Submit</button>
-                      </div>
-                    </form>
-
-                    {
-                      hasDownloads &&
-                        <div>
-                          <p class='faded frame__subtitle u-no-margin'>Downloads</p>
-                          <div class='tag-container'>
-                            {
-                              problem.files.map(file => {
-                                return (
-                                  <div class='tag' key={file.path}>
-                                    <a href={config.staticEndpoint + '/' + file.path}>
-                                      {file.name}
-                                    </a>
-                                  </div>
-                                )
-                              })
-                            }
-
-                          </div>
-                        </div>
-                    }
-                  </div>
-                </div>
-              )
-            })
+            showSolved
+              ? problems.map(problem => {
+                return this.renderProblem(classes, problem, values, errors)
+              })
+              : problems.filter(problem => {
+                return solveIDs.indexOf(problem.id) === -1
+              }).map(problem => {
+                return this.renderProblem(classes, problem, values, errors)
+              })
           }
         </div>
 

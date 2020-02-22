@@ -5,6 +5,11 @@ export const getChallenges = () => {
     .then(resp => resp.data)
 }
 
+export const getPrivateSolves = () => {
+  return request('GET', '/users/me/solves')
+    .then(resp => resp.data)
+}
+
 export const submitFlag = (id, flag) => {
   if (flag === undefined || flag.length === 0) {
     return Promise.resolve({
