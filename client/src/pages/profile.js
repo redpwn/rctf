@@ -133,7 +133,11 @@ export default withStyles({
                   <span class={`icon ${classes.icon}`}>
                     <Trophy />
                   </span>
-                  {placement} with {score} points
+                  {
+                    score === undefined
+                      ? ('Currently no solves')
+                      : (placement + ' with ' + score + ' points')
+                  }
                 </p>
                 <p>
                   <span class={`icon ${classes.icon}`}>
