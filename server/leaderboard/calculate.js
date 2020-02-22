@@ -38,25 +38,25 @@ for (let i = 0; i < allChallenges.length; i++) {
 }
 
 for (let i = 0; i < users.length; i++) {
-  const userId = users[i].userid
+  const user = users[i]
   let currScore = 0
-  const solvedChalls = userSolves.get(userId)
+  const solvedChalls = userSolves.get(user.id)
   if (solvedChalls === undefined) continue // If the user has not solved any challenges, do not add to leaderboard
   for (let j = 0; j < solvedChalls.length; j++) {
     // Add the score for the specific solve loaded from the challengeValues array using ids
     currScore += challengeValues.get(solvedChalls[j])
   }
-  userScores.push([userId, users[i].name, currScore, userLastSolves.get(userId)])
+  userScores.push([user.id, user.name, parseInt(user.division), currScore, userLastSolves.get(user.id)])
 }
 
 const sortedUsers = userScores.sort((a, b) => {
   // sort the users by score
   // if two user's scores are the same, sort by last solve time
-  const scoreCompare = b[2] - a[2]
+  const scoreCompare = b[3] - a[3]
   if (scoreCompare !== 0) {
     return scoreCompare
   }
-  return a[3] - b[3]
-}).map((user) => user.slice(0, 3))
+  return a[4] - b[4]
+}).map((user) => user.slice(0, 4))
 
 parentPort.postMessage(sortedUsers)
