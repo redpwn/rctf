@@ -21,6 +21,10 @@ const ret = {
     return db.query('DELETE FROM users WHERE email = $1 RETURNING *', [email])
       .then(res => res.rows[0])
   },
+  removeUserById: ({ id }) => {
+    return db.query('DELETE FROM users WHERE id = $1 RETURNING *', [id])
+      .then(res => res.rows[0])
+  },
   makeUser: ({ id, name, email, division, perms }) => {
     return db.query('INSERT INTO users (id, name, email, division, perms) VALUES ($1, $2, $3, $4, $5) RETURNING *',
       [id, name, email, division, perms]
