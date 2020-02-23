@@ -103,16 +103,16 @@ test.serial('succeeds with goodUserUpdate', async t => {
     })
     .expect(responseList.goodUserUpdate.status)
 
-  t.is(resp.body.kind, 'goodUserUpdate')
-
   const respUser = resp.body.data.user
-  t.is(respUser.name, nextUser.name)
-  t.is(respUser.email, testUser.email)
-  t.is(respUser.division, nextUser.division)
-
   testUser.name = respUser.name
   testUser.email = respUser.email
   testUser.division = respUser.division
+  
+  t.is(resp.body.kind, 'goodUserUpdate')
+  
+  t.is(respUser.name, nextUser.name)
+  t.is(respUser.email, testUser.email)
+  t.is(respUser.division, nextUser.division)
 })
 
 test.serial('succeeds with goodUserDelete', async t => {
