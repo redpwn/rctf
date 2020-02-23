@@ -4,6 +4,7 @@ const config = require('../../config')
 
 const redisEvalsha = promisify(client.evalsha.bind(client))
 const redisHget = promisify(client.hget.bind(client))
+const redisHmget = promisify(client.hmget.bind(client))
 const redisDel = promisify(client.del.bind(client))
 const redisScript = promisify(client.script.bind(client))
 
@@ -123,17 +124,17 @@ const getScore = async ({ id }) => {
   }
 }
 
-const getChallengeScore = async ({ id }) => {
-  const redisResult = await redisHget('challenge-scores', id)
-  if (redisResult === null) {
-    return null
+const getChallengeScores = async ({ ids }) => {
+  if (ids.length === 0) {
+    return []
   }
-  return parseInt(redisResult)
+  const redisResult = await redisHmget('challenge-scores', ...ids)
+  return redisResult.map((score) => parseInt(score))
 }
 
 module.exports = {
   setLeaderboard,
   getRange,
   getScore,
-  getChallengeScore
+  getChallengeScores
 }

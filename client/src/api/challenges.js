@@ -23,7 +23,7 @@ export const submitFlag = (id, flag) => {
     .then(resp => {
       switch (resp.kind) {
         case 'badFlag':
-        case 'alreadySolved':
+        case 'badAlreadySolvedChallenge':
           return {
             error: resp.message
           }

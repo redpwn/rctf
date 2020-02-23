@@ -21,7 +21,7 @@ module.exports = {
       id: req.params.id
     })
 
-    if (userData === null) return responses.badUserData
+    if (userData === null) return responses.badUnknownUser
 
     return [responses.goodUserData, userData]
   }

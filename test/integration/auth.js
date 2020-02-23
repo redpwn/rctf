@@ -54,9 +54,9 @@ test.serial('when not verifyEmail, succeeds with goodVerify', async t => {
   resp = await request(app)
     .get(process.env.API_ENDPOINT + '/auth/test')
     .set('Authorization', ' Bearer ' + resp.body.data.authToken)
-    .expect(responseList.validToken.status)
+    .expect(responseList.goodToken.status)
 
-  t.is(resp.body.kind, 'validToken')
+  t.is(resp.body.kind, 'goodToken')
 })
 
 test.serial('duplicate email fails with badKnownEmail', async t => {

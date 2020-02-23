@@ -54,15 +54,15 @@ test.serial('succeeds with goodFlag', async t => {
   t.is(resp.body.kind, 'goodFlag')
 })
 
-test.serial('fails with alreadySolved', async t => {
+test.serial('fails with badAlreadySolvedChallenge', async t => {
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: chall.flag })
-    .expect(responseList.alreadySolved.status)
+    .expect(responseList.badAlreadySolvedChallenge.status)
 
-  t.is(resp.body.kind, 'alreadySolved')
+  t.is(resp.body.kind, 'badAlreadySolvedChallenge')
 })
 
 test.after.always('remove solves from test user', async t => {
