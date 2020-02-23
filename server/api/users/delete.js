@@ -10,10 +10,6 @@ module.exports = {
       id: uuid
     })
 
-    await database.solves.removeSolvesByUserId({
-      id: uuid
-    })
-
     return responses.goodUserDelete
   }
 }
