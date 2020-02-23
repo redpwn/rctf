@@ -1,6 +1,6 @@
 const db = require('./db')
 
-const ret = {
+module.exports = {
   getUserById: ({ id }) => {
     return db.query('SELECT * FROM users WHERE id = $1', [id])
       .then(res => res.rows[0])
@@ -32,21 +32,16 @@ const ret = {
       .then(res => res.rows[0])
   },
   updateUser: ({ id, name, email, division, perms }) => {
-    return ret.getUserById({ id })
-      .then(user => {
-        const upd = { name, email, division, perms }
-        Object.keys(upd).forEach(key => {
-          if (upd[key] === undefined) delete upd[key]
-        })
-
-        user = Object.assign(user, upd)
-
-        return db.query('UPDATE users SET name = $1, email = $2, division = $3, perms = $4 WHERE id = $5 RETURNING *',
-          [user.name, user.email, user.division, user.perms, user.id]
-        )
-      })
+    return db.query(`
+      UPDATE users SET 
+        name = COALESCE($1, name), 
+        email = COALESCE($2, email), 
+        division = COALESCE($3, division), 
+        perms = COALESCE($4, perms) 
+      WHERE id = $5 RETURNING *
+      `,
+    [name, email, division, perms, id]
+    )
       .then(res => res.rows[0])
   }
 }
-
-module.exports = ret
