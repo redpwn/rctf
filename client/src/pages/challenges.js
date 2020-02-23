@@ -131,6 +131,11 @@ export default withStyles({
   }
 
   render ({ classes }, { problems, values, errors, showSolved, solveIDs }) {
+    let problemsToDisplay = problems
+    if (!showSolved) {
+      problemsToDisplay = problems.filter(problem => !solveIDs.includes(problem.id))
+    }
+
     return (
       <div class='row u-center' style='align-items: initial !important'>
         <div class='col-3'>
@@ -146,15 +151,9 @@ export default withStyles({
         </div>
         <div class='col-6'>
           {
-            showSolved
-              ? problems.map(problem => {
-                return this.renderProblem(classes, problem, values, errors)
-              })
-              : problems.filter(problem => {
-                return !solveIDs.includes(problem.id)
-              }).map(problem => {
-                return this.renderProblem(classes, problem, values, errors)
-              })
+            problemsToDisplay.map(problem => {
+              return this.renderProblem(classes, problem, values, errors)
+            })
           }
         </div>
 
