@@ -107,9 +107,9 @@ test.serial('succeeds with goodUserUpdate', async t => {
   testUser.name = respUser.name
   testUser.email = respUser.email
   testUser.division = respUser.division
-  
+
   t.is(resp.body.kind, 'goodUserUpdate')
-  
+
   t.is(respUser.name, nextUser.name)
   t.is(respUser.email, testUser.email)
   t.is(respUser.division, nextUser.division)
