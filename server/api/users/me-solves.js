@@ -10,13 +10,7 @@ module.exports = {
 
     if (userSolves === null) return responses.badUserData
 
-    const returnedSolves = []
-
-    userSolves.forEach(solve => {
-      returnedSolves.push({
-        id: solve.challengeid
-      })
-    })
+    const returnedSolves = userSolves.map(solve => { return { id: solve.challengeid } })
 
     return [responses.goodUserData, returnedSolves]
   }

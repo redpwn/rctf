@@ -37,9 +37,7 @@ export default withStyles({
     getPrivateSolves()
       .then(data => {
         const solveIDs = []
-        data.forEach(solve => {
-          solveIDs.push(solve.id)
-        })
+        data.map(solve => solveIDs.push(solve.id))
         this.setState({
           solveIDs: solveIDs
         })
@@ -54,8 +52,9 @@ export default withStyles({
         if (error === undefined) {
           // Flag was submitted successfully
           util.toasts.useToast().add('Flag successfully submitted!')
-          const newSolveIDs = this.state.solveIDs.concat(id)
-          this.setState({ solveIDs: newSolveIDs })
+          this.setState(prevState => ({
+            solveIDs: [...prevState.solveIDs, id]
+          }))
         } else {
           const nxt = this.state.errors
           nxt[id] = error
@@ -67,10 +66,10 @@ export default withStyles({
       })
   }
 
-  handleShowSolvesCheckbox = () => {
-    this.setState({
-      showSolved: !this.state.showSolved
-    })
+  handleShowSolvesCheckbox = async () => {
+    this.setState(prevState => ({
+      showSolved: !prevState.showSolved
+    }))
   }
 
   renderProblem = (classes, problem, values, errors) => {
@@ -152,7 +151,7 @@ export default withStyles({
                 return this.renderProblem(classes, problem, values, errors)
               })
               : problems.filter(problem => {
-                return solveIDs.indexOf(problem.id) === -1
+                return !solveIDs.includes(problem.id)
               }).map(problem => {
                 return this.renderProblem(classes, problem, values, errors)
               })
