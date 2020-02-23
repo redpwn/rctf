@@ -4,6 +4,7 @@ import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
 import { getChallenges, submitFlag, getPrivateSolves } from '../api/challenges'
+import util from '../util'
 
 export default withStyles({
   frame: {
@@ -50,12 +51,19 @@ export default withStyles({
 
     submitFlag(id, this.state.values[id])
       .then(({ error }) => {
-        const nxt = this.state.errors
-        nxt[id] = error
+        if (error === undefined) {
+          // Flag was submitted successfully
+          util.toasts.useToast().add('Flag successfully submitted!')
+          const newSolveIDs = this.state.solveIDs.concat(id)
+          this.setState({ solveIDs: newSolveIDs })
+        } else {
+          const nxt = this.state.errors
+          nxt[id] = error
 
-        this.setState({
-          errors: nxt
-        })
+          this.setState({
+            errors: nxt
+          })
+        }
       })
   }
 

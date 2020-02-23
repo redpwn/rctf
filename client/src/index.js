@@ -8,7 +8,9 @@ import Header from './components/header'
 import { Home, Registration, Login, Profile, Challenges, Scoreboard, Error, Sponsors } from './pages'
 import 'cirrus-ui'
 
-export default class App extends Component {
+import util from './util'
+
+class App extends Component {
   state = {
     currentPath: '/'
   }
@@ -52,3 +54,5 @@ export default class App extends Component {
     })
   }
 }
+
+export default util.toasts.withToastProvider(App)
