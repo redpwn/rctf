@@ -34,12 +34,12 @@ export default withStyles({
     error: undefined
   }
 
-  processGeneric ({ name, division, score, solves }) {
+  processGeneric ({ name, division, score, divisionPlace, solves }) {
     this.setState({
       name: name,
       division: division,
-      placement: util.strings.placementString(score.divisionPlace),
-      score: score.score,
+      placement: util.strings.placementString(divisionPlace),
+      score,
       solves: solves,
       loaded: true
     })
@@ -134,7 +134,7 @@ export default withStyles({
                     <Trophy />
                   </span>
                   {
-                    score === undefined
+                    score === 0
                       ? ('No solves yet')
                       : (placement + ' with ' + score + ' points')
                   }
