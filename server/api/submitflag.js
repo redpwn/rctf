@@ -51,7 +51,7 @@ module.exports = {
           await db.solves.newSolve({ id: uuidv4(), challengeid: challengeid, userid: uuid, createdat: new Date() })
           return responses.goodFlag
         } else {
-          return responses.alreadySolved
+          return responses.badAlreadySolvedChallenge
         }
       } else {
         return responses.badFlag
