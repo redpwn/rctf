@@ -32,7 +32,7 @@ const ret = {
       .then(res => res.rows[0])
   },
   updateUser: ({ id, name, email, division, perms }) => {
-    return ret.getUser({ id })
+    return ret.getUserById({ id })
       .then(user => {
         const upd = { name, email, division, perms }
         Object.keys(upd).forEach(key => {
@@ -41,7 +41,7 @@ const ret = {
 
         user = Object.assign(user, upd)
 
-        return db.query('UPDATE users SET name = $1, email = $2, division = $3, perms = $5 WHERE id = $6 RETURNING *',
+        return db.query('UPDATE users SET name = $1, email = $2, division = $3, perms = $4 WHERE id = $5 RETURNING *',
           [user.name, user.email, user.division, user.perms, user.id]
         )
       })

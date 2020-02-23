@@ -1,5 +1,5 @@
 const { responses } = require('../../responses')
-const database = require('../../auth')
+const database = require('../../database')
 const config = require('../../../config')
 
 module.exports = {
@@ -20,14 +20,21 @@ module.exports = {
       }
     }
   },
-  handler: async ({ uuid, name, email, division }) => {
-    await database.auth.updateUser({
+  handler: async ({ uuid, req }) => {
+    const { name, division } = req.body
+
+    const user = await database.auth.updateUser({
       id: uuid,
       name,
-      email,
       division
     })
 
-    return responses.goodUserUpdate
+    return [responses.goodUserUpdate, {
+      user: {
+        name: user.name,
+        email: user.email,
+        division: Number.parseInt(user.division)
+      }
+    }]
   }
 }

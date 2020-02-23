@@ -101,7 +101,7 @@ const responseList = {
   },
   goodUserDelete: {
     status: 200,
-    message: 'Your was successfully deleted'
+    message: 'Your account was successfully deleted'
   },
   goodUserUpdate: {
     status: 200,

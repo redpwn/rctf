@@ -1,5 +1,5 @@
 const { responses } = require('../../responses')
-const database = require('../../auth')
+const database = require('../../database')
 
 module.exports = {
   method: 'delete',

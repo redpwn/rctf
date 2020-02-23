@@ -1,17 +1,15 @@
 const test = require('ava')
 const request = require('supertest')
 const app = require('../../app')
-const uuidv4 = require('uuid/v4')
 const { removeUserByEmail } = require('../../server/database').auth
 
 const config = require('../../config')
 const { responseList } = require('../../server/responses')
+const database = require('../../server/database')
+const auth = require('../../server/auth')
+const util = require('../util')
 
-const testUser = {
-  email: uuidv4() + '@test.com',
-  name: uuidv4(),
-  division: Object.values(config.divisions)[0]
-}
+const testUser = util.generateTestUser()
 
 test('fails with badEmail', async t => {
   const resp = await request(app)
@@ -85,6 +83,51 @@ test.serial('duplicate name fails with badKnownName', async t => {
     .expect(responseList.badKnownName.status)
 
   t.is(resp.body.kind, 'badKnownName')
+})
+
+test.serial('succeeds with goodUserUpdate', async t => {
+  const user = await database.auth.getUserByEmail({
+    email: testUser.email
+  })
+
+  const nextUser = util.generateTestUser()
+
+  const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, user.id)
+
+  const resp = await request(app)
+    .patch(process.env.API_ENDPOINT + '/users/me')
+    .set('Authorization', ' Bearer ' + authToken)
+    .send({
+      name: nextUser.name,
+      division: nextUser.division
+    })
+    .expect(responseList.goodUserUpdate.status)
+
+  t.is(resp.body.kind, 'goodUserUpdate')
+
+  const respUser = resp.body.data.user
+  t.is(respUser.name, nextUser.name)
+  t.is(respUser.email, testUser.email)
+  t.is(respUser.division, nextUser.division)
+
+  testUser.name = respUser.name
+  testUser.email = respUser.email
+  testUser.division = respUser.division
+})
+
+test.serial('succeeds with goodUserDelete', async t => {
+  const user = await database.auth.getUserByEmail({
+    email: testUser.email
+  })
+
+  const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, user.id)
+
+  const resp = await request(app)
+    .delete(process.env.API_ENDPOINT + '/users/me')
+    .set('Authorization', ' Bearer ' + authToken)
+    .expect(responseList.goodUserDelete.status)
+
+  t.is(resp.body.kind, 'goodUserDelete')
 })
 
 test.after.always('cleanup test user', async t => {
