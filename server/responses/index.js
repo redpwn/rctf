@@ -99,6 +99,14 @@ const responseList = {
     status: 200,
     message: 'The user data was successfully retrieved.'
   },
+  goodUserDelete: {
+    status: 200,
+    message: 'Your account was successfully deleted'
+  },
+  goodUserUpdate: {
+    status: 200,
+    message: 'Your account was successfully updated'
+  },
   errorInternal: {
     status: 500,
     message: 'An internal error occurred.'

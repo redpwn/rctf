@@ -7,6 +7,7 @@ const db = require('../../server/database')
 const challenges = require('../../server/challenges')
 const { responseList } = require('../../server/responses')
 const auth = require('../../server/auth')
+const util = require('../util')
 
 const chall = challenges.getAllChallenges()[0]
 
@@ -19,6 +20,11 @@ test('fails with unauthorized', async t => {
 })
 
 const uuid = uuidv4()
+const testUser = {
+  ...util.generateTestUser(),
+  id: uuid,
+  perms: 0
+}
 
 test('fails with badBody', async t => {
   const badChallenge = uuidv4()
@@ -44,6 +50,8 @@ test.serial('fails with badFlag', async t => {
 })
 
 test.serial('succeeds with goodFlag', async t => {
+  await db.auth.makeUser(testUser)
+
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
@@ -67,4 +75,7 @@ test.serial('fails with badAlreadySolvedChallenge', async t => {
 
 test.after.always('remove solves from test user', async t => {
   await db.solves.removeSolvesByUserId({ userid: uuid })
+  await db.auth.removeUserById({
+    id: testUser.id
+  })
 })

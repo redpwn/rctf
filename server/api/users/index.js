@@ -2,5 +2,7 @@
 module.exports = [
   require('./me'),
   require('./id'),
-  require('./me-solves')
+  require('./me-solves'),
+  require('./delete'),
+  require('./update')
 ]

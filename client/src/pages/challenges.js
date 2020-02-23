@@ -114,7 +114,7 @@ export default withStyles({
                     problem.files.map(file => {
                       return (
                         <div class='tag' key={file.path}>
-                          <a href={config.staticEndpoint + '/' + file.path}>
+                          <a native href={config.staticEndpoint + '/' + file.path}>
                             {file.name}
                           </a>
                         </div>
