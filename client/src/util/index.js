@@ -1,3 +1,4 @@
 module.exports = {
-  strings: require('./strings')
+  strings: require('./strings'),
+  toasts: require('./toasts')
 }
