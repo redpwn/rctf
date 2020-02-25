@@ -130,9 +130,7 @@ git checkout "$REPOSITORY_BRANCH"
 info "Configuring rCTF..."
 
 
-cd install
-./config.sh
-cd ..
+./install/config.sh
 
 
 /bin/echo -ne "Enter the CTF name: "

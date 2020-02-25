@@ -1,8 +1,5 @@
 #!/bin/sh
 
-cd "`dirname "$0"`/../"
-
-
 cp -n .env.example .env
 cp -nR .rdeploy.example .rdeploy
 cp -n config/client.js.example config/client.js
