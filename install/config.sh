@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "`dirname "$0"`"
+cd "`dirname "$0"`/../"
 
 
 cp -n .env.example .env
