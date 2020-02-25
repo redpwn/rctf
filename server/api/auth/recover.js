@@ -4,7 +4,7 @@ const cache = require('../../cache')
 const util = require('../../util')
 const auth = require('../../auth')
 const database = require('../../database')
-const config = require('../../../config')
+const config = require('../../../config/server')
 const { responses } = require('../../responses')
 
 module.exports = {

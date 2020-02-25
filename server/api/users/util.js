@@ -1,8 +1,8 @@
 const db = require('../../database')
 const challenges = require('../../challenges')
 const cache = require('../../cache')
-const { getChallengeScore } = require('../../cache/leaderboard')
-const config = require('../../../config')
+const { getChallengeScores } = require('../../cache/leaderboard')
+const config = require('../../../config/server')
 
 const divisionMap = new Map()
 
@@ -17,26 +17,36 @@ module.exports = {
     if (user === undefined) return null
 
     const userSolves = await db.solves.getSolvesByUserId({ userid: id })
-    const score = await cache.leaderboard.getScore({ id })
-    const returnedScore = score === null ? 0 : score
+    let score = await cache.leaderboard.getScore({ id })
+    if (score === null) {
+      score = {
+        score: 0,
+        globalPlace: null,
+        divisionPlace: null
+      }
+    }
 
     const solves = []
 
-    for (const solve of userSolves) {
+    const challengeScores = await getChallengeScores({
+      ids: userSolves.map((solve) => solve.challengeid)
+    })
+
+    userSolves.forEach((solve, i) => {
       const chall = challenges.getCleanedChallenge(solve.challengeid)
       solves.push({
         category: chall.category,
         name: chall.name,
-        points: await getChallengeScore({
-          id: chall.id
-        })
+        points: challengeScores[i]
       })
-    }
+    })
 
     return {
       name: user.name,
       division: divisionMap.get(Number(user.division)),
-      score: returnedScore,
+      score: score.score,
+      globalPlace: score.globalPlace,
+      divisionPlace: score.divisionPlace,
       solves
     }
   }

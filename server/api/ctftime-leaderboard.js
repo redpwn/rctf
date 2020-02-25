@@ -1,7 +1,7 @@
 const { responses } = require('../responses')
 const cache = require('../cache')
 const challenges = require('../challenges')
-const config = require('../../config')
+const config = require('../../config/server')
 
 module.exports = {
   method: 'get',

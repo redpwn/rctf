@@ -1,6 +1,6 @@
 const { responses } = require('../responses')
 const cache = require('../cache')
-const config = require('../../config')
+const config = require('../../config/server')
 
 const stringDivisions = Object.values(config.divisions).map(String)
 

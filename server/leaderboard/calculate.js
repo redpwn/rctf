@@ -19,17 +19,17 @@ for (let i = 0; i < solves.length; i++) {
     solveAmount.set(challId, solveAmount.get(challId) + 1)
   }
   // Store which challenges each user solved for later
-  if (!(userId in userSolves)) {
+  if (!userSolves.has(userId)) {
     userSolves.set(userId, [challId])
     userLastSolves.set(userId, solves[i].createdat)
   } else {
-    userSolves.get(solves[i].userid).push(challId)
+    userSolves.get(userId).push(challId)
   }
 }
 
 for (let i = 0; i < allChallenges.length; i++) {
   const challenge = allChallenges[i]
-  if (!(challenge.id in solveAmount)) {
+  if (!solveAmount.has(challenge.id)) {
     // There are currently no solves
     challengeValues.set(challenge.id, utilScores.getScore('dynamic', challenge.points.min, challenge.points.max, 0))
   } else {

@@ -20,6 +20,11 @@ services:
       - postgres
     cpus: ${RCTF_RCTF_CPU_LIMIT}
     mem_limit: ${RCTF_RCTF_MEM_LIMIT}
+    ulimits:
+      nproc: 65535
+      nofile: 
+        soft: 20000
+        hard: 40000
   redis:
     user: 999:999
     image: redis:5.0.7
@@ -27,7 +32,7 @@ services:
     networks:
       - rctf
     volumes:
-      - /var/data/rctf-redis:/data
+      - ./data/rctf-redis:/data
     cpus: ${RCTF_REDIS_CPU_LIMIT}
     mem_limit: ${RCTF_REDIS_MEM_LIMIT}
   postgres:
@@ -38,7 +43,7 @@ services:
     networks:
       - rctf
     volumes:
-      - /var/data/rctf-postgres:/var/lib/postgresql/data
+      - ./data/rctf-postgres:/var/lib/postgresql/data
     cpus: ${RCTF_POSTGRES_CPU_LIMIT}
     mem_limit: ${RCTF_POSTGRES_MEM_LIMIT}
 

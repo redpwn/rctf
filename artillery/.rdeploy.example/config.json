@@ -1,0 +1,1502 @@
+[
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-0",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-1",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-2",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-3",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-4",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-5",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-6",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-7",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-8",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-9",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-10",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-11",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-12",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-13",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-14",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-15",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-16",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-17",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-18",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-19",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-20",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-21",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-22",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-23",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-24",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-25",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-26",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-27",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-28",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-29",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-30",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-31",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-32",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-33",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-34",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-35",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-36",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-37",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-38",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-39",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-40",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-41",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-42",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-43",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-44",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-45",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-46",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-47",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-48",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-49",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-50",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-51",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-52",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-53",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-54",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-55",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-56",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-57",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-58",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-59",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-60",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-61",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-62",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-63",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-64",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-65",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-66",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-67",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-68",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-69",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-70",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-71",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-72",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-73",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-74",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-75",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-76",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-77",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-78",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-79",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-80",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-81",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-82",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-83",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-84",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-85",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-86",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-87",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-88",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-89",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-90",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-91",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-92",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-93",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-94",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-95",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-96",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-97",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-98",
+    "name": "Test Challenge"
+  },
+  {
+    "files": [
+      "files/example-sha1hash.txt"
+    ],
+    "description": "A test challenge",
+    "author": "Test",
+    "port": 1234,
+    "flag": "flag{test_flag_here}",
+    "points": {
+      "max": 500,
+      "min": 50
+    },
+    "id": "pwn/test-challenge-99",
+    "name": "Test Challenge"
+  }
+]

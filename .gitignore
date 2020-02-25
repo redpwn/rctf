@@ -9,9 +9,10 @@ yarn-error.log*
 
 /build
 /.env
+/data
 
-# Configurationg
-/client/src/config.js
+# Configuration
+/config/client.js
 
 .DS_Store
 Thumbs.db

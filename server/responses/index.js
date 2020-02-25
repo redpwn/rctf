@@ -27,14 +27,6 @@ const responseList = {
     status: 404,
     message: 'The account does not exist.'
   },
-  badUnknownName: {
-    status: 404,
-    message: 'The account does not exist.'
-  },
-  badEmailNameMatch: {
-    status: 409,
-    message: 'The provided email and username do not match.'
-  },
   badKnownEmail: {
     status: 409,
     message: 'An account with this email already exists.'
@@ -45,7 +37,7 @@ const responseList = {
   },
   goodLeaderboard: {
     status: 200,
-    message: 'The retrieval of the leaderbard was successful.'
+    message: 'The leaderboard was retrieved.'
   },
   goodCtftimeLeaderboard: {
     status: 200,
@@ -53,21 +45,21 @@ const responseList = {
   },
   goodFlag: {
     status: 200,
-    message: 'The flag was submitted successfully'
+    message: 'The flag is correct.'
   },
   badFlag: {
     status: 200,
-    message: 'The flag was incorrect'
+    message: 'The flag was incorrect.'
   },
   badChallenge: {
     status: 404,
-    message: 'The challenge was not found'
+    message: 'The challenge could not be not found.'
   },
-  alreadySolved: {
-    status: 200,
+  badAlreadySolvedChallenge: {
+    status: 409,
     message: 'The flag was already submitted'
   },
-  validToken: {
+  goodToken: {
     status: 200,
     message: 'The authorization token is valid'
   },
@@ -91,29 +83,33 @@ const responseList = {
     status: 404,
     message: 'The request endpoint could not be found.'
   },
-  errorInternal: {
-    status: 500,
-    message: 'An internal error occurred.'
-  },
   badNotStarted: {
     status: 401,
-    message: 'The CTF has not started yet'
+    message: 'The CTF has not started yet.'
   },
   badEnded: {
     status: 401,
-    message: 'The CTF has ended'
+    message: 'The CTF has ended.'
   },
   goodChallenges: {
     status: 200,
-    message: 'The retrieval of challenges was successful'
+    message: 'The retrieval of challenges was successful.'
   },
   goodUserData: {
     status: 200,
-    message: 'The user data was successfully retrieved'
+    message: 'The user data was successfully retrieved.'
   },
-  badUserData: {
-    status: 404,
-    message: 'The user was retrieved unsuccessfully. How did you forge an auth token? plz report to redpwn'
+  goodUserDelete: {
+    status: 200,
+    message: 'Your account was successfully deleted'
+  },
+  goodUserUpdate: {
+    status: 200,
+    message: 'Your account was successfully updated'
+  },
+  errorInternal: {
+    status: 500,
+    message: 'An internal error occurred.'
   }
 }
 

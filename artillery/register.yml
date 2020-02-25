@@ -1,0 +1,49 @@
+config:
+  target: 'http://localhost:8000'
+  processor: "./util.js"
+  http:
+    pool: 100
+  phases:
+    - duration: 10
+      arrivalRate: 1000
+    - duration: 20
+      arrivalRate: 100
+scenarios:
+  - name: "Register and delete"
+    flow:
+    - function: "generateRandomData"
+    - get:
+        url: "/"
+    - get:
+        url: "/register"
+    - post:
+        url: "/api/v1/auth/register"
+        json:
+          name: "{{ name }}"
+          email: "{{ email }}"
+          division: 0
+        capture:
+          json: "$.data.authToken"
+          as: "token"
+    - get:
+        url: "/api/v1/challs"
+        headers: 
+          Authorization: "Bearer {{ token }}"
+    - post:
+        url: "/api/v1/challs/{{ pid }}/submit"
+        json: 
+          flag: "flag{test_flag_here}"
+        headers: 
+          Authorization: "Bearer {{ token }}"
+    - think: 5
+    - get:
+        url: "/api/v1/users/me"
+        headers: 
+          Authorization: "Bearer {{ token }}"
+    - delete:
+        url: "/api/v1/users/me"
+        headers: 
+          Authorization: "Bearer {{ token }}"
+         
+    
+

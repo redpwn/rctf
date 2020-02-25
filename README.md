@@ -28,7 +28,14 @@ The automatic installation script works on Debian-based distributions and Arch L
 
 #### Manual
 
-For instructions on manual installations and deployments, see the [wiki page](https://github.com/redpwn/rctf/wiki/Manual-Deployment).
+For manual deployment, clone the repository and run `install/config.sh` with root permissions. 
+
+```
+$ git clone https://github.com/redpwn/rctf.git
+$ cd rctf
+$ sudo install/config.sh
+$ docker-compose up -d 
+```
 
 ### Management
 

@@ -1,4 +1,4 @@
-module.exports = {
+const ret = {
   rDeployDirectory: '.rdeploy',
   rDeployFiles: 'files',
   verifyEmail: false,
@@ -10,10 +10,6 @@ module.exports = {
   redisUrl: process.env.RCTF_REDIS_URL,
   smtpUrl: process.env.RCTF_SMTP_URL,
   emailFrom: process.env.RCTF_EMAIL_FROM,
-  divisions: {
-    eligible: 0,
-    ineligible: 1
-  },
   loginTimeout: 10 * 60 * 1000,
   leaderboardUpdateInterval: 10 * 1000,
   leaderboardMaxLimit: 100,
@@ -21,3 +17,10 @@ module.exports = {
   startTime: Date.now(),
   endTime: Date.now() + 24 * 60 * 60 * 1000
 }
+
+const shared = require('./shared')
+Object.entries(shared).forEach(([key, val]) => {
+  if (ret[key] === undefined) ret[key] = val
+})
+
+module.exports = ret

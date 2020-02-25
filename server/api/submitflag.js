@@ -1,7 +1,7 @@
 const db = require('../database')
 const challenges = require('../challenges')
 const { responses } = require('../responses')
-const config = require('../../config')
+const config = require('../../config/server')
 const util = require('../util')
 
 const uuidv4 = require('uuid/v4')
@@ -51,7 +51,7 @@ module.exports = {
           await db.solves.newSolve({ id: uuidv4(), challengeid: challengeid, userid: uuid, createdat: new Date() })
           return responses.goodFlag
         } else {
-          return responses.alreadySolved
+          return responses.badAlreadySolvedChallenge
         }
       } else {
         return responses.badFlag

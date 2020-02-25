@@ -11,7 +11,7 @@ module.exports = {
       id: uuid
     })
 
-    if (userData === null) return responses.badUserData
+    if (userData === null) return responses.badUnknownUser
 
     const teamToken = await auth.token.getToken(auth.token.tokenKinds.team, uuid)
 
