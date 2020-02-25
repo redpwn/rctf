@@ -10,7 +10,7 @@ yarn-error.log*
 /build
 /.env
 
-# Configurationg
+# Configuration
 /config/client.js
 
 .DS_Store
