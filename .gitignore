@@ -11,7 +11,7 @@ yarn-error.log*
 /.env
 
 # Configurationg
-/client/src/config.js
+/config/client.js
 
 .DS_Store
 Thumbs.db

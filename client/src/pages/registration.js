@@ -36,9 +36,11 @@ export default withStyles({
           <input required icon={<EnvelopeOpen />} name='email' placeholder='Email' type='text' value={email} onChange={this.linkState('email')} />
           <select required class='select' name='division' value={division} onChange={this.linkState('division')}>
             <option value='' disabled selected>Division</option>
-            <option value='0'>High School</option>
-            <option value='1'>College</option>
-            <option value='2'>Other</option>
+            {
+              Object.entries(config.divisions).map(([name, code]) => {
+                return <option key={code} value={code}>{name}</option>
+              })
+            }
           </select>
         </Form>
       </div>
