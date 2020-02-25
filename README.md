@@ -34,6 +34,7 @@ For manual deployment, clone the repository and run `install/config.sh` with roo
 $ git clone https://github.com/redpwn/rctf.git
 $ cd rctf
 $ sudo install/config.sh
+$ docker-compose up -d 
 ```
 
 ### Management
