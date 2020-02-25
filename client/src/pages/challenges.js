@@ -66,7 +66,7 @@ export default withStyles({
       })
   }
 
-  handleShowSolvesCheckbox = async () => {
+  handleShowSolvesCheckbox = () => {
     this.setState(prevState => ({
       showSolved: !prevState.showSolved
     }))
