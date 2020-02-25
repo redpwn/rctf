@@ -130,8 +130,13 @@ git checkout "$REPOSITORY_BRANCH"
 info "Configuring rCTF..."
 
 
+cd install
+./config.sh
+cd ..
+
+
 /bin/echo -ne "Enter the CTF name: "
-read RCTF_NAME <&1
+read RCTF_NAME </dev/tty
 
 RCTF_TOKEN_KEY=${RCTF_TOKEN_KEY:-"$(head -c 32 /dev/urandom | base64 -w 0)"}
 
@@ -170,12 +175,8 @@ info "Finished installation to ${INSTALL_PATH}."
 
 /bin/echo -ne "Would you like to start rCTF now (y/N)? "
 
-# HACK: arch's read version breaks for some reason, but this makes it work for both
-if [ "$PACKAGE_MANAGER" = "pacman" ]; then
-    read result
-else
-    read result <&1
-fi
+# XXX: is this broken?
+read result </dev/tty
 
 if [ "$result" = "y" ]; then
     info "Running 'docker-compose up' in ${INSTALL_PATH}..."
