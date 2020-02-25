@@ -3,7 +3,7 @@ const { Worker } = require('worker_threads')
 const database = require('../database')
 const challenges = require('../challenges')
 const cache = require('../cache')
-const config = require('../../config')
+const config = require('../../config/server')
 
 const fetchData = async () => {
   const [solves, users] = await Promise.all([

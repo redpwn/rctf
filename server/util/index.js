@@ -1,5 +1,5 @@
 
-const config = require('../../config')
+const config = require('../../config/server')
 const path = require('path')
 const fs = require('fs')
 const contentDisposition = require('content-disposition')

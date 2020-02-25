@@ -1,5 +1,5 @@
 const path = require('path')
-const config = require('../../config')
+const config = require('../../config/server')
 
 const normalizeEmail = (email) => {
   return email.trim().toLowerCase()

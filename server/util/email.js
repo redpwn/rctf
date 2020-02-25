@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const nodemailer = require('nodemailer')
 const mustache = require('mustache')
-const config = require('../../config')
+const config = require('../../config/server')
 
 const transport = nodemailer.createTransport(config.smtpUrl)
 const verifyHtml = fs.readFileSync(path.join(__dirname, 'emails/verify.html')).toString()

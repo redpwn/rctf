@@ -1,4 +1,4 @@
-const config = require('../../config')
+const config = require('../../config/server')
 const challenges = require('../challenges')
 const { responses } = require('../responses')
 const util = require('../util')

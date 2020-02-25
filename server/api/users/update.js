@@ -1,6 +1,6 @@
 const { responses } = require('../../responses')
 const database = require('../../database')
-const config = require('../../../config')
+const config = require('../../../config/server')
 
 module.exports = {
   method: 'patch',

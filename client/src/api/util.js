@@ -1,5 +1,5 @@
 import { route } from 'preact-router'
-import config from '../config'
+import config from '../../../config/client'
 
 const relog = () => {
   localStorage.removeItem('token')
