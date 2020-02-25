@@ -9,6 +9,7 @@ yarn-error.log*
 
 /build
 /.env
+/data
 
 # Configuration
 /config/client.js

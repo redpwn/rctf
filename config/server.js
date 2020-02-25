@@ -1,5 +1,4 @@
-module.exports = {
-  ...require('./shared'),
+const ret = {
   rDeployDirectory: '.rdeploy',
   rDeployFiles: 'files',
   verifyEmail: false,
@@ -18,3 +17,10 @@ module.exports = {
   startTime: Date.now(),
   endTime: Date.now() + 24 * 60 * 60 * 1000
 }
+
+const shared = require('./shared')
+Object.entries(shared).forEach(([key, val]) => {
+  if (ret[key] === undefined) ret[key] = val
+})
+
+module.exports = ret
