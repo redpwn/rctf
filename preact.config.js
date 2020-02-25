@@ -1,5 +1,5 @@
 require('dotenv').config()
-const config = require('./config')
+const config = require('./config/server')
 // The webpack base config has minicssextractplugin already loaded
 const path = require('path')
 const glob = require('glob')

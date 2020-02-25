@@ -1,6 +1,6 @@
 const { promisify } = require('util')
 const crypto = require('crypto')
-const config = require('../../config')
+const config = require('../../config/server')
 
 const randomBytes = promisify(crypto.randomBytes)
 const tokenKey = Buffer.from(config.tokenKey, 'base64')

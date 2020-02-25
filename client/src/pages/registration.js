@@ -1,6 +1,6 @@
 import { Component } from 'preact'
 import Form from '../components/form'
-import config from '../config'
+import config from '../../../config/client'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 

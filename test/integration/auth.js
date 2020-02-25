@@ -3,7 +3,7 @@ const request = require('supertest')
 const app = require('../../app')
 const { removeUserByEmail } = require('../../server/database').auth
 
-const config = require('../../config')
+const config = require('../../config/server')
 const { responseList } = require('../../server/responses')
 const database = require('../../server/database')
 const auth = require('../../server/auth')

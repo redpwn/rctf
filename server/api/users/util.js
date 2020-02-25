@@ -2,7 +2,7 @@ const db = require('../../database')
 const challenges = require('../../challenges')
 const cache = require('../../cache')
 const { getChallengeScores } = require('../../cache/leaderboard')
-const config = require('../../../config')
+const config = require('../../../config/server')
 
 const divisionMap = new Map()
 

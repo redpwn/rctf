@@ -1,5 +1,5 @@
 const { promisify } = require('util')
-const config = require('../../config')
+const config = require('../../config/server')
 const client = require('./client')
 
 const redisSet = promisify(client.set.bind(client))

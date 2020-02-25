@@ -1,6 +1,6 @@
 const { promisify } = require('util')
 const client = require('./client')
-const config = require('../../config')
+const config = require('../../config/server')
 
 const redisEvalsha = promisify(client.evalsha.bind(client))
 const redisHget = promisify(client.hget.bind(client))

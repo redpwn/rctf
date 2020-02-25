@@ -1,7 +1,7 @@
 const test = require('ava')
 const request = require('supertest')
 const app = require('../../app')
-const config = require('../../config')
+const config = require('../../config/server')
 const uuidv4 = require('uuid/v4')
 
 const challenges = require('../../server/challenges')
