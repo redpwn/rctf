@@ -3,10 +3,18 @@ import config from '../../../config/client'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
-import { privateProfile, publicProfile, deleteAccount } from '../api/profile'
+import { privateProfile, publicProfile, deleteAccount, updateAccount } from '../api/profile'
+import Form from '../components/form'
 import util from '../util'
 import Trophy from '../../static/icons/trophy.svg'
 import AddressBook from '../../static/icons/address-book.svg'
+import UserCircle from '../../static/icons/user-circle.svg'
+
+const divisionMap = new Map()
+
+for (const division of Object.entries(config.divisions)) {
+  divisionMap.set(division[1], division[0])
+}
 
 export default withStyles({
   quote: {
@@ -31,13 +39,18 @@ export default withStyles({
     teamToken: '',
     solves: [],
     uuid: '',
-    error: undefined
+    error: undefined,
+    updateName: '',
+    updateDivision: 0,
+    disabledButton: false
   }
 
   processGeneric ({ name, division, score, divisionPlace, solves }) {
     this.setState({
       name: name,
+      updateName: name,
       division: division,
+      updateDivision: config.divisions[division],
       placement: util.strings.placementString(divisionPlace),
       score,
       solves: solves,
@@ -87,6 +100,21 @@ export default withStyles({
     }
   }
 
+  handleUpdate = e => {
+    e.preventDefault()
+
+    this.setState({
+      disabledButton: true
+    })
+
+    updateAccount(this.state.updateName, this.state.updateDivision)
+      .then(resp => this.setState({
+        name: resp.user.name,
+        division: divisionMap.get(Number.parseInt(resp.user.division)),
+        disabledButton: false
+      }))
+  }
+
   handleDelete = e => {
     const resp = prompt('Please type your team name to confirm: ' + this.state.name)
 
@@ -95,7 +123,7 @@ export default withStyles({
     }
   }
 
-  render ({ classes }, { name, division, placement, score, teamToken, solves, error, loaded }) {
+  render ({ classes }, { name, division, placement, score, teamToken, solves, error, loaded, updateName, updateDivision, disabledButton }) {
     const priv = this.isPrivate()
     const hasError = error !== undefined
 
@@ -134,6 +162,19 @@ export default withStyles({
                 <div class='content'>
                   <p>Danger Zone</p>
                   <div style='margin: 0 0.5rem'>
+                    <div class='row u-center'>
+                      <Form class='col-6' onSubmit={this.handleUpdate} disabled={disabledButton} buttonText='Update Info'>
+                        <input autofocus required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={updateName} onChange={this.linkState('updateName')} />
+                        <select required class='select' name='division' value={updateDivision} onChange={this.linkState('updateDivision')}>
+                          <option value='' disabled selected>Division</option>
+                          {
+                            Object.entries(config.divisions).map(([name, code]) => {
+                              return <option key={code} value={code}>{name}</option>
+                            })
+                          }
+                        </select>
+                      </Form>
+                    </div>
                     <button class='btn-small btn-danger outline' style='border-color: var(--btn-color)' onClick={this.handleDelete}>Delete</button>
                   </div>
                 </div>

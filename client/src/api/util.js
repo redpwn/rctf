@@ -1,7 +1,7 @@
 import { route } from 'preact-router'
 import config from '../../../config/client'
 
-const relog = () => {
+export const relog = () => {
   localStorage.removeItem('token')
   route('/register')
 }

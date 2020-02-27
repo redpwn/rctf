@@ -1,4 +1,4 @@
-export default {
+const ret = {
   apiEndpoint: '/api/v1',
   staticEndpoint: '/static',
   ctfTitle: ' | yourCTF',
@@ -17,3 +17,10 @@ export default {
     }
   ]
 }
+
+const shared = require('./shared')
+Object.entries(shared).forEach(([key, val]) => {
+  if (ret[key] === undefined) ret[key] = val
+})
+
+module.exports = ret
