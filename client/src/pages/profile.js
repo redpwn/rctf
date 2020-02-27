@@ -3,7 +3,7 @@ import config from '../../../config/client'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
-import { privateProfile, publicProfile } from '../api/profile'
+import { privateProfile, publicProfile, deleteAccount } from '../api/profile'
 import util from '../util'
 import Trophy from '../../static/icons/trophy.svg'
 import AddressBook from '../../static/icons/address-book.svg'
@@ -87,6 +87,14 @@ export default withStyles({
     }
   }
 
+  handleDelete = e => {
+    const resp = prompt('Please type your team name to confirm: ' + this.state.name)
+
+    if (resp === this.state.name) {
+      deleteAccount()
+    }
+  }
+
   render ({ classes }, { name, division, placement, score, teamToken, solves, error, loaded }) {
     const priv = this.isPrivate()
     const hasError = error !== undefined
@@ -99,7 +107,7 @@ export default withStyles({
           <div class='col-4'>
             <div class='card u-flex u-flex-column'>
               <div class='content'>
-                <p>Error</p>
+                <p class='title'>There was an error</p>
                 <p class='font-thin'>{error}</p>
               </div>
             </div>
@@ -120,6 +128,14 @@ export default withStyles({
                     {teamToken}
                   </blockquote>
                   <p class='font-thin'>Share this with your teammates to use at <a href='/login'>/login</a>!</p>
+                </div>
+              </div>
+              <div class='card u-flex u-flex-column'>
+                <div class='content'>
+                  <p>Danger Zone</p>
+                  <div style='margin: 0 0.5rem'>
+                    <button class='btn-small btn-danger outline' style='border-color: var(--btn-color)' onClick={this.handleDelete}>Delete</button>
+                  </div>
                 </div>
               </div>
             </div>
