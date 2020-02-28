@@ -28,6 +28,15 @@ export default withStyles({
       fill: '#333'
     },
     marginRight: '25px'
+  },
+  form: {
+    '& button': {
+      margin: 0,
+      lineHeight: '20px',
+      padding: '10px',
+      float: 'right'
+    },
+    padding: '0 !important'
   }
 }, class Profile extends Component {
   state = {
@@ -160,22 +169,22 @@ export default withStyles({
               </div>
               <div class='card u-flex u-flex-column'>
                 <div class='content'>
-                  <p>Danger Zone</p>
-                  <div style='margin: 0 0.5rem'>
-                    <div class='row u-center'>
-                      <Form class='col-6' onSubmit={this.handleUpdate} disabled={disabledButton} buttonText='Update Info'>
-                        <input autofocus required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={updateName} onChange={this.linkState('updateName')} />
-                        <select required class='select' name='division' value={updateDivision} onChange={this.linkState('updateDivision')}>
-                          <option value='' disabled selected>Division</option>
-                          {
-                            Object.entries(config.divisions).map(([name, code]) => {
-                              return <option key={code} value={code}>{name}</option>
-                            })
-                          }
-                        </select>
-                      </Form>
-                    </div>
-                    <button class='btn-small btn-danger outline' style='border-color: var(--btn-color)' onClick={this.handleDelete}>Delete</button>
+                  <p style='margin-bottom: 0'>Update Information</p>
+                  <div class='row u-center'>
+                    <Form class={`col-12 ${classes.form}`} onSubmit={this.handleUpdate} disabled={disabledButton} buttonText='Update'>
+                      <input autofocus required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={updateName} onChange={this.linkState('updateName')} />
+                      <select required class='select' name='division' value={updateDivision} onChange={this.linkState('updateDivision')}>
+                        <option value='' disabled selected>Division</option>
+                        {
+                          Object.entries(config.divisions).map(([name, code]) => {
+                            return <option key={code} value={code}>{name}</option>
+                          })
+                        }
+                      </select>
+                    </Form>
+                  </div>
+                  <div class='u-center action-bar' style='margin: 0 0.5rem'>
+                    <button class='btn-small btn-danger outline' style='border-color: var(--btn-color)' onClick={this.handleDelete}>Delete Account</button>
                   </div>
                 </div>
               </div>
@@ -184,7 +193,7 @@ export default withStyles({
         <div class='col-6'>
           <div class='card u-flex u-flex-column'>
             <div class='content'>
-              <h5 class='title'>{name}</h5>
+              <h5 class='title' style='text-overflow: ellipsis; overflow-x: hidden;'>{name}</h5>
               <div class='action-bar'>
                 <p>
                   <span class={`icon ${classes.icon}`}>
@@ -192,7 +201,7 @@ export default withStyles({
                   </span>
                   {
                     score === 0
-                      ? ('No solves yet')
+                      ? ('No points earned')
                       : (placement + ' with ' + score + ' points')
                   }
                 </p>
@@ -206,23 +215,27 @@ export default withStyles({
             </div>
           </div>
 
-          <div class='card u-flex u-flex-column'>
-            <div class='content'>
-              <h5 class='title u-text-center'>Solves</h5>
-              <table class='table borderless'>
-                <thead>
-                  <tr>
-                    <th>Category</th>
-                    <th>Name</th>
-                    <th>Points</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {solves.map(solve => <tr key={solve.name}><td>{solve.category}</td><td>{solve.name}</td><td>{solve.points}</td></tr>)}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          {
+            solves.length !== 0 &&
+              <div class='card u-flex u-flex-column'>
+                <div class='content'>
+                  <h5 class='title u-text-center'>Solves</h5>
+                  <table class='table borderless'>
+                    <thead>
+                      <tr>
+                        <th>Category</th>
+                        <th>Name</th>
+                        <th>Points</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {solves.map(solve => <tr key={solve.name}><td>{solve.category}</td><td>{solve.name}</td><td>{solve.points}</td></tr>)}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+          }
+
         </div>
       </div>
     )
