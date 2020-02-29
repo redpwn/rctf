@@ -1,0 +1,16 @@
+config:
+  target: 'http://localhost:8000'
+  processor: "./util.js"
+  http:
+    pool: 100
+    timeout: 30
+  phases:
+    - duration: 10
+      arrivalRate: 250
+scenarios:
+  - name: "CTFd tests"
+    flow:
+    - function: "generateRandomData"
+    - get:
+        url: "/"
+
