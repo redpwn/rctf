@@ -6,7 +6,7 @@ import { Component } from 'preact'
 import config from '../../config/client'
 
 import Header from './components/header'
-import { Home, Registration, Login, Profile, Challenges, Scoreboard, Error, Sponsors } from './pages'
+import { Home, Registration, Login, Profile, Challenges, Scoreboard, Error, Sponsors, Verify } from './pages'
 import 'cirrus-ui'
 
 import util from './util'
@@ -36,6 +36,7 @@ class App extends Component {
 
     let allPaths = [
       <Profile key='multiProfile' path='/profile/:uuid' />,
+      <Verify key='verify' path='/verify' />,
       <Error key='error' error='404' default />
     ]
     allPaths = allPaths.concat(loggedInPaths).concat(loggedOutPaths)
