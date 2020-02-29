@@ -6,6 +6,7 @@ import withStyles from '../components/jss'
 
 import { login } from '../api/auth'
 import IdCard from '../../static/icons/id-card.svg'
+import { route } from 'preact-router'
 
 export default withStyles({
   root: {
@@ -23,9 +24,25 @@ export default withStyles({
 
   componentDidMount () {
     document.title = 'Login' + config.ctfTitle
+
+    const prefix = '#token='
+    if (document.location.hash.startsWith(prefix)) {
+      route('/login', true)
+
+      const teamToken = document.location.hash.substring(prefix.length)
+
+      login({ teamToken })
+        .then(errors => {
+          this.setState({
+            errors,
+            disabledButton: false
+          })
+        })
+    }
   }
 
-  render ({ classes }, { teamToken, errors, disabledButton }) {
+  render (props, { teamToken, errors, disabledButton }) {
+    const { classes } = props
     return (
       <div class='row u-center'>
         <Form class={classes.root + ' col-6'} onSubmit={this.handleSubmit} disabled={disabledButton} buttonText='Login' errors={errors}>
