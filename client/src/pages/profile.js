@@ -9,6 +9,7 @@ import util from '../util'
 import Trophy from '../../static/icons/trophy.svg'
 import AddressBook from '../../static/icons/address-book.svg'
 import UserCircle from '../../static/icons/user-circle.svg'
+import Rank from '../../static/icons/rank.svg'
 
 const divisionMap = new Map()
 
@@ -43,7 +44,8 @@ export default withStyles({
     loaded: false,
     name: '',
     division: '',
-    placement: '',
+    divisionPlace: '',
+    globalPlace: '',
     score: 0,
     teamToken: '',
     solves: [],
@@ -54,13 +56,14 @@ export default withStyles({
     disabledButton: false
   }
 
-  processGeneric ({ name, division, score, divisionPlace, solves }) {
+  processGeneric ({ name, division, score, divisionPlace, globalPlace, solves }) {
     this.setState({
       name: name,
       updateName: name,
       division: division,
       updateDivision: config.divisions[division],
-      placement: util.strings.placementString(divisionPlace),
+      divisionPlace: util.strings.placementString(divisionPlace),
+      globalPlace: util.strings.placementString(globalPlace),
       score,
       solves: solves,
       loaded: true
@@ -132,7 +135,7 @@ export default withStyles({
     }
   }
 
-  render ({ classes }, { name, division, placement, score, teamToken, solves, error, loaded, updateName, updateDivision, disabledButton }) {
+  render ({ classes }, { name, division, divisionPlace, globalPlace, score, teamToken, solves, error, loaded, updateName, updateDivision, disabledButton }) {
     const priv = this.isPrivate()
     const hasError = error !== undefined
 
@@ -193,7 +196,7 @@ export default withStyles({
         <div class='col-6'>
           <div class='card u-flex u-flex-column'>
             <div class='content'>
-              <h5 class='title' style='text-overflow: ellipsis; overflow-x: hidden;'>{name}</h5>
+              <h5 class='title' style='text-overflow: ellipsis; overflow: hidden;'>{name}</h5>
               <div class='action-bar'>
                 <p>
                   <span class={`icon ${classes.icon}`}>
@@ -202,14 +205,30 @@ export default withStyles({
                   {
                     score === 0
                       ? ('No points earned')
-                      : (placement + ' with ' + score + ' points')
+                      : (score + ' total points')
+                  }
+                </p>
+                <p>
+                  <span class={`icon ${classes.icon}`}>
+                    <Rank />
+                  </span>
+                  {
+                    score === 0 ? 'Unranked' : `${divisionPlace} in the ${division} division`
+                  }
+                </p>
+                <p>
+                  <span class={`icon ${classes.icon}`}>
+                    <Rank />
+                  </span>
+                  {
+                    score === 0 ? 'Unranked' : `${globalPlace} across all teams`
                   }
                 </p>
                 <p>
                   <span class={`icon ${classes.icon}`}>
                     <AddressBook />
                   </span>
-                  {division}
+                  {division} division
                 </p>
               </div>
             </div>
