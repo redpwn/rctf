@@ -20,7 +20,7 @@ export default withStyles({
     if (document.location.hash.startsWith(prefix)) {
       route('/verify', true)
 
-      const verifyToken = document.location.hash.substring(prefix.length)
+      const verifyToken = decodeURIComponent(document.location.hash.substring(prefix.length))
 
       verify({ verifyToken })
         .then(errors => {
