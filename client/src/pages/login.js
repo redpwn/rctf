@@ -29,7 +29,7 @@ export default withStyles({
     if (document.location.hash.startsWith(prefix)) {
       route('/login', true)
 
-      const teamToken = document.location.hash.substring(prefix.length)
+      const teamToken = decodeURIComponent(document.location.hash.substring(prefix.length))
 
       login({ teamToken })
         .then(errors => {
