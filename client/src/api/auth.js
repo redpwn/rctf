@@ -22,6 +22,30 @@ export const login = ({ teamToken }) => {
     })
 }
 
+export const verify = ({ verifyToken }) => {
+  return request('POST', '/auth/verify', {
+    verifyToken
+  })
+    .then(resp => {
+      switch (resp.kind) {
+        case 'goodVerify':
+          localStorage.setItem('token', resp.data.authToken)
+          route('/challenges')
+
+          return {}
+        case 'badTokenVerification':
+        case 'badUnknownUser':
+          return {
+            verifyToken: resp.message
+          }
+        default:
+          return {
+            verifyToken: 'Unknown response from server, please contact ctf administrator'
+          }
+      }
+    })
+}
+
 export const register = ({ email, name, division }) => {
   return request('POST', '/auth/register', {
     email,

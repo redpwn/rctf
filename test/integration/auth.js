@@ -37,7 +37,7 @@ test('fails with badUnknownEmail', async t => {
   t.is(resp.body.kind, 'badUnknownEmail')
 })
 
-test.serial('when not verifyEmail, succeeds with goodVerify', async t => {
+test.serial('when not verifyEmail, succeeds with goodRegister', async t => {
   config.verifyEmail = false
 
   let resp = await request(app)
