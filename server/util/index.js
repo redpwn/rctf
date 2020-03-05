@@ -24,9 +24,11 @@ module.exports = {
     return require(m)
   },
   enableCORS: (req, res, next) => {
-    res.header('Access-Control-Allow-Origin', config.origin)
-    res.header('Access-Control-Allow-Headers', 'Authorization, Content-Type')
-    res.header('Access-Control-Allow-Methods', 'GET, POST')
+    if (config.origin !== undefined) {
+      res.header('Access-Control-Allow-Origin', config.origin)
+      res.header('Access-Control-Allow-Headers', 'Authorization, Content-Type')
+      res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE')
+    }
 
     if (req.method === 'OPTIONS') {
       res.sendStatus(200)

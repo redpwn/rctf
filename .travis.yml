@@ -22,7 +22,9 @@ install:
 script:
   - cp .env.example .env
   - cp -r .rdeploy.example .rdeploy
+  - cp config/client.js.example config/client.js
   - yarn migrate up
+  - yarn build
   - yarn lint
   - yarn test:report
   - codecov

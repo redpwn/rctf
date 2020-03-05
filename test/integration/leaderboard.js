@@ -14,3 +14,13 @@ test('succeeds with goodLeaderboard', async t => {
   t.is(resp.body.kind, 'goodLeaderboard')
   t.truthy(Array.isArray(resp.body.data.leaderboard))
 })
+
+test('ctftime integration succeeds with goodCtftimeLeaderboard', async t => {
+  const resp = await request(app)
+    .get(process.env.API_ENDPOINT + '/integrations/ctftime/leaderboard')
+    .query({ limit: 1, offset: 0 })
+    .expect('Content-Type', /json/)
+    .expect(responseList.goodCtftimeLeaderboard.status)
+
+  t.truthy(Array.isArray(resp.body.standings))
+})

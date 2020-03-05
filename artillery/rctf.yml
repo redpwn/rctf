@@ -3,17 +3,18 @@ config:
   processor: "./util.js"
   http:
     pool: 100
+    timeout: 30
   phases:
     - duration: 10
-      arrivalRate: 1000
-    - duration: 20
-      arrivalRate: 100
+      arrivalRate: 250
 scenarios:
   - name: "Register and delete"
     flow:
     - function: "generateRandomData"
     - get:
         url: "/"
+    - get:
+        url: "/static/bundle.86d41.js"
     - get:
         url: "/register"
     - post:
