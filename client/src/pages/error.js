@@ -9,12 +9,12 @@ export default withStyles({
     document.title = 'Error' + config.ctfTitle
   }
 
-  render ({ error }) {
+  render ({ error, message }) {
     return (
       <div class='row u-text-center u-center'>
         <div class='col-4'>
           <h1>{error}</h1>
-          <p class='font-thin'>There was an error</p>
+          <p class='font-thin'>{message || 'There was an error'}</p>
         </div>
       </div>
     )

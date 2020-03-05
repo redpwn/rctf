@@ -6,6 +6,7 @@ import Challenges from './challenges'
 import Scoreboard from './scoreboard'
 import Error from './error'
 import Sponsors from './sponsors'
+import Verify from './verify'
 
 export {
   Home,
@@ -15,5 +16,6 @@ export {
   Challenges,
   Scoreboard,
   Error,
-  Sponsors
+  Sponsors,
+  Verify
 }

@@ -3,9 +3,10 @@ import 'promise-polyfill/src/polyfill'
 import 'unfetch/polyfill/index'
 import 'regenerator-runtime/runtime'
 import { Component } from 'preact'
+import config from '../../config/client'
 
 import Header from './components/header'
-import { Home, Registration, Login, Profile, Challenges, Scoreboard, Error, Sponsors } from './pages'
+import { Home, Registration, Login, Profile, Challenges, Scoreboard, Error, Sponsors, Verify } from './pages'
 import 'cirrus-ui'
 
 import util from './util'
@@ -19,10 +20,13 @@ class App extends Component {
     const loggedOut = localStorage.getItem('token') === null
     const loggedOutPaths = [
       <Home key='home' path='/' name='Home' />,
-      <Sponsors key='sponsors' path='/sponsors' name='Sponsors' />,
       <Registration key='register' path='/register' name='Register' />,
       <Login key='login' path='/login' name='Login' />
     ]
+
+    if (config.sponsors.length !== 0) {
+      loggedOutPaths.push(<Sponsors key='sponsors' path='/sponsors' name='Sponsors' />)
+    }
 
     const loggedInPaths = [
       <Profile key='profile' path='/profile/' name='Profile' />,
@@ -32,6 +36,7 @@ class App extends Component {
 
     let allPaths = [
       <Profile key='multiProfile' path='/profile/:uuid' />,
+      <Verify key='verify' path='/verify' />,
       <Error key='error' error='404' default />
     ]
     allPaths = allPaths.concat(loggedInPaths).concat(loggedOutPaths)
