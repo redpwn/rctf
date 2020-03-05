@@ -10,6 +10,7 @@ const ret = {
   redisUrl: process.env.RCTF_REDIS_URL,
   smtpUrl: process.env.RCTF_SMTP_URL,
   emailFrom: process.env.RCTF_EMAIL_FROM,
+  logFile: process.env.RCTF_LOG_FILE,
   loginTimeout: 10 * 60 * 1000,
   leaderboardUpdateInterval: 10 * 1000,
   leaderboardMaxLimit: 100,
