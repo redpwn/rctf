@@ -13,7 +13,7 @@ COPY client ./client
 COPY config ./config
 COPY public ./public
 COPY preact.config.js .
-RUN yarn && yarn build && rm -r node_modules
+RUN yarn && yarn build && rm -rf node_modules
 
 ENV NODE_ENV production
 RUN yarn
