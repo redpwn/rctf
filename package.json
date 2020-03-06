@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "standard --env browser --parser babel-eslint",
     "start": "node index.js",
-    "migrate": "./node_modules/.bin/node-pg-migrate --database-url-var=RCTF_DATABASE_URL",
+    "migrate": "node-pg-migrate --database-url-var=RCTF_DATABASE_URL",
     "build": "sh client/build.sh",
     "watch": "preact watch --src client/src --template client/index.html",
     "dev": "nodemon index.js",
