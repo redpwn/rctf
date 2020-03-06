@@ -27,12 +27,10 @@ info() {
 
 info "Checking environment..."
 
-
 if [ "$EUID" -ne 0 ]; then
     error "You must run this script as root."
     exit 1
 fi
-
 
 PACKAGE_MANAGER="x"
 
@@ -58,7 +56,6 @@ fi
 
 info "Configuring installation..."
 
-
 RCTF_CLI_INSTALL_PATH=${RCTF_CLI_INSTALL_PATH:-"/usr/bin/rctf"}
 INSTALL_PATH=${INSTALL_PATH:-'/opt/rctf'}
 
@@ -66,7 +63,6 @@ if [ ! -d "$(dirname "$INSTALL_PATH")" ]; then
     error "The parent of \$INSTALL_PATH ('$(dirname "$INSTALL_PATH")') does not exist."
     exit 1
 fi
-
 
 if [ -d "$INSTALL_PATH" ]; then
     error "rCTF appears to already be installed in ${INSTALL_PATH}"
@@ -77,7 +73,6 @@ if [ -d "$INSTALL_PATH" ]; then
     exit 1
 fi
 
-
 REPOSITORY_URL=${REPOSITORY_URL:-"https://github.com/redpwn/rctf.git"}
 REPOSITORY_BRANCH=${REPOSITORY_BRANCH:-"master"}
 
@@ -87,10 +82,9 @@ REPOSITORY_BRANCH=${REPOSITORY_BRANCH:-"master"}
 
 info "Installing dependencies..."
 
-
 if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
     apt-get update
-    apt-get install --yes docker.io docker-compose git python3
+    apt-get install --yes docker.io docker-compose git python3 yarn
 elif [ "$PACKAGE_MANAGER" = "yum" ]; then
     info "We are about to install docker via https://get.docker.com/. Please follow along the steps to ensure it is configured properly."
     
@@ -102,12 +96,10 @@ elif [ "$PACKAGE_MANAGER" = "yum" ]; then
 
     yum install git python3
 elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
-    pacman -Sy --noconfirm --needed docker docker-compose git python
+    pacman -Sy --noconfirm --needed docker docker-compose git python yarn
 fi
 
-
 info "Enabling docker..."
-
 
 (systemctl enable docker || true) 2>/dev/null # XXX: Debian "masks" docker.service
 (systemctl start docker || true) 2>/dev/null
@@ -118,10 +110,17 @@ info "Enabling docker..."
 
 info "Cloning repository to ${INSTALL_PATH}..."
 
-
 git clone "$REPOSITORY_URL" "$INSTALL_PATH"
 cd "$INSTALL_PATH"
 git checkout "$REPOSITORY_BRANCH"
+
+
+# install yarn deps
+
+
+info "Installing yarn dependencies..."
+
+yarn
 
 
 # configure rctf
@@ -129,9 +128,7 @@ git checkout "$REPOSITORY_BRANCH"
 
 info "Configuring rCTF..."
 
-
 ./install/config.sh
-
 
 /bin/echo -ne "Enter the CTF name: "
 read RCTF_NAME </dev/tty
@@ -143,9 +140,7 @@ cp .env.example .env
 sed -i.bak "s/RCTF_NAME=.*$/RCTF_NAME=$(echo "$RCTF_NAME"  | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')/g" .env
 sed -i.bak "s/RCTF_TOKEN_KEY=.*$/RCTF_TOKEN_KEY=$(echo "$RCTF_TOKEN_KEY"  | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')/g" .env
 
-
 info "Changing permissions of .env (chmod 600 .env)..."
-
 
 chmod 600 .env .env.example
 
@@ -155,12 +150,9 @@ chmod 600 .env .env.example
 
 info "Copying CLI tool from $INSTALL_PATH/install/rctf.py to $RCTF_CLI_INSTALL_PATH"
 
-
 cp install/rctf.py "$RCTF_CLI_INSTALL_PATH"
 
-
 info "Setting $RCTF_CLI_INSTALL_PATH as executable..."
-
 
 chmod +x "$RCTF_CLI_INSTALL_PATH"
 
@@ -169,7 +161,6 @@ chmod +x "$RCTF_CLI_INSTALL_PATH"
 
 
 info "Finished installation to ${INSTALL_PATH}."
-
 
 /bin/echo -ne "Would you like to start rCTF now (y/N)? "
 
