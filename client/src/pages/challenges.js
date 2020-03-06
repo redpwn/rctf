@@ -18,6 +18,7 @@ export default withStyles({
 }, class Challenges extends Component {
   state = {
     problems: [],
+    categories: {}, // Dict with {string name, bool filter}
     values: {},
     errors: {},
     showSolved: false,
@@ -29,8 +30,15 @@ export default withStyles({
 
     getChallenges()
       .then(problems => {
+        const categories = {}
+        problems.forEach(problem => {
+          if (categories[problem.category] === undefined) {
+            categories[problem.category] = false
+          }
+        })
         this.setState({
-          problems
+          problems,
+          categories
         })
       })
 
@@ -66,9 +74,18 @@ export default withStyles({
       })
   }
 
-  handleShowSolvesCheckbox = () => {
+  handleInvertShowSolved = () => {
     this.setState(prevState => ({
       showSolved: !prevState.showSolved
+    }))
+  }
+
+  handleInvertCategoryState = (propertyName) => {
+    this.setState(prevState => ({
+      categories: {
+        ...prevState.categories,
+        [propertyName]: !prevState.categories[propertyName]
+      }
     }))
   }
 
@@ -130,10 +147,22 @@ export default withStyles({
     )
   }
 
-  render ({ classes }, { problems, values, errors, showSolved, solveIDs }) {
+  render ({ classes }, { problems, categories, values, errors, showSolved, solveIDs }) {
     let problemsToDisplay = problems
     if (!showSolved) {
-      problemsToDisplay = problems.filter(problem => !solveIDs.includes(problem.id))
+      problemsToDisplay = problemsToDisplay.filter(problem => !solveIDs.includes(problem.id))
+    }
+    let filterCategories = false
+    Object.values(categories).forEach(displayCategory => {
+      if (displayCategory) filterCategories = true
+    })
+    if (filterCategories) {
+      Object.keys(categories).forEach(category => {
+        if (categories[category] === false) {
+          // Do not display this category
+          problemsToDisplay = problemsToDisplay.filter(problem => problem.category !== category)
+        }
+      })
     }
 
     return (
@@ -143,9 +172,19 @@ export default withStyles({
             <div class='frame__body'>
               <div class='frame__title title'>Config</div>
               <div class='form-ext-control form-ext-checkbox'>
-                <input id='check1' class='form-ext-input' type='checkbox' checked={showSolved} onClick={() => { this.handleShowSolvesCheckbox() }} />
+                <input id='check1' class='form-ext-input' type='checkbox' checked={showSolved} onClick={() => { this.handleInvertShowSolved() }} />
                 <label class='form-ext-label' for='check1'>Show Solved</label>
               </div>
+              {
+                Object.keys(categories).map(category => {
+                  return (
+                    <div key={category} class='form-ext-control form-ext-checkbox'>
+                      <input id={category} class='form-ext-input' type='checkbox' checked={categories[category]} onClick={() => { this.handleInvertCategoryState(category) }} />
+                      <label class='form-ext-label' for={category}>Show only {category}</label>
+                    </div>
+                  )
+                })
+              }
             </div>
           </div>
         </div>
