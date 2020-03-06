@@ -13,10 +13,11 @@ COPY client ./client
 COPY config ./config
 COPY public ./public
 COPY preact.config.js .
-RUN yarn && yarn build && rm -r node_modules
+RUN yarn && yarn build
 
 ENV NODE_ENV production
 RUN yarn
+RUN rm -r node_modules
 
 ENV PORT 8000
 EXPOSE 8000

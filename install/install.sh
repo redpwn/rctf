@@ -84,7 +84,7 @@ info "Installing dependencies..."
 
 if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
     apt-get update
-    apt-get install --yes docker.io docker-compose git python3 yarn
+    apt-get install --yes docker.io docker-compose git python3
 elif [ "$PACKAGE_MANAGER" = "yum" ]; then
     info "We are about to install docker via https://get.docker.com/. Please follow along the steps to ensure it is configured properly."
     
@@ -96,7 +96,7 @@ elif [ "$PACKAGE_MANAGER" = "yum" ]; then
 
     yum install git python3
 elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
-    pacman -Sy --noconfirm --needed docker docker-compose git python yarn
+    pacman -Sy --noconfirm --needed docker docker-compose git python
 fi
 
 info "Enabling docker..."
@@ -108,19 +108,11 @@ info "Enabling docker..."
 # clone repository
 
 
-info "Cloning repository to ${INSTALL_PATH}..."
+info "Cloning repository to ${INSTALL_PATH} from repository ${REPOSITORY_URL} branch ${REPOSITORY_BRANCH}..."
 
 git clone "$REPOSITORY_URL" "$INSTALL_PATH"
 cd "$INSTALL_PATH"
 git checkout "$REPOSITORY_BRANCH"
-
-
-# install yarn deps
-
-
-info "Installing yarn dependencies..."
-
-yarn
 
 
 # configure rctf
