@@ -9,4 +9,5 @@ mkdir -p data/rctf-postgres data/rctf-redis
 chown -R 999 data
 chmod 600 .env
 
+docker-compose build
 docker-compose run rctf yarn migrate up
