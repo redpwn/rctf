@@ -14,6 +14,9 @@ export default withStyles({
   divider: {
     margin: '10px',
     width: '80%'
+  },
+  showSolved: {
+    marginBottom: '10px'
   }
 }, class Challenges extends Component {
   state = {
@@ -171,20 +174,27 @@ export default withStyles({
           <div class={`frame ${classes.frame}`}>
             <div class='frame__body'>
               <div class='frame__title title'>Config</div>
-              <div class='form-ext-control form-ext-checkbox'>
-                <input id='check1' class='form-ext-input' type='checkbox' checked={showSolved} onClick={() => { this.handleInvertShowSolved() }} />
-                <label class='form-ext-label' for='check1'>Show Solved</label>
+              <div class={classes.showSolved}>
+                <div class='form-ext-control form-ext-checkbox'>
+                  <input id='check1' class='form-ext-input' type='checkbox' checked={showSolved} onClick={() => { this.handleInvertShowSolved() }} />
+                  <label class='form-ext-label' for='check1'>Show Solved</label>
+                </div>
               </div>
-              {
-                Object.keys(categories).map(category => {
-                  return (
-                    <div key={category} class='form-ext-control form-ext-checkbox'>
-                      <input id={category} class='form-ext-input' type='checkbox' checked={categories[category]} onClick={() => { this.handleInvertCategoryState(category) }} />
-                      <label class='form-ext-label' for={category}>Show only {category}</label>
-                    </div>
-                  )
-                })
-              }
+              <div class={`frame ${classes.frame}`}>
+                <div class='frame__body'>
+                  <div class='frame__title title'>Filter</div>
+                  {
+                    Object.keys(categories).map(category => {
+                      return (
+                        <div key={category} class='form-ext-control form-ext-checkbox'>
+                          <input id={category} class='form-ext-input' type='checkbox' checked={categories[category]} onClick={() => { this.handleInvertCategoryState(category) }} />
+                          <label class='form-ext-label' for={category}>{category}</label>
+                        </div>
+                      )
+                    })
+                  }
+                </div>
+              </div>
             </div>
           </div>
         </div>
