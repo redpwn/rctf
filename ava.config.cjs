@@ -7,5 +7,6 @@ module.exports = {
   files: [
     'test/**/*.js',
     '!**/util.*'
-  ]
+  ],
+  timeout: '20000'
 }
