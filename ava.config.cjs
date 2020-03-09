@@ -8,5 +8,5 @@ module.exports = {
     'test/**/*.js',
     '!**/util.*'
   ],
-  timeout: '20000'
+  timeout: '30000'
 }
