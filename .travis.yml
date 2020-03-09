@@ -19,6 +19,7 @@ before_script:
   - psql -c 'create database rctf;' -U postgres
 install:
   - npm install -g codecov
+  - yarn --frozen-lockfile
 script:
   - cp .env.example .env
   - cp -r .rdeploy.example .rdeploy
