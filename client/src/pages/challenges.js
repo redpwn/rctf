@@ -180,21 +180,21 @@ export default withStyles({
                   <label class='form-ext-label' for='check1'>Show Solved</label>
                 </div>
               </div>
-              <div class={`frame ${classes.frame}`}>
-                <div class='frame__body'>
-                  <div class='frame__title title'>Filter</div>
-                  {
-                    Object.keys(categories).map(category => {
-                      return (
-                        <div key={category} class='form-ext-control form-ext-checkbox'>
-                          <input id={category} class='form-ext-input' type='checkbox' checked={categories[category]} onClick={() => { this.handleInvertCategoryState(category) }} />
-                          <label class='form-ext-label' for={category}>{category}</label>
-                        </div>
-                      )
-                    })
-                  }
-                </div>
-              </div>
+            </div>
+          </div>
+          <div class={`frame ${classes.frame}`}>
+            <div class='frame__body'>
+              <div class='frame__title title'>Filter</div>
+              {
+                Object.keys(categories).map(category => {
+                  return (
+                    <div key={category} class='form-ext-control form-ext-checkbox'>
+                      <input id={category} class='form-ext-input' type='checkbox' checked={categories[category]} onClick={() => { this.handleInvertCategoryState(category) }} />
+                      <label class='form-ext-label' for={category}>{category}</label>
+                    </div>
+                  )
+                })
+              }
             </div>
           </div>
         </div>
