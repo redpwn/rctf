@@ -3,7 +3,8 @@ module.exports = {
     es6: true
   },
   extends: [
-    'standard'
+    'standard',
+    'plugin:ava/recommended'
   ],
   globals: {
     Atomics: 'readonly',

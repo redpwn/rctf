@@ -5,8 +5,7 @@ module.exports = {
     API_ENDPOINT: '/api/v1'
   },
   files: [
-    'test/**/*.js',
-    '!**/util.*'
+    'test/**/*.js'
   ],
   timeout: '30000'
 }
