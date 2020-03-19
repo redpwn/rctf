@@ -120,11 +120,18 @@ export default withStyles({
     })
 
     updateAccount(this.state.updateName, this.state.updateDivision)
-      .then(resp => this.setState({
-        name: resp.user.name,
-        division: divisionMap.get(Number.parseInt(resp.user.division)),
-        disabledButton: false
-      }))
+      .then(resp => {
+        this.setState({
+          disabledButton: false
+        })
+
+        if (resp) {
+          this.setState({
+            name: resp.user.name,
+            division: divisionMap.get(Number.parseInt(resp.user.division))
+          })
+        }
+      })
   }
 
   handleDelete = e => {
@@ -173,6 +180,7 @@ export default withStyles({
               <div class='card u-flex u-flex-column'>
                 <div class='content'>
                   <p style='margin-bottom: 0'>Update Information</p>
+                  <p class='font-thin u-no-margin'>Warning: You can only do this once per 10 minutes</p>
                   <div class='row u-center'>
                     <Form class={`col-12 ${classes.form}`} onSubmit={this.handleUpdate} disabled={disabledButton} buttonText='Update'>
                       <input autofocus required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={updateName} onChange={this.linkState('updateName')} />
@@ -186,7 +194,7 @@ export default withStyles({
                       </select>
                     </Form>
                   </div>
-                  <div class='u-center action-bar' style='margin: 0 0.5rem'>
+                  <div class='u-center action-bar' style='margin: 0.5rem; padding: 1rem'>
                     <button class='btn-small btn-danger outline' style='border-color: var(--btn-color)' onClick={this.handleDelete}>Delete Account</button>
                   </div>
                 </div>

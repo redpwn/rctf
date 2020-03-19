@@ -1,6 +1,7 @@
 const { responses } = require('../../responses')
 const database = require('../../database')
 const config = require('../../../config/server')
+const timeouts = require('../../timeouts')
 
 module.exports = {
   method: 'patch',
@@ -22,6 +23,15 @@ module.exports = {
   },
   handler: async ({ uuid, req }) => {
     const { name, division } = req.body
+
+    const passRateLimit = await timeouts.checkRateLimit({
+      type: timeouts.types.UPDATE_PROFILE,
+      userid: uuid,
+      duration: 10 * 60 * 1000,
+      limit: 1
+    })
+
+    if (!passRateLimit) return responses.badRateLimit
 
     const user = await database.auth.updateUser({
       id: uuid,

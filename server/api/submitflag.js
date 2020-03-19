@@ -3,6 +3,7 @@ const challenges = require('../challenges')
 const { responses } = require('../responses')
 const config = require('../../config/server')
 const util = require('../util')
+const timeouts = require('../timeouts')
 
 const uuidv4 = require('uuid/v4')
 
@@ -45,6 +46,15 @@ module.exports = {
     const challenge = challenges.getChallenge(challengeid)
 
     if (challenge) {
+      const passRateLimit = await timeouts.checkRateLimit({
+        type: timeouts.getChallengeType(challengeid),
+        userid: uuid,
+        duration: 10 * 1000,
+        limit: 3
+      })
+
+      if (!passRateLimit) return responses.badRateLimit
+
       if (submittedFlag === challenge.flag) {
         const solved = await db.solves.getSolvesByUserIdAndChallId({ userid: uuid, challengeid: challengeid })
         if (solved === undefined) {
