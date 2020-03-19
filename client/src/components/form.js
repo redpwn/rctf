@@ -51,7 +51,7 @@ export default withStyles({
             )
           })
         }
-        <button disabled={disabled} class={classes.submit + ' btn-info u-center'} name='btn' value='submit' type='submit'>{buttonText}</button>
+        <button disabled={disabled} class={`${classes.submit} btn-info u-center`} name='btn' value='submit' type='submit'>{buttonText}</button>
         <span class='fg-danger info' />
       </form>
     )

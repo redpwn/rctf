@@ -29,7 +29,7 @@ export default withStyles({
   }
 
   componentDidMount () {
-    document.title = 'Challenges' + config.ctfTitle
+    document.title = `Challenges${config.ctfTitle}`
 
     getChallenges()
       .then(problems => {
@@ -50,7 +50,7 @@ export default withStyles({
         const solveIDs = []
         data.map(solve => solveIDs.push(solve.id))
         this.setState({
-          solveIDs: solveIDs
+          solveIDs
         })
       })
   }
@@ -120,7 +120,7 @@ export default withStyles({
                 <label class='text-danger info font-light'>{error}</label>
             }
             <div class='form-group'>
-              <input class={`form-group-input input-small ${hasError ? 'input-error' : ''}`} placeholder='Flag' value={values[problem.id]} onChange={this.linkState('values.' + problem.id)} />
+              <input class={`form-group-input input-small ${hasError ? 'input-error' : ''}`} placeholder='Flag' value={values[problem.id]} onChange={this.linkState(`values.${problem.id}`)} />
               <button class='form-group-btn btn-small'>Submit</button>
             </div>
           </form>
@@ -134,7 +134,7 @@ export default withStyles({
                     problem.files.map(file => {
                       return (
                         <div class='tag' key={file.path}>
-                          <a native href={config.staticEndpoint + '/' + file.path}>
+                          <a native href={`${config.staticEndpoint}/${file.path}`}>
                             {file.name}
                           </a>
                         </div>
