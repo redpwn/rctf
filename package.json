@@ -9,7 +9,7 @@
     "start": "node index.js",
     "migrate": "node-pg-migrate --database-url-var=RCTF_DATABASE_URL",
     "build": "sh client/build.sh",
-    "watch": "preact watch --src client/src --template client/index.html",
+    "dev:client": "preact watch --src client/src --template client/index.html",
     "dev": "nodemon index.js",
     "test": "nyc --skip-full ava",
     "test:report": "nyc --skip-full --reporter=lcov ava",
