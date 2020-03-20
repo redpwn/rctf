@@ -23,17 +23,9 @@ You should also use `yarn test` to ensure there are no regressions.
 
 Finally, you can commit with `git commit`. Note that we have [commitizen](https://github.com/commitizen/cz-cli) setup so just fill in the prompts!
 
-For the commitizen scope prompt, you should put in the name of the filename/path of the least common ancestor of your major changes.
+For the commitizen scope prompt, you should use `client/server/[empty]`. 
 
 > What is the scope of this change (e.g. component or file name)
-
-For example, if you made substantial changes to only one file, the scope would be that file's name, e.g. `package.json`.
-
-If you made significant changes to the api handlers in `server/api`, the scope would be `server/api`.
-
-If you made changes to everywhere, you should leave the scope blank.
-
-Of course, these are just general guidelines and not strict rules.
 
 ## Branches
 
