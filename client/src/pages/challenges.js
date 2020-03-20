@@ -1,4 +1,5 @@
 import { Component } from 'preact'
+import { useCallback } from 'preact/hooks'
 import config from '../../../config/client'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
@@ -176,7 +177,7 @@ export default withStyles({
               <div class='frame__title title'>Config</div>
               <div class={classes.showSolved}>
                 <div class='form-ext-control form-ext-checkbox'>
-                  <input id='check1' class='form-ext-input' type='checkbox' checked={showSolved} onClick={() => { this.handleInvertShowSolved() }} />
+                  <input id='check1' class='form-ext-input' type='checkbox' checked={showSolved} onClick={this.handleInvertShowSolved} />
                   <label class='form-ext-label' for='check1'>Show Solved</label>
                 </div>
               </div>
@@ -187,9 +188,13 @@ export default withStyles({
               <div class='frame__title title'>Filter</div>
               {
                 Object.keys(categories).map(category => {
+                  const clickHander = useCallback(
+                    () => this.handleInvertCategoryState(category),
+                    [category]
+                  );
                   return (
                     <div key={category} class='form-ext-control form-ext-checkbox'>
-                      <input id={category} class='form-ext-input' type='checkbox' checked={categories[category]} onClick={() => { this.handleInvertCategoryState(category) }} />
+                      <input id={category} class='form-ext-input' type='checkbox' checked={categories[category]} onClick={clickHander} />
                       <label class='form-ext-label' for={category}>{category}</label>
                     </div>
                   )
