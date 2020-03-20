@@ -58,7 +58,7 @@ RCTF_CLI_INSTALL_PATH="${RCTF_CLI_INSTALL_PATH:-"/usr/bin/rctf"}"
 INSTALL_PATH="${INSTALL_PATH:-"/opt/rctf"}"
 
 if [ ! -d "$(dirname "$INSTALL_PATH")" ]; then
-    error "The parent of \$INSTALL_PATH ('$(dirname "$INSTALL_PATH")') does not exist."
+    error "The parent of \$INSTALL_PATH ($(dirname "$INSTALL_PATH")) does not exist."
     exit 1
 fi
 
