@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'preact/compat'
+import { useEffect, useRef } from 'preact/compat'
 
 function Toast ({ children, remove }) {
   const removeRef = useRef()

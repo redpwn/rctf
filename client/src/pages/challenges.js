@@ -1,4 +1,5 @@
 import { Component } from 'preact'
+import { useCallback } from 'preact/hooks'
 import config from '../../../config/client'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
@@ -29,7 +30,7 @@ export default withStyles({
   }
 
   componentDidMount () {
-    document.title = 'Challenges' + config.ctfTitle
+    document.title = `Challenges${config.ctfTitle}`
 
     getChallenges()
       .then(problems => {
@@ -50,7 +51,7 @@ export default withStyles({
         const solveIDs = []
         data.map(solve => solveIDs.push(solve.id))
         this.setState({
-          solveIDs: solveIDs
+          solveIDs
         })
       })
   }
@@ -120,7 +121,7 @@ export default withStyles({
                 <label class='text-danger info font-light'>{error}</label>
             }
             <div class='form-group'>
-              <input class={`form-group-input input-small ${hasError ? 'input-error' : ''}`} placeholder='Flag' value={values[problem.id]} onChange={this.linkState('values.' + problem.id)} />
+              <input class={`form-group-input input-small ${hasError ? 'input-error' : ''}`} placeholder='Flag' value={values[problem.id]} onChange={this.linkState(`values.${problem.id}`)} />
               <button class='form-group-btn btn-small'>Submit</button>
             </div>
           </form>
@@ -134,7 +135,7 @@ export default withStyles({
                     problem.files.map(file => {
                       return (
                         <div class='tag' key={file.path}>
-                          <a native href={config.staticEndpoint + '/' + file.path}>
+                          <a native href={`${config.staticEndpoint}/${file.path}`}>
                             {file.name}
                           </a>
                         </div>
@@ -176,7 +177,7 @@ export default withStyles({
               <div class='frame__title title'>Config</div>
               <div class={classes.showSolved}>
                 <div class='form-ext-control form-ext-checkbox'>
-                  <input id='check1' class='form-ext-input' type='checkbox' checked={showSolved} onClick={() => { this.handleInvertShowSolved() }} />
+                  <input id='check1' class='form-ext-input' type='checkbox' checked={showSolved} onClick={this.handleInvertShowSolved} />
                   <label class='form-ext-label' for='check1'>Show Solved</label>
                 </div>
               </div>
@@ -187,9 +188,13 @@ export default withStyles({
               <div class='frame__title title'>Filter</div>
               {
                 Object.keys(categories).map(category => {
+                  const clickHander = useCallback(
+                    () => this.handleInvertCategoryState(category),
+                    [category]
+                  );
                   return (
                     <div key={category} class='form-ext-control form-ext-checkbox'>
-                      <input id={category} class='form-ext-input' type='checkbox' checked={categories[category]} onClick={() => { this.handleInvertCategoryState(category) }} />
+                      <input id={category} class='form-ext-input' type='checkbox' checked={categories[category]} onClick={clickHander} />
                       <label class='form-ext-label' for={category}>{category}</label>
                     </div>
                   )
