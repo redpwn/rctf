@@ -9,7 +9,7 @@
     "start": "node index.js",
     "migrate": "node-pg-migrate --database-url-var=RCTF_DATABASE_URL",
     "build": "sh client/build.sh",
-    "watch": "preact watch --src client/src --template client/index.html",
+    "dev:client": "preact watch --src client/src --template client/index.html",
     "dev": "nodemon index.js",
     "test": "nyc --skip-full ava",
     "test:report": "nyc --skip-full --reporter=lcov ava",
@@ -18,11 +18,13 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint"
+      "pre-commit": "yarn lint",
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
     }
   },
   "dependencies": {
     "ajv": "^6.11.0",
+    "commitizen": "^4.0.3",
     "email-validator": "^2.0.4",
     "eslint-plugin-ava": "^10.2.0",
     "express": "^4.17.1",
@@ -38,6 +40,7 @@
     "babel-eslint": "^10.0.3",
     "cirrus-ui": "^0.5.5",
     "compression": "^1.7.4",
+    "cz-conventional-changelog": "3.1.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-preact": "^1.1.0",
@@ -77,5 +80,10 @@
   "bugs": {
     "url": "https://github.com/redpwn/rctf/issues"
   },
-  "homepage": "https://github.com/redpwn/rctf#readme"
+  "homepage": "https://github.com/redpwn/rctf#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
