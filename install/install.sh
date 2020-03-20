@@ -35,7 +35,7 @@ fi
 if [ -x "$(command -v apt-get)" ]; then
     PACKAGE_MANAGER="apt-get"
 elif [ -x "$(command -v yum)" ]; then
-    error "Warning: Support for RHEL-like distros is experimental and things might break. Giving you 10 seconds to change your mind (by presing Ctrl+C)..."
+    error "Warning: Support for RHEL-like distros is experimental and things might break. Giving you 10 seconds to change your mind (by pressing Ctrl+C)..."
     sleep 10
 
     PACKAGE_MANAGER="yum"
