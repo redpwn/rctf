@@ -41,5 +41,5 @@ test.serial('succeeds with goodChallenges', async t => {
     .expect(responseList.goodChallenges.status)
 
   t.is(resp.body.kind, 'goodChallenges')
-  t.truthy(Array.isArray(resp.body.data))
+  t.true(Array.isArray(resp.body.data))
 })

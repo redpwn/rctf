@@ -1,4 +1,4 @@
-import { Component } from 'preact'
+
 import withStyles from './jss'
 
 export default withStyles({
@@ -10,23 +10,21 @@ export default withStyles({
       boxShadow: 'none'
     }
   }
-}, class Header extends Component {
-  render ({ classes, paths, currentPath }) {
-    return (
-      <div class='tab-container tabs-center'>
-        <ul>
-          {
-            paths.map(route => {
-              const { path, name } = route.props
-              const selectedClass = path === currentPath ? 'selected' : ''
+}, ({ classes, paths, currentPath }) => {
+  return (
+    <div class='tab-container tabs-center'>
+      <ul>
+        {
+          paths.map(route => {
+            const { path, name } = route.props
+            const selectedClass = path === currentPath ? 'selected' : ''
 
-              return (
-                <li key={name} class={`${selectedClass} ${classes.normalize}`}><a href={path}>{name}</a></li>
-              )
-            })
-          }
-        </ul>
-      </div>
-    )
-  }
+            return (
+              <li key={name} class={`${selectedClass} ${classes.normalize}`}><a href={path}>{name}</a></li>
+            )
+          })
+        }
+      </ul>
+    </div>
+  )
 })

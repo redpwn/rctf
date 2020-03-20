@@ -14,7 +14,7 @@ export default withStyles({
   }
 
   componentDidMount () {
-    document.title = 'Verify' + config.ctfTitle
+    document.title = `Verify${config.ctfTitle}`
 
     const prefix = '#token='
     if (document.location.hash.startsWith(prefix)) {
