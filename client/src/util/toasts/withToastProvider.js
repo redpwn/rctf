@@ -1,4 +1,4 @@
-import { useState, useMemo, createPortal } from 'preact/compat'
+import { useState, useCallback, createPortal } from 'preact/compat'
 
 import ToastContext from './context'
 import Toast from './Toast'
@@ -16,14 +16,14 @@ function generateUEID () {
 function withToastProvider (Component) {
   function WithToastProvider (props) {
     const [toasts, setToasts] = useState([])
-    const providerValue = useMemo(() => ({
+    const providerValue = useCallback({
       add: content => {
         const id = generateUEID()
 
         setToasts([...toasts, { id, content }])
       },
       remove: id => setToasts(toasts.filter(t => t.id !== id))
-    }), [toasts])
+    }, [toasts])
 
     const toastWrapperStyle = {
       position: 'fixed',
@@ -38,6 +38,7 @@ function withToastProvider (Component) {
         {createPortal(
           <div style={toastWrapperStyle}>
             {toasts.map(t => (
+              // eslint-disable-next-line react/jsx-no-bind
               <Toast key={t.id} remove={() => providerValue.remove(t.id)}>
                 {t.content}
               </Toast>
