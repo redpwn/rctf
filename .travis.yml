@@ -13,7 +13,6 @@ jobs:
         - redis-server
 
       env:
-        global:
         - RCTF_DATABASE_URL=postgres://postgres@localhost/rctf
         - RCTF_REDIS_URL=redis://@localhost:6379/0
 
