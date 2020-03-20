@@ -21,11 +21,13 @@ You should also use `yarn test` to ensure there are no regressions.
 
 ## Commits
 
-Finally, you can commit with `git commit`. Note that we have [commitizen](https://github.com/commitizen/cz-cli) setup so just fill in the prompts!
+Finally when it's all done, you can commit with `git commit`. Note that we have [commitizen](https://github.com/commitizen/cz-cli) setup so just fill in the prompts!
 
 For the commitizen scope prompt, you should use `client/server/[empty]`. 
 
 > What is the scope of this change (e.g. component or file name)
+
+You should also make sure that the commit message is entirely lowercase.
 
 ## Branches
 
