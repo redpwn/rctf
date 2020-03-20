@@ -1,4 +1,4 @@
-const uuidv4 = require('uuid/v4')
+const { v4: uuidv4 } = require('uuid')
 const emailValidator = require('email-validator')
 const cache = require('../../cache')
 const util = require('../../util')
