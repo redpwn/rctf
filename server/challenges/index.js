@@ -2,16 +2,16 @@ const config = require('../../config/server')
 const util = require('../util')
 const path = require('path')
 
-let challenges
-let cleanedChallenges
+const Provider = require(path.join(__dirname, 'providers', config.challengeProvider.name))
+
+let challenges = []
+let cleanedChallenges = []
 // Mapping from challenge.id to challenge
 const challMap = new Map()
 const cleanedChallMap = new Map()
 
-const resetChallenges = () => {
-  const module = path.join('../../', config.rDeployDirectory, 'config.json')
-
-  challenges = util.reloadModule(module)
+const onUpdate = (newChallenges) => {
+  challenges = newChallenges
 
   challMap.clear()
   challenges.forEach(c => {
@@ -44,7 +44,10 @@ const resetChallenges = () => {
   })
 }
 
-resetChallenges()
+const provider = new Provider({
+  onUpdate,
+  options: config.challengeProvider.options
+})
 
 module.exports = {
   getAllChallenges: () => {
@@ -60,6 +63,6 @@ module.exports = {
     return cleanedChallMap.get(id)
   },
   resetCache: () => {
-    resetChallenges()
+    provider.forceUpdate()
   }
 }

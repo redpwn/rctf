@@ -1,4 +1,11 @@
 const ret = {
+  challengeProvider: {
+    name: 'rdeploy-blob',
+    options: {
+      useGlobalRDeployDirectory: true,
+      updateInterval: 60 * 1000
+    }
+  },
   rDeployDirectory: '.rdeploy',
   rDeployFiles: 'files',
   verifyEmail: false,
