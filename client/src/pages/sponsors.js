@@ -20,7 +20,7 @@ export default withStyles({
   }
 
   componentDidMount () {
-    document.title = 'Sponsors' + config.ctfTitle
+    document.title = `Sponsors${config.ctfTitle}`
   }
 
   render ({ classes }, { sponsors }) {
@@ -43,7 +43,7 @@ export default withStyles({
                     <div class={cl}>
                       <div class='content'>
                         {sponsor.icon &&
-                          <figure class={'u-center ' + classes.icon}>
+                          <figure class={`u-center ${classes.icon}`}>
                             <img src={sponsor.icon} />
                           </figure>}
                         <p class='title level'>{sponsor.name}</p>

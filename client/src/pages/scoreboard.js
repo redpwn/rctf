@@ -16,7 +16,7 @@ export default withStyles({
   }
 
   componentDidMount () {
-    document.title = 'Scoreboard' + config.ctfTitle
+    document.title = `Scoreboard${config.ctfTitle}`
 
     getScoreboard()
       .then(data => {

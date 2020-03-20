@@ -23,7 +23,7 @@ export default withStyles({
   }
 
   componentDidMount () {
-    document.title = 'Login' + config.ctfTitle
+    document.title = `Login${config.ctfTitle}`
 
     const prefix = '#token='
     if (document.location.hash.startsWith(prefix)) {
@@ -45,7 +45,7 @@ export default withStyles({
     const { classes } = props
     return (
       <div class='row u-center'>
-        <Form class={classes.root + ' col-6'} onSubmit={this.handleSubmit} disabled={disabledButton} buttonText='Login' errors={errors}>
+        <Form class={`${classes.root} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} buttonText='Login' errors={errors}>
           <input autofocus name='teamToken' icon={<IdCard />} placeholder='Team Token' type='text' value={teamToken} onChange={this.linkState('teamToken')} />
         </Form>
       </div>
