@@ -1,4 +1,5 @@
 import { Component } from 'preact'
+import { useCallback } from 'preact/hooks'
 import config from '../../../config/client'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
@@ -14,10 +15,14 @@ export default withStyles({
   divider: {
     margin: '10px',
     width: '80%'
+  },
+  showSolved: {
+    marginBottom: '10px'
   }
 }, class Challenges extends Component {
   state = {
     problems: [],
+    categories: {}, // Dict with {string name, bool filter}
     values: {},
     errors: {},
     showSolved: false,
@@ -25,12 +30,19 @@ export default withStyles({
   }
 
   componentDidMount () {
-    document.title = 'Challenges' + config.ctfTitle
+    document.title = `Challenges${config.ctfTitle}`
 
     getChallenges()
       .then(problems => {
+        const categories = {}
+        problems.forEach(problem => {
+          if (categories[problem.category] === undefined) {
+            categories[problem.category] = false
+          }
+        })
         this.setState({
-          problems
+          problems,
+          categories
         })
       })
 
@@ -39,7 +51,7 @@ export default withStyles({
         const solveIDs = []
         data.map(solve => solveIDs.push(solve.id))
         this.setState({
-          solveIDs: solveIDs
+          solveIDs
         })
       })
   }
@@ -66,9 +78,18 @@ export default withStyles({
       })
   }
 
-  handleShowSolvesCheckbox = () => {
+  handleInvertShowSolved = () => {
     this.setState(prevState => ({
       showSolved: !prevState.showSolved
+    }))
+  }
+
+  handleInvertCategoryState = (propertyName) => {
+    this.setState(prevState => ({
+      categories: {
+        ...prevState.categories,
+        [propertyName]: !prevState.categories[propertyName]
+      }
     }))
   }
 
@@ -100,7 +121,7 @@ export default withStyles({
                 <label class='text-danger info font-light'>{error}</label>
             }
             <div class='form-group'>
-              <input class={`form-group-input input-small ${hasError ? 'input-error' : ''}`} placeholder='Flag' value={values[problem.id]} onChange={this.linkState('values.' + problem.id)} />
+              <input class={`form-group-input input-small ${hasError ? 'input-error' : ''}`} placeholder='Flag' value={values[problem.id]} onChange={this.linkState(`values.${problem.id}`)} />
               <button class='form-group-btn btn-small'>Submit</button>
             </div>
           </form>
@@ -114,7 +135,7 @@ export default withStyles({
                     problem.files.map(file => {
                       return (
                         <div class='tag' key={file.path}>
-                          <a native href={config.staticEndpoint + '/' + file.path}>
+                          <a native href={`${config.staticEndpoint}/${file.path}`}>
                             {file.name}
                           </a>
                         </div>
@@ -130,10 +151,22 @@ export default withStyles({
     )
   }
 
-  render ({ classes }, { problems, values, errors, showSolved, solveIDs }) {
+  render ({ classes }, { problems, categories, values, errors, showSolved, solveIDs }) {
     let problemsToDisplay = problems
     if (!showSolved) {
-      problemsToDisplay = problems.filter(problem => !solveIDs.includes(problem.id))
+      problemsToDisplay = problemsToDisplay.filter(problem => !solveIDs.includes(problem.id))
+    }
+    let filterCategories = false
+    Object.values(categories).forEach(displayCategory => {
+      if (displayCategory) filterCategories = true
+    })
+    if (filterCategories) {
+      Object.keys(categories).forEach(category => {
+        if (categories[category] === false) {
+          // Do not display this category
+          problemsToDisplay = problemsToDisplay.filter(problem => problem.category !== category)
+        }
+      })
     }
 
     return (
@@ -142,10 +175,31 @@ export default withStyles({
           <div class={`frame ${classes.frame}`}>
             <div class='frame__body'>
               <div class='frame__title title'>Config</div>
-              <div class='form-ext-control form-ext-checkbox'>
-                <input id='check1' class='form-ext-input' type='checkbox' checked={showSolved} onClick={() => { this.handleShowSolvesCheckbox() }} />
-                <label class='form-ext-label' for='check1'>Show Solved</label>
+              <div class={classes.showSolved}>
+                <div class='form-ext-control form-ext-checkbox'>
+                  <input id='check1' class='form-ext-input' type='checkbox' checked={showSolved} onClick={this.handleInvertShowSolved} />
+                  <label class='form-ext-label' for='check1'>Show Solved</label>
+                </div>
               </div>
+            </div>
+          </div>
+          <div class={`frame ${classes.frame}`}>
+            <div class='frame__body'>
+              <div class='frame__title title'>Filter</div>
+              {
+                Object.keys(categories).map(category => {
+                  const clickHander = useCallback(
+                    () => this.handleInvertCategoryState(category),
+                    [category]
+                  );
+                  return (
+                    <div key={category} class='form-ext-control form-ext-checkbox'>
+                      <input id={category} class='form-ext-input' type='checkbox' checked={categories[category]} onClick={clickHander} />
+                      <label class='form-ext-label' for={category}>{category}</label>
+                    </div>
+                  )
+                })
+              }
             </div>
           </div>
         </div>

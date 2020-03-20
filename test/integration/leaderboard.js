@@ -12,7 +12,7 @@ test('succeeds with goodLeaderboard', async t => {
     .expect(responseList.goodLeaderboard.status)
 
   t.is(resp.body.kind, 'goodLeaderboard')
-  t.truthy(Array.isArray(resp.body.data.leaderboard))
+  t.true(Array.isArray(resp.body.data.leaderboard))
 })
 
 test('ctftime integration succeeds with goodCtftimeLeaderboard', async t => {
@@ -22,5 +22,5 @@ test('ctftime integration succeeds with goodCtftimeLeaderboard', async t => {
     .expect('Content-Type', /json/)
     .expect(responseList.goodCtftimeLeaderboard.status)
 
-  t.truthy(Array.isArray(resp.body.standings))
+  t.true(Array.isArray(resp.body.standings))
 })

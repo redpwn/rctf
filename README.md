@@ -75,3 +75,7 @@ If you use [rDeploy](https://github.com/redpwn/rdeploy), you can automatically i
 ##### Without rDeploy
 
 This is currently not supported, but it will be in the near future.
+
+## Development
+
+We would love your help! Please see [our CONTRIBUTING.md](https://github.com/redpwn/rctf/blob/master/CONTRIBUTING.md).
