@@ -4,12 +4,16 @@ const app = require('../../app')
 const uuidv4 = require('uuid/v4')
 
 const db = require('../../server/database')
-const challenges = require('../../server/challenges')
 const { responseList } = require('../../server/responses')
 const auth = require('../../server/auth')
 const util = require('../_util')
 
-const chall = challenges.getAllChallenges()[0]
+let chall
+
+// Wait for challenges to load
+test.before(async () => {
+  chall = await util.getFirstLoadedChallenge()
+})
 
 test.after.always('remove solves from test user', async t => {
   await db.solves.removeSolvesByUserId({ userid: uuid })

@@ -1,6 +1,6 @@
 const config = require('../../../../config/server')
-const { reloadModule } = require('../../../util')
 const path = require('path')
+const fs = require('fs')
 
 class RDeployBlobProvider {
   constructor ({ options, onUpdate }) {
@@ -21,11 +21,23 @@ class RDeployBlobProvider {
   }
 
   _update () {
-    const module = path.join('../../', this._rDeployDirectory, 'config.json')
+    const configPath = path.join(__dirname, '../../../../', this._rDeployDirectory, 'config.json')
 
-    const challenges = reloadModule(module)
+    fs.readFile(configPath, (err, data) => {
+      if (err) {
+        // FIXME: log error properly
+        console.error(err)
+      }
 
-    this._onUpdate(challenges)
+      try {
+        const challenges = JSON.parse(data)
+
+        this._onUpdate(challenges)
+      } catch (e) {
+        // FIXME: log error properly
+        console.error(e)
+      }
+    })
   }
 
   forceUpdate () {

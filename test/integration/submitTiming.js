@@ -4,11 +4,16 @@ const app = require('../../app')
 const config = require('../../config/server')
 const uuidv4 = require('uuid/v4')
 
-const challenges = require('../../server/challenges')
 const { responseList } = require('../../server/responses')
 const auth = require('../../server/auth')
+const { getFirstLoadedChallenge } = require('../_util.js')
 
-const chall = challenges.getAllChallenges()[0]
+let chall
+
+// Wait for challenges to load
+test.before(async () => {
+  chall = await getFirstLoadedChallenge()
+})
 
 const uuid = uuidv4()
 
