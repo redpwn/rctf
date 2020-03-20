@@ -33,7 +33,7 @@
     "nodemailer": "^6.4.2",
     "pg": "^7.18.1",
     "redis": "^3.0.2",
-    "uuid": "^3.4.0"
+    "uuid": "^7.0.2"
   },
   "devDependencies": {
     "ava": "^3.3.0",
