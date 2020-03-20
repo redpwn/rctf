@@ -10,4 +10,4 @@ chown -R 999 data
 chmod 600 .env
 
 docker-compose build
-docker-compose run --rm rctf "node install/docker-migrate.js"
+docker-compose run --rm rctf node install/docker-migrate.js
