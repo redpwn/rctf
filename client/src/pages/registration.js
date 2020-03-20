@@ -25,13 +25,13 @@ export default withStyles({
   }
 
   componentDidMount () {
-    document.title = 'Registration' + config.ctfTitle
+    document.title = `Registration${config.ctfTitle}`
   }
 
   render ({ classes }, { name, email, division, disabledButton, errors }) {
     return (
       <div class='row u-center'>
-        <Form class={classes.root + ' col-6'} onSubmit={this.handleSubmit} disabled={disabledButton} errors={errors} buttonText='Register'>
+        <Form class={`${classes.root} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} errors={errors} buttonText='Register'>
           <input autofocus required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={name} onChange={this.linkState('name')} />
           <input required icon={<EnvelopeOpen />} name='email' placeholder='Email' type='text' value={email} onChange={this.linkState('email')} />
           <select required class='select' name='division' value={division} onChange={this.linkState('division')}>

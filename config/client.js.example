@@ -6,13 +6,13 @@ const ret = {
   logoUrl: 'https://webite.com/logo.png',
   sponsors: [
     {
-      name: "Big Sponsor",
-      icon: "https://website.com/logo.png",
-      description: "Brief description"
+      name: 'Big Sponsor',
+      icon: 'https://website.com/logo.png',
+      description: 'Brief description'
     },
     {
-      name: "Smaller Sponsor",
-      description: "Brief description",
+      name: 'Smaller Sponsor',
+      description: 'Brief description',
       small: true
     }
   ]

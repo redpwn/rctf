@@ -7,9 +7,15 @@ const config = require('../../config/server')
 const { responseList } = require('../../server/responses')
 const database = require('../../server/database')
 const auth = require('../../server/auth')
-const util = require('../util')
+const util = require('../_util')
 
 const testUser = util.generateTestUser()
+
+test.after.always('cleanup test user', async t => {
+  await removeUserByEmail({
+    email: testUser.email
+  })
+})
 
 test('fails with badEmail', async t => {
   const resp = await request(app)
@@ -128,10 +134,4 @@ test.serial('succeeds with goodUserDelete', async t => {
     .expect(responseList.goodUserDelete.status)
 
   t.is(resp.body.kind, 'goodUserDelete')
-})
-
-test.after.always('cleanup test user', async t => {
-  await removeUserByEmail({
-    email: testUser.email
-  })
 })

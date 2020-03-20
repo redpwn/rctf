@@ -13,7 +13,7 @@ test.serial('PORT env flag', async t => {
   require('../../index')
 
   const resp = await got(`http://localhost:${PORT}`)
-  t.truthy(resp.body !== undefined)
+  t.true(resp.body !== undefined)
 
   process.env.PORT = old
 })
@@ -26,7 +26,7 @@ test.serial('TEST_COMPRESSION env flag', async t => {
     .get('/favicon.ico')
     .expect('Content-Encoding', /gzip/)
 
-  t.truthy(resp.body !== undefined)
+  t.true(resp.body !== undefined)
 
   process.env.TEST_COMPRESSION = old
   reloadModule('../../app')

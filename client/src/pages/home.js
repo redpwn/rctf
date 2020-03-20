@@ -16,7 +16,7 @@ export default withStyles({
   }
 }, class Home extends Component {
   componentDidMount () {
-    document.title = 'Home' + config.ctfTitle
+    document.title = `Home${config.ctfTitle}`
   }
 
   render ({ classes }) {
