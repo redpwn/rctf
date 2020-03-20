@@ -151,6 +151,8 @@ if [ ! -f "$RCTF_CLI_INSTALL_PATH" ]; then
 else
     error "A file already exists at ${RCTF_CLI_INSTALL_PATH}. Skipping rCTF CLI tool installation..."
     info "... If this file is some version of a rCTF CLI tool and you would like to update it, run '$RCTF_CLI_INSTALL_PATH update' after this installation."
+fi
+
 
 # start docker
 
