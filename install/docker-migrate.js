@@ -8,10 +8,9 @@ const { Client } = require('pg')
 
 const run = async function () {
   let attempts = 0
-  const MAX_ATTEMPTS = 10
   const DELAY = 1000
 
-  while (attempts < MAX_ATTEMPTS) {
+  while (true) {
     attempts++
     try {
       const client = new Client({
@@ -22,9 +21,7 @@ const run = async function () {
       break
     } catch (e) {
       if (e.code === 'ECONNREFUSED') {
-        if (attempts === MAX_ATTEMPTS) {
-          console.log(`Max connection attempts of ${MAX_ATTEMPTS} exceeded. Please double check your postgresql url.`)
-        }
+        console.log(`Connnection to postgresql failed, retry attempt ${attempts}`)
 
         // Sleep for 1 second and try again
         await new Promise(resolve => setTimeout(resolve, DELAY))
