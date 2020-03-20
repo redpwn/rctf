@@ -30,7 +30,7 @@
     "express": "^4.17.1",
     "mustache": "^4.0.0",
     "node-pg-migrate": "^4.2.2",
-    "nodemailer": "^6.4.2",
+    "nodemailer": "^6.4.6",
     "pg": "^7.18.1",
     "redis": "^3.0.2",
     "uuid": "^7.0.2"
