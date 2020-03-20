@@ -14,11 +14,13 @@ bg_red="\033[41m"
 reset="\033[0m"
 
 error() {
-    printf "${bg_red}${bold_fg_white}[-] $@$reset\n" 1>&2
+    # shellcheck disable=SC2059
+    printf "${bg_red}${bold_fg_white}%s %s${reset}\n" "[-]" "$*" 1>&2
 }
 
 info() {
-    printf "${fg_cyan}[*] $@$reset\n"
+    # shellcheck disable=SC2059
+    printf "${fg_cyan}%s %s${reset}\n" "[*]" "$*"
 }
 
 
