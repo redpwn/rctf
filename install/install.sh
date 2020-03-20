@@ -140,14 +140,17 @@ chmod 600 .env .env.example
 # copy over cli tool
 
 
-info "Copying CLI tool from $INSTALL_PATH/install/rctf.py to $RCTF_CLI_INSTALL_PATH"
+info "Copying CLI tool from $INSTALL_PATH/install/rctf.py to ${RCTF_CLI_INSTALL_PATH}..."
 
-cp install/rctf.py "$RCTF_CLI_INSTALL_PATH"
-
-info "Setting $RCTF_CLI_INSTALL_PATH as executable..."
-
-chmod +x "$RCTF_CLI_INSTALL_PATH"
-
+if [ ! -f "$RCTF_CLI_INSTALL_PATH" ]; then
+    cp install/rctf.py "$RCTF_CLI_INSTALL_PATH"
+    
+    info "Setting $RCTF_CLI_INSTALL_PATH as executable..."
+    
+    chmod +x "$RCTF_CLI_INSTALL_PATH"
+else
+    error "A file already exists at ${RCTF_CLI_INSTALL_PATH}. Skipping rCTF CLI tool installation..."
+    info "... If this file is some version of a rCTF CLI tool and you would like to update it, run '$RCTF_CLI_INSTALL_PATH update' after this installation."
 
 # start docker
 
