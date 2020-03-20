@@ -2,7 +2,7 @@ const config = require('../../config/server')
 const util = require('../util')
 const path = require('path')
 
-const Provider = require(path.join(__dirname, 'providers', config.challengeProvider.name))
+const Provider = require(path.join('../providers', config.challengeProvider.name))
 
 let challenges = []
 let cleanedChallenges = []
