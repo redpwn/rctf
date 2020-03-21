@@ -102,7 +102,7 @@ if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
     apt-get install --yes docker.io docker-compose git python3 python3-pip
 elif [ "$PACKAGE_MANAGER" = "yum" ]; then
     info "We are about to install docker via https://get.docker.com/. Please follow along the steps to ensure it is configured properly."
-    
+
     # pass Ctrl+C / SIGINT to inside script
     sh -c '
         trap break INT
@@ -160,9 +160,9 @@ echo 3
 echo 4
 if [ ! -f "$RCTF_CLI_INSTALL_PATH" ]; then
     cp install/rctf.py "$RCTF_CLI_INSTALL_PATH"
-    
+
     info "Setting $RCTF_CLI_INSTALL_PATH as executable..."
-    
+
     chmod +x "$RCTF_CLI_INSTALL_PATH"
 else
     error "A file already exists at ${RCTF_CLI_INSTALL_PATH}. Skipping rCTF CLI tool installation..."

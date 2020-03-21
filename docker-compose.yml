@@ -21,7 +21,7 @@ services:
     cpus: 0
     ulimits:
       nproc: 65535
-      nofile: 
+      nofile:
         soft: 20000
         hard: 40000
   redis:
