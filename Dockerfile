@@ -8,15 +8,19 @@ ENV RCTF_NAME=${rctf_name}
 RUN groupmod -g 999 node && usermod -u 999 -g 999 node
 
 COPY package.json yarn.lock ./
+COPY config ./config
 
 COPY client ./client
-COPY config ./config
 COPY public ./public
-COPY preact.config.js .
-RUN yarn && yarn build && rm -rf node_modules
+COPY preact.config.js ./
+
+COPY server ./server
+COPY tsconfig.json ./
+
+RUN yarn && yarn build && rm -rf node_modules && yarn cache clean
 
 ENV NODE_ENV production
-RUN yarn
+RUN yarn && yarn cache clean
 
 ENV PORT 8000
 EXPOSE 8000
@@ -24,4 +28,4 @@ EXPOSE 8000
 COPY . .
 
 
-CMD ["node", "index.js"]
+CMD ["node", "dist/server/index.js"]

@@ -14,14 +14,14 @@ services:
     env_file:
       - .env
     volumes:
-      - ./.rdeploy:/app/.rdeploy
+      - ./.rdeploy:/app/dist/.rdeploy
     depends_on:
       - redis
       - postgres
     cpus: 0
     ulimits:
       nproc: 65535
-      nofile: 
+      nofile:
         soft: 20000
         hard: 40000
   redis:
