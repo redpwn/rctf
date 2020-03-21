@@ -65,7 +65,12 @@ module.exports = {
       return responses.goodFlag
     } catch (e) {
       if (e.constraint === 'uq') {
+        // not a unique submission, so the user already solved
         return responses.badAlreadySolvedChallenge
+      }
+      if (e.constraint === 'uuid_fkey') {
+        // the user referenced by the solve isnt in the users table
+        return responses.badUnknownUser
       }
       throw e
     }
