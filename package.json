@@ -15,10 +15,8 @@
     "watch:server": "nodemon dist/index.js",
     "watch:ts": "tsc -w",
     "dev": "yarn build:ts && concurrently -k -t \"HH:mm:ss.SSS\" -p \"[{time}]\" -c \"cyan,green,red\" \"yarn watch:client\" \"yarn watch:server\" \"yarn watch:ts\"",
-    "test": "nyc --skip-full ava",
+    "test": "yarn build && nyc --skip-full ava",
     "test:report": "nyc --skip-full --reporter=lcov ava",
-    "client:build": "sh client/build.sh",
-    "client:watch": "preact watch --src client/src --template client/index.html",
     "copy-static": "cpy 'server/**/*' '.rdeploy' '!**/*.ts' dist/ --no-overwrite --parents"
   },
   "husky": {
@@ -35,6 +33,7 @@
     "mustache": "^4.0.0",
     "node-pg-migrate": "^4.2.2",
     "nodemailer": "^6.4.6",
+    "nyc": "^15.0.0",
     "pg": "^7.18.1",
     "redis": "^3.0.2",
     "uuid": "^7.0.2"
@@ -69,7 +68,6 @@
     "jss-vendor-prefixer": "^8.0.1",
     "linkstate": "^1.1.1",
     "nodemon": "^2.0.2",
-    "nyc": "^15.0.0",
     "preact": "^10.3.1",
     "preact-cli": "^2.2.1",
     "preact-router": "^3.2.1",

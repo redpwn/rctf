@@ -4,3 +4,6 @@ rm -r build/ssr-build build/manifest.json build/polyfills* build/push-manifest.j
 mv build/*.js* build/assets
 mv build/assets build/static
 cp -r public/* build
+
+rm -rf dist/build
+mv build dist/

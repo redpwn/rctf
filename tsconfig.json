@@ -6,7 +6,8 @@
     "target": "es6",
     "noImplicitAny": true,
     "moduleResolution": "node",
-    "sourceMap": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
     "allowJs": true,
     "outDir": "dist",
     "baseUrl": "."
