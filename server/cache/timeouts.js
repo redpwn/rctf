@@ -24,8 +24,10 @@ module.exports = {
   * The method does two things, but is in one database call for performance reasons. Rate limiting
   * will be called frequently.
   *
-  * First, the the method checks if the number of events meets the limit. If so, it resolves to false.
-  * Otherwise, the method will add a event, and resolve to true.
+  * First, the the method checks if the number of events meets the limit.
+  * If so, it resolves to an object with the `ok` key set to false, and `timeLeft` set
+  * to the number of milliseconds left until the bucket expires and new requests can be sent.
+  * Otherwise, the method will resolve to an object with the `ok` key set to true.
   */
   checkRateLimit: async ({ type, userid, duration, limit }) => {
     const bucketKey = `rl:${type}:${userid}`
