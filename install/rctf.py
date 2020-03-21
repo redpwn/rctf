@@ -64,6 +64,7 @@ prompts = {
     'fatal' : '[-]'
 }
 
+
 class ColorLog(object):
     def __init__(self, logger):
         self._log = logger
@@ -243,10 +244,10 @@ def strip_ansi(line):
     return ansi_escape.sub('', line)
 
 
-# create simple model of rCTF
+# create simple classes
 
 
-class rCTF:
+class Config(collections.OrderedDict):
     config_keys = {
         'RCTF_NAME' : 'ctf.name',
         'RCTF_ORIGIN' : 'ctf.origin',
@@ -264,25 +265,48 @@ class rCTF:
         'RCTF_SMTP_URL' : 'smtp.url',
         'RCTF_EMAIL_FROM' : 'smtp.from'
     }
-
-
-    def __init__(self, install_path = '/opt/rctf/'):
-        if not install_path.endswith('/'):
-            install_path += '/'
-
-        self.install_path = install_path
-
-        self.config_path = install_path + '.config.json'
-        self.dotenv_path = install_path + '.env'
-
-
+    
+    
+    def __init__(self, config_path, *args, **kwargs):
+        retval = super().__init__(*args, **kwargs)
+        
+        self.config_path = config_path
+        
+        #self._get = self.get
+        #self._set = self.set
+        
+        self.get = self.__get
+        self.set = self.__set
+        
+        return retval
+    
+    
+    def __get(self, key, default = None):
+        return str(self[key]) if key in self else default
+    
+    
+    def get_bool(self, *args, **kwargs):
+        return str(self.get(*args, **kwargs).strip().lower()) in ['true', '1', 'enable', 'true']
+    
+    
+    def get_int(self, *args, **kwargs):
+        return int(str(self.get(*args, **kwargs).strip()))
+    
+    
+    def __set(self, key, value):
+        self[key] = str(value)
+        return key
+    
     # `update_config` tells it to replace config entries with dotenv entries
-    def read_config(self, update_config = False):
+    def read(self, update_config = False):
+        if self.config_path == '':
+            raise RuntimeError('Attempted to read dummy config path')
+    
         if update_config or not check_file(self.config_path):
             config = collections.OrderedDict()
 
             if update_config:
-                config = self.read_config(update_config = False)
+                config = self.read(update_config = False)
 
             dotenv_config = read_env(self.dotenv_path)
 
@@ -293,21 +317,53 @@ class rCTF:
                 if key in rCTF.config_keys:
                     config[rCTF.config_keys[key]] = str(value)
 
-            self.write_config(config)
+            config.write()
             os.chmod(self.config_path, 0o600)
 
         with open(self.config_path, 'r') as f:
             # TODO: auto identify bad permissions on config and warn
             config = json.loads(f.read(), object_pairs_hook = collections.OrderedDict)
+        
+        self.clear()
+        self.update(config)
+        
+        return self
 
-        return config
 
-
-    def write_config(self, config):
-        config = json.dumps(config, indent = 2)
+    def write(self):
+        if self.config_path == '':
+            raise RuntimeError('Attempted to write dummy config path')
+        
+        config = json.dumps(self, indent = 2)
 
         with open(self.config_path, 'w') as f:
             return f.write(config)
+
+
+    # gets config environ
+    def _get_as_environ(self):
+        envvars = dict()
+
+        reverse_config_keys = {value : key for key, value in rCTF.config_keys.items()}
+
+        for key, value in self.items():
+            if key in reverse_config_keys:
+                envvars[reverse_config_keys[key]] = str(value)
+            elif not key.startswith('cli.'):
+                envvars[key] = str(value)
+
+        return envvars
+
+
+class rCTF:
+    def __init__(self, install_path = '/opt/rctf/'):
+        if not install_path.endswith('/'):
+            install_path += '/'
+
+        self.install_path = install_path
+
+        self.config_path = install_path + '.config.json'
+        self.dotenv_path = install_path + '.env'
 
 
     def up(self):
@@ -347,20 +403,9 @@ class rCTF:
         return True
 
 
-    # gets config environ
-    def _get_config_as_environ(self):
-        config = self.read_config()
-        envvars = dict()
+    def get_config(self, update_config = False):
+        return Config(self.config_path).read(update_config = update_config)
 
-        reverse_config_keys = {value : key for key, value in rCTF.config_keys.items()}
-
-        for key, value in config.items():
-            if key in reverse_config_keys:
-                envvars[reverse_config_keys[key]] = str(value)
-            elif not key.startswith('cli.'):
-                envvars[key] = str(value)
-
-        return envvars
     
     # merges os.environ and configuration environ
     def get_env(self):
@@ -407,17 +452,21 @@ if __name__ == '__main__':
 
     # parse cli config
 
+    read_config = False
+    
     try:
-        config = rctf.read_config()
+        config = rctf.get_config()
 
-        disable_ansi = str(config.get('cli.noAnsi', not config.get('cli.ansi', True)))
+        read_config = True
     except PermissionError:
-        # use sane defaults
-        pass
+        # XXX: this is a dummy path. find a better way to handle
+        config = Config('', {
+            'cli.ansi' : True
+        })
 
     # disable ansi color codes if necessary
 
-    if disable_ansi or args.no_ansi:
+    if (not config.get_bool('cli.ansi')) or args.no_ansi:
         USE_ANSI = False
 
         # XXX: this is a bit hacky
@@ -474,9 +523,7 @@ if __name__ == '__main__':
             if not verify_privileges():
                 logging.warning('You may not have proper permissions to access the rCTF installation.')
 
-            try:
-                config = rctf.read_config()
-            except PermissionError:
+            if not read_config:
                 logging.exception('You do not have proper permission to access the config file ', colored_command(rctf.config_path), '.')
                 exit(1)
 
@@ -492,9 +539,8 @@ if __name__ == '__main__':
             if unset and not _key:
                 logging.error('The argument ', colored_command('--unset'), ' must be used with a key.')
                 exit(1)
-            try:
-                config = rctf.read_config()
-            except PermissionError:
+            
+            if not read_config:
                 logging.exception('You do not have proper permission to access the config file ', colored_command(rctf.config_path), '.')
                 exit(1)
 
@@ -511,15 +557,14 @@ if __name__ == '__main__':
             else:
                 if delete:
                     del config[_key]
-                    rctf.write_config(config)
+                    config.write()
                 elif _value or unset:
                     # write to config
                     if unset:
                         _value = None
 
                     config[_key] = _value
-
-                    rctf.write_config(config)
+                    config.write()
                 else:
                     _value = config.get(_key)
 
