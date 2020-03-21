@@ -14,6 +14,9 @@ import collections, json
 # custom color logging
 
 
+USE_ANSI = True
+
+
 colors = {
     'lightgray' : '\033[37m',
     'darkgray' : '\033[90m',
@@ -25,6 +28,9 @@ colors = {
     'darkred' : '\033[31m',
     'lightred' : '\033[91m',
     'red' : '\033[91m',
+    'yellow' : '\033[33m',
+    'lightyellow' : '\033[93m',
+    'lightgreen' : '\033[92m',
     'bold_white' : '\033[1;37m',
 
     'bg_red' : '\033[41m',
@@ -36,14 +42,15 @@ colors = {
     'reset' : '\033[0m'
 }
 
-colored = lambda message, attrs = [] : colors['reset'] + ''.join([colors[x] for x in attrs]) + message + colors['reset']
+colored = lambda message, attrs = [] : colors['reset'] + ''.join([colors[x] for x in attrs]) + str(message) + colors['reset']
+colored_command = lambda message : colors['bold'] + colors['underline'] + str(message) + colors['reset']
 
 colormap = {
     'debug' : ['italics', 'gray'],
     'info' : ['blue'],
     'warning' : ['bold', 'darkorange'],
     'error' : ['bold', 'lightred'],
-    'critical' : ['bg_red', 'bold_white'],
+    'fatal' : ['bg_red', 'bold_white'],
 
     'exception' : ['italics', 'darkred']
 }
@@ -54,7 +61,6 @@ prompts = {
     'warn' : '[!]',
     'warning' : '[!]',
     'error' : '[-]',
-    'critical' : '[-]',
     'fatal' : '[-]'
 }
 
@@ -64,7 +70,7 @@ class ColorLog(object):
 
 
     def _log_msg(self, name, *args, **kwargs):
-        return getattr(self._log, name)(self._format_msg(name, *args, **kwargs))
+        return getattr(self._log, 'fatal' if name == 'exception' else name)(self._format_msg(name, *args, **kwargs))
     
     def _format_msg(self, name, *args, **kwargs):
         exc_info = kwargs.get('exc_info', False)
@@ -74,13 +80,13 @@ class ColorLog(object):
             exc_info = True
         elif name == 'warn':
             name = 'warning'
-        elif name == 'fatal':
-            name = 'critical'
+        elif name == 'critical':
+            name = 'fatal'
 
         _colored = colored if kwargs.get('use_ansi', True) else lambda s, x : s
 
         prompt = prompts[name] + ' ' if not kwargs.get('prompt') else kwargs.get('prompt')
-        message = prompt + ''.join([_colored(x, colormap[name]) for x in args])
+        message = _colored(prompt, colormap[name]) + ''.join([_colored(x, colormap[name]) for x in args])
 
         if exc_info:
             exception = traceback.format_exc().strip()
@@ -166,14 +172,12 @@ def get_editor():
 
 
 def execute(command, environ = None):
-    logging.debug('Executing ', colored(command, ['bold']), '...')
+    logging.debug('Executing ', colored_command(command), '...')
 
     if not environ:
         environ = os.environ.copy()
     
     # shell=False if list, shell=True if str
-    logging.debug('-'*80)
-
     if isinstance(command, str):
         command = ['/bin/sh', '-c', command]
 
@@ -184,7 +188,9 @@ def execute(command, environ = None):
     sel.register(p.stderr, selectors.EVENT_READ)
 
     should_exit = False
+    should_print_bars = False
 
+    # use selectors to print stderr/stdout as we get them
     while True:
         if should_exit:
             break
@@ -198,25 +204,33 @@ def execute(command, environ = None):
             
             data = strip_ansi(data.strip())
 
-            prompt = ' .. '
+            prompt = ' *  '
             data = data.replace('\n', '\n' + prompt)
 
+            if not should_print_bars:
+                logging.debug('-'*80, prompt = ' *--')
+                should_print_bars = True
+
             if key.fileobj is p.stdout:
-                logging.debug(colored(data, ['italics', 'gray']), prompt = prompt)
+                # stdout
+                logging.debug(colored(data, ['italics']), prompt = prompt)
             else:
-                logging.debug(colored(data, ['italics', 'red']), prompt = prompt)
+                # stderr
+                logging.debug(colored(data, ['italics', 'bold']), prompt = prompt)
 
     p.communicate()
     status_code = p.returncode
 
-    logging.debug('-'*80)
+    # only print bars if we read something
+    if should_print_bars:
+        logging.debug('-'*80, prompt = ' *--')
 
     if status_code:
-        logging.error('Command failed to execute; exited with status code %d.' % status_code)
+        logging.error('Command failed to execute; exited with status code ', colored_command(status_code), '.')
 
     # XXX: check to make sure this status code isn't just docker?
     if status_code == 1 and not verify_privileges(): # permission denied
-        logging.warning('Possible permission denied error? Try running as root.\n\n    %s\n' % ' '.join(sys.argv))
+        logging.warning('Possible permission denied error? Try running as root.\n\n    %s\n' % colored_command(' '.join(sys.argv)))
         raise PermissionError('Permission denied. Try running as root.')
 
 
@@ -225,7 +239,7 @@ def execute(command, environ = None):
 
 # from: https://stackoverflow.com/a/38662876
 def strip_ansi(line):
-    ansi_escape = re.compile(r'(?:\x1B[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]')
+    ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
     return ansi_escape.sub('', line)
 
 
@@ -300,7 +314,7 @@ class rCTF:
         os.chdir(self.install_path)
         
         if not execute('docker-compose --no-ansi up -d --build', environ = self.get_env()):
-            logging.fatal('Failed to start rCTF instance')
+            logging.fatal('Failed to start rCTF instance.')
             return False
 
         return True
@@ -310,7 +324,7 @@ class rCTF:
         os.chdir(self.install_path)
         
         if not execute('docker-compose --no-ansi down', environ = self.get_env()):
-            logging.fatal('Failed to stop rCTF instance')
+            logging.fatal('Failed to stop rCTF instance.')
             return False
         
         return True
@@ -323,11 +337,11 @@ class rCTF:
         self.down()
         
         if not execute('git pull'):
-            logging.fatal('Failed to pull latest from repository')
+            logging.fatal('Failed to pull latest from repository.')
             return False
 
         if not execute('docker-compose --no-ansi build --no-cache', environ = self.get_env()):
-            logging.fatal('Failed to rebuild docker image')
+            logging.fatal('Failed to rebuild docker image.')
             return False
         
         return True
@@ -343,7 +357,7 @@ class rCTF:
         for key, value in config.items():
             if key in reverse_config_keys:
                 envvars[reverse_config_keys[key]] = str(value)
-            else:
+            elif not key.startswith('cli.'):
                 envvars[key] = str(value)
 
         return envvars
@@ -363,6 +377,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description = 'Manage rCTF installations from the CLI')
     parser.add_argument('--install-path', '--path', '-d', type = str, default = os.environ.get('RCTF_INSTALL_PATH', os.environ.get('INSTALL_PATH', '/opt/rctf/')), help = 'The path to the rCTF installation to manage')
+    parser.add_argument('--no-ansi', '-c', default = False, action = 'store_true', help = 'Disable ANSI coloring on all output')
 
     subparsers = parser.add_subparsers(help = 'The sub-command to execute')
 
@@ -385,19 +400,37 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if not 'subcommand' in vars(args):
-        logging.info('This is an rCTF management script. For usage, run:\n\n    %s --help\n' % sys.argv[0])
-        exit(0)
-    
-    # create instance
-
     install_path = args.install_path
-    subcommand = args.subcommand
-
+    os.chdir(install_path)
 
     rctf = rCTF(install_path = install_path)
 
-    os.chdir(install_path)
+    # parse cli config
+
+    try:
+        config = rctf.read_config()
+
+        disable_ansi = str(config.get('cli.noAnsi', not config.get('cli.ansi', True)))
+    except PermissionError:
+        # use sane defaults
+        pass
+
+    # disable ansi color codes if necessary
+
+    if disable_ansi or args.no_ansi:
+        USE_ANSI = False
+
+        # XXX: this is a bit hacky
+        for key in colors.keys():
+            colors[key] = ''
+
+    # parse arguments
+    
+    if not 'subcommand' in vars(args):
+        logging.info('This is the rCTF CLI management tool. For usage, run:\n\n    ', colored_command('%s --help' % sys.argv[0]), '\n')
+        exit(0)
+    
+    subcommand = args.subcommand
 
     if subcommand in ['start', 'up']:
         logging.info('Starting rCTF...')
@@ -406,7 +439,7 @@ if __name__ == '__main__':
             rctf.up()
             logging.info('Started rCTF.')
         except:
-            logging.fatal('Failed to start rCTF', exc_info = True)
+            logging.fatal('Failed to start rCTF.', exc_info = True)
             exit(1)
     elif subcommand in ['stop', 'down']:
         logging.info('Stopping rCTF...')
@@ -415,7 +448,7 @@ if __name__ == '__main__':
             rctf.down()
             logging.info('Stopped rCTF.')
         except:
-            logging.fatal('Failed to stop rCTF', exc_info = True)
+            logging.fatal('Failed to stop rCTF.', exc_info = True)
             exit(1)
     elif subcommand in ['update', 'upgrade']:
         logging.info('Upgrading rCTF instance...')
@@ -424,27 +457,30 @@ if __name__ == '__main__':
             rctf.upgrade()
     
             logging.info('Successfully updated instance.')
-            logging.info('Upgrading %s CLI tool...' % sys.argv[0])
+            logging.info('Upgrading %s CLI tool...' % colored_command(sys.argv[0]))
             
             # XXX: possible argument injection probably not worth fixing
             execute(['cp', 'install/rctf.py', sys.argv[0]])
             execute(['chmod', '+x', sys.argv[0]])
 
-            logging.info('Finished. Run `%s up` to start the rCTF instance again.' % sys.argv[0])
+            logging.info('Finished. Run ', colored_command(sys.argv[0] + ' up'), ' to start the rCTF instance again.' % sys.argv[0])
         except:
-            logging.fatal('Failed to upgrade rCTF', exc_info = True)
+            logging.fatal('Failed to upgrade rCTF.', exc_info = True)
             exit(1)
     elif subcommand in ['config', 'configure']:
-        config_file = install_path + '/.config.yml'
-        dotenv_file = install_path + '/.env'
-
         if args.editor:
             editor = get_editor()
 
             if not verify_privileges():
                 logging.warning('You may not have proper permissions to access the rCTF installation.')
 
-            execute([editor, config_file])
+            try:
+                config = rctf.read_config()
+            except PermissionError:
+                logging.exception('You do not have proper permission to access the config file ', colored_command(rctf.config_path), '.')
+                exit(1)
+
+            execute([editor, rctf.config_path])
 
             logging.info('Note: You may have to restart rCTF for the changes to take effect.')
         else:
@@ -454,10 +490,13 @@ if __name__ == '__main__':
             _value = args.value
             
             if unset and not _key:
-                logging.error('The argument --unset must be used with a key.')
+                logging.error('The argument ', colored_command('--unset'), ' must be used with a key.')
                 exit(1)
-
-            config = rctf.read_config()
+            try:
+                config = rctf.read_config()
+            except PermissionError:
+                logging.exception('You do not have proper permission to access the config file ', colored_command(rctf.config_path), '.')
+                exit(1)
 
             format_config = lambda key, value : (
                 colored(str(key), ['bold', 'red']) + colored(' => ', ['bold_white']) + (
