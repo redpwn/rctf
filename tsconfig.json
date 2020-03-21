@@ -13,6 +13,6 @@
     "baseUrl": "."
   },
   "include": [
-    "src/**/*", "index.js", "app.js"
+    "server/**/*"
   ]
 }

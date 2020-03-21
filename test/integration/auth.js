@@ -1,6 +1,6 @@
 const test = require('ava')
 const request = require('supertest')
-const app = require('../../dist/app')
+const app = require('../../dist/server/app')
 const { removeUserByEmail } = require('../../dist/server/database').auth
 
 const config = require('../../dist/config/server')

@@ -1,23 +1,22 @@
 {
   "name": "rctf",
   "version": "0.0.0",
-  "main": "index.js",
   "license": "MIT",
   "private": true,
   "scripts": {
     "lint": "tsc --noEmit && eslint --ext .js,.ts .",
-    "start": "node dist/index.js",
+    "start": "node dist/server/index.js",
     "migrate": "node-pg-migrate --database-url-var=RCTF_DATABASE_URL",
     "build:client": "sh client/build.sh",
     "build:ts": "tsc && yarn copy-static",
     "build": "yarn build:ts && yarn build:client",
     "watch:client": "preact watch --src client/src --template client/index.html",
-    "watch:server": "nodemon dist/index.js",
+    "watch:server": "nodemon dist/server/index.js",
     "watch:ts": "tsc -w",
     "dev": "yarn build:ts && concurrently -k -t \"HH:mm:ss.SSS\" -p \"[{time}]\" -c \"cyan,green,red\" \"yarn:watch:*\"",
     "test": "yarn build && nyc --skip-full ava",
     "test:report": "nyc --skip-full --reporter=lcov ava",
-    "copy-static": "cpy 'server/**/*' '.rdeploy' '!**/*.ts' dist/ --no-overwrite --parents"
+    "copy-static": "sh -c \"cpy 'server/**/*' '.rdeploy' '!**/*.ts' dist/ --no-overwrite --parents\""
   },
   "husky": {
     "hooks": {

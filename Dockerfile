@@ -15,7 +15,7 @@ COPY public ./public
 COPY preact.config.js ./
 
 COPY server ./server
-COPY tsconfig.json index.js app.js ./
+COPY tsconfig.json ./
 
 RUN yarn && yarn build && rm -rf node_modules
 
@@ -28,4 +28,4 @@ EXPOSE 8000
 COPY . .
 
 
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/server/index.js"]

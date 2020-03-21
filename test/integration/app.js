@@ -11,7 +11,7 @@ test.serial('PORT env flag', async t => {
   const old = process.env.PORT
   process.env.PORT = PORT
 
-  require(path.join(__dirname, '/../../dist/index'))
+  require(path.join(__dirname, '/../../dist/server/index'))
 
   const resp = await got(`http://localhost:${PORT}`)
   t.true(resp.body !== undefined)
@@ -23,12 +23,12 @@ test.serial('TEST_COMPRESSION env flag', async t => {
   const old = process.env.TEST_COMPRESSION
   process.env.TEST_COMPRESSION = '1'
 
-  const resp = await request(reloadModule(path.join(__dirname, '/../../dist/app')))
+  const resp = await request(reloadModule(path.join(__dirname, '/../../dist/server/app')))
     .get('/favicon.ico')
     .expect('Content-Encoding', /gzip/)
 
   t.true(resp.body !== undefined)
 
   process.env.TEST_COMPRESSION = old
-  reloadModule(path.join(__dirname, '/../../dist/app'))
+  reloadModule(path.join(__dirname, '/../../dist/server/app'))
 })
