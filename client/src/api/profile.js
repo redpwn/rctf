@@ -7,7 +7,7 @@ export const privateProfile = () => {
 }
 
 export const publicProfile = uuid => {
-  return request('GET', '/users/' + encodeURIComponent(uuid))
+  return request('GET', `/users/${encodeURIComponent(uuid)}`)
     .then(resp => resp.data)
 }
 

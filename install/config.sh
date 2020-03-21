@@ -1,11 +1,16 @@
-cp .env.example .env
-cp -r .rdeploy.example .rdeploy
-cp config/client.js.example config/client.js
+#!/bin/sh
 
-mkdir -p data
-mkdir -p data/rctf-postgres
-mkdir -p data/rctf-redis
+set -e
+
+
+cp -n .env.example .env
+cp -nR .rdeploy.example .rdeploy
+cp -n config/client.js.example config/client.js
+
+mkdir -p data/rctf-postgres data/rctf-redis
 
 chown -R 999 data
+chmod 600 .env
 
-docker-compose run rctf yarn migrate up
+docker-compose build
+docker-compose run --rm rctf node install/docker-migrate.js

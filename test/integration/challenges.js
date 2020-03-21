@@ -1,7 +1,7 @@
 const test = require('ava')
 const request = require('supertest')
 const app = require('../../app')
-const uuidv4 = require('uuid/v4')
+const { v4: uuidv4 } = require('uuid')
 const auth = require('../../server/auth')
 const config = require('../../config/server')
 
@@ -41,5 +41,5 @@ test.serial('succeeds with goodChallenges', async t => {
     .expect(responseList.goodChallenges.status)
 
   t.is(resp.body.kind, 'goodChallenges')
-  t.truthy(Array.isArray(resp.body.data))
+  t.true(Array.isArray(resp.body.data))
 })

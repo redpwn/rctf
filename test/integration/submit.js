@@ -1,15 +1,22 @@
 const test = require('ava')
 const request = require('supertest')
 const app = require('../../app')
-const uuidv4 = require('uuid/v4')
+const { v4: uuidv4 } = require('uuid')
 
 const db = require('../../server/database')
 const challenges = require('../../server/challenges')
 const { responseList } = require('../../server/responses')
 const auth = require('../../server/auth')
-const util = require('../util')
+const util = require('../_util')
 
 const chall = challenges.getAllChallenges()[0]
+
+test.after.always('remove solves from test user', async t => {
+  await db.solves.removeSolvesByUserId({ userid: uuid })
+  await db.auth.removeUserById({
+    id: testUser.id
+  })
+})
 
 test('fails with unauthorized', async t => {
   const resp = await request(app)
@@ -71,11 +78,4 @@ test.serial('fails with badAlreadySolvedChallenge', async t => {
     .expect(responseList.badAlreadySolvedChallenge.status)
 
   t.is(resp.body.kind, 'badAlreadySolvedChallenge')
-})
-
-test.after.always('remove solves from test user', async t => {
-  await db.solves.removeSolvesByUserId({ userid: uuid })
-  await db.auth.removeUserById({
-    id: testUser.id
-  })
 })

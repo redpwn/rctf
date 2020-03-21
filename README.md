@@ -20,6 +20,7 @@ To read more about our motivations for creating this project, see [here](https:/
 ### Installation
 
 #### Automatic
+
 The automatic installation script works on Debian-based distributions and Arch Linux. It depends on `curl`. Feel free to [read the script](https://get.rctf.redpwn.net/) before running this command as root (it's fairly short).
 
 ```
@@ -28,16 +29,18 @@ The automatic installation script works on Debian-based distributions and Arch L
 
 #### Manual
 
-For manual deployment, clone the repository and run `install/config.sh` with root permissions. 
+For manual deployment, clone the repository and run `install/config.sh` as root. 
 
 ```
 $ git clone https://github.com/redpwn/rctf.git
 $ cd rctf
-$ sudo install/config.sh
-$ docker-compose up -d 
+# ./install/config.sh
+# docker-compose up -d 
 ```
 
-### Management
+### rCTF CLI Management Tool
+
+![screenshot of tool](docs/rctf-cli.png)
 
 The rCTF CLI management tool [install/rctf.py](`rctf`) (installed in `/usr/bin/` by default by the automatic installation script) makes management of your rCTF installation simple.
 
@@ -74,3 +77,7 @@ If you use [rDeploy](https://github.com/redpwn/rdeploy), you can automatically i
 ##### Without rDeploy
 
 This is currently not supported, but it will be in the near future.
+
+## Development
+
+We would love your help! Please see [our CONTRIBUTING.md](https://github.com/redpwn/rctf/blob/master/CONTRIBUTING.md).

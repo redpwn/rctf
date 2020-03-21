@@ -58,20 +58,20 @@ export default withStyles({
 
   processGeneric ({ name, division, score, divisionPlace, globalPlace, solves }) {
     this.setState({
-      name: name,
+      name,
       updateName: name,
-      division: division,
+      division,
       updateDivision: config.divisions[division],
       divisionPlace: util.strings.placementString(divisionPlace),
       globalPlace: util.strings.placementString(globalPlace),
       score,
-      solves: solves,
+      solves,
       loaded: true
     })
   }
 
   componentDidMount () {
-    document.title = 'Profile' + config.ctfTitle
+    document.title = `Profile${config.ctfTitle}`
   }
 
   isPrivate () {
@@ -80,13 +80,20 @@ export default withStyles({
     return uuid === undefined || uuid === 'me'
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.uuid !== state.uuid) {
+      return {
+        uuid: props.uuid,
+        error: undefined,
+        loaded: false
+      }
+    }
+    return null
+  }
+
   componentDidUpdate () {
-    if (this.props.uuid !== this.state.uuid) {
-      const { uuid } = this.props
-      this.setState({
-        uuid,
-        error: undefined
-      })
+    if (!this.state.loaded) {
+      const { uuid } = this.state;
 
       if (this.isPrivate()) {
         privateProfile()
@@ -134,8 +141,8 @@ export default withStyles({
       })
   }
 
-  handleDelete = e => {
-    const resp = prompt('Please type your team name to confirm: ' + this.state.name)
+  handleDelete = () => {
+    const resp = prompt(`Please type your team name to confirm: ${this.state.name}`)
 
     if (resp === this.state.name) {
       deleteAccount()
@@ -213,7 +220,7 @@ export default withStyles({
                   {
                     score === 0
                       ? ('No points earned')
-                      : (score + ' total points')
+                      : (`${score} total points`)
                   }
                 </p>
                 <p>
