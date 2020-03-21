@@ -248,25 +248,21 @@ def strip_ansi(line):
 
 
 class Config(collections.OrderedDict):
+    # for mapping to headers
     config_keys = {
         'RCTF_NAME' : 'ctf.name',
         'RCTF_ORIGIN' : 'ctf.origin',
-        'RCTF_RCTF_CPU_LIMIT' : 'ctf.cpuLimit',
-        'RCTF_RCTF_MEM_LIMIT' : 'ctf.memLimit',
 
         'RCTF_DATABASE_URL' : 'db.url',
-        'RCTF_POSTGRES_CPU_LIMIT' : 'db.cpuLimit',
-        'RCTF_POSTGRES_MEM_LIMIT' : 'db.memLimit',
 
         'RCTF_REDIS_URL' : 'redis.url',
-        'RCTF_REDIS_CPU_LIMIT' : 'redit.cpuLimit',
-        'RCTF_REDIS_MEM_LIMIT' : 'redit.memLimit',
 
         'RCTF_SMTP_URL' : 'smtp.url',
         'RCTF_EMAIL_FROM' : 'smtp.from'
     }
 
 
+    # this is what the actual config is by default
     default_config = collections.OrderedDict({
         'cli.ansi' : True
     })

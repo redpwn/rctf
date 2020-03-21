@@ -18,8 +18,7 @@ services:
     depends_on:
       - redis
       - postgres
-    cpus: ${RCTF_RCTF_CPU_LIMIT:-0}
-    mem_limit: ${RCTF_RCTF_MEM_LIMIT:-500M}
+    cpus: 0
     ulimits:
       nproc: 65535
       nofile: 
@@ -33,8 +32,7 @@ services:
       - rctf
     volumes:
       - ./data/rctf-redis:/data
-    cpus: ${RCTF_REDIS_CPU_LIMIT:-0}
-    mem_limit: ${RCTF_REDIS_MEM_LIMIT:-500M}
+    cpus: 0
   postgres:
     user: '999:999'
     image: postgres:9.6.17
@@ -45,8 +43,7 @@ services:
       - rctf
     volumes:
       - ./data/rctf-postgres:/var/lib/postgresql/data
-    cpus: ${RCTF_POSTGRES_CPU_LIMIT:-0}
-    mem_limit: ${RCTF_POSTGRES_MEM_LIMIT:-500M}
+    cpus: 0
 
 networks:
   rctf: {}
