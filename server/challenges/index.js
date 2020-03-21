@@ -2,7 +2,7 @@ const config = require('../../config/server')
 const util = require('../util')
 const path = require('path')
 
-const Provider = require(path.join('../providers', config.challengeProvider.name))
+let provider
 
 let challenges = []
 let cleanedChallenges = []
@@ -44,10 +44,11 @@ const onUpdate = (newChallenges) => {
   })
 }
 
-const provider = new Provider({
-  onUpdate,
-  options: config.challengeProvider.options
-})
+import(path.join('../providers', config.challengeProvider.name))
+  .then(({ default: Provider }) => {
+    provider = new Provider(config.challengeProvider.options)
+    provider.on('update', onUpdate)
+  })
 
 module.exports = {
   getAllChallenges: () => {
