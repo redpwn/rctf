@@ -1,5 +1,5 @@
-const path = require('path')
-const config = require('../../config/server')
+import path from 'path'
+import config from '../../config/server'
 
 const normalizeEmail = (email: string): string => {
   return email.trim().toLowerCase()
