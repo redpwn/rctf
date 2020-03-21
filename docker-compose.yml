@@ -14,7 +14,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./.rdeploy:/app/.rdeploy
+      - ./.rdeploy:/app/dist/.rdeploy
     depends_on:
       - redis
       - postgres
