@@ -14,7 +14,8 @@
     "test": "nyc --skip-full ava",
     "test:report": "nyc --skip-full --reporter=lcov ava",
     "client:build": "sh client/build.sh",
-    "client:watch": "preact watch --src client/src --template client/index.html"
+    "client:watch": "preact watch --src client/src --template client/index.html",
+    "commit": "git cz"
   },
   "husky": {
     "hooks": {
