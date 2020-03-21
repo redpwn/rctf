@@ -29,6 +29,6 @@ test('denies request if over ratelimit', async t => {
     limit: 1,
     userid
   })
-  t.is(result.ok, false)
+  t.false(result.ok)
   t.is(typeof result.timeLeft, 'number')
 })

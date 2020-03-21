@@ -28,10 +28,11 @@ export const updateAccount = (name, division) => {
   })
     .then(resp => {
       switch (resp.kind) {
-        case 'badRateLimit':
+        case 'goodUserUpdate':
+          return resp.data
+        default:
           toasts.useToast().add(resp.message)
           return null
       }
-      return resp.data
     })
 }
