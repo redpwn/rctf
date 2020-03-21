@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "lint": "tsc --noEmit && eslint --ext .js,.ts .",
+    "lint": "tsc --noEmit && eslint --ext .js,.ts client server",
     "start": "node dist/server/index.js",
     "migrate": "node-pg-migrate --database-url-var=RCTF_DATABASE_URL",
     "build:client": "sh client/build.sh",
