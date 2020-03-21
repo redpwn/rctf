@@ -1,15 +1,15 @@
 const path = require('path')
 const config = require('../../config/server')
 
-const normalizeEmail = (email) => {
+const normalizeEmail = (email: string): string => {
   return email.trim().toLowerCase()
 }
 
-const normalizeName = (name) => {
+const normalizeName = (name: string): string => {
   return name.trim().toLowerCase()
 }
 
-const normalizeDownload = name => {
+const normalizeDownload = (name: string): string => {
   const filename = path.basename(name)
 
   const parts = filename.split('.')

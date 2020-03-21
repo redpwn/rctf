@@ -6,11 +6,10 @@ Development primarily occurs with `yarn`. While there are docker containers aval
 
 You should first clone the repository and `yarn install`.
 
-The frontend and backend need to be built separately. You can do this by running two commands in separate terminal windows.
+The frontend and backend need to be built separately. You can do run these two operations concurrently for development by running `yarn dev`.
 
 ```bash
 $ yarn dev
-$ yarn dev:client
 ```
 
 These will automatically watch the filesystem for changes, and restart when needed.

@@ -1,8 +1,8 @@
 const path = require('path')
 const express = require('express')
-const { enableCORS, serveDownloads } = require('./server/util')
+const { enableCORS, serveDownloads } = require('./util')
 
-require('./server/leaderboard').startUpdater()
+require('./leaderboard').startUpdater()
 
 const app = express()
 
@@ -20,9 +20,9 @@ app.use(express.raw({
   type: 'application/json'
 }))
 
-app.use('/api/v1', require('./server/api'))
+app.use('/api/v1', require('./api'))
 
-const staticPath = path.join(__dirname, '/build')
+const staticPath = path.join(__dirname, '../build')
 app.use(express.static(staticPath, { extensions: ['html'] }))
 app.use(serveDownloads('/static/files'))
 app.use((req, res, next) => {

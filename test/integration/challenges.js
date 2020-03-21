@@ -1,9 +1,9 @@
 const test = require('ava')
 const request = require('supertest')
-const app = require('../../app')
+const app = require('../../dist/server/app')
 const { v4: uuidv4 } = require('uuid')
-const auth = require('../../server/auth')
-const config = require('../../config/server')
+const auth = require('../../dist/server/auth')
+const config = require('../../dist/config/server')
 
 const { responseList } = require('../../server/responses')
 

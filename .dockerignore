@@ -7,7 +7,7 @@ yarn-error.log*
 
 /node_modules
 
-/build
+/dist
 /.env
 /.config.json
 /data
