@@ -1,7 +1,7 @@
 const { responses } = require('../../responses')
 const database = require('../../database')
 const config = require('../../../config/server')
-const timeouts = require('../../timeouts')
+const timeouts = require('../../cache/timeouts')
 
 module.exports = {
   method: 'patch',
@@ -31,7 +31,11 @@ module.exports = {
       limit: 1
     })
 
-    if (!passRateLimit) return responses.badRateLimit
+    if (!passRateLimit.ok) {
+      return [responses.badRateLimit, {
+        timeLeft: passRateLimit.timeLeft
+      }]
+    }
 
     const user = await database.auth.updateUser({
       id: uuid,
