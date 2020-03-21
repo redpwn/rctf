@@ -72,7 +72,7 @@ class ColorLog(object):
 
     def _log_msg(self, name, *args, **kwargs):
         return getattr(self._log, 'fatal' if name == 'exception' else name)(self._format_msg(name, *args, **kwargs))
-    
+
     def _format_msg(self, name, *args, **kwargs):
         exc_info = kwargs.get('exc_info', False)
 
@@ -168,7 +168,7 @@ def get_editor():
 
     if not editor:
         raise RuntimeError('No $EDITOR configured and no editors discovered.')
-    
+
     return editor
 
 
@@ -177,7 +177,7 @@ def execute(command, environ = None):
 
     if not environ:
         environ = os.environ.copy()
-    
+
     # shell=False if list, shell=True if str
     if isinstance(command, str):
         command = ['/bin/sh', '-c', command]
@@ -202,7 +202,7 @@ def execute(command, environ = None):
             if not data:
                 should_exit = True
                 break
-            
+
             data = strip_ansi(data.strip())
 
             prompt = ' *  '
@@ -266,43 +266,43 @@ class Config(collections.OrderedDict):
     default_config = collections.OrderedDict({
         'cli.ansi' : True
     })
-    
-    
+
+
     def __init__(self, config_path, *args, **kwargs):
         retval = super().__init__(*args, **kwargs)
-        
+
         self.config_path = config_path
-        
+
         #self._get = self.get
         #self._set = self.set
-        
+
         self.get = self.__get
         self.set = self.__set
-        
+
         return retval
-    
-    
+
+
     def __get(self, key, default = None):
         return str(self[key]) if key in self else default
-    
-    
+
+
     def get_bool(self, *args, **kwargs):
         return str(self.get(*args, **kwargs).strip().lower()) in ['true', '1', 'enable', 'true']
-    
-    
+
+
     def get_int(self, *args, **kwargs):
         return int(str(self.get(*args, **kwargs).strip()))
-    
-    
+
+
     def __set(self, key, value):
         self[key] = str(value)
         return key
-    
+
     # `update_config` tells it to replace config entries with dotenv entries
     def read(self, update_config = False):
         if self.config_path == '':
             raise RuntimeError('Attempted to read dummy config path')
-    
+
         if update_config or not check_file(self.config_path):
             config = default_config.copy()
 
@@ -324,17 +324,17 @@ class Config(collections.OrderedDict):
         with open(self.config_path, 'r') as f:
             # TODO: auto identify bad permissions on config and warn
             config = json.loads(f.read(), object_pairs_hook = collections.OrderedDict)
-        
+
         self.clear()
         self.update(config)
-        
+
         return self
 
 
     def write(self):
         if self.config_path == '':
             raise RuntimeError('Attempted to write dummy config path')
-        
+
         config = json.dumps(self, indent = 2)
 
         with open(self.config_path, 'w') as f:
@@ -369,30 +369,30 @@ class rCTF:
 
     def up(self):
         os.chdir(self.install_path)
-        
+
         if not execute('docker-compose --no-ansi up -d --build', environ = self.get_env()):
             logging.fatal('Failed to start rCTF instance.')
             return False
 
         return True
 
-    
+
     def down(self):
         os.chdir(self.install_path)
-        
+
         if not execute('docker-compose --no-ansi down', environ = self.get_env()):
             logging.fatal('Failed to stop rCTF instance.')
             return False
-        
+
         return True
-    
-    
+
+
     def upgrade(self):
         os.chdir(self.install_path)
-        
+
         # XXX: is there a way to make this not error if it fails?
         self.down()
-        
+
         if not execute('git pull'):
             logging.fatal('Failed to pull latest from repository.')
             return False
@@ -400,14 +400,14 @@ class rCTF:
         if not execute('docker-compose --no-ansi build --no-cache', environ = self.get_env()):
             logging.fatal('Failed to rebuild docker image.')
             return False
-        
+
         return True
 
 
     def get_config(self, update_config = False):
         return Config(self.config_path).read(update_config = update_config)
 
-    
+
     # merges os.environ and configuration environ
     def get_env(self):
         environ = self.get_config()._get_as_environ()
@@ -429,7 +429,7 @@ if __name__ == '__main__':
 
     parser_up = subparsers.add_parser('up', aliases = ['start'], help = 'Start rCTF in background')
     parser_up.set_defaults(subcommand = 'up')
-    
+
     parser_down = subparsers.add_parser('down', aliases = ['stop'], help = 'Stop rCTF if running')
     parser_down.set_defaults(subcommand = 'down')
 
@@ -454,7 +454,7 @@ if __name__ == '__main__':
     # parse cli config
 
     read_config = False
-    
+
     try:
         config = rctf.get_config()
 
@@ -473,11 +473,11 @@ if __name__ == '__main__':
             colors[key] = ''
 
     # parse arguments
-    
+
     if not 'subcommand' in vars(args):
         logging.info('This is the rCTF CLI management tool. For usage, run:\n\n    ', colored_command('%s --help' % sys.argv[0]), '\n')
         exit(0)
-    
+
     subcommand = args.subcommand
 
     if subcommand in ['start', 'up']:
@@ -503,10 +503,10 @@ if __name__ == '__main__':
 
         try:
             rctf.upgrade()
-    
+
             logging.info('Successfully updated instance.')
             logging.info('Upgrading %s CLI tool...' % colored_command(sys.argv[0]))
-            
+
             # XXX: possible argument injection probably not worth fixing
             execute(['cp', 'install/rctf.py', sys.argv[0]])
             execute(['chmod', '+x', sys.argv[0]])
@@ -534,11 +534,11 @@ if __name__ == '__main__':
             delete = args.delete
             _key = args.key
             _value = args.value
-            
+
             if unset and not _key:
                 logging.error('The argument ', colored_command('--unset'), ' must be used with a key.')
                 exit(1)
-            
+
             if not read_config:
                 logging.exception('You do not have proper permission to access the config file ', colored_command(rctf.config_path), '.')
                 exit(1)

@@ -28,7 +28,7 @@ const setLeaderboardScript = redisScript('load', `
     local division = leaderboard[i * 4 - 1]
     local divisionPosition = divisionCounts[division] + 1
     local divisionBoard = divisionBoards[division]
-    
+
     divisionCounts[division] = divisionPosition
     divisionBoard[divisionPosition * 3] = leaderboard[i * 4]
     divisionBoard[divisionPosition * 3 - 1] = leaderboard[i * 4 - 2]
