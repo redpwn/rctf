@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # a script to manage rCTF installations
 
-import sys, os, io, subprocess
-import argparse
-import logging, traceback
+import sys, os, io, subprocess, selectors
+import argparse, functools
+import logging, traceback, re
 import collections, json
 
 # REQUIREMENTS:
@@ -14,7 +14,7 @@ import collections, json
 # custom color logging
 
 
-colored = lambda s, attrs = [] : ''.join([{
+colors = {
     'lightgray' : '\033[37m',
     'darkgray' : '\033[90m',
     'gray' : '\033[2m',
@@ -32,42 +32,69 @@ colored = lambda s, attrs = [] : ''.join([{
     'italics' : '\033[3m',
     'bold' : '\033[01m',
     'underline' : '\033[04m',
-}[x] for x in attrs]) + s + '\033[0m'
 
+    'reset' : '\033[0m'
+}
+
+colored = lambda message, attrs = [] : colors['reset'] + ''.join([colors[x] for x in attrs]) + message + colors['reset']
+
+colormap = {
+    'debug' : ['italics', 'gray'],
+    'info' : ['blue'],
+    'warning' : ['bold', 'darkorange'],
+    'error' : ['bold', 'lightred'],
+    'critical' : ['bg_red', 'bold_white'],
+
+    'exception' : ['italics', 'darkred']
+}
+
+prompts = {
+    'debug' : ' * ',
+    'info' : '[*]',
+    'warn' : '[!]',
+    'warning' : '[!]',
+    'error' : '[-]',
+    'critical' : '[-]',
+    'fatal' : '[-]'
+}
 
 class ColorLog(object):
-
-    colormap = {
-        'debug' : ['italics', 'gray'],
-        'info' : ['blue'],
-        'warn' : ['bold', 'darkorange'],
-        'warning' : ['bold', 'darkorange'],
-        'error' : ['bold', 'lightred'],
-        'critical' : ['bg_red', 'bold_white'],
-        'fatal' : ['bg_red', 'bold_white']
-    }
-
-    prompt = {
-        'debug' : ' *  {msg}',
-        'info' : '[*] {msg}',
-        'warn' : '[!] {msg}',
-        'warning' : '[!] {msg}',
-        'error' : '[-] {msg}',
-        'critical' : '[-] {msg}',
-        'fatal' : '[-] {msg}'
-    }
-
-
     def __init__(self, logger):
         self._log = logger
 
 
+    def _log_msg(self, name, *args, **kwargs):
+        return getattr(self._log, name)(self._format_msg(name, *args, **kwargs))
+    
+    def _format_msg(self, name, *args, **kwargs):
+        exc_info = kwargs.get('exc_info', False)
+
+        if name == 'exception':
+            name = 'fatal'
+            exc_info = True
+        elif name == 'warn':
+            name = 'warning'
+        elif name == 'fatal':
+            name = 'critical'
+
+        _colored = colored if kwargs.get('use_ansi', True) else lambda s, x : s
+
+        prompt = prompts[name] + ' ' if not kwargs.get('prompt') else kwargs.get('prompt')
+        message = prompt + ''.join([_colored(x, colormap[name]) for x in args])
+
+        if exc_info:
+            exception = traceback.format_exc().strip()
+
+            prompt = '... ' if not kwargs.get('prompt') else kwargs.get('prompt')
+            message += '\n' + '\n'.join([
+                prompt + _colored(x, colormap['exception']) for x in exception.split('\n')
+            ])
+
+        return message
+
     def __getattr__(self, name):
-        if name in ['debug', 'info', 'warn', 'warning', 'error', 'critical', 'fatal']:
-            return lambda s, *args, **kwargs: getattr(self._log, name)(
-                colored(ColorLog.prompt[name].format(msg = s), attrs = ColorLog.colormap[name])
-                + ('\n' + colored(traceback.format_exc().strip(), ['italics', 'darkred']) if kwargs.get('exc_info') else '')
-            )
+        if name in ['debug', 'info', 'warn', 'warning', 'error', 'critical', 'fatal', 'exception']:
+            return lambda *args, **kwargs : self._log_msg(name, *args, **kwargs)
 
         return getattr(self._log, name)
 
@@ -139,14 +166,49 @@ def get_editor():
 
 
 def execute(command, environ = None):
-    logging.debug('Executing `%s`...' % command)
+    logging.debug('Executing ', colored(command, ['bold']), '...')
 
     if not environ:
         environ = os.environ.copy()
     
     # shell=False if list, shell=True if str
     logging.debug('-'*80)
-    status_code = subprocess.call(command, shell = isinstance(command, str), env = environ)
+
+    if isinstance(command, str):
+        command = ['/bin/sh', '-c', command]
+
+    p = subprocess.Popen(command, shell = False, stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, env = environ)
+
+    sel = selectors.DefaultSelector()
+    sel.register(p.stdout, selectors.EVENT_READ)
+    sel.register(p.stderr, selectors.EVENT_READ)
+
+    should_exit = False
+
+    while True:
+        if should_exit:
+            break
+
+        for key, _ in sel.select():
+            data = key.fileobj.read1().decode()
+
+            if not data:
+                should_exit = True
+                break
+            
+            data = strip_ansi(data.strip())
+
+            prompt = ' .. '
+            data = data.replace('\n', '\n' + prompt)
+
+            if key.fileobj is p.stdout:
+                logging.debug(colored(data, ['italics', 'gray']), prompt = prompt)
+            else:
+                logging.debug(colored(data, ['italics', 'red']), prompt = prompt)
+
+    p.communicate()
+    status_code = p.returncode
+
     logging.debug('-'*80)
 
     if status_code:
@@ -159,6 +221,12 @@ def execute(command, environ = None):
 
 
     return status_code == 0
+
+
+# from: https://stackoverflow.com/a/38662876
+def strip_ansi(line):
+    ansi_escape = re.compile(r'(?:\x1B[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]')
+    return ansi_escape.sub('', line)
 
 
 # create simple model of rCTF
@@ -231,7 +299,7 @@ class rCTF:
     def up(self):
         os.chdir(self.install_path)
         
-        if not execute('docker-compose up -d --build', environ = self.get_env()):
+        if not execute('docker-compose --no-ansi up -d --build', environ = self.get_env()):
             logging.fatal('Failed to start rCTF instance')
             return False
 
@@ -241,7 +309,7 @@ class rCTF:
     def down(self):
         os.chdir(self.install_path)
         
-        if not execute('docker-compose down', environ = self.get_env()):
+        if not execute('docker-compose --no-ansi down', environ = self.get_env()):
             logging.fatal('Failed to stop rCTF instance')
             return False
         
@@ -258,7 +326,7 @@ class rCTF:
             logging.fatal('Failed to pull latest from repository')
             return False
 
-        if not execute('docker-compose build --no-cache', environ = self.get_env()):
+        if not execute('docker-compose --no-ansi build --no-cache', environ = self.get_env()):
             logging.fatal('Failed to rebuild docker image')
             return False
         
