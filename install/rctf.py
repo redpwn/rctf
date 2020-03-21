@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # a script to manage rCTF installations
 
-import sys, os, io, subprocess
+import sys, os, io, subprocess, selectors
 import argparse, functools
-import logging, traceback
+import logging, traceback, re
 import collections, json
 
 # REQUIREMENTS:
@@ -174,7 +174,40 @@ def execute(command, environ = None):
     # shell=False if list, shell=True if str
     logging.debug('-'*80)
 
-    status_code = subprocess.call(command, shell = isinstance(command, str), env = environ)
+    if isinstance(command, str):
+        command = ['/bin/sh', '-c', command]
+
+    p = subprocess.Popen(command, shell = False, stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, env = environ)
+
+    sel = selectors.DefaultSelector()
+    sel.register(p.stdout, selectors.EVENT_READ)
+    sel.register(p.stderr, selectors.EVENT_READ)
+
+    should_exit = False
+
+    while True:
+        if should_exit:
+            break
+
+        for key, _ in sel.select():
+            data = key.fileobj.read1().decode()
+
+            if not data:
+                should_exit = True
+                break
+            
+            data = strip_ansi(data.strip())
+
+            prompt = ' .. '
+            data = data.replace('\n', '\n' + prompt)
+
+            if key.fileobj is p.stdout:
+                logging.debug(colored(data, ['italics', 'gray']), prompt = prompt)
+            else:
+                logging.debug(colored(data, ['italics', 'red']), prompt = prompt)
+
+    p.communicate()
+    status_code = p.returncode
 
     logging.debug('-'*80)
 
@@ -188,6 +221,12 @@ def execute(command, environ = None):
 
 
     return status_code == 0
+
+
+# from: https://stackoverflow.com/a/38662876
+def strip_ansi(line):
+    ansi_escape = re.compile(r'(?:\x1B[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]')
+    return ansi_escape.sub('', line)
 
 
 # create simple model of rCTF
@@ -260,7 +299,7 @@ class rCTF:
     def up(self):
         os.chdir(self.install_path)
         
-        if not execute('docker-compose up -d --build', environ = self.get_env()):
+        if not execute('docker-compose --no-ansi up -d --build', environ = self.get_env()):
             logging.fatal('Failed to start rCTF instance')
             return False
 
@@ -270,7 +309,7 @@ class rCTF:
     def down(self):
         os.chdir(self.install_path)
         
-        if not execute('docker-compose down', environ = self.get_env()):
+        if not execute('docker-compose --no-ansi down', environ = self.get_env()):
             logging.fatal('Failed to stop rCTF instance')
             return False
         
@@ -287,7 +326,7 @@ class rCTF:
             logging.fatal('Failed to pull latest from repository')
             return False
 
-        if not execute('docker-compose build --no-cache', environ = self.get_env()):
+        if not execute('docker-compose --no-ansi build --no-cache', environ = self.get_env()):
             logging.fatal('Failed to rebuild docker image')
             return False
         
