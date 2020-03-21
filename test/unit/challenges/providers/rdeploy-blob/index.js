@@ -1,6 +1,6 @@
 const test = require('ava')
 
-const RDeployBlobProvider = require('../../../../../server/providers/challenges/rdeploy-blob')
+const RDeployBlobProvider = require('../../../../../dist/server/providers/challenges/rdeploy-blob')
 
 test('get all challenges', async t => {
   let provider
