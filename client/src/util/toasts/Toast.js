@@ -12,7 +12,7 @@ function Toast ({ children, remove }) {
   }, [])
 
   return (
-    <div className='toast toast--success'>
+    <div className='toast'>
       <button onClick={remove} className='btn-close' />
       {children}
     </div>
