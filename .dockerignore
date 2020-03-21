@@ -9,6 +9,7 @@ yarn-error.log*
 
 /dist
 /.env
+/.config.json
 /data
 
 .DS_Store

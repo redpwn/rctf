@@ -84,7 +84,7 @@ info "Installing dependencies..."
 
 if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
     apt-get update
-    apt-get install --yes docker.io docker-compose git python3
+    apt-get install --yes docker.io docker-compose git python3 python3-pip
 elif [ "$PACKAGE_MANAGER" = "yum" ]; then
     info "We are about to install docker via https://get.docker.com/. Please follow along the steps to ensure it is configured properly."
     
@@ -94,10 +94,13 @@ elif [ "$PACKAGE_MANAGER" = "yum" ]; then
         curl -fsSL https://get.docker.com/ | sh
     '
 
-    yum install git python3
+    yum install git python3 python3-pip
 elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
-    pacman -Sy --noconfirm --needed docker docker-compose git python
+    pacman -Sy --noconfirm --needed docker docker-compose git python python-pip
 fi
+
+# XXX: migrate to requirements.txt eventually
+pip3 install --upgrade requests envparse
 
 info "Enabling docker..."
 

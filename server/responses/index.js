@@ -48,7 +48,7 @@ const responseList = {
     message: 'The flag is correct.'
   },
   badFlag: {
-    status: 200,
+    status: 400,
     message: 'The flag was incorrect.'
   },
   badChallenge: {
