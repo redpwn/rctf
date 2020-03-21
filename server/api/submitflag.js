@@ -1,3 +1,4 @@
+const crypto = require('crypto')
 const db = require('../database')
 const challenges = require('../challenges')
 const { responses } = require('../responses')
@@ -44,20 +45,29 @@ module.exports = {
 
     const challenge = challenges.getChallenge(challengeid)
 
-    if (challenge) {
-      if (submittedFlag === challenge.flag) {
-        const solved = await db.solves.getSolvesByUserIdAndChallId({ userid: uuid, challengeid: challengeid })
-        if (solved === undefined) {
-          await db.solves.newSolve({ id: uuidv4(), challengeid: challengeid, userid: uuid, createdat: new Date() })
-          return responses.goodFlag
-        } else {
-          return responses.badAlreadySolvedChallenge
-        }
-      } else {
-        return responses.badFlag
-      }
-    } else {
+    if (!challenge) {
       return responses.badChallenge
+    }
+
+    const bufSubmittedFlag = Buffer.from(submittedFlag)
+    const bufCorrectFlag = Buffer.from(challenge.flag)
+
+    if (bufSubmittedFlag.length !== bufCorrectFlag.length) {
+      return responses.badFlag
+    }
+
+    if (!crypto.timingSafeEqual(bufSubmittedFlag, bufCorrectFlag)) {
+      return responses.badFlag
+    }
+
+    try {
+      await db.solves.newSolve({ id: uuidv4(), challengeid: challengeid, userid: uuid, createdat: new Date() })
+      return responses.goodFlag
+    } catch (e) {
+      if (e.constraint === 'uq') {
+        return responses.badAlreadySolvedChallenge
+      }
+      throw e
     }
   }
 }
