@@ -265,6 +265,11 @@ class Config(collections.OrderedDict):
         'RCTF_SMTP_URL' : 'smtp.url',
         'RCTF_EMAIL_FROM' : 'smtp.from'
     }
+
+
+    default_config = collections.OrderedDict({
+        'cli.ansi' : True
+    })
     
     
     def __init__(self, config_path, *args, **kwargs):
@@ -303,7 +308,7 @@ class Config(collections.OrderedDict):
             raise RuntimeError('Attempted to read dummy config path')
     
         if update_config or not check_file(self.config_path):
-            config = collections.OrderedDict()
+            config = default_config.copy()
 
             if update_config:
                 config = self.read(update_config = False)
@@ -314,8 +319,8 @@ class Config(collections.OrderedDict):
             for key in sorted(dotenv_config.keys()):
                 value = dotenv_config[key]
 
-                if key in rCTF.config_keys:
-                    config[rCTF.config_keys[key]] = str(value)
+                if key in Config.config_keys:
+                    config[Config.config_keys[key]] = str(value)
 
             config.write()
             os.chmod(self.config_path, 0o600)
@@ -344,7 +349,7 @@ class Config(collections.OrderedDict):
     def _get_as_environ(self):
         envvars = dict()
 
-        reverse_config_keys = {value : key for key, value in rCTF.config_keys.items()}
+        reverse_config_keys = {value : key for key, value in Config.config_keys.items()}
 
         for key, value in self.items():
             if key in reverse_config_keys:
@@ -409,7 +414,7 @@ class rCTF:
     
     # merges os.environ and configuration environ
     def get_env(self):
-        environ = self._get_config_as_environ()
+        environ = self.get_config()._get_as_environ()
         environ.update(os.environ.copy())
 
         return environ
@@ -460,9 +465,7 @@ if __name__ == '__main__':
         read_config = True
     except PermissionError:
         # XXX: this is a dummy path. find a better way to handle
-        config = Config('', {
-            'cli.ansi' : True
-        })
+        config = Config(Config.default_config)
 
     # disable ansi color codes if necessary
 
