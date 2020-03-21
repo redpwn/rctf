@@ -156,7 +156,7 @@ echo 2
 # copy over cli tool
 
 echo 3
-info "Copying CLI tool from $INSTALL_PATH/install/rctf.py to ${RCTF_CLI_INSTALL_PATH}..."
+printf "%s" "Copying CLI tool from $INSTALL_PATH/install/rctf.py to ${RCTF_CLI_INSTALL_PATH}..."
 echo 4
 if [ ! -f "$RCTF_CLI_INSTALL_PATH" ]; then
     cp install/rctf.py "$RCTF_CLI_INSTALL_PATH"
