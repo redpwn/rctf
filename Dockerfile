@@ -17,10 +17,10 @@ COPY preact.config.js ./
 COPY server ./server
 COPY tsconfig.json ./
 
-RUN yarn && yarn build && rm -rf node_modules
+RUN yarn && yarn build && rm -rf node_modules && yarn cache clean
 
 ENV NODE_ENV production
-RUN yarn
+RUN yarn && yarn cache clean
 
 ENV PORT 8000
 EXPOSE 8000
