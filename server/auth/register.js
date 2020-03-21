@@ -1,4 +1,4 @@
-const uuidv4 = require('uuid/v4')
+const { v4: uuidv4 } = require('uuid')
 const database = require('../database')
 const tokenUtils = require('./token')
 const { responses } = require('../responses')

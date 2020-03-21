@@ -1,4 +1,5 @@
 {
   "all": true,
-  "exclude": ["migrations", "test", ".rdeploy", "client", "build", "preact.config.js", "**/.eslintrc.js", "coverage"]
+  "include": ["dist/server/**/*.js"],
+  "excludeAfterRemap": false
 }

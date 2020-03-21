@@ -1,8 +1,8 @@
 const test = require('ava')
 const request = require('supertest')
-const app = require('../../app')
+const app = require('../../dist/server/app')
 
-const { responseList } = require('../../server/responses')
+const { responseList } = require('../../dist/server/responses')
 
 test('succeeds with goodLeaderboard', async t => {
   const resp = await request(app)

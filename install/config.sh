@@ -1,5 +1,8 @@
 #!/bin/sh
 
+set -e
+
+
 cp -n .env.example .env
 cp -nR .rdeploy.example .rdeploy
 cp -n config/client.js.example config/client.js
@@ -10,4 +13,4 @@ chown -R 999 data
 chmod 600 .env
 
 docker-compose build
-docker-compose run --rm rctf yarn migrate up
+docker-compose run --rm rctf node install/docker-migrate.js

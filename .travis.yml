@@ -2,29 +2,34 @@ branches:
   only:
     - "master"
 
-services:
-  - postgresql
-  - redis-server
+jobs:
+  include:
+    - name: "shellcheck"
+      script:
+        - shellcheck client/*.sh install/*.sh
+    - name: "Test"
+      services:
+        - postgresql
+        - redis-server
 
-env:
-  global:
-  - RCTF_DATABASE_URL=postgres://postgres@localhost/rctf
-  - RCTF_REDIS_URL=redis://@localhost:6379/0
+      env:
+        - RCTF_DATABASE_URL=postgres://postgres@localhost/rctf
+        - RCTF_REDIS_URL=redis://@localhost:6379/0
 
-language: node_js
-node_js:
-  - 12
-before_script:
-  - psql -c 'create database rctf;' -U postgres
-install:
-  - npm install -g codecov
-  - yarn --frozen-lockfile
-script:
-  - cp .env.example .env
-  - cp -r .rdeploy.example .rdeploy
-  - cp config/client.js.example config/client.js
-  - yarn migrate up
-  - yarn build
-  - yarn lint
-  - yarn test:report
-  - codecov
+      language: node_js
+      node_js:
+        - 12
+      before_script:
+        - psql -c 'create database rctf;' -U postgres
+      install:
+        - npm install -g codecov
+        - yarn --frozen-lockfile
+      script:
+        - cp .env.example .env
+        - cp -r .rdeploy.example .rdeploy
+        - cp config/client.js.example config/client.js
+        - yarn migrate up
+        - yarn build
+        - yarn lint
+        - yarn test:report
+        - codecov

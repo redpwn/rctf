@@ -48,7 +48,7 @@ const responseList = {
     message: 'The flag is correct.'
   },
   badFlag: {
-    status: 200,
+    status: 400,
     message: 'The flag was incorrect.'
   },
   badChallenge: {
@@ -90,6 +90,10 @@ const responseList = {
   badEnded: {
     status: 401,
     message: 'The CTF has ended.'
+  },
+  badRateLimit: {
+    status: 401,
+    message: 'You are trying this too fast'
   },
   goodChallenges: {
     status: 200,

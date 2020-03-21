@@ -24,6 +24,7 @@ export const submitFlag = (id, flag) => {
       switch (resp.kind) {
         case 'badFlag':
         case 'badAlreadySolvedChallenge':
+        case 'badRateLimit':
           return {
             error: resp.message
           }

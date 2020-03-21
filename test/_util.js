@@ -1,6 +1,6 @@
 require('ava')
 
-const uuidv4 = require('uuid/v4')
+const { v4: uuidv4 } = require('uuid')
 const config = require('../config/server')
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
   },
   getFirstLoadedChallenge: () => {
     // Load on-demand
-    const challenges = require('../server/challenges')
+    const challenges = require('../dist/server/challenges')
     return new Promise((resolve, reject) => {
       const check = () => {
         try {

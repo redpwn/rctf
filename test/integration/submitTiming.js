@@ -1,11 +1,11 @@
 const test = require('ava')
 const request = require('supertest')
-const app = require('../../app')
-const config = require('../../config/server')
-const uuidv4 = require('uuid/v4')
+const app = require('../../dist/server/app')
+const config = require('../../dist/config/server')
+const { v4: uuidv4 } = require('uuid')
 
-const { responseList } = require('../../server/responses')
-const auth = require('../../server/auth')
+const { responseList } = require('../../dist/server/responses')
+const auth = require('../../dist/server/auth')
 const { getFirstLoadedChallenge } = require('../_util.js')
 
 let chall

@@ -1,2 +1,2 @@
-# Ignore build
-/build
+# Ignore build folders
+/dist

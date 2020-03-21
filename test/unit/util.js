@@ -1,6 +1,6 @@
 const test = require('ava')
 
-const util = require('../../server/util')
+const util = require('../../dist/server/util')
 
 test('get score static', t => {
   const score = util.scores.getScore('static', 100, 100, 20)
