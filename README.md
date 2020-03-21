@@ -38,7 +38,9 @@ $ cd rctf
 # docker-compose up -d 
 ```
 
-### Management
+### rCTF CLI Management Tool
+
+![screenshot of tool](docs/rctf-cli.png)
 
 The rCTF CLI management tool [install/rctf.py](`rctf`) (installed in `/usr/bin/` by default by the automatic installation script) makes management of your rCTF installation simple.
 
