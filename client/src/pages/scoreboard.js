@@ -1,9 +1,10 @@
-import { useState, useEffect, useCallback } from 'preact/hooks'
+import { useState, useEffect, useMemo, useCallback } from 'preact/hooks'
 import config from '../../../config/client'
 import withStyles from '../components/jss'
 import Pagination from '../components/pagination'
 
 import { getScoreboard } from '../api/scoreboard'
+import { privateProfile } from '../api/profile'
 
 const PAGESIZE_OPTIONS = [25, 50, 100]
 
@@ -12,11 +13,14 @@ const Scoreboard = withStyles({
     paddingBottom: '10px'
   }
 }, ({ classes }) => {
+  const loggedIn = useMemo(() => localStorage.getItem('token') !== null, [])
+  const [profile, setProfile] = useState(null)
   const [pageSize, _setPageSize] = useState(100)
   const [scores, setScores] = useState([])
   const [division, _setDivision] = useState('')
   const [page, setPage] = useState(1)
   const [totalItems, setTotalItems] = useState(0)
+
   const setDivision = useCallback((newDivision) => {
     _setDivision(newDivision)
     setPage(1)
@@ -33,6 +37,12 @@ const Scoreboard = withStyles({
 
   useEffect(() => { document.title = `Scoreboard${config.ctfTitle}` }, [])
   useEffect(() => {
+    if (loggedIn) {
+      privateProfile()
+        .then(p => setProfile(p))
+    }
+  }, [loggedIn])
+  useEffect(() => {
     const _division = division === '' ? undefined : division
     getScoreboard({
       division: _division,
@@ -47,6 +57,18 @@ const Scoreboard = withStyles({
         setTotalItems(data.total)
       })
   }, [division, page, pageSize])
+
+  const isUserOnCurrentScoreboard = loggedIn && (division === '' || Number.parseInt(division) === profile.division)
+  const goToSelfPage = useCallback(() => {
+    if (!isUserOnCurrentScoreboard) return
+    let place
+    if (division === '') {
+      place = profile.globalPlace
+    } else {
+      place = profile.divisionPlace
+    }
+    setPage(Math.floor((place - 1) / pageSize) + 1)
+  }, [profile, setPage, pageSize, division, isUserOnCurrentScoreboard])
 
   return (
     <div class='row u-center' style='align-items: initial !important'>
@@ -69,6 +91,13 @@ const Scoreboard = withStyles({
                 { PAGESIZE_OPTIONS.map(sz => <option value={sz}>{sz}</option>) }
               </select>
             </div>
+            { loggedIn &&
+              <div class='btn-container u-center'>
+                <button disabled={!isUserOnCurrentScoreboard} onClick={goToSelfPage}>
+                  Go to my team
+                </button>
+              </div>
+            }
           </div>
         </div>
       </div>
