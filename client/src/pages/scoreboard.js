@@ -14,9 +14,13 @@ const Scoreboard = withStyles({
 }, ({ classes }) => {
   const [pageSize, _setPageSize] = useState(100)
   const [scores, setScores] = useState([])
-  const [division, setDivision] = useState('')
+  const [division, _setDivision] = useState('')
   const [page, setPage] = useState(1)
   const [totalItems, setTotalItems] = useState(0)
+  const setDivision = useCallback((newDivision) => {
+    _setDivision(newDivision)
+    setPage(1)
+  }, [_setDivision, setPage])
   const setPageSize = useCallback((newPageSize) => {
     _setPageSize(newPageSize)
     // Try to switch to the page containing the teams that were previously
@@ -36,7 +40,10 @@ const Scoreboard = withStyles({
       limit: pageSize
     })
       .then(data => {
-        setScores(data.leaderboard)
+        setScores(data.leaderboard.map((entry, i) => ({
+          ...entry,
+          rank: i + 1 + (page - 1) * pageSize
+        })))
         setTotalItems(data.total)
       })
   }, [division, page, pageSize])
@@ -78,9 +85,9 @@ const Scoreboard = withStyles({
               </thead>
               <tbody>
                 {
-                  scores.map(({ id, name, score }, idx) =>
+                  scores.map(({ id, name, score, rank }) =>
                     <tr key={id}>
-                      <td>{idx + 1 + (page - 1) * pageSize}</td>
+                      <td>{rank}</td>
                       <td>
                         <a href={`/profile/${id}`}>{name}</a>
                       </td>
