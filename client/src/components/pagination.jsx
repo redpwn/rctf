@@ -36,7 +36,7 @@ const PaginationEllipses = withStyles({
   )
 })
 
-function Pagination ({ classes, totalItems, pageSize, page, setPage, numVisiblePages }) {
+function Pagination ({ totalItems, pageSize, page, setPage, numVisiblePages }) {
   numVisiblePages = numVisiblePages || 9
   const totalPages = Math.ceil(totalItems / pageSize)
   const { pages, startPage, endPage } = useMemo(() => {
@@ -81,7 +81,7 @@ function Pagination ({ classes, totalItems, pageSize, page, setPage, numVisibleP
   }, [setPage, totalPages])
 
   return (
-    <div class={`pagination ${classes.paginationCentered}`}>
+    <div class='pagination u-center'>
       <PaginationItem disabled={page === 1} key='<' onClick={boundSetPages[page - 1 - 1]}>&lt;</PaginationItem>
       { startPage > 1 &&
         <Fragment>
@@ -101,8 +101,4 @@ function Pagination ({ classes, totalItems, pageSize, page, setPage, numVisibleP
   )
 }
 
-export default withStyles({
-  paginationCentered: {
-    justifyContent: 'center'
-  }
-}, Pagination)
+export default Pagination
