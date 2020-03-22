@@ -4,6 +4,5 @@ import 'linkstate/polyfill'
 
 export default () => {
   useLayoutEffect(logout)
-  console.log(logout)
   return null
 }
