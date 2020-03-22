@@ -13,7 +13,8 @@ const Scoreboard = withStyles({
 }, ({ classes }) => {
   const [scores, setScores] = useState([])
   const [division, setDivision] = useState('')
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(1)
+  const [totalItems, setTotalItems] = useState(0)
 
   const divisionChangeHandler = useCallback((e) => setDivision(e.target.value), [setDivision])
 
@@ -23,12 +24,12 @@ const Scoreboard = withStyles({
     console.log(_division)
     getScoreboard({
       division: _division,
-      offset: page * TEAMS_PER_PAGE,
+      offset: (page - 1) * TEAMS_PER_PAGE,
       limit: TEAMS_PER_PAGE
     })
       .then(data => {
-        console.log(data)
         setScores(data.leaderboard)
+        setTotalItems(data.total)
       })
   }, [division, page])
 
@@ -64,7 +65,7 @@ const Scoreboard = withStyles({
                 {
                   scores.map(({ id, name, score }, idx) =>
                     <tr key={id}>
-                      <td>{idx + 1}</td>
+                      <td>{idx + 1 + (page - 1) * TEAMS_PER_PAGE}</td>
                       <td>
                         <a href={`/profile/${id}`}>{name}</a>
                       </td>
