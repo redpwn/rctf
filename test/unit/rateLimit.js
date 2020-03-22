@@ -1,6 +1,6 @@
 const test = require('ava')
 const { v4: uuid } = require('uuid')
-const timeouts = require('../../server/cache/timeouts')
+const timeouts = require('../../dist/server/cache/timeouts')
 
 test('allows request if under ratelimit', async t => {
   const result = await timeouts.checkRateLimit({

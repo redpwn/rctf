@@ -1,15 +1,15 @@
-const path = require('path')
-const config = require('../../config/server')
+import path from 'path'
+import config from '../../config/server'
 
-const normalizeEmail = (email: string): string => {
+export function normalizeEmail (email: string): string {
   return email.trim().toLowerCase()
 }
 
-const normalizeName = (name: string): string => {
+export function normalizeName (name: string): string {
   return name.trim().toLowerCase()
 }
 
-const normalizeDownload = (name: string): string => {
+export function normalizeDownload (name: string): string {
   const filename = path.basename(name)
 
   const parts = filename.split('.')
@@ -24,10 +24,4 @@ const normalizeDownload = (name: string): string => {
   const cleanName = parts.join('.')
 
   return cleanName
-}
-
-module.exports = {
-  normalizeEmail,
-  normalizeName,
-  normalizeDownload
 }
