@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'preact/hooks'
 import config from '../../../config/client'
 import withStyles from '../components/jss'
+import Pagination from '../components/pagination'
 
 import { getScoreboard } from '../api/scoreboard'
 
@@ -76,6 +77,7 @@ const Scoreboard = withStyles({
               </tbody>
             </table>
           </div>
+          <Pagination totalItems={totalItems} pageSize={TEAMS_PER_PAGE} page={page} setPage={setPage} />
         </div>
       </div>
     </div>
