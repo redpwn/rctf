@@ -1,7 +1,7 @@
 const threshold = 100
 
 module.exports = {
-  getScore: (type:string, minVal:number, maxVal:number, solves:number):number => {
+  getScore: (type: string, minVal: number, maxVal: number, solves: number): number => {
     if (type === 'static') {
       return minVal
     } else {
