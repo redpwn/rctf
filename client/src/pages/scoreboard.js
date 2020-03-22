@@ -5,47 +5,61 @@ import Pagination from '../components/pagination'
 
 import { getScoreboard } from '../api/scoreboard'
 
-const TEAMS_PER_PAGE = 100
+const PAGESIZE_OPTIONS = [25, 50, 100]
 
 const Scoreboard = withStyles({
   frame: {
     paddingBottom: '10px'
   }
 }, ({ classes }) => {
+  const [pageSize, _setPageSize] = useState(100)
   const [scores, setScores] = useState([])
   const [division, setDivision] = useState('')
   const [page, setPage] = useState(1)
   const [totalItems, setTotalItems] = useState(0)
+  const setPageSize = useCallback((newPageSize) => {
+    _setPageSize(newPageSize)
+    // Try to switch to the page containing the teams that were previously
+    // at the top of the current page
+    setPage(Math.floor((page - 1) * pageSize / newPageSize) + 1)
+  }, [pageSize, _setPageSize, page, setPage])
 
   const divisionChangeHandler = useCallback((e) => setDivision(e.target.value), [setDivision])
+  const pageSizeChangeHandler = useCallback((e) => setPageSize(e.target.value), [setPageSize])
 
   useEffect(() => { document.title = `Scoreboard${config.ctfTitle}` }, [])
   useEffect(() => {
     const _division = division === '' ? undefined : division
-    console.log(_division)
     getScoreboard({
       division: _division,
-      offset: (page - 1) * TEAMS_PER_PAGE,
-      limit: TEAMS_PER_PAGE
+      offset: (page - 1) * pageSize,
+      limit: pageSize
     })
       .then(data => {
         setScores(data.leaderboard)
         setTotalItems(data.total)
       })
-  }, [division, page])
+  }, [division, page, pageSize])
 
   return (
     <div class='row u-center' style='align-items: initial !important'>
       <div class='col-3'>
         <div class={`frame ${classes.frame}`}>
           <div class='frame__body'>
-            <div class='frame__title title'>Config</div>
+            <div class='frame__title'>Config</div>
+            <div class='frame__subtitle'>Division</div>
             <div class='input-control'>
               <select required class='select' name='division' value={division} onChange={divisionChangeHandler}>
                 <option value='' selected>All</option>
                 <option value='0'>High School</option>
                 <option value='1'>College</option>
                 <option value='2'>Other</option>
+              </select>
+            </div>
+            <div class='frame__subtitle'>Teams per page</div>
+            <div class='input-control'>
+              <select required class='select' name='pagesize' value={pageSize} onChange={pageSizeChangeHandler}>
+                { PAGESIZE_OPTIONS.map(sz => <option value={sz}>{sz}</option>) }
               </select>
             </div>
           </div>
@@ -66,7 +80,7 @@ const Scoreboard = withStyles({
                 {
                   scores.map(({ id, name, score }, idx) =>
                     <tr key={id}>
-                      <td>{idx + 1 + (page - 1) * TEAMS_PER_PAGE}</td>
+                      <td>{idx + 1 + (page - 1) * pageSize}</td>
                       <td>
                         <a href={`/profile/${id}`}>{name}</a>
                       </td>
@@ -77,7 +91,15 @@ const Scoreboard = withStyles({
               </tbody>
             </table>
           </div>
-          <Pagination totalItems={totalItems} pageSize={TEAMS_PER_PAGE} page={page} setPage={setPage} />
+          { totalItems > pageSize &&
+            <Pagination
+              totalItems={totalItems}
+              pageSize={pageSize}
+              page={page}
+              setPage={setPage}
+              numVisiblePages={9}
+            />
+          }
         </div>
       </div>
     </div>
