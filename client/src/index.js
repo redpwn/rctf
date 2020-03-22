@@ -6,7 +6,7 @@ import { Component } from 'preact'
 import config from '../../config/client'
 
 import Header from './components/header'
-import { Home, Registration, Login, Profile, Challenges, Scoreboard, Error, Sponsors, Verify } from './pages'
+import { Home, Registration, Login, Profile, Challenges, Scoreboard, Error, Sponsors, Verify, Logout } from './pages'
 import 'cirrus-ui'
 
 import util from './util'
@@ -18,20 +18,23 @@ class App extends Component {
 
   render (props, { currentPath }) {
     const loggedOut = localStorage.getItem('token') === null
-    const loggedOutPaths = [
-      <Home key='home' path='/' name='Home' />,
-      <Registration key='register' path='/register' name='Register' />,
-      <Login key='login' path='/login' name='Login' />
-    ]
 
+    let loggedOutPaths = [
+      <Home key='home' path='/' name='Home' />
+    ]
     if (config.sponsors.length !== 0) {
       loggedOutPaths.push(<Sponsors key='sponsors' path='/sponsors' name='Sponsors' />)
     }
+    loggedOutPaths = loggedOutPaths.concat([
+      <Registration key='register' path='/register' name='Register' />,
+      <Login key='login' path='/login' name='Login' />
+    ])
 
     const loggedInPaths = [
       <Profile key='profile' path='/profile/' name='Profile' />,
       <Challenges key='challs' path='/challs' name='Challenges' />,
-      <Scoreboard key='scoreboard' path='/scores' name='Scoreboard' />
+      <Scoreboard key='scoreboard' path='/scores' name='Scoreboard' />,
+      <Logout key='logout' path='/logout' name='Logout' />
     ]
 
     let allPaths = [
