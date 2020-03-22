@@ -22,6 +22,13 @@ export const login = ({ teamToken }) => {
     })
 }
 
+export const logout = () => {
+  localStorage.removeItem("token")
+  localStorage.removeItem("teamToken")
+
+  return route('/')
+}
+
 export const verify = ({ verifyToken }) => {
   return request('POST', '/auth/verify', {
     verifyToken
