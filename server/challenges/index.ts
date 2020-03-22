@@ -1,16 +1,18 @@
-const config = require('../../config/server')
-const util = require('../util')
-const path = require('path')
+import config from '../../config/server'
+import util from '../util'
+import path from 'path'
+import { Challenge, CleanedChallenge } from './Challenge'
+import { Provider } from './Provider'
 
-let provider
+let provider: Provider
 
-let challenges = []
-let cleanedChallenges = []
+let challenges: Challenge[] = []
+let cleanedChallenges: CleanedChallenge[] = []
 // Mapping from challenge.id to challenge
-const challMap = new Map()
-const cleanedChallMap = new Map()
+const challMap: Map<string, Challenge> = new Map()
+const cleanedChallMap: Map<string, CleanedChallenge> = new Map()
 
-const onUpdate = (newChallenges) => {
+const onUpdate = (newChallenges: Challenge[]): void => {
   challenges = newChallenges
 
   challMap.clear()
@@ -50,20 +52,21 @@ import(path.join('../providers', config.challengeProvider.name))
     provider.on('update', onUpdate)
   })
 
-module.exports = {
-  getAllChallenges: () => {
-    return challenges
-  },
-  getCleanedChallenges: () => {
-    return cleanedChallenges
-  },
-  getChallenge: id => {
-    return challMap.get(id)
-  },
-  getCleanedChallenge: id => {
-    return cleanedChallMap.get(id)
-  },
-  resetCache: () => {
-    provider.forceUpdate()
-  }
+export function getAllChallenges (): Challenge[] {
+  return challenges
+}
+
+export function getCleanedChallenges (): CleanedChallenge[] {
+  return cleanedChallenges
+}
+
+export function getChallenge (id: string): Challenge {
+  return challMap.get(id)
+}
+
+export function getCleanedChallenge (id: string): CleanedChallenge {
+  return cleanedChallMap.get(id)
+}
+export function resetCache (): void {
+  provider.forceUpdate()
 }

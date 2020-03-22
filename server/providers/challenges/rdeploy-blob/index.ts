@@ -1,15 +1,16 @@
 import config from '../../../../config/server'
 import path from 'path'
-import { EventEmitter } from 'events'
 import { promises as fs } from 'fs'
+import { Provider } from '../../../challenges/Provider'
+import { EventEmitter } from 'events'
 
 interface RDeployBlobProviderOptions {
-  updateInterval: number,
-  useGlobalRDeployDirectory: boolean,
-  rDeployDirectory: string,
+  updateInterval: number;
+  useGlobalRDeployDirectory: boolean;
+  rDeployDirectory?: string;
 }
 
-class RDeployBlobProvider extends EventEmitter {
+class RDeployBlobProvider extends EventEmitter implements Provider {
   _updateInterval: number
   _rDeployDirectory: string
   _interval: NodeJS.Timeout
@@ -31,7 +32,7 @@ class RDeployBlobProvider extends EventEmitter {
     this._update()
   }
 
-  _update () {
+  _update (): void {
     const configPath = path.join(__dirname, '../../../../', this._rDeployDirectory, 'config.json')
 
     fs.readFile(configPath, 'utf8')
@@ -51,11 +52,11 @@ class RDeployBlobProvider extends EventEmitter {
       })
   }
 
-  forceUpdate () {
+  forceUpdate (): void {
     this._update()
   }
 
-  cleanup () {
+  cleanup (): void {
     clearInterval(this._interval)
   }
 }
