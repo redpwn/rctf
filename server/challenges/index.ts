@@ -1,7 +1,7 @@
 import config from '../../config/server'
 import util from '../util'
 import path from 'path'
-import { Challenge, CleanedChallenge } from './Challenge'
+import { Challenge, CleanedChallenge } from './types'
 import { Provider } from './Provider'
 
 let provider: Provider
