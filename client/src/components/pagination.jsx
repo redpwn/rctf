@@ -4,6 +4,7 @@ import withStyles from './jss'
 
 function PaginationItem({ onClick, disabled, selected, children, tabindex, ...props }) {
   const className = props.class || ''
+  delete props.class
   const wrappedOnClick = useCallback((e) => {
     e.preventDefault()
     onClick()
@@ -16,6 +17,24 @@ function PaginationItem({ onClick, disabled, selected, children, tabindex, ...pr
     </div>
   )
 }
+
+const PaginationEllipses = withStyles({
+  noHover: {
+    backgroundColor: 'transparent !important'
+  },
+  ellipses: {
+    paddingLeft: '0.1em !important',
+    paddingRight: '0.1em !important'
+  }
+}, ({ classes }) => {
+  const noFocus = useCallback(e => e.target.blur(), [])
+  // TODO: pass props through
+  return (
+    <div class={`pagination-item short ${classes.noHover}`}>
+      <a class={`ellipses ${classes.ellipses}`} tabindex='-1' onFocus={noFocus}>&hellip;</a>
+    </div>
+  )
+})
 
 function Pagination ({ classes, totalItems, pageSize, page, setPage, numVisiblePages }) {
   numVisiblePages = numVisiblePages || 9
@@ -67,13 +86,13 @@ function Pagination ({ classes, totalItems, pageSize, page, setPage, numVisibleP
       { startPage > 1 &&
         <Fragment>
           <PaginationItem key={1} onClick={boundSetPages[0]}>1</PaginationItem>
-          <PaginationItem key='.<' tabindex='-1'>...</PaginationItem>
+          <PaginationEllipses key='.<' />
         </Fragment>
       }
       {pages.map((p) => <PaginationItem selected={p === page} key={p} onClick={boundSetPages[p - 1]}>{p}</PaginationItem>)}
       { endPage < totalPages &&
         <Fragment>
-          <PaginationItem key='.>' tabindex='-1'>...</PaginationItem>
+          <PaginationEllipses key='.>' />
           <PaginationItem key={totalPages} onClick={boundSetPages[totalPages - 1]}>{totalPages}</PaginationItem>
         </Fragment>
       }
@@ -84,6 +103,6 @@ function Pagination ({ classes, totalItems, pageSize, page, setPage, numVisibleP
 
 export default withStyles({
   paginationCentered: {
-    'justify-content': 'center'
+    justifyContent: 'center'
   }
 }, Pagination)
