@@ -7,13 +7,25 @@ export const relog = () => {
 }
 
 export const request = (method, endpoint, data) => {
-  return fetch(config.apiEndpoint + endpoint, {
+  let body = null
+  let qs = ''
+  if (method === 'GET' && data) {
+    // encode data into the querystring
+    // eslint-disable-next-line prefer-template
+    qs = '?' + Object.keys(data)
+      .filter(k => data[k] !== undefined)
+      .map(k => `${k}=${encodeURIComponent(data[k])}`)
+      .join('&')
+  } else {
+    body = data
+  }
+  return fetch(config.apiEndpoint + endpoint + qs, {
     method,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('token')}`
     },
-    body: JSON.stringify(data)
+    body: body && JSON.stringify(body)
   })
     .then(resp => resp.json())
     .then(resp => {
