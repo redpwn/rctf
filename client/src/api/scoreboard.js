@@ -1,6 +1,14 @@
 import { request } from './util'
 
-export const getScoreboard = (limit = 100, offset = 0) => {
-  return request('GET', `/leaderboard?limit=${encodeURIComponent(limit)}&offset=${encodeURIComponent(offset)}`)
+export const getScoreboard = ({
+  division,
+  limit,
+  offset
+}) => {
+  limit = limit || 100
+  offset = offset || 0
+  return request('GET', '/leaderboard', {
+    division, limit, offset
+  })
     .then(resp => resp.data)
 }
