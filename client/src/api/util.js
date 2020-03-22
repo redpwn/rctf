@@ -11,14 +11,15 @@ export const request = (method, endpoint, data) => {
   let qs = ''
   if (method === 'GET' && data) {
     // encode data into the querystring
-    qs = Object.keys(data)
+    // eslint-disable-next-line prefer-template
+    qs = '?' + Object.keys(data)
       .filter(k => data[k] !== undefined)
       .map(k => `${k}=${encodeURIComponent(data[k])}`)
       .join('&')
   } else {
     body = data
   }
-  return fetch(`${config.apiEndpoint}${endpoint}?${qs}`, {
+  return fetch(config.apiEndpoint + endpoint + qs, {
     method,
     headers: {
       'Content-Type': 'application/json',
