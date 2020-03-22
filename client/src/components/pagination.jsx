@@ -2,7 +2,7 @@ import { useMemo, useCallback } from 'preact/hooks'
 import { Fragment } from 'preact'
 import withStyles from './jss'
 
-function PaginationItem({ onClick, disabled, selected, children, ...props }) {
+function PaginationItem({ onClick, disabled, selected, children, tabindex, ...props }) {
   const className = props.class || ''
   const wrappedOnClick = useCallback((e) => {
     e.preventDefault()
@@ -10,7 +10,7 @@ function PaginationItem({ onClick, disabled, selected, children, ...props }) {
   }, [onClick])
   return (
     <div class={`pagination-item short ${className}${selected ? ' selected' : ''}`} {...props}>
-      <a disabled={disabled} href={onClick && '#'} onClick={wrappedOnClick}>
+      <a disabled={disabled} href={onClick && '#'} onClick={wrappedOnClick} tabindex={tabindex}>
         {children}
       </a>
     </div>
@@ -63,21 +63,21 @@ function Pagination ({ classes, totalItems, pageSize, page, setPage, numVisibleP
 
   return (
     <div class={`pagination ${classes.paginationCentered}`}>
-      <PaginationItem disabled={page === 1} onClick={boundSetPages[page - 1 - 1]}>&lt;</PaginationItem>
+      <PaginationItem disabled={page === 1} key='<' onClick={boundSetPages[page - 1 - 1]}>&lt;</PaginationItem>
       { startPage > 1 &&
         <Fragment>
-          <PaginationItem onClick={boundSetPages[0]}>1</PaginationItem>
-          <PaginationItem>...</PaginationItem>
+          <PaginationItem key={1} onClick={boundSetPages[0]}>1</PaginationItem>
+          <PaginationItem key='.<' tabindex='-1'>...</PaginationItem>
         </Fragment>
       }
       {pages.map((p) => <PaginationItem selected={p === page} key={p} onClick={boundSetPages[p - 1]}>{p}</PaginationItem>)}
       { endPage < totalPages &&
         <Fragment>
-          <PaginationItem>...</PaginationItem>
-          <PaginationItem onClick={boundSetPages[totalPages - 1]}>{totalPages}</PaginationItem>
+          <PaginationItem key='.>' tabindex='-1'>...</PaginationItem>
+          <PaginationItem key={totalPages} onClick={boundSetPages[totalPages - 1]}>{totalPages}</PaginationItem>
         </Fragment>
       }
-      <PaginationItem disabled={page === totalPages} onClick={boundSetPages[page + 1 - 1]}>&gt;</PaginationItem>
+      <PaginationItem disabled={page === totalPages} key='>' onClick={boundSetPages[page + 1 - 1]}>&gt;</PaginationItem>
     </div>
   )
 }
