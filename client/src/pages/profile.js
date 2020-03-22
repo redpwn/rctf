@@ -60,8 +60,8 @@ export default withStyles({
     this.setState({
       name,
       updateName: name,
-      division,
-      updateDivision: config.divisions[division],
+      division: divisionMap.get(division),
+      updateDivision: division,
       divisionPlace: util.strings.placementString(divisionPlace),
       globalPlace: util.strings.placementString(globalPlace),
       score,
