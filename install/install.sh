@@ -149,15 +149,13 @@ sed -i.bak "s/RCTF_NAME=.*$/RCTF_NAME=\"$(echo "$RCTF_NAME"  | sed -e 's/\\/\\\\
 sed -i.bak "s/RCTF_TOKEN_KEY=.*$/RCTF_TOKEN_KEY=$(echo "$RCTF_TOKEN_KEY"  | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')/g" .env
 
 info "Changing permissions of .env (chmod 600 .env)..."
-echo 1
+
 chmod 600 .env .env.example
-echo 2
 
 # copy over cli tool
 
-echo 3
-#printf "%s" "Copying CLI tool from $INSTALL_PATH/install/rctf.py to ${RCTF_CLI_INSTALL_PATH}..."
-echo 4
+info "Copying CLI tool from $INSTALL_PATH/install/rctf.py to ${RCTF_CLI_INSTALL_PATH}..."
+
 if [ ! -f "$RCTF_CLI_INSTALL_PATH" ]; then
     cp install/rctf.py "$RCTF_CLI_INSTALL_PATH"
     
