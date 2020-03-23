@@ -1,15 +1,19 @@
 const test = require('ava')
 const request = require('supertest')
-const app = require('../../app')
+const app = require('../../dist/server/app')
 const { v4: uuidv4 } = require('uuid')
 
-const db = require('../../server/database')
-const challenges = require('../../server/challenges')
-const { responseList } = require('../../server/responses')
-const auth = require('../../server/auth')
+const db = require('../../dist/server/database')
+const { responseList } = require('../../dist/server/responses')
+const auth = require('../../dist/server/auth')
 const util = require('../_util')
 
-const chall = challenges.getAllChallenges()[0]
+let chall
+
+// Wait for challenges to load
+test.before(async () => {
+  chall = await util.getFirstLoadedChallenge()
+})
 
 test.after.always('remove solves from test user', async t => {
   await db.solves.removeSolvesByUserId({ userid: uuid })

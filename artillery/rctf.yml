@@ -28,23 +28,23 @@ scenarios:
           as: "token"
     - get:
         url: "/api/v1/challs"
-        headers: 
+        headers:
           Authorization: "Bearer {{ token }}"
     - post:
         url: "/api/v1/challs/{{ pid }}/submit"
-        json: 
+        json:
           flag: "flag{test_flag_here}"
-        headers: 
+        headers:
           Authorization: "Bearer {{ token }}"
     - think: 5
     - get:
         url: "/api/v1/users/me"
-        headers: 
+        headers:
           Authorization: "Bearer {{ token }}"
     - delete:
         url: "/api/v1/users/me"
-        headers: 
+        headers:
           Authorization: "Bearer {{ token }}"
-         
-    
+
+
 

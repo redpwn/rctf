@@ -1,4 +1,5 @@
 import { request, relog } from './util'
+import { toasts } from '../util'
 
 export const privateProfile = () => {
   return request('GET', '/users/me')
@@ -25,5 +26,13 @@ export const updateAccount = (name, division) => {
     name,
     division: Number.parseInt(division)
   })
-    .then(resp => resp.data)
+    .then(resp => {
+      switch (resp.kind) {
+        case 'goodUserUpdate':
+          return resp.data
+        default:
+          toasts.useToast().add(resp.message)
+          return null
+      }
+    })
 }

@@ -1,14 +1,19 @@
 const test = require('ava')
 const request = require('supertest')
-const app = require('../../app')
-const config = require('../../config/server')
+const app = require('../../dist/server/app')
+const config = require('../../dist/config/server')
 const { v4: uuidv4 } = require('uuid')
 
-const challenges = require('../../server/challenges')
-const { responseList } = require('../../server/responses')
-const auth = require('../../server/auth')
+const { responseList } = require('../../dist/server/responses')
+const auth = require('../../dist/server/auth')
+const { getFirstLoadedChallenge } = require('../_util.js')
 
-const chall = challenges.getAllChallenges()[0]
+let chall
+
+// Wait for challenges to load
+test.before(async () => {
+  chall = await getFirstLoadedChallenge()
+})
 
 const uuid = uuidv4()
 

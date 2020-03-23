@@ -4,7 +4,7 @@ const challenges = require('../challenges')
 const { responses } = require('../responses')
 const config = require('../../config/server')
 const util = require('../util')
-
+const timeouts = require('../cache/timeouts')
 const { v4: uuidv4 } = require('uuid')
 
 module.exports = {
@@ -47,6 +47,19 @@ module.exports = {
 
     if (!challenge) {
       return responses.badChallenge
+    }
+
+    const passRateLimit = await timeouts.checkRateLimit({
+      type: timeouts.getChallengeType(challengeid),
+      userid: uuid,
+      duration: 10 * 1000,
+      limit: 3
+    })
+
+    if (!passRateLimit.ok) {
+      return [responses.badRateLimit, {
+        timeLeft: passRateLimit.timeLeft
+      }]
     }
 
     const bufSubmittedFlag = Buffer.from(submittedFlag)

@@ -43,7 +43,7 @@ module.exports = {
 
     return {
       name: user.name,
-      division: divisionMap.get(Number(user.division)),
+      division: Number(user.division),
       score: score.score,
       globalPlace: score.globalPlace,
       divisionPlace: score.divisionPlace,

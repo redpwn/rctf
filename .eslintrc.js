@@ -3,13 +3,8 @@ module.exports = {
     es6: true
   },
   extends: [
-    'standard',
-    'plugin:ava/recommended'
+    'standard'
   ],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
-  },
   parserOptions: {
     ecmaFeatures: {
     },
