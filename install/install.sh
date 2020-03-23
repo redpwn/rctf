@@ -71,7 +71,6 @@ fi
 
 info "Configuring installation..."
 
-RCTF_CLI_INSTALL_PATH="${RCTF_CLI_INSTALL_PATH:-"/usr/bin/rctf"}"
 INSTALL_PATH="${INSTALL_PATH:-"/opt/rctf"}"
 
 if [ ! -d "$(dirname "$INSTALL_PATH")" ]; then
@@ -154,19 +153,9 @@ chmod 600 .env .env.example
 
 # copy over cli tool
 
-info "Copying CLI tool from $INSTALL_PATH/install/rctf.py to ${RCTF_CLI_INSTALL_PATH}..."
+info "Installing CLI tool from PyPI..."
 
-if [ ! -f "$RCTF_CLI_INSTALL_PATH" ]; then
-    cp install/rctf.py "$RCTF_CLI_INSTALL_PATH"
-
-    info "Setting $RCTF_CLI_INSTALL_PATH as executable..."
-
-    chmod +x "$RCTF_CLI_INSTALL_PATH"
-else
-    error "A file already exists at ${RCTF_CLI_INSTALL_PATH}. Skipping rCTF CLI tool installation..."
-    info "... If this file is some version of a rCTF CLI tool and you would like to update it, run '$RCTF_CLI_INSTALL_PATH update' after this installation."
-fi
-
+pip3 install rctf-cli
 
 # start docker
 
@@ -178,6 +167,7 @@ printf "Would you like to start rCTF now (y/N)? "
 read -r result </dev/tty
 
 if [ "$result" = "y" ]; then
+    RCTF_CLI_INSTALL_PATH="/usr/bin/rctf"
     info "Running '${RCTF_CLI_INSTALL_PATH} start'..."
     "${RCTF_CLI_INSTALL_PATH}" start
     exit 0

@@ -42,9 +42,13 @@ $ cd rctf
 
 ![screenshot of tool](docs/rctf-cli.png)
 
-The rCTF CLI management tool [install/rctf.py](`rctf`) (installed in `/usr/bin/` by default by the automatic installation script) makes management of your rCTF installation simple.
+The rCTF CLI management tool [https://github.com/redpwn/rctf-cli](`rctf`) makes management of your rCTF installation simple. It is installed by default through the [automatic installation script](install/install.sh); however, if you have installed rCTF manually, you may install the tool by running:
 
-To read more about its usage, see the [wiki page](https://github.com/redpwn/rctf/wiki/Managing-rCTF-through-the-CLI).
+```
+# pip3 install rctf-cli
+```
+
+To read more about its usage, see the [wiki page](https://github.com/redpwn/rctf/wiki/Managing-rCTF-through-the-CLI) or the [GitHub repository](https://github.com/redpwn/rctf-cli).
 
 #### Starting rCTF
 
