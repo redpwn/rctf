@@ -3932,10 +3932,10 @@ escope@^3.6.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-config-preact@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-preact/-/eslint-config-preact-1.1.0.tgz#5dbcbc2999229765efd8b21bfee204b4e386dfce"
-  integrity sha512-1wwjXZ4FPhFfrhVUKFgNZfgvzUGIvJnNYuRK1r/9QnpUQvbCoSlzhRF10UJKoO7h45he4tH9sJpeAfhFxIo6Wg==
+eslint-config-preact@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-preact/-/eslint-config-preact-1.1.1.tgz#71d80c2dc64aea6c04a3843cc321907b606742f1"
+  integrity sha512-jiOpPAJBFJyXyeXKXqzeNaMudUQBvhD6KXqrE7Y0wRw0y+TbZM9F6ff2PSd0pefIwqkS7LVbJUB/2E5XNv2fYQ==
   dependencies:
     babel-eslint "^10.0.1"
     eslint-plugin-compat "^3.5.1"
