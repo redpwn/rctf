@@ -23,8 +23,8 @@ export const login = ({ teamToken }) => {
 }
 
 export const logout = () => {
-  localStorage.removeItem("token")
-  localStorage.removeItem("teamToken")
+  localStorage.removeItem('token')
+  localStorage.removeItem('teamToken')
 
   return route('/')
 }

@@ -80,7 +80,7 @@ export default withStyles({
     return uuid === undefined || uuid === 'me'
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps (props, state) {
     if (props.uuid !== state.uuid) {
       return {
         uuid: props.uuid,
@@ -93,7 +93,7 @@ export default withStyles({
 
   componentDidUpdate () {
     if (!this.state.loaded) {
-      const { uuid } = this.state;
+      const { uuid } = this.state
 
       if (this.isPrivate()) {
         privateProfile()

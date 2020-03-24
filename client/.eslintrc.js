@@ -3,7 +3,11 @@ module.exports = {
     browser: true
   },
   extends: [
-    'preact'
+    'preact',
+
+    // include standard again since preact sets style options which override
+    // those of standard (see preactjs/eslint-config-preact#6)
+    'standard'
   ],
   plugins: [
   ],
