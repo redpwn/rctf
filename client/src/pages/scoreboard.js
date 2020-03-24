@@ -69,6 +69,21 @@ const Scoreboard = withStyles({
   }, [division, page, pageSize])
 
   const isUserOnCurrentScoreboard = loggedIn && (division === '' || Number.parseInt(division) === profile.division)
+  const isSelfVisible = useMemo(() => {
+    if (profile == null) return false
+    let isSelfVisible = false
+    // TODO: maybe avoiding iterating over scores again?
+    scores.forEach(({ id }) => {
+      if (id === profile.id) {
+        isSelfVisible = true
+      }
+    })
+    return isSelfVisible
+  }, [profile, scores])
+  const scrollToSelf = useCallback(() => {
+    selfRow.current.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+  }, [selfRow])
+  const [needsScrollToSelf, setNeedsScrollToSelf] = useState(false)
   const goToSelfPage = useCallback(() => {
     if (!isUserOnCurrentScoreboard) return
     let place
@@ -79,8 +94,20 @@ const Scoreboard = withStyles({
     }
     setPage(Math.floor((place - 1) / pageSize) + 1)
 
-    selfRow.current.scrollIntoView({ block: 'end', behavior: 'smooth' })
-  }, [profile, setPage, pageSize, division, isUserOnCurrentScoreboard])
+    if (isSelfVisible) {
+      scrollToSelf()
+    } else {
+      setNeedsScrollToSelf(true)
+    }
+  }, [profile, setPage, pageSize, division, isUserOnCurrentScoreboard, isSelfVisible, scrollToSelf])
+  useEffect(() => {
+    if (needsScrollToSelf) {
+      if (isSelfVisible) {
+        scrollToSelf()
+        setNeedsScrollToSelf(false)
+      }
+    }
+  }, [isSelfVisible, needsScrollToSelf, scrollToSelf])
 
   return (
     <div class='row u-center' style='align-items: initial !important'>
@@ -125,11 +152,11 @@ const Scoreboard = withStyles({
                 </tr>
               </thead>
               <tbody>
-                {
-                  scores.map(({ id, name, score, rank }) => {
-                    const isSelf = profile != null && profile.id === id
+                { scores.map(({ id, name, score, rank }) => {
+                  const isSelf = profile != null && profile.id === id
 
-                    return <tr key={id}
+                  return (
+                    <tr key={id}
                       class={isSelf ? classes.selected : ''}
                       ref={isSelf && selfRow}
                     >
@@ -139,18 +166,14 @@ const Scoreboard = withStyles({
                       </td>
                       <td>{score}</td>
                     </tr>
-                  })
-
-                }
+                  )
+                }) }
               </tbody>
             </table>
           </div>
           { totalItems > pageSize &&
             <Pagination
-              totalItems={totalItems}
-              pageSize={pageSize}
-              page={page}
-              setPage={setPage}
+              {...{ totalItems, pageSize, page, setPage }}
               numVisiblePages={9}
             />
           }
