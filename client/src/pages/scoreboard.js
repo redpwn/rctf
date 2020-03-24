@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'preact/hooks'
+import { useState, useEffect, useMemo, useCallback, useRef } from 'preact/hooks'
 import config from '../../../config/client'
 import withStyles from '../components/jss'
 import Pagination from '../components/pagination'
@@ -11,6 +11,15 @@ const PAGESIZE_OPTIONS = [25, 50, 100]
 const Scoreboard = withStyles({
   frame: {
     paddingBottom: '10px'
+  },
+  tableFrame: {
+    paddingTop: '25px'
+  },
+  selected: {
+    backgroundColor: 'hsla(0, 100%, 95%, 0.8)',
+    '&:hover': {
+      backgroundColor: 'hsla(0, 80%, 92%, 0.8) !important'
+    }
   }
 }, ({ classes }) => {
   const loggedIn = useMemo(() => localStorage.getItem('token') !== null, [])
@@ -20,6 +29,7 @@ const Scoreboard = withStyles({
   const [division, _setDivision] = useState('')
   const [page, setPage] = useState(1)
   const [totalItems, setTotalItems] = useState(0)
+  const selfRow = useRef()
 
   const setDivision = useCallback((newDivision) => {
     _setDivision(newDivision)
@@ -68,6 +78,8 @@ const Scoreboard = withStyles({
       place = profile.divisionPlace
     }
     setPage(Math.floor((place - 1) / pageSize) + 1)
+
+    selfRow.current.scrollIntoView({ block: 'end', behavior: 'smooth' })
   }, [profile, setPage, pageSize, division, isUserOnCurrentScoreboard])
 
   return (
@@ -102,7 +114,7 @@ const Scoreboard = withStyles({
         </div>
       </div>
       <div class='col-6'>
-        <div class={`frame ${classes.frame}`} style='padding-top: 25px'>
+        <div class={`frame ${classes.frame} ${classes.tableFrame}`}>
           <div class='frame__body'>
             <table class='table small'>
               <thead>
@@ -114,15 +126,21 @@ const Scoreboard = withStyles({
               </thead>
               <tbody>
                 {
-                  scores.map(({ id, name, score, rank }) =>
-                    <tr key={id}>
+                  scores.map(({ id, name, score, rank }) => {
+                    const isSelf = profile != null && profile.id === id
+
+                    return <tr key={id}
+                      class={isSelf ? classes.selected : ''}
+                      ref={isSelf && selfRow}
+                    >
                       <td>{rank}</td>
                       <td>
                         <a href={`/profile/${id}`}>{name}</a>
                       </td>
                       <td>{score}</td>
                     </tr>
-                  )
+                  })
+
                 }
               </tbody>
             </table>
