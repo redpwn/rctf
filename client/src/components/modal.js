@@ -19,6 +19,18 @@ function Modal ({
     }
   }, [open])
 
+  useEffect(() => {
+    function listener (e) {
+      if (e.key === 'Escape') {
+        onClose()
+      }
+    }
+    if (open) {
+      document.addEventListener('keyup', listener)
+      return () => document.removeEventListener('keyup', listener)
+    }
+  }, [open, onClose])
+
   // For some reason unmounting portals causes Preact to crash, so just don't
   // render the modal in a portal as Cirrus already applies styles to make the
   // modal appear over everything from anywhere in the tree.
