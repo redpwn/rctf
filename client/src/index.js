@@ -33,7 +33,7 @@ class App extends Component {
     const loggedInPaths = [
       <Profile key='profile' path='/profile/' name='Profile' />,
       <Challenges key='challs' path='/challs' name='Challenges' />,
-      <Scoreboard key='scoreboard' path='/scores/:page?' name='Scoreboard' />,
+      <Scoreboard key='scoreboard' path='/scores' name='Scoreboard' />,
       <Logout key='logout' path='/logout' name='Logout' />
     ]
 

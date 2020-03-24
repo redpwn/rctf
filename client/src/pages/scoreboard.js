@@ -76,7 +76,7 @@ const Scoreboard = withStyles({
       }
       setPage(Math.floor((place - 1) / pageSize) + 1)
 
-      this.selfRow.current.scrollIntoView({ block: 'end',  behavior: 'smooth' })
+      this.selfRow.current.scrollIntoView({ block: 'end', behavior: 'smooth' })
     }, [profile, setPage, pageSize, division, isUserOnCurrentScoreboard])
 
     return (
@@ -126,10 +126,10 @@ const Scoreboard = withStyles({
                     scores.map(({ id, name, score, rank }) => {
                       const isSelf = profile != null && profile.id === id
 
-                      return <tr key={id} 
-                        class={isSelf ? classes.selected: ""}
+                      return <tr key={id}
+                        class={isSelf ? classes.selected : ""}
                         ref={isSelf && this.selfRow}
-                        >
+                      >
                         <td>{rank}</td>
                         <td>
                           <a href={`/profile/${id}`}>{name}</a>
