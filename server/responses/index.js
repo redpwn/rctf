@@ -91,6 +91,10 @@ const responseList = {
     status: 401,
     message: 'The CTF has ended.'
   },
+  badRateLimit: {
+    status: 401,
+    message: 'You are trying this too fast'
+  },
   goodChallenges: {
     status: 200,
     message: 'The retrieval of challenges was successful.'

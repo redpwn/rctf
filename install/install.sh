@@ -71,7 +71,6 @@ fi
 
 info "Configuring installation..."
 
-RCTF_CLI_INSTALL_PATH="${RCTF_CLI_INSTALL_PATH:-"/usr/bin/rctf"}"
 INSTALL_PATH="${INSTALL_PATH:-"/opt/rctf"}"
 
 if [ ! -d "$(dirname "$INSTALL_PATH")" ]; then
@@ -102,7 +101,7 @@ if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
     apt-get install --yes docker.io docker-compose git python3 python3-pip
 elif [ "$PACKAGE_MANAGER" = "yum" ]; then
     info "We are about to install docker via https://get.docker.com/. Please follow along the steps to ensure it is configured properly."
-    
+
     # pass Ctrl+C / SIGINT to inside script
     sh -c '
         trap break INT
@@ -149,26 +148,14 @@ sed -i.bak "s/RCTF_NAME=.*$/RCTF_NAME=\"$(echo "$RCTF_NAME"  | sed -e 's/\\/\\\\
 sed -i.bak "s/RCTF_TOKEN_KEY=.*$/RCTF_TOKEN_KEY=$(echo "$RCTF_TOKEN_KEY"  | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')/g" .env
 
 info "Changing permissions of .env (chmod 600 .env)..."
-echo 1
+
 chmod 600 .env .env.example
-echo 2
 
 # copy over cli tool
 
-echo 3
-#printf "%s" "Copying CLI tool from $INSTALL_PATH/install/rctf.py to ${RCTF_CLI_INSTALL_PATH}..."
-echo 4
-if [ ! -f "$RCTF_CLI_INSTALL_PATH" ]; then
-    cp install/rctf.py "$RCTF_CLI_INSTALL_PATH"
-    
-    info "Setting $RCTF_CLI_INSTALL_PATH as executable..."
-    
-    chmod +x "$RCTF_CLI_INSTALL_PATH"
-else
-    error "A file already exists at ${RCTF_CLI_INSTALL_PATH}. Skipping rCTF CLI tool installation..."
-    info "... If this file is some version of a rCTF CLI tool and you would like to update it, run '$RCTF_CLI_INSTALL_PATH update' after this installation."
-fi
+info "Installing CLI tool from PyPI..."
 
+pip3 install rctf-cli
 
 # start docker
 
@@ -180,6 +167,7 @@ printf "Would you like to start rCTF now (y/N)? "
 read -r result </dev/tty
 
 if [ "$result" = "y" ]; then
+    RCTF_CLI_INSTALL_PATH="/usr/bin/rctf"
     info "Running '${RCTF_CLI_INSTALL_PATH} start'..."
     "${RCTF_CLI_INSTALL_PATH}" start
     exit 0
