@@ -11,11 +11,11 @@ const calcSamples = ({ start, end }) => {
   return samples
 }
 
-const getNextSample = () => {
-  return Math.ceil(Date.now() / config.graphSampleTime) * config.graphSampleTime
+const getPreviousSample = () => {
+  return Math.floor(Date.now() / config.graphSampleTime) * config.graphSampleTime
 }
 
 module.exports = {
   calcSamples,
-  getNextSample
+  getPreviousSample
 }

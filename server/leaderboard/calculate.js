@@ -1,12 +1,12 @@
 const { workerData, parentPort } = require('worker_threads')
 const utilScores = require('../util/scores')
-const { calcSamples, getNextSample } = require('./samples')
-const config = require('../../config/server')
+const { calcSamples, getPreviousSample } = require('./samples')
 
 const {
   graph,
   start,
   end,
+  lastUpdate,
   data: {
     solves,
     users,
@@ -65,7 +65,10 @@ const calculateScores = (sample) => {
     if (solvedChalls === undefined) continue // If the user has not solved any challenges, do not add to leaderboard
     for (let j = 0; j < solvedChalls.length; j++) {
       // Add the score for the specific solve loaded from the challengeValues array using ids
-      currScore += challengeValues.get(solvedChalls[j])
+      const value = challengeValues.get(solvedChalls[j])
+      if (value !== undefined) {
+        currScore += value
+      }
     }
     userScores.push([user.id, user.name, parseInt(user.division), currScore, userLastSolves.get(user.id)])
   }
@@ -102,13 +105,16 @@ if (graph) {
     leaderboards: output
   })
 } else {
-  const nextSample = getNextSample()
-  let sample = Date.now()
+  let sample
   let isSample = false
-  if ((nextSample - Date.now()) < config.leaderboardUpdateInterval) {
-    sample = nextSample
+  const prevSample = getPreviousSample()
+  if (lastUpdate !== prevSample) {
+    sample = prevSample
     isSample = true
+  } else {
+    sample = Date.now()
   }
+
   const { challengeValues, userScores } = calculateScores(sample)
 
   const sortedUsers = userScores.sort(userCompare).map((user) => user.slice(0, 4))

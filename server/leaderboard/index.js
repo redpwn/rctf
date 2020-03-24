@@ -17,10 +17,17 @@ const fetchData = async () => {
   }
 }
 
+let updating = false
+
 const runUpdate = async () => {
+  if (updating) {
+    return
+  }
+  updating = true
   const worker = new Worker(path.join(__dirname, 'calculate.js'), {
     workerData: {
       graph: false,
+      lastUpdate: await cache.leaderboard.getGraphUpdate(),
       data: await fetchData()
     }
   })
@@ -34,6 +41,7 @@ const runUpdate = async () => {
         }]
       })
     }
+    updating = false
   })
 }
 
@@ -51,15 +59,14 @@ const runBulkGraphUpdate = async ({ start, end }) => {
   })
 }
 
-runBulkGraphUpdate({
-  start: config.startTime,
-  end: Date.now()
-})
-
 module.exports = {
   startUpdater: () => {
     setInterval(runUpdate, config.leaderboardUpdateInterval)
     runUpdate()
+    runBulkGraphUpdate({
+      start: config.startTime,
+      end: Math.min(Date.now(), config.endTime)
+    })
   },
   runBulkGraphUpdate
 }

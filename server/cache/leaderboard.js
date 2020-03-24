@@ -6,8 +6,8 @@ const { calcSamples } = require('../leaderboard/samples')
 const redisEvalsha = promisify(client.evalsha.bind(client))
 const redisHget = promisify(client.hget.bind(client))
 const redisHmget = promisify(client.hmget.bind(client))
-const redisHset = promisify(client.hset.bind(client))
 const redisDel = promisify(client.del.bind(client))
+const redisGet = promisify(client.get.bind(client))
 const redisScript = promisify(client.script.bind(client))
 
 const setLeaderboardScript = redisScript('load', `
@@ -87,6 +87,11 @@ const getGraphScript = redisScript('load', `
     latest,
     graphPoints
   })
+`)
+
+const setGraphScript = redisScript('load', `
+  redis.call("HSET", KEYS[1], unpack(cjson.decode(ARGV[1])))
+  redis.call("SET", KEYS[2], ARGV[2])
 `)
 
 const setLeaderboard = async ({ challengeScores, leaderboard }) => {
@@ -169,14 +174,22 @@ const getChallengeScores = async ({ ids }) => {
 
 const setGraph = async ({ leaderboards }) => {
   const values = []
+  let lastSample = 0
   leaderboards.forEach(({ sample, scores }) => {
+    if (sample > lastSample) {
+      lastSample = sample
+    }
     scores.forEach((score) => {
       values.push(sample + ':' + score[0], score[1])
     })
   })
-  await redisHset(
+  await redisEvalsha(
+    await setGraphScript,
+    2,
     'graph',
-    values
+    'graph-update',
+    JSON.stringify(values),
+    lastSample
   )
 }
 
@@ -229,11 +242,20 @@ const getGraph = async ({ division } = {}) => {
   return result
 }
 
+const getGraphUpdate = async () => {
+  const redisResult = await redisGet('graph-update')
+  if (redisResult === null) {
+    return null
+  }
+  return parseInt(redisResult)
+}
+
 module.exports = {
   setLeaderboard,
   setGraph,
   getRange,
   getScore,
   getChallengeScores,
-  getGraph
+  getGraph,
+  getGraphUpdate
 }
