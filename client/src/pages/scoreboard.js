@@ -125,11 +125,11 @@ const Scoreboard = withStyles({
                 </tr>
               </thead>
               <tbody>
-                {
-                  scores.map(({ id, name, score, rank }) => {
-                    const isSelf = profile != null && profile.id === id
+                { scores.map(({ id, name, score, rank }) => {
+                  const isSelf = profile != null && profile.id === id
 
-                    return <tr key={id}
+                  return (
+                    <tr key={id}
                       class={isSelf ? classes.selected : ''}
                       ref={isSelf && selfRow}
                     >
@@ -139,18 +139,14 @@ const Scoreboard = withStyles({
                       </td>
                       <td>{score}</td>
                     </tr>
-                  })
-
-                }
+                  )
+                }) }
               </tbody>
             </table>
           </div>
           { totalItems > pageSize &&
             <Pagination
-              totalItems={totalItems}
-              pageSize={pageSize}
-              page={page}
-              setPage={setPage}
+              {...{ totalItems, pageSize, page, setPage }}
               numVisiblePages={9}
             />
           }
