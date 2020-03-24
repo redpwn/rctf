@@ -17,25 +17,49 @@ const fetchData = async () => {
   }
 }
 
-let calcRunning = false
-
 const runUpdate = async () => {
-  if (calcRunning) {
-    return
-  }
-  calcRunning = true
   const worker = new Worker(path.join(__dirname, 'calculate.js'), {
-    workerData: await fetchData()
+    workerData: {
+      graph: false,
+      data: await fetchData()
+    }
   })
   worker.once('message', async (data) => {
     await cache.leaderboard.setLeaderboard(data)
-    calcRunning = false
+    if (data.isSample) {
+      await cache.leaderboard.setGraph({
+        leaderboards: [{
+          sample: data.sample,
+          scores: data.sampleScores
+        }]
+      })
+    }
   })
 }
+
+const runBulkGraphUpdate = async ({ start, end }) => {
+  const worker = new Worker(path.join(__dirname, 'calculate.js'), {
+    workerData: {
+      graph: true,
+      start,
+      end,
+      data: await fetchData()
+    }
+  })
+  worker.once('message', async (data) => {
+    await cache.leaderboard.setGraph(data)
+  })
+}
+
+runBulkGraphUpdate({
+  start: config.startTime,
+  end: Date.now()
+})
 
 module.exports = {
   startUpdater: () => {
     setInterval(runUpdate, config.leaderboardUpdateInterval)
     runUpdate()
-  }
+  },
+  runBulkGraphUpdate
 }

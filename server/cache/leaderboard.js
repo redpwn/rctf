@@ -1,10 +1,12 @@
 const { promisify } = require('util')
 const client = require('./client')
 const config = require('../../config/server')
+const { calcSamples } = require('../leaderboard/samples')
 
 const redisEvalsha = promisify(client.evalsha.bind(client))
 const redisHget = promisify(client.hget.bind(client))
 const redisHmget = promisify(client.hmget.bind(client))
+const redisHset = promisify(client.hset.bind(client))
 const redisDel = promisify(client.del.bind(client))
 const redisScript = promisify(client.script.bind(client))
 
@@ -46,10 +48,11 @@ const setLeaderboardScript = redisScript('load', `
   redis.call("HSET", KEYS[1], unpack(positionKeys))
   redis.call("HSET", KEYS[2], unpack(challengeScores))
   redis.call("RPUSH", KEYS[3], unpack(globalBoard))
+  redis.call("SET", KEYS[4], ARGV[4])
   for i, division in ipairs(divisions) do
     local divisionBoard = divisionBoards[division]
     if #divisionBoard ~= 0 then
-      redis.call("RPUSH", KEYS[i + 3], unpack(divisionBoard))
+      redis.call("RPUSH", KEYS[i + 4], unpack(divisionBoard))
     end
   end
 `)
@@ -60,6 +63,32 @@ const getRangeScript = redisScript('load', `
   return result
 `)
 
+const getGraphScript = redisScript('load', `
+  local maxUsers = tonumber(ARGV[1])
+  local samples = cjson.decode(ARGV[2])
+  local latest = redis.call("LRANGE", KEYS[1], 0, maxUsers * 3)
+  if latest == nil then
+    return nil
+  end
+  local graphKeys = {}
+  for i = 1, maxUsers, 1 do
+    local id = latest[i * 3 - 2]
+    if id == nil then
+      break
+    end
+    for s = 1, #samples, 1 do
+      graphKeys[#graphKeys + 1] = samples[s] .. ":" .. id
+    end
+  end
+  local lastUpdate = redis.call("GET", KEYS[2])
+  local graphPoints = redis.call("HMGET", KEYS[3], unpack(graphKeys))
+  return cjson.encode({
+    lastUpdate,
+    latest,
+    graphPoints
+  })
+`)
+
 const setLeaderboard = async ({ challengeScores, leaderboard }) => {
   const divisions = Object.values(config.divisions)
   const divisionKeys = divisions.map((division) => 'division-leaderboard:' + division)
@@ -67,6 +96,7 @@ const setLeaderboard = async ({ challengeScores, leaderboard }) => {
     'score-positions',
     'challenge-scores',
     'global-leaderboard',
+    'leaderboard-update',
     ...divisionKeys
   ]
   if (leaderboard.length === 0) {
@@ -74,24 +104,29 @@ const setLeaderboard = async ({ challengeScores, leaderboard }) => {
   } else {
     await redisEvalsha(
       await setLeaderboardScript,
-      3 + divisionKeys.length,
+      keys.length,
       ...keys,
       JSON.stringify(leaderboard.flat()),
       JSON.stringify(divisions),
-      JSON.stringify(challengeScores)
+      JSON.stringify(challengeScores),
+      Date.now()
     )
   }
 }
 
-const getRange = async ({ start, end, division }) => {
-  let redisList = 'global-leaderboard'
-  if (division !== undefined) {
-    redisList = 'division-leaderboard:' + division
+const getLeaderboardKey = (division) => {
+  if (division === undefined) {
+    return 'global-leaderboard'
+  } else {
+    return 'division-leaderbord:' + division
   }
+}
+
+const getRange = async ({ start, end, division }) => {
   const redisResult = await redisEvalsha(
     await getRangeScript,
     1,
-    redisList,
+    getLeaderboardKey(division),
     start * 3,
     end * 3 - 1
   )
@@ -132,9 +167,73 @@ const getChallengeScores = async ({ ids }) => {
   return redisResult.map((score) => parseInt(score))
 }
 
+const setGraph = async ({ leaderboards }) => {
+  const values = []
+  leaderboards.forEach(({ sample, scores }) => {
+    scores.forEach((score) => {
+      values.push(sample + ':' + score[0], score[1])
+    })
+  })
+  await redisHset(
+    'graph',
+    values
+  )
+}
+
+const getGraph = async ({ division } = {}) => {
+  const samples = calcSamples({
+    start: config.startTime,
+    end: Math.min(Date.now(), config.endTime)
+  })
+  const redisResult = await redisEvalsha(
+    await getGraphScript,
+    3,
+    getLeaderboardKey(division),
+    'leaderboard-update',
+    'graph',
+    config.graphMaxTeams,
+    JSON.stringify(samples)
+  )
+  if (redisResult === null) {
+    return null
+  }
+  const parsed = JSON.parse(redisResult)
+  const lastUpdate = parseInt(parsed[0])
+  const latest = parsed[1]
+  const graphData = parsed[2]
+  const result = []
+  for (let userIdx = 0; userIdx < latest.length / 3; userIdx++) {
+    const points = [{
+      time: lastUpdate,
+      score: parseInt(latest[userIdx * 3 + 2])
+    }]
+    let graphComputed = false
+    for (let sampleIdx = samples.length - 1; sampleIdx >= 0; sampleIdx--) {
+      const score = graphData[userIdx * samples.length + sampleIdx]
+      if (score === false && !graphComputed) {
+        continue
+      } else {
+        graphComputed = true
+      }
+      points.push({
+        time: samples[sampleIdx],
+        score: score === false ? 0 : parseInt(score)
+      })
+    }
+    result.push({
+      id: latest[userIdx * 3],
+      name: latest[userIdx * 3 + 1],
+      points
+    })
+  }
+  return result
+}
+
 module.exports = {
   setLeaderboard,
+  setGraph,
   getRange,
   getScore,
-  getChallengeScores
+  getChallengeScores,
+  getGraph
 }
