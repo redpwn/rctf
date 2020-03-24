@@ -2,7 +2,7 @@ const db = require('./db')
 
 const ret = {
   getAllSolves: () => {
-    return db.query('SELECT * FROM solves ORDER BY createdat DESC')
+    return db.query('SELECT * FROM solves ORDER BY createdat ASC')
       .then(res => res.rows)
   },
   getSolvesByUserId: ({ userid }) => {

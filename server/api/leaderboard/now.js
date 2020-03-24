@@ -1,12 +1,12 @@
-const { responses } = require('../responses')
-const cache = require('../cache')
-const config = require('../../config/server')
+const { responses } = require('../../responses')
+const cache = require('../../cache')
+const config = require('../../../config/server')
 
 const stringDivisions = Object.values(config.divisions).map(String)
 
 module.exports = {
   method: 'get',
-  path: '/leaderboard',
+  path: '/leaderboard/now',
   requireAuth: false,
   schema: {
     query: {

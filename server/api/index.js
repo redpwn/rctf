@@ -6,7 +6,8 @@ const auth = require('../auth')
 const router = express.Router()
 
 const routes = [
-  require('./leaderboard'),
+  require('./leaderboard/now'),
+  require('./leaderboard/graph'),
   require('./submitflag'),
   require('./challenges'),
   require('./ctftime-leaderboard'),
