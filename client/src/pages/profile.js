@@ -1,10 +1,12 @@
 import { Component } from 'preact'
+import { useState, useCallback, useEffect } from 'preact/hooks'
 import config from '../../../config/client'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
 import { privateProfile, publicProfile, deleteAccount, updateAccount } from '../api/profile'
 import Form from '../components/form'
+import Modal from '../components/modal'
 import util from '../util'
 import Trophy from '../../static/icons/trophy.svg'
 import AddressBook from '../../static/icons/address-book.svg'
@@ -16,6 +18,62 @@ const divisionMap = new Map()
 for (const division of Object.entries(config.divisions)) {
   divisionMap.set(division[1], division[0])
 }
+
+const DeleteModal = withStyles({
+  controls: {
+    display: 'flex',
+    justifyContent: 'center',
+    '& :first-child': {
+      marginLeft: '0em'
+    },
+    '& :last-child': {
+      marginRight: '0em'
+    }
+  }
+}, ({ open, onClose, onSuccess, teamName, classes }) => {
+  const [inputName, setInputName] = useState('')
+  const handleInputNameChange = useCallback((e) => setInputName(e.target.value), [])
+  const isNameValid = inputName === teamName
+  const verifyName = useCallback((e) => {
+    e.preventDefault()
+    if (isNameValid) {
+      onSuccess()
+    }
+  }, [isNameValid, onSuccess])
+  const wrappedOnClose = useCallback((e) => {
+    e.preventDefault()
+    onClose()
+  }, [onClose])
+
+  useEffect(() => {
+    if (!open) {
+      setInputName('')
+    }
+  }, [open])
+
+  return (
+    <Modal {...{ open, onClose }}>
+      <div class='modal-header'>
+        <div class='modal-title'>Delete account</div>
+        <form class='modal-body' onSubmit={verifyName}>
+          <p>Are you sure you want to delete your team?</p>
+          <div class='form-section'>
+            <label>Type your team name:</label>
+            <input placeholder={teamName} value={inputName} onChange={handleInputNameChange} />
+          </div>
+          <div class={`form-section ${classes.controls}`}>
+            <div class='btn-container u-inline-block'>
+              <button class='btn-small' onClick={wrappedOnClose}>Cancel</button>
+            </div>
+            <div class='btn-container u-inline-block'>
+              <input type='submit' class='btn-small btn-danger outline' disabled={!isNameValid} value='Confirm' />
+            </div>
+          </div>
+        </form>
+      </div>
+    </Modal>
+  )
+})
 
 export default withStyles({
   quote: {
@@ -53,7 +111,8 @@ export default withStyles({
     error: undefined,
     updateName: '',
     updateDivision: 0,
-    disabledButton: false
+    disabledButton: false,
+    deleteModalVisible: false
   }
 
   processGeneric ({ name, division, score, divisionPlace, globalPlace, solves }) {
@@ -142,14 +201,18 @@ export default withStyles({
   }
 
   handleDelete = () => {
-    const resp = prompt(`Please type your team name to confirm: ${this.state.name}`)
-
-    if (resp === this.state.name) {
-      deleteAccount()
-    }
+    this.setState({
+      deleteModalVisible: true
+    })
   }
 
-  render ({ classes }, { name, division, divisionPlace, globalPlace, score, teamToken, solves, error, loaded, updateName, updateDivision, disabledButton }) {
+  dismissDeleteModal = () => {
+    this.setState({
+      deleteModalVisible: false
+    })
+  }
+
+  render ({ classes }, { name, division, divisionPlace, globalPlace, score, teamToken, solves, error, loaded, updateName, updateDivision, disabledButton, deleteModalVisible }) {
     const priv = this.isPrivate()
     const hasError = error !== undefined
 
@@ -203,6 +266,7 @@ export default withStyles({
                   </div>
                   <div class='u-center action-bar' style='margin: 0.5rem; padding: 1rem'>
                     <button class='btn-small btn-danger outline' style='border-color: var(--btn-color)' onClick={this.handleDelete}>Delete Account</button>
+                    <DeleteModal open={deleteModalVisible} onClose={this.dismissDeleteModal} onSuccess={deleteAccount} teamName={name} />
                   </div>
                 </div>
               </div>
