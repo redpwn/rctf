@@ -1,5 +1,5 @@
 import { useLayoutEffect } from 'preact/hooks'
-import {logout} from '../api/auth'
+import { logout } from '../api/auth'
 import 'linkstate/polyfill'
 
 export default () => {

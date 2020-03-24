@@ -191,7 +191,7 @@ export default withStyles({
                   const clickHander = useCallback(
                     () => this.handleInvertCategoryState(category),
                     [category]
-                  );
+                  )
                   return (
                     <div key={category} class='form-ext-control form-ext-checkbox'>
                       <input id={category} class='form-ext-input' type='checkbox' checked={categories[category]} onClick={clickHander} />
