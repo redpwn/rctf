@@ -20,6 +20,9 @@ for (const division of Object.entries(config.divisions)) {
 }
 
 const DeleteModal = withStyles({
+  modalBody: {
+    paddingTop: '0em !important' // reduce space between header and body
+  },
   controls: {
     display: 'flex',
     justifyContent: 'center',
@@ -55,22 +58,23 @@ const DeleteModal = withStyles({
     <Modal {...{ open, onClose }}>
       <div class='modal-header'>
         <div class='modal-title'>Delete account</div>
-        <form class='modal-body' onSubmit={verifyName}>
-          <p>Are you sure you want to delete your team?</p>
-          <div class='form-section'>
-            <label>Type your team name:</label>
-            <input placeholder={teamName} value={inputName} onChange={handleInputNameChange} />
-          </div>
-          <div class={`form-section ${classes.controls}`}>
-            <div class='btn-container u-inline-block'>
-              <button class='btn-small' onClick={wrappedOnClose}>Cancel</button>
-            </div>
-            <div class='btn-container u-inline-block'>
-              <input type='submit' class='btn-small btn-danger outline' disabled={!isNameValid} value='Confirm' />
-            </div>
-          </div>
-        </form>
       </div>
+      {/* Put buttons in the body because otherwise there is too much padding */}
+      <form class={`modal-body ${classes.modalBody}`} onSubmit={verifyName}>
+        <div>Are you sure you want to delete your team?</div>
+        <div class='form-section'>
+          <label>Type your team name:</label>
+          <input placeholder={teamName} value={inputName} onChange={handleInputNameChange} />
+        </div>
+        <div class={`${classes.controls}`}>
+          <div class='btn-container u-inline-block'>
+            <button class='btn-small' onClick={wrappedOnClose}>Cancel</button>
+          </div>
+          <div class='btn-container u-inline-block'>
+            <input type='submit' class='btn-small btn-danger outline' disabled={!isNameValid} value='Confirm' />
+          </div>
+        </div>
+      </form>
     </Modal>
   )
 })
