@@ -2,13 +2,31 @@ require('ava')
 
 const { v4: uuidv4 } = require('uuid')
 const config = require('../config/server')
+const db = require('../dist/server/database')
 
-module.exports = {
+const ret = {
+  // Generate only valid parameters
   generateTestUser: () => {
     return {
       email: uuidv4() + '@test.com',
       name: uuidv4(),
-      division: Object.values(config.divisions)[0]
+      division: Object.values(config.divisions)[0],
+      perms: 0
+    }
+  },
+  // Generate a real user, adding to database
+  generateRealTestUser: async () => {
+    const id = uuidv4()
+
+    const userData = ret.generateTestUser()
+    const user = await db.auth.makeUser({
+      ...userData,
+      id
+    })
+
+    return {
+      user,
+      cleanup: () => db.auth.removeUserById({ id })
     }
   },
   getFirstLoadedChallenge: () => {
@@ -38,3 +56,5 @@ module.exports = {
     })
   }
 }
+
+module.exports = ret

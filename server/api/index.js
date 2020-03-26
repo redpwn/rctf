@@ -2,6 +2,7 @@ const express = require('express')
 const Ajv = require('ajv')
 const { responses, responseList } = require('../responses')
 const auth = require('../auth')
+const db = require('../database')
 
 const router = express.Router()
 
@@ -62,15 +63,23 @@ routes.forEach((route, i) => {
       }
     }
 
-    let uuid
+    let user
     if (route.requireAuth) {
       const authHeader = req.get('authorization')
       if (authHeader === undefined || !authHeader.startsWith('Bearer ')) {
         sendResponse(responses.badToken)
         return
       }
-      uuid = await auth.token.getData(auth.token.tokenKinds.auth, authHeader.slice('Bearer '.length))
+      const uuid = await auth.token.getData(auth.token.tokenKinds.auth, authHeader.slice('Bearer '.length))
       if (uuid === null) {
+        sendResponse(responses.badToken)
+        return
+      }
+
+      user = await db.auth.getUserById({
+        id: uuid
+      })
+      if (user == null) {
         sendResponse(responses.badToken)
         return
       }
@@ -93,7 +102,7 @@ routes.forEach((route, i) => {
     try {
       response = await route.handler({
         req,
-        uuid
+        user
       })
     } catch (e) {
       sendResponse(responses.errorInternal)

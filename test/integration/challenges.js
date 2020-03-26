@@ -1,11 +1,22 @@
 const test = require('ava')
 const request = require('supertest')
 const app = require('../../dist/server/app')
-const { v4: uuidv4 } = require('uuid')
+const util = require('../_util')
 const auth = require('../../dist/server/auth')
 const config = require('../../dist/config/server')
 
 const { responseList } = require('../../dist/server/responses')
+
+let uuid, testUserData
+
+test.before(async () => {
+  testUserData = await util.generateRealTestUser()
+  uuid = testUserData.user.id
+})
+
+test.after.always('cleanup test user', async t => {
+  await testUserData.cleanup()
+})
 
 test('fails with unauthorized', async t => {
   const resp = await request(app)
@@ -14,8 +25,6 @@ test('fails with unauthorized', async t => {
 
   t.is(resp.body.kind, 'badToken')
 })
-
-const uuid = uuidv4()
 
 test.serial('fails with badNotStarted', async t => {
   const oldTime = config.startTime

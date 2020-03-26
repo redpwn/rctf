@@ -5,7 +5,8 @@ module.exports = {
   method: 'delete',
   path: '/users/me',
   requireAuth: true,
-  handler: async ({ uuid }) => {
+  handler: async ({ user }) => {
+    const uuid = user.id
     await database.auth.removeUserById({
       id: uuid
     })

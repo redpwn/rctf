@@ -15,6 +15,7 @@
     "watch:ts": "tsc -w",
     "dev": "yarn build:ts && concurrently -k -t \"HH:mm:ss.SSS\" -p \"[{time}]\" -c \"cyan,green,red\" \"yarn:watch:*\"",
     "test": "yarn build && nyc --skip-full ava",
+    "test:slim": "ava",
     "test:report": "nyc --skip-full --reporter=lcov ava",
     "commit": "git cz",
     "copy-static": "sh -c \"cpy 'server/**/*' '.rdeploy' '!**/*.ts' dist/ --no-overwrite --parents\""

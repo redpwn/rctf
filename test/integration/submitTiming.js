@@ -2,20 +2,23 @@ const test = require('ava')
 const request = require('supertest')
 const app = require('../../dist/server/app')
 const config = require('../../dist/config/server')
-const { v4: uuidv4 } = require('uuid')
+const util = require('../_util')
 
 const { responseList } = require('../../dist/server/responses')
 const auth = require('../../dist/server/auth')
 const { getFirstLoadedChallenge } = require('../_util.js')
 
-let chall
+let chall, uuid, testUserData
 
-// Wait for challenges to load
 test.before(async () => {
   chall = await getFirstLoadedChallenge()
+  testUserData = await util.generateRealTestUser()
+  uuid = testUserData.user.id
 })
 
-const uuid = uuidv4()
+test.after.always('cleanup test user', async t => {
+  await testUserData.cleanup()
+})
 
 test.serial('fails with badNotStarted', async t => {
   const oldTime = config.startTime
