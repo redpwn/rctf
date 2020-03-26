@@ -165,7 +165,7 @@ class Profile extends Component {
     })
 
     updateAccount(this.state.updateName, this.state.updateDivision)
-      .then(({error, data}) => {
+      .then(({ error, data }) => {
         this.setState({
           disabledButton: false
         })
