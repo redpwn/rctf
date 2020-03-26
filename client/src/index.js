@@ -9,7 +9,7 @@ import Header from './components/header'
 import { Home, Registration, Login, Profile, Challenges, Scoreboard, Error, Sponsors, Verify, Logout } from './pages'
 import 'cirrus-ui'
 
-import util from './util'
+import { ToastProvider } from './components/toast'
 
 class App extends Component {
   state = {
@@ -48,10 +48,12 @@ class App extends Component {
 
     return (
       <div id='app'>
-        <Header paths={currentPaths} currentPath={currentPath} />
-        <Router onChange={this.handleRoute}>
-          {allPaths}
-        </Router>
+        <ToastProvider>
+          <Header paths={currentPaths} currentPath={currentPath} />
+          <Router onChange={this.handleRoute}>
+            {allPaths}
+          </Router>
+        </ToastProvider>
       </div>
     )
   }
@@ -63,4 +65,4 @@ class App extends Component {
   }
 }
 
-export default util.toasts.withToastProvider(App)
+export default App

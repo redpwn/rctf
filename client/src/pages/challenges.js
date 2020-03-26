@@ -5,7 +5,7 @@ import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
 import { getChallenges, submitFlag, getPrivateSolves } from '../api/challenges'
-import util from '../util'
+import { withToast } from '../components/toast'
 
 export default withStyles({
   frame: {
@@ -19,7 +19,7 @@ export default withStyles({
   showSolved: {
     marginBottom: '10px'
   }
-}, class Challenges extends Component {
+}, withToast(class Challenges extends Component {
   state = {
     problems: [],
     categories: {}, // Dict with {string name, bool filter}
@@ -63,7 +63,7 @@ export default withStyles({
       .then(({ error }) => {
         if (error === undefined) {
           // Flag was submitted successfully
-          util.toasts.useToast().add('Flag successfully submitted!')
+          this.props.toast({ body: 'Flag successfully submitted!', type: 'success' })
           this.setState(prevState => ({
             solveIDs: [...prevState.solveIDs, id]
           }))
@@ -214,4 +214,4 @@ export default withStyles({
       </div>
     )
   }
-})
+}))
