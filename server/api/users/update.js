@@ -21,7 +21,8 @@ module.exports = {
       }
     }
   },
-  handler: async ({ uuid, req }) => {
+  handler: async ({ user, req }) => {
+    const uuid = user.id
     const { name, division } = req.body
 
     const passRateLimit = await timeouts.checkRateLimit({
@@ -37,7 +38,7 @@ module.exports = {
       }]
     }
 
-    const user = await database.auth.updateUser({
+    const newUser = await database.auth.updateUser({
       id: uuid,
       name,
       division
@@ -45,9 +46,9 @@ module.exports = {
 
     return [responses.goodUserUpdate, {
       user: {
-        name: user.name,
-        email: user.email,
-        division: Number.parseInt(user.division)
+        name: newUser.name,
+        email: newUser.email,
+        division: Number.parseInt(newUser.division)
       }
     }]
   }

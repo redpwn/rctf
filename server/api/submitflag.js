@@ -31,7 +31,9 @@ module.exports = {
       required: ['id']
     }
   },
-  handler: async ({ req, uuid }) => {
+  handler: async ({ req, user }) => {
+    const uuid = user.id
+
     if (Date.now() < config.startTime) {
       return util.notStarted()
     }
