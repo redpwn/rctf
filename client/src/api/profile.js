@@ -28,10 +28,13 @@ export const updateAccount = (name, division) => {
     .then(resp => {
       switch (resp.kind) {
         case 'goodUserUpdate':
-          return resp.data
+          return {
+            data: resp.data
+          }
         default:
-          // FIXME: implement error handling
-          return null
+          return {
+            error: resp.message
+          }
       }
     })
 }

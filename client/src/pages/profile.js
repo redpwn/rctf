@@ -5,6 +5,7 @@ import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
 import { privateProfile, publicProfile, deleteAccount, updateAccount } from '../api/profile'
+import { withToast } from '../components/toast'
 import Form from '../components/form'
 import Modal from '../components/modal'
 import util from '../util'
@@ -75,29 +76,7 @@ const DeleteModal = withStyles({
   )
 })
 
-export default withStyles({
-  quote: {
-    fontSize: 'small',
-    overflowWrap: 'break-word'
-  },
-  icon: {
-    '& svg': {
-      verticalAlign: 'middle',
-      height: '20px',
-      fill: '#333'
-    },
-    marginRight: '25px'
-  },
-  form: {
-    '& button': {
-      margin: 0,
-      lineHeight: '20px',
-      padding: '10px',
-      float: 'right'
-    },
-    padding: '0 !important'
-  }
-}, class Profile extends Component {
+class Profile extends Component {
   state = {
     loaded: false,
     name: '',
@@ -186,17 +165,22 @@ export default withStyles({
     })
 
     updateAccount(this.state.updateName, this.state.updateDivision)
-      .then(resp => {
+      .then(({error, data}) => {
         this.setState({
           disabledButton: false
         })
 
-        if (resp) {
-          this.setState({
-            name: resp.user.name,
-            division: divisionMap.get(Number.parseInt(resp.user.division))
-          })
+        if (error !== undefined) {
+          this.props.toast({ body: error, type: 'error' })
+          return
         }
+
+        this.props.toast({ body: 'Profile updated' })
+
+        this.setState({
+          name: data.user.name,
+          division: divisionMap.get(Number.parseInt(data.user.division))
+        })
       })
   }
 
@@ -338,4 +322,28 @@ export default withStyles({
       </div>
     )
   }
-})
+}
+
+export default withStyles({
+  quote: {
+    fontSize: 'small',
+    overflowWrap: 'break-word'
+  },
+  icon: {
+    '& svg': {
+      verticalAlign: 'middle',
+      height: '20px',
+      fill: '#333'
+    },
+    marginRight: '25px'
+  },
+  form: {
+    '& button': {
+      margin: 0,
+      lineHeight: '20px',
+      padding: '10px',
+      float: 'right'
+    },
+    padding: '0 !important'
+  }
+}, withToast(Profile))
