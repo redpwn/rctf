@@ -64,7 +64,7 @@ const DeleteModal = withStyles({
         <div>Are you sure you want to delete your team?</div>
         <div class='form-section'>
           <label>Type your team name:</label>
-          <input placeholder={teamName} value={inputName} onChange={handleInputNameChange} />
+          <input placeholder={teamName} value={inputName} onInput={handleInputNameChange} />
         </div>
         <div class={`${classes.controls}`}>
           <div class='btn-container u-inline-block'>
