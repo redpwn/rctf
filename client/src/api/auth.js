@@ -9,7 +9,7 @@ export const login = ({ teamToken }) => {
       switch (resp.kind) {
         case 'goodLogin':
           localStorage.setItem('token', resp.data.authToken)
-          return route('/challenges')
+          return route('/challs')
         case 'badTokenVerification':
           return {
             teamToken: resp.message
