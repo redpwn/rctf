@@ -4,7 +4,7 @@ import config from '../../../config/client'
 import withStyles from '../components/jss'
 
 import { privateProfile, publicProfile, deleteAccount, updateAccount } from '../api/profile'
-import { withToast, useToast } from '../components/toast'
+import { useToast } from '../components/toast'
 import Form from '../components/form'
 import Modal from '../components/modal'
 import util from '../util'
@@ -334,4 +334,4 @@ function Profile ({ uuid }) {
   )
 }
 
-export default withToast(Profile)
+export default Profile
