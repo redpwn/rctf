@@ -112,28 +112,13 @@ class Profile extends Component {
     })
   }
 
-  componentDidMount () {
-    document.title = `Profile${config.ctfTitle}`
-  }
-
   isPrivate () {
     const { uuid } = this.props
 
     return uuid === undefined || uuid === 'me'
   }
 
-  static getDerivedStateFromProps (props, state) {
-    if (props.uuid !== state.uuid) {
-      return {
-        uuid: props.uuid,
-        error: undefined,
-        loaded: false
-      }
-    }
-    return null
-  }
-
-  componentDidUpdate () {
+  maybeFetchData () {
     if (!this.state.loaded) {
       const { uuid } = this.state
 
@@ -159,6 +144,26 @@ class Profile extends Component {
           })
       }
     }
+  }
+
+  static getDerivedStateFromProps (props, state) {
+    if (props.uuid !== state.uuid) {
+      return {
+        uuid: props.uuid,
+        error: undefined,
+        loaded: false
+      }
+    }
+    return null
+  }
+
+  componentDidMount () {
+    document.title = `Profile${config.ctfTitle}`
+    this.maybeFetchData()
+  }
+
+  componentDidUpdate () {
+    this.maybeFetchData()
   }
 
   handleUpdate = e => {
