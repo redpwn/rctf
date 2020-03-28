@@ -31,7 +31,13 @@ export default (config, env, helpers) => {
 
   config.module.rules.push({
     test: /\.svg$/,
-    loader: 'preact-svg-loader'
+    loader: 'svg-sprite-loader',
+    options: {
+      runtimeGenerator: require.resolve('./client/lib/svg-icon-component-generator'),
+      runtimeOptions: {
+        iconModule: './components/icon'
+      }
+    }
   })
 
   const HtmlWebpackPluginWrapper = helpers.getPluginsByName(config, 'HtmlWebpackPlugin')[0]
