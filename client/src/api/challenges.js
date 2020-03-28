@@ -6,8 +6,8 @@ export const getChallenges = () => {
 }
 
 export const getPrivateSolves = () => {
-  return request('GET', '/users/me/solves')
-    .then(resp => resp.data)
+  return request('GET', '/users/me')
+    .then(resp => resp.data.solves)
 }
 
 export const submitFlag = (id, flag) => {
