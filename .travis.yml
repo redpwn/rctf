@@ -6,7 +6,7 @@ jobs:
   include:
     - name: "shellcheck"
       script:
-        - shellcheck client/*.sh install/*.sh
+        - shellcheck install/*.sh
     - name: "Test"
       services:
         - postgresql
