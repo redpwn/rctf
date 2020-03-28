@@ -5,7 +5,7 @@ import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
 import { login } from '../api/auth'
-import IdCard from '../../static/icons/id-card.svg'
+import IdCard from '../icons/id-card.svg'
 import { route } from 'preact-router'
 
 export default withStyles({

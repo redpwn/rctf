@@ -1,40 +1,44 @@
 require('dotenv').config()
-const config = require('./config/server')
-// The webpack base config has minicssextractplugin already loaded
-const path = require('path')
+const appCfg = require('./config/server')
+
 const glob = require('glob')
+
 const PurgecssPlugin = require('purgecss-webpack-plugin')
 
-export default (webpackConfig, env, helpers) => {
-  if (env.ssr) {
-    return
-  }
+export default (config, env, helpers) => {
   if (env.production) {
-    // Remove comment to disable sourcemaps
-    // webpackConfig.devtool = false
+    // Disable sourcemaps
+    config.devtool = false
+  } else {
+    config.devServer.proxy = {
+      '/api': 'http://localhost:3000'
+    }
   }
-  webpackConfig.plugins.push(
-    new PurgecssPlugin(
-      {
-        paths: glob.sync(path.join(__dirname, 'client/src/**/*'), { nodir: true })
-      }
-    ))
+
+  // The webpack base config has minicssextractplugin already loaded
+  config.plugins.push(
+    new PurgecssPlugin({
+      paths: glob.sync(env.source('**/*'), { nodir: true })
+    })
+  )
+
   // Remove .svg from preconfigured webpack file-loader
-  const fileLoader = helpers.getLoadersByName(webpackConfig, 'file-loader')
+  const fileLoader = helpers.getLoadersByName(config, 'file-loader')
   fileLoader.map(entry => { entry.rule.test = /\.(woff2?|ttf|eot|jpe?g|png|gif|mp4|mov|ogg|webm)(\?.*)?$/i })
 
-  const urlLoader = helpers.getLoadersByName(webpackConfig, 'url-loader')
+  const urlLoader = helpers.getLoadersByName(config, 'url-loader')
   urlLoader.map(entry => { entry.rule.test = /\.(woff2?|ttf|eot|jpe?g|png|gif|mp4|mov|ogg|webm)(\?.*)?$/i })
 
-  webpackConfig.module.loaders.push(
-    {
-      test: /\.svg$/,
-      loader: ['preact-svg-loader']
+  config.module.rules.push({
+    test: /\.svg$/,
+    loader: 'preact-svg-loader'
+  })
+
+  const HtmlWebpackPluginWrapper = helpers.getPluginsByName(config, 'HtmlWebpackPlugin')[0]
+  if (HtmlWebpackPluginWrapper !== undefined) {
+    const HtmlWebpackPlugin = HtmlWebpackPluginWrapper.plugin
+    HtmlWebpackPlugin.options.view = {
+      ctfName: appCfg.ctfName
     }
-  )
-  const { plugin } = helpers.getPluginsByName(webpackConfig, 'HtmlWebpackPlugin')[0]
-  plugin.options.view = {
-    assetsPrefix: env.production ? '/static' : '',
-    ctfName: config.ctfName
   }
 }
