@@ -37,7 +37,8 @@ module.exports = {
       solves.push({
         category: chall.category,
         name: chall.name,
-        points: challengeScores[i]
+        points: challengeScores[i],
+        id: chall.id
       })
     })
 
