@@ -7,7 +7,7 @@
     "lint": "tsc --noEmit && eslint --ext .js,.ts .",
     "start": "node dist/server/index.js",
     "migrate": "node-pg-migrate --database-url-var=RCTF_DATABASE_URL",
-    "build:client": "preact build --src client/src --template client/index.html --dest dist/build",
+    "build:client": "preact build --src client/src --template client/index.html --dest dist/build --no-prerender",
     "build:ts": "tsc && yarn copy-static",
     "build": "yarn build:ts && yarn build:client",
     "watch:client": "preact watch --src client/src --template client/index.html",
