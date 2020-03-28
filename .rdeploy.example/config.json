@@ -1,6 +1,7 @@
 [{
   "files": ["files/example-sha1hash.txt"],
   "description": "A test challenge",
+  "category": "pwn",
   "author": "Test",
   "port": 1234,
   "flag": "flag{test_flag_here}",
