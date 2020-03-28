@@ -26,7 +26,7 @@ const Scoreboard = withStyles({
   const [profile, setProfile] = useState(null)
   const [pageSize, _setPageSize] = useState(100)
   const [scores, setScores] = useState([])
-  const [division, _setDivision] = useState('')
+  const [division, _setDivision] = useState('all')
   const [page, setPage] = useState(1)
   const [totalItems, setTotalItems] = useState(0)
   const selfRow = useRef()
@@ -53,7 +53,7 @@ const Scoreboard = withStyles({
     }
   }, [loggedIn])
   useEffect(() => {
-    const _division = division === '' ? undefined : division
+    const _division = division === 'all' ? undefined : division
     getScoreboard({
       division: _division,
       offset: (page - 1) * pageSize,
@@ -68,7 +68,7 @@ const Scoreboard = withStyles({
       })
   }, [division, page, pageSize])
 
-  const isUserOnCurrentScoreboard = loggedIn && (division === '' || Number.parseInt(division) === profile.division)
+  const isUserOnCurrentScoreboard = loggedIn && (division === 'all' || Number.parseInt(division) === profile.division)
   const isSelfVisible = useMemo(() => {
     if (profile == null) return false
     let isSelfVisible = false
@@ -87,7 +87,7 @@ const Scoreboard = withStyles({
   const goToSelfPage = useCallback(() => {
     if (!isUserOnCurrentScoreboard) return
     let place
-    if (division === '') {
+    if (division === 'all') {
       place = profile.globalPlace
     } else {
       place = profile.divisionPlace
@@ -118,10 +118,12 @@ const Scoreboard = withStyles({
             <div class='frame__subtitle'>Division</div>
             <div class='input-control'>
               <select required class='select' name='division' value={division} onChange={divisionChangeHandler}>
-                <option value='' selected>All</option>
-                <option value='0'>High School</option>
-                <option value='1'>College</option>
-                <option value='2'>Other</option>
+                <option value='all' selected>All</option>
+                {
+                  Object.entries(config.divisions).map(([name, code]) => {
+                    return <option key={code} value={code}>{name}</option>
+                  })
+                }
               </select>
             </div>
             <div class='frame__subtitle'>Teams per page</div>
