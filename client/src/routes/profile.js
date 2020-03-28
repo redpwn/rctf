@@ -9,10 +9,10 @@ import { withToast } from '../components/toast'
 import Form from '../components/form'
 import Modal from '../components/modal'
 import util from '../util'
-import Trophy from '../../static/icons/trophy.svg'
-import AddressBook from '../../static/icons/address-book.svg'
-import UserCircle from '../../static/icons/user-circle.svg'
-import Rank from '../../static/icons/rank.svg'
+import Trophy from '../icons/trophy.svg'
+import AddressBook from '../icons/address-book.svg'
+import UserCircle from '../icons/user-circle.svg'
+import Rank from '../icons/rank.svg'
 
 const divisionMap = new Map()
 
@@ -112,28 +112,13 @@ class Profile extends Component {
     })
   }
 
-  componentDidMount () {
-    document.title = `Profile${config.ctfTitle}`
-  }
-
   isPrivate () {
     const { uuid } = this.props
 
     return uuid === undefined || uuid === 'me'
   }
 
-  static getDerivedStateFromProps (props, state) {
-    if (props.uuid !== state.uuid) {
-      return {
-        uuid: props.uuid,
-        error: undefined,
-        loaded: false
-      }
-    }
-    return null
-  }
-
-  componentDidUpdate () {
+  maybeFetchData () {
     if (!this.state.loaded) {
       const { uuid } = this.state
 
@@ -159,6 +144,26 @@ class Profile extends Component {
           })
       }
     }
+  }
+
+  static getDerivedStateFromProps (props, state) {
+    if (props.uuid !== state.uuid) {
+      return {
+        uuid: props.uuid,
+        error: undefined,
+        loaded: false
+      }
+    }
+    return null
+  }
+
+  componentDidMount () {
+    document.title = `Profile${config.ctfTitle}`
+    this.maybeFetchData()
+  }
+
+  componentDidUpdate () {
+    this.maybeFetchData()
   }
 
   handleUpdate = e => {

@@ -158,7 +158,7 @@ const Scoreboard = withStyles({
                   return (
                     <tr key={id}
                       class={isSelf ? classes.selected : ''}
-                      ref={isSelf && selfRow}
+                      ref={isSelf ? selfRow : null}
                     >
                       <td>{rank}</td>
                       <td>

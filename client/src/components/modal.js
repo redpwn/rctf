@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'preact/hooks'
+import { createPortal } from 'preact/compat'
 import withStyles from './jss'
 
 const ANIMATION_DURATION = 150
@@ -31,16 +32,14 @@ function Modal ({
     }
   }, [open, onClose])
 
-  // For some reason unmounting portals causes Preact to crash, so just don't
-  // render the modal in a portal as Cirrus already applies styles to make the
-  // modal appear over everything from anywhere in the tree.
-  return (open || isLinger) &&
+  return (open || isLinger) && createPortal((
     <div class={`modal shown ${classes.animated}${open ? '' : ' leaving'}`} hidden={!(open || isLinger)}>
       <div class='modal-overlay' onClick={onClose} aria-label='Close' />
       <div class='modal-content' role='document'>
         {children}
       </div>
     </div>
+  ), document.body)
 }
 
 const ANIMATION_INITIAL_SCALE = 0.8

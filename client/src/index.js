@@ -5,9 +5,19 @@ import 'regenerator-runtime/runtime'
 import { Component } from 'preact'
 import config from '../../config/client'
 
-import Header from './components/header'
-import { Home, Registration, Login, Profile, Challenges, Scoreboard, Error, Sponsors, Verify, Logout } from './pages'
 import 'cirrus-ui'
+import Header from './components/header'
+
+import Home from './routes/home'
+import Registration from './routes/registration'
+import Login from './routes/login'
+import Profile from './routes/profile'
+import Challenges from './routes/challenges'
+import Scoreboard from './routes/scoreboard'
+import Error from './routes/error'
+import Sponsors from './routes/sponsors'
+import Verify from './routes/verify'
+import Logout from './routes/logout'
 
 import { ToastProvider } from './components/toast'
 

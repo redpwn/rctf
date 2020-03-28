@@ -27,3 +27,6 @@ $RECYCLE.BIN
 # nyc test runner
 /.nyc_output
 /coverage
+
+# preact-cli build size plugin
+size-plugin.json
