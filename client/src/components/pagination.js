@@ -2,7 +2,7 @@ import { useMemo, useCallback } from 'preact/hooks'
 import { Fragment } from 'preact'
 import withStyles from './jss'
 
-function PaginationItem({ onClick, disabled, selected, children, tabindex, ...props }) {
+function PaginationItem ({ onClick, disabled, selected, children, tabindex, ...props }) {
   const className = props.class || ''
   delete props.class
   const wrappedOnClick = useCallback((e) => {
