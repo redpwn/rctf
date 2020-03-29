@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'preact/hooks'
 import config from '../../../config/client'
 import withStyles from '../components/jss'
 import Pagination from '../components/pagination'
+import Graph from '../components/graph'
 
 import { getScoreboard } from '../api/scoreboard'
 import { privateProfile } from '../api/profile'
@@ -111,6 +112,9 @@ const Scoreboard = withStyles({
 
   return (
     <div class='row u-center' style='align-items: initial !important'>
+      <div class='col-12'>
+        <Graph division={division} />
+      </div>
       <div class='col-3'>
         <div class={`frame ${classes.frame}`}>
           <div class='frame__body'>

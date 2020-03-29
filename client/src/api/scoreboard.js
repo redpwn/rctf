@@ -12,3 +12,8 @@ export const getScoreboard = ({
   })
     .then(resp => resp.data)
 }
+
+export const getGraph = ({ division }) => {
+  return request('GET', '/leaderboard/graph', { division })
+    .then(resp => resp.data)
+}

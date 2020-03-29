@@ -67,7 +67,7 @@ const getGraphScript = redisScript('load', `
   local maxUsers = tonumber(ARGV[1])
   local samples = cjson.decode(ARGV[2])
   local latest = redis.call("LRANGE", KEYS[1], 0, maxUsers * 3)
-  if latest == nil then
+  if #latest == 0 then
     return nil
   end
   local graphKeys = {}
@@ -123,7 +123,7 @@ const getLeaderboardKey = (division) => {
   if (division === undefined) {
     return 'global-leaderboard'
   } else {
-    return 'division-leaderbord:' + division
+    return 'division-leaderboard:' + division
   }
 }
 
@@ -208,7 +208,7 @@ const getGraph = async ({ division } = {}) => {
     JSON.stringify(samples)
   )
   if (redisResult === null) {
-    return null
+    return []
   }
   const parsed = JSON.parse(redisResult)
   const lastUpdate = parseInt(parsed[0])

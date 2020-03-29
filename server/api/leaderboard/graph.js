@@ -27,8 +27,24 @@ module.exports = {
     const graph = await cache.leaderboard.getGraph({
       division
     })
+    const reducedGraph = graph.map((user) => {
+      const { points } = user
+      const reducedPoints = []
+      points.forEach((point, i) => {
+        const prev = points[i - 1]
+        const next = points[i + 1]
+        if (prev && next && prev.score === point.score && next.score === point.score) {
+          return
+        }
+        reducedPoints.push(point)
+      })
+      return {
+        ...user,
+        points: reducedPoints
+      }
+    })
     return [responses.goodLeaderboard, {
-      graph
+      graph: reducedGraph
     }]
   }
 }
