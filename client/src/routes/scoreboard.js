@@ -11,10 +11,11 @@ const PAGESIZE_OPTIONS = [25, 50, 100]
 
 const Scoreboard = withStyles({
   frame: {
-    paddingBottom: '10px'
+    paddingBottom: '1.5em',
+    paddingTop: '2.125em'
   },
   tableFrame: {
-    paddingTop: '25px'
+    paddingTop: '1.5em'
   },
   selected: {
     backgroundColor: 'hsla(0, 100%, 95%, 0.8)',
@@ -118,8 +119,7 @@ const Scoreboard = withStyles({
       <div class='col-3'>
         <div class={`frame ${classes.frame}`}>
           <div class='frame__body'>
-            <div class='frame__title'>Config</div>
-            <div class='frame__subtitle'>Division</div>
+            <div class='frame__subtitle'>Filter by division</div>
             <div class='input-control'>
               <select required class='select' name='division' value={division} onChange={divisionChangeHandler}>
                 <option value='all' selected>All</option>
@@ -152,9 +152,9 @@ const Scoreboard = withStyles({
             <table class='table small'>
               <thead>
                 <tr>
-                  <th style='width: 10px'>#</th>
+                  <th style='width: 0.625em'>#</th>
                   <th>Team</th>
-                  <th style='width: 50px'>Points</th>
+                  <th style='width: 3.125em'>Points</th>
                 </tr>
               </thead>
               <tbody>

@@ -5,14 +5,14 @@ import withStyles from '../components/jss'
 
 export default withStyles({
   root: {
-    padding: '25px'
+    padding: '9.375em'
   },
   row: {
-    marginBottom: '50px'
+    marginBottom: '3.125em'
   },
   logo: {
-    height: '150px',
-    width: '150px'
+    height: '9.375em',
+    width: '9.375em'
   }
 }, class Home extends Component {
   componentDidMount () {

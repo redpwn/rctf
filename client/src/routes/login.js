@@ -10,10 +10,10 @@ import { route } from 'preact-router'
 
 export default withStyles({
   root: {
-    padding: '25px'
+    padding: '1.5em'
   },
   submit: {
-    marginTop: '25px'
+    marginTop: '1.5em'
   }
 }, class Login extends Component {
   state = {

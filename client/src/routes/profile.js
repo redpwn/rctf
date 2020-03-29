@@ -57,13 +57,13 @@ const DeleteModal = withStyles({
   return (
     <Modal {...{ open, onClose }}>
       <div class='modal-header'>
-        <div class='modal-title'>Delete account</div>
+        <div class='modal-title'>Delete Account</div>
       </div>
       {/* Put buttons in the body because otherwise there is too much padding */}
       <form class={`modal-body ${classes.modalBody}`} onSubmit={verifyName}>
-        <div>Are you sure you want to delete your team?</div>
+        <div>Are you sure you want to delete your team? This action is permanent.</div>
         <div class='form-section'>
-          <label>Type your team name:</label>
+          <label>Type your team name to confirm:</label>
           <input placeholder={teamName} value={inputName} onInput={handleInputNameChange} />
         </div>
         <div class={`${classes.controls}`}>
@@ -71,7 +71,7 @@ const DeleteModal = withStyles({
             <button class='btn-small' onClick={wrappedOnClose}>Cancel</button>
           </div>
           <div class='btn-container u-inline-block'>
-            <input type='submit' class='btn-small btn-danger outline' disabled={!isNameValid} value='Confirm' />
+            <input type='submit' class='btn-small btn-danger outline' disabled={!isNameValid} value='Delete Team' />
           </div>
         </div>
       </form>
@@ -83,10 +83,10 @@ const SummaryCard = memo(withStyles({
   icon: {
     '& svg': {
       verticalAlign: 'middle',
-      height: '20px',
+      height: '1.25em',
       fill: '#333'
     },
-    marginRight: '25px'
+    marginRight: '1.5em'
   }
 }, ({ name, score, division, divisionPlace, globalPlace, classes }) =>
   <div class='card u-flex u-flex-column'>
@@ -159,29 +159,48 @@ const SolvesCard = memo(({ solves }) => {
   )
 })
 
-const TeamCodeCard = memo(withStyles({
+const TeamCodeCard = withStyles({
   quote: {
     fontSize: 'small',
-    overflowWrap: 'break-word'
+    overflowWrap: 'break-word',
+    userSelect: 'all',
+    fontFamily: 'monospace'
   }
-}, ({ teamToken, classes }) =>
-  <div class='card u-flex u-flex-column'>
-    <div class='content'>
-      <p>Team Code</p>
-      <blockquote class={classes.quote}>
-        {teamToken}
-      </blockquote>
-      <p class='font-thin'>Share this with your teammates to use at <a href='/login'>/login</a>!</p>
+}, memo(({ teamToken, classes }) => {
+  const { toast } = useToast()
+
+  const onTeamCodeClick = useCallback(() => {
+    if (navigator.clipboard) {
+      try {
+        navigator.clipboard.writeText(teamToken).then(() => {
+          toast({ body: 'Copied team code to clipboard' })
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }, [toast, teamToken])
+
+  return (
+    <div class='card u-flex u-flex-column'>
+      <div class='content'>
+        <p>Team Code</p>
+        <p class='font-thin'>Copy this code and store it in a safe place as it is required to login. Then, share it with your teammates so that they can <a href='/login'>login</a> too!</p>
+        <blockquote class={classes.quote} onClick={onTeamCodeClick}>
+          {teamToken}
+        </blockquote>
+      </div>
     </div>
-  </div>
-))
+  )
+}))
 
 const UpdateCard = withStyles({
   form: {
     '& button': {
       margin: 0,
-      lineHeight: '20px',
-      padding: '10px',
+      marginBottom: '0.4em',
+      lineHeight: '1.25em',
+      padding: '0.65em',
       float: 'right'
     },
     padding: '0 !important'
@@ -226,8 +245,8 @@ const UpdateCard = withStyles({
   return (
     <div class='card u-flex u-flex-column'>
       <div class='content'>
-        <p style='margin-bottom: 0'>Update Information</p>
-        <p class='font-thin u-no-margin'>Warning: You can only do this once per 10 minutes</p>
+        <p>Update Information</p>
+        <p class='font-thin u-no-margin'>This will change how your team appears on the scoreboard. Note that you may only update your team's information once every 10 minutes.</p>
         <div class='row u-center'>
           <Form class={`col-12 ${classes.form}`} onSubmit={doUpdate} disabled={isButtonDisabled} buttonText='Update'>
             <input required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={updateName} onChange={handleUpdateName} />
