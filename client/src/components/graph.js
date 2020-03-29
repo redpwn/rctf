@@ -1,7 +1,7 @@
 import { Component, Fragment } from 'preact'
 import { getGraph } from '../api/scoreboard'
 import withStyles from './jss'
-import GraphLine from './graph-line'
+import { memo } from 'preact/compat'
 
 const height = 400
 const stroke = 5
@@ -48,6 +48,16 @@ const getXLabels = ({ minX, maxX, width }) => {
   return labels
 }
 
+const GraphLine = memo(({ onTooltipIn, name, currentScore, ...rest }) => (
+  <polyline
+    {...rest}
+    stroke-linecap='round'
+    fill='transparent'
+    pointer-events='stroke'
+    onMouseOver={onTooltipIn(`${name} - ${currentScore} points`)}
+  />
+))
+
 export default withStyles({
   root: {
     marginBottom: '20px',
@@ -63,11 +73,8 @@ export default withStyles({
     padding: '5px 10px',
     borderRadius: '5px',
     margin: '5px'
-  },
-  '@global body': {
-    overflowX: 'hidden'
   }
-}, class extends Component {
+}, class Graph extends Component {
   state = {
     division: null,
     polylines: [],
@@ -80,16 +87,16 @@ export default withStyles({
 
   graphPromise = null
 
-  componentDidMount() {
+  componentDidMount () {
     this.handleFetchData()
     window.addEventListener('resize', this.handleFetchData)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     window.removeEventListener('resize', this.handleFetchData)
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (this.props.division !== prevProps.division) {
       this.graphPromise = null
       this.handleFetchData()
@@ -143,7 +150,7 @@ export default withStyles({
 
   handleTooltipIn = (content) => () => {
     this.setState({
-      tooltipContent: content,
+      tooltipContent: content
     })
   }
 
@@ -160,7 +167,7 @@ export default withStyles({
     })
   }
 
-  render({ classes }, { polylines, labels, tooltipContent, tooltipX, tooltipY, width }) {
+  render ({ classes }, { polylines, labels, tooltipContent, tooltipX, tooltipY, width }) {
     return (
       <div class={`frame ${classes.root}`}>
         <div class='frame__body'>
