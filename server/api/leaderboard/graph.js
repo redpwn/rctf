@@ -15,17 +15,26 @@ module.exports = {
         division: {
           type: 'string',
           enum: stringDivisions
+        },
+        limit: {
+          type: 'string'
         }
-      }
+      },
+      required: ['limit']
     }
   },
   handler: async ({ req }) => {
     let division
+    const limit = parseInt(req.query.limit)
     if (req.query.division !== undefined) {
       division = parseInt(req.query.division)
     }
+    if (limit < 1 || limit > config.graphMaxTeams) {
+      return responses.badBody
+    }
     const graph = await cache.leaderboard.getGraph({
-      division
+      division,
+      maxTeams: limit
     })
     const reducedGraph = graph.map((user) => {
       const { points } = user

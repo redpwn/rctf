@@ -66,7 +66,7 @@ const getRangeScript = redisScript('load', `
 const getGraphScript = redisScript('load', `
   local maxUsers = tonumber(ARGV[1])
   local samples = cjson.decode(ARGV[2])
-  local latest = redis.call("LRANGE", KEYS[1], 0, maxUsers * 3)
+  local latest = redis.call("LRANGE", KEYS[1], 0, maxUsers * 3 - 1)
   if #latest == 0 then
     return nil
   end
@@ -193,7 +193,7 @@ const setGraph = async ({ leaderboards }) => {
   )
 }
 
-const getGraph = async ({ division } = {}) => {
+const getGraph = async ({ division, maxTeams }) => {
   const samples = calcSamples({
     start: config.startTime,
     end: Math.min(Date.now(), config.endTime)
@@ -204,7 +204,7 @@ const getGraph = async ({ division } = {}) => {
     getLeaderboardKey(division),
     'leaderboard-update',
     'graph',
-    config.graphMaxTeams,
+    maxTeams,
     JSON.stringify(samples)
   )
   if (redisResult === null) {
@@ -231,6 +231,16 @@ const getGraph = async ({ division } = {}) => {
       points.push({
         time: samples[sampleIdx],
         score: score === false ? 0 : parseInt(score)
+      })
+    }
+    if (!graphComputed) {
+      points.push({
+        time: samples[samples.length - 1],
+        score: 0
+      })
+      points.push({
+        time: config.startTime,
+        score: 0
       })
     }
     result.push({
