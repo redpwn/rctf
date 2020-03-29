@@ -9,15 +9,15 @@ import { withToast } from '../components/toast'
 
 export default withStyles({
   frame: {
-    marginBottom: '15px',
-    paddingBottom: '10px'
+    marginBottom: '1em',
+    paddingBottom: '0.625em'
   },
   divider: {
-    margin: '10px',
+    margin: '0.625em',
     width: '80%'
   },
   showSolved: {
-    marginBottom: '10px'
+    marginBottom: '0.625em'
   }
 }, withToast(class Challenges extends Component {
   state = {
@@ -174,7 +174,7 @@ export default withStyles({
         <div class='col-3'>
           <div class={`frame ${classes.frame}`}>
             <div class='frame__body'>
-              <div class='frame__title title'>Config</div>
+              <div class='frame__title title'>Filters</div>
               <div class={classes.showSolved}>
                 <div class='form-ext-control form-ext-checkbox'>
                   <input id='check1' class='form-ext-input' type='checkbox' checked={showSolved} onClick={this.handleInvertShowSolved} />
@@ -185,7 +185,7 @@ export default withStyles({
           </div>
           <div class={`frame ${classes.frame}`}>
             <div class='frame__body'>
-              <div class='frame__title title'>Filter</div>
+              <div class='frame__title title'>Categories</div>
               {
                 Object.keys(categories).map(category => {
                   const clickHander = useCallback(
