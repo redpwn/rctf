@@ -48,14 +48,26 @@ const getXLabels = ({ minX, maxX, width }) => {
   return labels
 }
 
-const GraphLine = memo(({ onTooltipIn, name, currentScore, ...rest }) => (
-  <polyline
-    {...rest}
-    stroke-linecap='round'
-    fill='transparent'
-    pointer-events='stroke'
-    onMouseOver={onTooltipIn(`${name} - ${currentScore} points`)}
-  />
+const GraphLine = memo(({ points, onTooltipIn, onMouseMove, onMouseOut, name, currentScore, ...rest }) => (
+  <Fragment>
+    <polyline
+      {...rest}
+      points={points}
+      stroke-width={stroke}
+      stroke-linecap='round'
+      fill='transparent'
+      pointer-events='none'
+    />
+    <polyline
+      stroke-width={stroke * 2.5}
+      points={points}
+      fill='transparent'
+      pointer-events='stroke'
+      onMouseOver={onTooltipIn(`${name} - ${currentScore} points`)}
+      onMouseMove={onMouseMove}
+      onMouseOut={onMouseOut}
+    />
+  </Fragment>
 ))
 
 export default withStyles({
@@ -72,7 +84,9 @@ export default withStyles({
     color: 'var(--cirrus-bg)',
     padding: '5px 10px',
     borderRadius: '5px',
-    margin: '5px'
+    margin: '5px',
+    top: '0',
+    left: '0'
   }
 }, class Graph extends Component {
   state = {
@@ -177,7 +191,6 @@ export default withStyles({
                 <GraphLine
                   key={i}
                   stroke={color}
-                  stroke-width={stroke}
                   points={points}
                   name={name}
                   currentScore={currentScore}
@@ -216,8 +229,7 @@ export default withStyles({
           <div
             class={classes.tooltip}
             style={{
-              left: tooltipX,
-              top: tooltipY
+              transform: `translate(${tooltipX}px, ${tooltipY}px)`,
             }}
           >
             {tooltipContent}
