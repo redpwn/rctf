@@ -10,10 +10,10 @@ import EnvelopeOpen from '../icons/envelope-open.svg'
 
 export default withStyles({
   root: {
-    padding: '25px'
+    padding: '1.5em'
   },
   submit: {
-    marginTop: '25px'
+    marginTop: '1.5em'
   }
 }, class Register extends Component {
   state = {

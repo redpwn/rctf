@@ -7,12 +7,12 @@ export default withStyles({
   icon: {
     backgroundColor: 'initial !important',
     '& img': {
-      height: '100px',
+      height: '6.250em',
       width: 'auto'
     }
   },
   row: {
-    marginBottom: '25px'
+    marginBottom: '1.5em'
   }
 }, class Sponsors extends Component {
   state = {
