@@ -68,6 +68,7 @@ export default withStyles({
   }
 }, class extends Component {
   state = {
+    division: null,
     polylines: [],
     labels: [],
     tooltipX: 0,
@@ -75,9 +76,19 @@ export default withStyles({
     tooltipContent: ''
   }
 
-  componentDidMount = async () => {
+  componentDidMount() {
+    this.handleFetchData()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.division !== prevProps.division) {
+      this.handleFetchData()
+    }
+  }
+
+  handleFetchData = async () => {
     const data = await getGraph({
-      division: this.props.division === '' ? undefined : this.props.division
+      division: this.props.division === 'all' ? undefined : this.props.division
     })
     if (data.length === 0) {
       return
@@ -138,23 +149,27 @@ export default withStyles({
       <div class={`frame ${classes.root}`}>
         <div class='frame__body'>
           <svg viewBox={viewBox}>
-            {polylines.map(({ points, color, name, currentScore }, i) => (
-              <polyline
-                key={i}
-                stroke-linecap='round'
-                stroke={color}
-                stroke-width={stroke}
-                fill='transparent'
-                points={points}
-                pointer-events='stroke'
-                onMouseOver={this.handleTooltipIn(`${name} - ${currentScore} points`)}
-                onMouseMove={this.handleTooltipMove}
-                onMouseOut={this.handleTooltipOut}
-              />
-            ))}
-            {labels.map((label, i) => (
-              <text x={label.x} y={height + axis + axisGap} key={i}>{label.label}</text>
-            ))}
+            <Fragment>
+              {polylines.map(({ points, color, name, currentScore }, i) => (
+                <polyline
+                  key={i}
+                  stroke-linecap='round'
+                  stroke={color}
+                  stroke-width={stroke}
+                  fill='transparent'
+                  points={points}
+                  pointer-events='stroke'
+                  onMouseOver={this.handleTooltipIn(`${name} - ${currentScore} points`)}
+                  onMouseMove={this.handleTooltipMove}
+                  onMouseOut={this.handleTooltipOut}
+                />
+              ))}
+            </Fragment>
+            <Fragment>
+              {labels.map((label, i) => (
+                <text x={label.x} y={height + axis + axisGap} key={i}>{label.label}</text>
+              ))}
+            </Fragment>
             <line
               x1={-axisGap}
               y1={height + axisGap}
