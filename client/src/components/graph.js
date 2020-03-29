@@ -229,7 +229,7 @@ export default withStyles({
           <div
             class={classes.tooltip}
             style={{
-              transform: `translate(${tooltipX}px, ${tooltipY}px)`,
+              transform: `translate(${tooltipX}px, ${tooltipY}px)`
             }}
           >
             {tooltipContent}
