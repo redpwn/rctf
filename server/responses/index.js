@@ -92,7 +92,7 @@ const responseList = {
     message: 'The CTF has ended.'
   },
   badRateLimit: {
-    status: 401,
+    status: 429,
     message: 'You are trying this too fast'
   },
   goodChallenges: {
