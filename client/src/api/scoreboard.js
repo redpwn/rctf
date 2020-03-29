@@ -12,3 +12,11 @@ export const getScoreboard = ({
   })
     .then(resp => resp.data)
 }
+
+export const getGraph = ({ division }) => {
+  return request('GET', '/leaderboard/graph', {
+    division,
+    limit: 10
+  })
+    .then(resp => resp.data)
+}
