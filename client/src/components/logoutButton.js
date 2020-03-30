@@ -15,7 +15,7 @@ function LogoutDialog ({ onClose, ...props }) {
   }, [onClose])
 
   return (
-    <Modal {...props}>
+    <Modal {...props} onClose={onClose}>
       <div class='modal-header'>
         <div class='modal-title'>Logout</div>
       </div>
