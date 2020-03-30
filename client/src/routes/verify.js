@@ -1,39 +1,59 @@
-import { Component } from 'preact'
 import Error from './error'
 import config from '../../../config/client'
 import 'linkstate/polyfill'
-import withStyles from '../components/jss'
 
+import TokenPreview from '../components/tokenPreview'
 import { verify } from '../api/auth'
 import { route } from 'preact-router'
+import { useEffect, useState } from 'preact/hooks'
 
-export default withStyles({
-}, class Verify extends Component {
-  state = {
-    errors: {}
-  }
+function Verify () {
+  const [error, setError] = useState()
+  const [token, setToken] = useState()
 
-  componentDidMount () {
+  useEffect(() => {
     document.title = `Verify${config.ctfTitle}`
 
     const prefix = '#token='
     if (document.location.hash.startsWith(prefix)) {
-      route('/verify', true)
-
       const verifyToken = decodeURIComponent(document.location.hash.substring(prefix.length))
 
-      verify({ verifyToken })
-        .then(errors => {
-          this.setState({
-            errors
-          })
-        })
+      setToken(verifyToken)
     }
+
+    document.location.hash = ''
+  }, [])
+
+  const submitToken = () => {
+    verify({ verifyToken: token })
+      .then((errors) => {
+        setError(errors.verifyToken)
+      })
   }
 
-  render (props, { errors }) {
-    if (errors.verifyToken === undefined) return <div />
+  const cancel = () => route('/login')
 
-    return <Error error='401' message={errors.verifyToken} />
+  if (error) {
+    return <Error error='401' message={error} />
   }
-})
+  return (
+    <div class='row u-text-center u-center'>
+      <div class='col-4'>
+        <div class="card">
+          <div class="card-head">
+            <p class="card-head-title">Your Token</p>
+          </div>
+          <div class="content">
+            <TokenPreview token={token} />
+          </div>
+          <div class="action-bar u-center">
+            <button class="btn" onClick={cancel}>Cancel</button>
+            <button class="btn" onClick={submitToken}>Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Verify
