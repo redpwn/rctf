@@ -1,29 +1,40 @@
+import Match from 'preact-router/match'
 import withStyles from './jss'
+import LogoutButton from './logoutButton'
 
-export default withStyles({
-  normalize: {
-    '&:focus': {
-      boxShadow: 'none'
-    },
-    '& a:focus': {
-      boxShadow: 'none'
-    }
-  }
-}, ({ classes, paths, currentPath }) => {
+function Header ({ classes, paths, currentPath }) {
+  const loggedIn = localStorage.getItem('token') !== null
+
   return (
     <div class='tab-container tabs-center'>
       <ul>
         {
-          paths.map(route => {
-            const { path, name } = route.props
-            const selectedClass = path === currentPath ? 'selected' : ''
-
-            return (
-              <li key={name} class={`${selectedClass} ${classes.normalize}`}><a href={path}>{name}</a></li>
-            )
-          })
+          paths.map(({ props: { path, name } }) =>
+            <Match key={name} path={path}>
+              {({ matches }) => (
+                <li class={matches ? 'selected' : ''}>
+                  <a href={path} class={classes.link}>{name}</a>
+                </li>
+              )}
+            </Match>
+          )
+        }
+        { loggedIn &&
+          <li>
+            <LogoutButton class={classes.link} />
+          </li>
         }
       </ul>
     </div>
   )
-})
+}
+
+export default withStyles({
+  link: {
+    '&:focus': {
+      boxShadow: 'none',
+      // color copied from Cirrus styles - there is no variable for it
+      borderBottomColor: 'rgba(240,61,77,.6)'
+    }
+  }
+}, Header)
