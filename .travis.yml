@@ -2,34 +2,41 @@ branches:
   only:
     - "master"
 
+_node_env: &node_env
+  language: node_js
+  node_js: 12
+  install:
+    - yarn install --frozen-lockfile
+
 jobs:
   include:
     - name: "shellcheck"
       script:
         - shellcheck install/*.sh
+    - name: "Lint"
+      <<: *node_env
+      script:
+        - yarn lint
     - name: "Test"
+      <<: *node_env
       services:
         - postgresql
-        - redis-server
+        - redis
 
       env:
         - RCTF_DATABASE_URL=postgres://postgres@localhost/rctf
         - RCTF_REDIS_URL=redis://@localhost:6379/0
 
-      language: node_js
-      node_js:
-        - 12
       before_script:
         - psql -c 'create database rctf;' -U postgres
-      install:
+      install: # override default
         - npm install -g codecov
-        - yarn --frozen-lockfile
+        - yarn install --frozen-lockfile
       script:
         - cp .env.example .env
         - cp -r .rdeploy.example .rdeploy
         - cp config/client.js.example config/client.js
         - yarn migrate up
         - yarn build
-        - yarn lint
         - yarn test:report
         - codecov
