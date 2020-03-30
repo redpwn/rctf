@@ -6,6 +6,7 @@ import { Component } from 'preact'
 import config from '../../config/client'
 
 import 'cirrus-ui'
+import withStyles from './components/jss'
 import Header from './components/header'
 
 import Home from './routes/home'
@@ -21,7 +22,11 @@ import Logout from './routes/logout'
 
 import { ToastProvider } from './components/toast'
 
-class App extends Component {
+export default withStyles({
+  '@global body': {
+    overflowX: 'hidden'
+  }
+}, class App extends Component {
   state = {
     currentPath: '/'
   }
@@ -73,6 +78,4 @@ class App extends Component {
       currentPath: e.url
     })
   }
-}
-
-export default App
+})

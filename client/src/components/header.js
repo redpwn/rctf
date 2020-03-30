@@ -1,4 +1,3 @@
-
 import withStyles from './jss'
 
 export default withStyles({

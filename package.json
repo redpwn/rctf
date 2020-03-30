@@ -29,6 +29,7 @@
     "ajv": "^6.11.0",
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
+    "jss-plugin-global": "^10.1.1",
     "mustache": "^4.0.0",
     "node-pg-migrate": "^4.2.2",
     "nodemailer": "^6.4.6",
