@@ -12,6 +12,11 @@ module.exports = {
   plugins: [
   ],
   rules: {
-    radix: 'off'
+    radix: 'off',
+    'no-multiple-empty-lines': ['error', { // override again because of reincluding standard
+      max: 1,
+      maxEOF: 0,
+      maxBOF: 0
+    }]
   }
 }
