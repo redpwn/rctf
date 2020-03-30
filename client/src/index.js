@@ -1,3 +1,4 @@
+import { useState, useCallback } from 'preact/hooks'
 import Router from 'preact-router'
 import 'promise-polyfill/src/polyfill'
 import 'unfetch/polyfill/index'
@@ -20,7 +21,14 @@ import Verify from './routes/verify'
 
 import { ToastProvider } from './components/toast'
 
+function useTriggerRerender () {
+  const setToggle = useState(false)[1]
+  return useCallback(() => setToggle(t => !t), [setToggle])
+}
+
 function App () {
+  const triggerRerender = useTriggerRerender()
+
   const loggedOut = localStorage.getItem('token') === null
 
   let loggedOutPaths = [
@@ -53,7 +61,7 @@ function App () {
     <div id='app'>
       <ToastProvider>
         <Header paths={currentPaths} />
-        <Router>
+        <Router onChange={triggerRerender}>
           {allPaths}
         </Router>
       </ToastProvider>
