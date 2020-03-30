@@ -23,7 +23,7 @@ const ret = {
   leaderboardMaxLimit: 100,
   leaderboardMaxOffset: 2 ** 32,
   graphSampleTime: 10 * 60 * 1000,
-  graphMaxTeams: 10,
+  graphMaxTeams: 100,
   startTime: Date.now() - 24 * 60 * 60 * 1000,
   endTime: Date.now() + 24 * 60 * 60 * 1000
 }

@@ -3,6 +3,7 @@ import { create as jssCreate } from 'jss'
 import jssCamelCase from 'jss-camel-case'
 import jssNested from 'jss-nested'
 import jssVendorPrefixer from 'jss-vendor-prefixer'
+import jssGlobal from 'jss-plugin-global'
 
 const jss = jssCreate({
   id: {
@@ -10,7 +11,7 @@ const jss = jssCreate({
   }
 })
 
-jss.use(jssNested(), jssCamelCase(), jssVendorPrefixer())
+jss.use(jssNested(), jssGlobal(), jssCamelCase(), jssVendorPrefixer())
 
 export default (styles, Wrap) => {
   const sheet = jss.createStyleSheet(styles)
