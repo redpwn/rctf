@@ -13,6 +13,7 @@ module.exports = {
   ],
   rules: {
     radix: 'off',
+    'jsx-quotes': ['error', 'prefer-single'],
     'no-multiple-empty-lines': ['error', { // override again because of reincluding standard
       max: 1,
       maxEOF: 0,
