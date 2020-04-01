@@ -7,6 +7,7 @@ import { privateProfile, publicProfile, deleteAccount, updateAccount } from '../
 import { useToast } from '../components/toast'
 import Form from '../components/form'
 import Modal from '../components/modal'
+import TokenPreview from '../components/tokenPreview'
 import util from '../util'
 import Trophy from '../icons/trophy.svg'
 import AddressBook from '../icons/address-book.svg'
@@ -159,40 +160,17 @@ const SolvesCard = memo(({ solves }) => {
   )
 })
 
-const TeamCodeCard = withStyles({
-  quote: {
-    fontSize: 'small',
-    overflowWrap: 'break-word',
-    userSelect: 'all',
-    fontFamily: 'monospace'
-  }
-}, memo(({ teamToken, classes }) => {
-  const { toast } = useToast()
-
-  const onTeamCodeClick = useCallback(() => {
-    if (navigator.clipboard) {
-      try {
-        navigator.clipboard.writeText(teamToken).then(() => {
-          toast({ body: 'Copied team code to clipboard' })
-        })
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  }, [toast, teamToken])
-
+const TeamCodeCard = memo(({ teamToken, classes }) => {
   return (
     <div class='card u-flex u-flex-column'>
       <div class='content'>
         <p>Team Code</p>
         <p class='font-thin'>Copy this code and store it in a safe place as it is required to login. Then, share it with your teammates so that they can <a href='/login'>login</a> too!</p>
-        <blockquote class={classes.quote} onClick={onTeamCodeClick}>
-          {teamToken}
-        </blockquote>
+        <TokenPreview token={teamToken} />
       </div>
     </div>
   )
-}))
+})
 
 const UpdateCard = withStyles({
   form: {
