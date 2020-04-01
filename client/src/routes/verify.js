@@ -37,16 +37,16 @@ function Verify () {
   return (
     <div class='row u-text-center u-center'>
       <div class='col-4'>
-        <div class="card">
-          <div class="card-head">
-            <p class="card-head-title">Your Token</p>
+        <div class='card'>
+          <div class='card-head'>
+            <p class='card-head-title'>Your Token</p>
           </div>
-          <div class="content">
+          <div class='content'>
             <TokenPreview token={token} />
           </div>
-          <div class="action-bar u-center">
-            <button class="btn" onClick={cancel}>Cancel</button>
-            <button class="btn btn-info" onClick={submitToken}>Login</button>
+          <div class='action-bar u-center'>
+            <button class='btn' onClick={cancel}>Cancel</button>
+            <button class='btn btn-info' onClick={submitToken}>Login</button>
           </div>
         </div>
       </div>
