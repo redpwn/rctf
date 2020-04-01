@@ -5,7 +5,7 @@ import 'linkstate/polyfill'
 import TokenPreview from '../components/tokenPreview'
 import { verify } from '../api/auth'
 import { route } from 'preact-router'
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect, useState, useCallback } from 'preact/hooks'
 
 function Verify () {
   const [error, setError] = useState()
@@ -20,18 +20,16 @@ function Verify () {
 
       setToken(verifyToken)
     }
-
-    document.location.hash = ''
   }, [])
 
-  const submitToken = () => {
+  const submitToken = useCallback(() => {
     verify({ verifyToken: token })
       .then((errors) => {
         setError(errors.verifyToken)
       })
-  }
+  }, [token])
 
-  const cancel = () => route('/login')
+  const cancel = useCallback(() => route('/login'), [])
 
   if (error) {
     return <Error error='401' message={error} />
@@ -48,7 +46,7 @@ function Verify () {
           </div>
           <div class="action-bar u-center">
             <button class="btn" onClick={cancel}>Cancel</button>
-            <button class="btn" onClick={submitToken}>Login</button>
+            <button class="btn btn-info" onClick={submitToken}>Login</button>
           </div>
         </div>
       </div>
