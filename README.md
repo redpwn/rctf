@@ -1,4 +1,4 @@
-# rCTF - RedpwnCTF's CTF Platform
+<img src="https://raw.githubusercontent.com/redpwn/rCTF/master/docs/rCTF.png" width="350px">
 
 [![Build Status](https://travis-ci.com/redpwn/rctf.svg?branch=master)](https://travis-ci.com/redpwn/rctf)
 [![Code Coverage](https://img.shields.io/codecov/c/github/redpwn/rctf.svg)](https://codecov.io/github/redpwn/rctf/)
