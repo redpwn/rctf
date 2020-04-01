@@ -1,8 +1,5 @@
 import { useState, useCallback } from 'preact/hooks'
 import Router from 'preact-router'
-import 'promise-polyfill/src/polyfill'
-import 'unfetch/polyfill/index'
-import 'regenerator-runtime/runtime'
 import config from '../../config/client'
 
 import 'cirrus-ui'
