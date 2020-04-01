@@ -161,26 +161,12 @@ const SolvesCard = memo(({ solves }) => {
 })
 
 const TeamCodeCard = memo(({ teamToken, classes }) => {
-  const { toast } = useToast()
-
-  const onTeamCodeClick = useCallback(() => {
-    if (navigator.clipboard) {
-      try {
-        navigator.clipboard.writeText(teamToken).then(() => {
-          toast({ body: 'Copied team code to clipboard' })
-        })
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  }, [toast, teamToken])
-
   return (
     <div class='card u-flex u-flex-column'>
       <div class='content'>
         <p>Team Code</p>
         <p class='font-thin'>Copy this code and store it in a safe place as it is required to login. Then, share it with your teammates so that they can <a href='/login'>login</a> too!</p>
-        <TokenPreview token={teamToken} onClick={onTeamCodeClick} />
+        <TokenPreview token={teamToken} />
       </div>
     </div>
   )
