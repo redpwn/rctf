@@ -47,4 +47,19 @@ export default (config, env, helpers) => {
       ctfName: appCfg.ctfName
     }
   }
+
+  const SizePluginWrapper = helpers.getPluginsByName(config, 'SizePlugin')[0]
+  if (SizePluginWrapper !== undefined) {
+    SizePluginWrapper.plugin.options = {
+      ...SizePluginWrapper.plugin.options,
+      stripHash: (filename) => {
+        const regex = /\.[0-9a-f]+\.((esm\.)?js|css)/
+        const match = filename.match(regex)
+        if (match === null) {
+          return filename
+        }
+        return filename.slice(0, match.index) + '.' + match[1]
+      }
+    }
+  }
 }
