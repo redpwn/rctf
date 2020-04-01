@@ -18,7 +18,15 @@ export default (config, env, helpers) => {
   // The webpack base config has minicssextractplugin already loaded
   config.plugins.push(
     new PurgecssPlugin({
-      paths: glob.sync(env.source('**/*'), { nodir: true })
+      paths: glob.sync(env.source('**/*'), { nodir: true }),
+
+      // PurgeCSS does not correctly correctly recognize selectors of the form
+      // `[class*=" btn-"], [class^="btn-"]` that Cirrus uses extensively; it
+      // also does not recognize the comparison in the attribute selector and
+      // only picks up on `class`, so we have to whitelist all `class`
+      // selectors as we cannot target only the `btn-` selectors that are being
+      // improperly removed.
+      whitelistPatternsChildren: [/class.*/]
     })
   )
 
