@@ -11,7 +11,8 @@ const routes = [
   require('./leaderboard/graph'),
   require('./submitflag'),
   require('./challenges'),
-  require('./ctftime-leaderboard'),
+  require('./integrations-ctftime/leaderboard'),
+  require('./integrations-ctftime/callback'),
   ...require('./users'),
   ...require('./auth')
 ]

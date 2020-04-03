@@ -23,47 +23,79 @@ module.exports = {
         division: {
           type: 'number',
           enum: Object.values(config.divisions)
+        },
+        ctftimeToken: {
+          type: 'string'
         }
       },
-      required: ['email', 'name', 'division']
+      oneOf: [{
+        required: ['email', 'name', 'division']
+      }, {
+        required: ['ctftimeToken', 'division']
+      }]
     }
   },
   handler: async ({ req }) => {
-    const email = util.normalize.normalizeEmail(req.body.email)
-    const name = util.normalize.normalizeName(req.body.name)
-    if (!emailValidator.validate(email)) {
-      return responses.badEmail
+    let email
+    let reqName
+    let ctftimeId
+    if (req.body.ctftimeToken !== undefined) {
+      const ctftimeData = await auth.token.getData(auth.token.tokenKinds.ctftimeAuth, req.body.ctftimeToken)
+      if (ctftimeData === null) {
+        return responses.badToken
+      }
+      reqName = ctftimeData.name
+      ctftimeId = ctftimeData.ctftimeId
+    } else {
+      email = util.normalize.normalizeEmail(req.body.email)
+      if (!emailValidator.validate(email)) {
+        return responses.badEmail
+      }
     }
 
-    if (config.verifyEmail) {
-      const conflictError = await util.auth.getRegisterConflict({ name, email })
-      if (conflictError !== undefined) {
-        return conflictError
-      }
+    if (req.body.name !== undefined) {
+      reqName = req.body.name
+    }
+    const name = util.normalize.normalizeName(reqName)
 
-      const verifyUuid = uuidv4()
-      await cache.login.makeLogin({ id: verifyUuid })
-      const verifyToken = await auth.token.getToken(auth.token.tokenKinds.verify, {
-        verifyId: verifyUuid,
-        register: true,
-        email,
-        name,
-        division: req.body.division
-      })
-
-      await util.email.sendVerification({
-        email,
-        kind: 'register',
-        token: verifyToken
-      })
-
-      return responses.goodVerifySent
-    } else {
+    if (!config.verifyEmail) {
       return auth.register.register({
         division: req.body.division,
         email,
-        name
+        name,
+        ctftimeId
       })
     }
+
+    const conflictError = await util.auth.getRegisterConflict({ name, email, ctftimeId })
+    if (conflictError !== undefined) {
+      return conflictError
+    }
+
+    if (req.body.ctftimeToken !== undefined) {
+      return auth.register.register({
+        division: req.body.division,
+        name,
+        ctftimeId
+      })
+    }
+
+    const verifyUuid = uuidv4()
+    await cache.login.makeLogin({ id: verifyUuid })
+    const verifyToken = await auth.token.getToken(auth.token.tokenKinds.verify, {
+      verifyId: verifyUuid,
+      register: true,
+      email,
+      name,
+      division: req.body.division
+    })
+
+    await util.email.sendVerification({
+      email,
+      kind: 'register',
+      token: verifyToken
+    })
+
+    return responses.goodVerifySent
   }
 }
