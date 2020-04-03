@@ -10497,19 +10497,19 @@ supports-color@^7.0.0, supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-svg-baker-runtime@^1.4.3:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/svg-baker-runtime/-/svg-baker-runtime-1.4.3.tgz#8ec035daf3af4abe7e788120868ebbf84a34468f"
-  integrity sha512-QY6RlJN3v6xPxVQboSrsGiLWaWay+uFstic6QEzoIUK2l6M/lqL/wiqFcoqroBsGpqpP0knXplltLZGTzncbNw==
+svg-baker-runtime@^1.4.4:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/svg-baker-runtime/-/svg-baker-runtime-1.4.4.tgz#91f8bcf27194d33b0b2db2f4e86c6bc99377a6f1"
+  integrity sha512-ffjA5ewpZRllt05vtdAQVglThd15ztNX6AP+bsaOBjMoUaPRU0sApxqXyfy9A8ctJu6p9uB+fVIMj57RCY38Ew==
   dependencies:
     deepmerge "1.3.2"
     mitt "1.1.2"
-    svg-baker "^1.5.0"
+    svg-baker "^1.6.0"
 
-svg-baker@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/svg-baker/-/svg-baker-1.5.0.tgz#e94e75523d9303e9a2b3448987080d966cb90af4"
-  integrity sha512-UMU4WQMfsmY1l8eqoxBoGTDht02RVu46cC0QoAVsJM6lUvbGCkPnAHHMG3mM8m/D1zAGg8Q0IZXnHokZ9umX0Q==
+svg-baker@^1.5.0, svg-baker@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/svg-baker/-/svg-baker-1.6.0.tgz#c40766d3f04993057fcd0efbebbabe199a415510"
+  integrity sha512-uUwkBtAH8YlX7CbEm6Q67n9FHsQ/LQs2SmLBoKYLyir+UEdNFLOg+CvTDJ5qPtVjma4lhT+FuD1DkghUPTeH+A==
   dependencies:
     bluebird "^3.5.0"
     clone "^2.1.1"
@@ -10525,10 +10525,10 @@ svg-baker@^1.5.0:
     query-string "^4.3.2"
     traverse "^0.6.6"
 
-svg-sprite-loader@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/svg-sprite-loader/-/svg-sprite-loader-4.2.1.tgz#38a0bb9af9beecd037a0e417af56edf670fe7283"
-  integrity sha512-IQCJEHWD+CNP8yFptR2SkscLXBgwYwY+34VMNSLBE4RQmJ0dgpAfkF6q8ktgNsXlMhlX6cAM4Zw0t7SnLyyiQA==
+svg-sprite-loader@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/svg-sprite-loader/-/svg-sprite-loader-4.2.2.tgz#54f508e8599f4c19cf23937ab1be1b901ed2e864"
+  integrity sha512-MhwpMR67GdY82jcvMSA24ynjaErjZcNhm/+qlnF8ia5fp4KFvtr+fckaJnSWSPDE7NC3T5zc764eh+/YJImc0w==
   dependencies:
     bluebird "^3.5.0"
     deepmerge "1.3.2"
@@ -10537,7 +10537,7 @@ svg-sprite-loader@^4.2.1:
     html-webpack-plugin "^3.2.0"
     loader-utils "^1.1.0"
     svg-baker "^1.5.0"
-    svg-baker-runtime "^1.4.3"
+    svg-baker-runtime "^1.4.4"
     url-slug "2.0.0"
 
 svgo@^1.0.0:

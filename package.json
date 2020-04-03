@@ -79,7 +79,7 @@
     "purgecss-webpack-plugin": "^2.1.0",
     "regenerator-runtime": "^0.13.3",
     "supertest": "^4.0.2",
-    "svg-sprite-loader": "^4.2.1",
+    "svg-sprite-loader": "^4.2.2",
     "typescript": "^3.8.3",
     "unfetch": "^4.1.0"
   },
