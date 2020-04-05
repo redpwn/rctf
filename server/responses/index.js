@@ -51,6 +51,22 @@ const responseList = {
     status: 200,
     message: 'The CTFtime token was created.'
   },
+  goodCtftimeAuthSet: {
+    status: 200,
+    message: 'The CTFtime team was set on the user.'
+  },
+  goodCtftimeRemoved: {
+    status: 200,
+    message: 'The CTFtime team was removed from the user.'
+  },
+  badCtftimeNoExists: {
+    status: 404,
+    message: 'There is no CTFtime team associated with the user.'
+  },
+  badCtftimeOnlyAuth: {
+    status: 409,
+    message: 'The CTFtime team cannot be removed when it is the only authentication method.'
+  },
   badCtftimeCode: {
     status: 401,
     message: 'The CTFtime code is invalid.'

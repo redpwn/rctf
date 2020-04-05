@@ -39,16 +39,21 @@ module.exports = {
     )
       .then(res => res.rows[0])
   },
-  updateUser: ({ id, name, email, division, perms }) => {
+  removeCtftimeId: ({ id }) => {
+    return db.query('UPDATE users SET ctftime_id = NULL WHERE id = $1 AND ctftime_id IS NOT NULL RETURNING *', [id])
+      .then(res => res.rows[0])
+  },
+  updateUser: ({ id, name, email, division, ctftimeId, perms }) => {
     return db.query(`
       UPDATE users SET
         name = COALESCE($1, name),
         email = COALESCE($2, email),
         division = COALESCE($3, division),
-        perms = COALESCE($4, perms)
-      WHERE id = $5 RETURNING *
+        ctftime_id = COALESCE($4, ctftime_id),
+        perms = COALESCE($5, perms)
+      WHERE id = $6 RETURNING *
       `,
-    [name, email, division, perms, id]
+    [name, email, division, ctftimeId, perms, id]
     )
       .then(res => res.rows[0])
   }
