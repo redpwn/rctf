@@ -8,13 +8,15 @@ const tokenKey = Buffer.from(config.tokenKey, 'base64')
 const tokenKinds = {
   auth: 0,
   team: 1,
-  verify: 2
+  verify: 2,
+  ctftimeAuth: 4
 }
 
 const tokenExpiries = {
   [tokenKinds.auth]: Infinity,
   [tokenKinds.team]: Infinity,
-  [tokenKinds.verify]: config.loginTimeout
+  [tokenKinds.verify]: config.loginTimeout,
+  [tokenKinds.ctftimeAuth]: config.loginTimeout
 }
 
 const timeNow = () => Math.floor(Date.now() / 1000)

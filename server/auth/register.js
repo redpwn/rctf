@@ -3,7 +3,7 @@ const database = require('../database')
 const tokenUtils = require('./token')
 const { responses } = require('../responses')
 
-const register = async ({ division, email, name }) => {
+const register = async ({ division, email, name, ctftimeId }) => {
   const userUuid = uuidv4()
   try {
     await database.auth.makeUser({
@@ -11,14 +11,18 @@ const register = async ({ division, email, name }) => {
       email,
       name,
       id: userUuid,
+      ctftimeId,
       perms: 0
     })
   } catch (e) {
-    if (e.constraint === 'users_name_key') {
-      return responses.badKnownName
+    if (e.constraint === 'users_ctftime_id_key') {
+      return responses.badKnownCtftimeId
     }
     if (e.constraint === 'users_email_key') {
       return responses.badKnownEmail
+    }
+    if (e.constraint === 'users_name_key') {
+      return responses.badKnownName
     }
     throw e
   }

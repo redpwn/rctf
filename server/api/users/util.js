@@ -44,6 +44,7 @@ module.exports = {
 
     return {
       name: user.name,
+      ctftimeId: user.ctftime_id,
       division: Number(user.division),
       score: score.score,
       globalPlace: score.globalPlace,

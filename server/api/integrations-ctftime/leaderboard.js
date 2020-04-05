@@ -1,13 +1,19 @@
-const { responses } = require('../responses')
-const cache = require('../cache')
-const challenges = require('../challenges')
-const config = require('../../config/server')
+const { responses } = require('../../responses')
+const cache = require('../../cache')
+const challenges = require('../../challenges')
+const config = require('../../../config/server')
 
 module.exports = {
   method: 'get',
   path: '/integrations/ctftime/leaderboard',
   requireAuth: false,
   handler: async () => {
+    if (config.startTime > Date.now()) {
+      return [responses.goodCtftimeLeaderboard, JSON.stringify({
+        tasks: [],
+        standings: []
+      })]
+    }
     const { leaderboard } = await cache.leaderboard.getRange({
       start: 0,
       end: config.leaderboardMaxLimit

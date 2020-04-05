@@ -18,6 +18,8 @@ const ret = {
   smtpUrl: process.env.RCTF_SMTP_URL,
   emailFrom: process.env.RCTF_EMAIL_FROM,
   logFile: process.env.RCTF_LOG_FILE,
+  ctftimeClientId: process.env.RCTF_CTFTIME_CLIENT_ID,
+  ctftimeClientSecret: process.env.RCTF_CTFTIME_CLIENT_SECRET,
   loginTimeout: 10 * 60 * 1000,
   leaderboardUpdateInterval: 10 * 1000,
   leaderboardMaxLimit: 100,

@@ -12,21 +12,37 @@ module.exports = {
       properties: {
         teamToken: {
           type: 'string'
+        },
+        ctftimeToken: {
+          type: 'string'
         }
       },
-      required: ['teamToken']
+      oneOf: [{
+        required: ['teamToken']
+      }, {
+        required: ['ctftimeToken']
+      }]
     }
   },
   handler: async ({ req }) => {
-    const uuid = await auth.token.getData(auth.token.tokenKinds.team, req.body.teamToken)
-    if (uuid === null) {
-      return responses.badTokenVerification
+    let user
+    if (req.body.ctftimeToken !== undefined) {
+      const ctftimeData = await auth.token.getData(auth.token.tokenKinds.ctftimeAuth, req.body.ctftimeToken)
+      if (ctftimeData === null) {
+        return responses.badToken
+      }
+      user = await database.auth.getUserByCtftimeId({ ctftimeId: ctftimeData.ctftimeId })
+    } else {
+      const uuid = await auth.token.getData(auth.token.tokenKinds.team, req.body.teamToken)
+      if (uuid === null) {
+        return responses.badTokenVerification
+      }
+      user = await database.auth.getUserById({ id: uuid })
     }
-    const user = await database.auth.getUserById({ id: uuid })
     if (user === undefined) {
       return responses.badUnknownUser
     }
-    const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
+    const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, user.id)
     return [responses.goodLogin, {
       authToken
     }]

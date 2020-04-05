@@ -35,6 +35,10 @@ const responseList = {
     status: 409,
     message: 'An account with this name already exists.'
   },
+  badKnownCtftimeId: {
+    status: 409,
+    message: 'An account with this CTFtime ID already exists.'
+  },
   goodLeaderboard: {
     status: 200,
     message: 'The leaderboard was retrieved.'
@@ -42,6 +46,14 @@ const responseList = {
   goodCtftimeLeaderboard: {
     status: 200,
     rawContentType: 'application/json'
+  },
+  goodCtftimeToken: {
+    status: 200,
+    message: 'The CTFtime token was created.'
+  },
+  badCtftimeCode: {
+    status: 401,
+    message: 'The CTFtime code is invalid.'
   },
   goodFlag: {
     status: 200,
