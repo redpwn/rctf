@@ -4,5 +4,5 @@ module.exports = [
   require('./id'),
   require('./delete'),
   require('./update'),
-  ...require('./me-auth/ctftime'),
+  ...require('./me-auth/ctftime')
 ]
