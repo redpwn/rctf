@@ -3,12 +3,12 @@ const database = require('../../../../database')
 
 module.exports = {
   method: 'delete',
-  path: '/users/me/auth/ctftime',
+  path: '/users/me/auth/email',
   requireAuth: true,
   handler: async ({ user }) => {
     let result
     try {
-      result = await database.auth.removeCtftimeId({ id: user.id })
+      result = await database.auth.removeEmail({ id: user.id })
     } catch (e) {
       if (e.constraint === 'require_email_or_ctftime_id') {
         return responses.badZeroAuth
@@ -16,8 +16,8 @@ module.exports = {
       throw e
     }
     if (result === undefined) {
-      return responses.badCtftimeNoExists
+      return responses.badEmailNoExists
     }
-    return responses.goodCtftimeRemoved
+    return responses.goodEmailRemoved
   }
 }

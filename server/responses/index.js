@@ -59,13 +59,21 @@ const responseList = {
     status: 200,
     message: 'The CTFtime team was removed from the user.'
   },
+  goodEmailRemoved: {
+    status: 200,
+    message: 'The email address was removed from the user.'
+  },
   badCtftimeNoExists: {
     status: 404,
     message: 'There is no CTFtime team associated with the user.'
   },
-  badCtftimeOnlyAuth: {
+  badZeroAuth: {
     status: 409,
-    message: 'The CTFtime team cannot be removed when it is the only authentication method.'
+    message: 'At least one authentication method is required.'
+  },
+  badEmailNoExists: {
+    status: 404,
+    message: 'There is no email address associated with the user.'
   },
   badCtftimeCode: {
     status: 401,

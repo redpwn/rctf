@@ -43,6 +43,10 @@ module.exports = {
     return db.query('UPDATE users SET ctftime_id = NULL WHERE id = $1 AND ctftime_id IS NOT NULL RETURNING *', [id])
       .then(res => res.rows[0])
   },
+  removeEmail: ({ id }) => {
+    return db.query('UPDATE users SET email = NULL WHERE id = $1 AND email IS NOT NULL RETURNING *', [id])
+      .then(res => res.rows[0])
+  },
   updateUser: ({ id, name, email, division, ctftimeId, perms }) => {
     return db.query(`
       UPDATE users SET
