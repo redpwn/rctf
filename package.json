@@ -70,7 +70,7 @@
     "linkstate": "^1.1.1",
     "loader-utils": "^2.0.0",
     "nodemon": "^2.0.2",
-    "nyc": "^15.0.0",
+    "nyc": "^15.0.1",
     "pascal-case": "^3.1.1",
     "preact": "^10.3.1",
     "preact-cli": "^3.0.0-rc.10",
