@@ -7426,10 +7426,10 @@ node-libs-browser@^2.2.1:
     util "^0.11.0"
     vm-browserify "^1.0.1"
 
-node-pg-migrate@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/node-pg-migrate/-/node-pg-migrate-4.6.0.tgz#15f5b0a55f43211429780a6fd81dfad9e4812c92"
-  integrity sha512-EXX2U5WfKJyJ1SmalAsj81IFRS9prnJCReBNf0xoz+H3ooN4tsOhp+VSGdZXdHwEEc2QF1vseD8rCQaT+h4ZIQ==
+node-pg-migrate@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/node-pg-migrate/-/node-pg-migrate-4.6.1.tgz#763f7a040438c6b0f08636ce39c832c9735ac719"
+  integrity sha512-oGFr5YJ4II+YnhAQ6IyWpnPHLHtm4goaP0EQd2VVT4T2lxbit7s6lTG8WXhoRLN+AFrjM9INxvY4ijzc9PNVpA==
   dependencies:
     "@types/pg" "^7.4.0"
     decamelize "^4.0.0"
