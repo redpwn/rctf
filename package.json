@@ -72,7 +72,7 @@
     "nodemon": "^2.0.2",
     "nyc": "^15.0.1",
     "pascal-case": "^3.1.1",
-    "preact": "^10.3.1",
+    "preact": "^10.4.0",
     "preact-cli": "^3.0.0-rc.10",
     "preact-router": "^3.2.1",
     "promise-polyfill": "^8.1.3",
