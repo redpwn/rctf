@@ -77,7 +77,7 @@
     "preact-router": "^3.2.1",
     "purgecss-webpack-plugin": "^2.1.0",
     "supertest": "^4.0.2",
-    "svg-sprite-loader": "^4.2.2",
+    "svg-sprite-loader": "^4.2.3",
     "typescript": "^3.8.3"
   },
   "description": "rctf is RedpwnCTF's CTF platform. It is developed and maintained by the [redpwn](https://redpwn.net) CTF team.",
