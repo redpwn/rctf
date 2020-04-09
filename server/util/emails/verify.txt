@@ -10,6 +10,12 @@ Recover your account for {{{ ctf_name }}}
 Before we recover your account, we need to make sure it's actually you.
 To verify your email and recover your {{{ ctf_name }}} account, click the link below.
 {{ /recover }}
+{{ #update }}
+Update your {{{ ctf_name }}} email
+
+Before we add this email to your account, we need to make sure it's actually you.
+To add this email to your {{{ ctf_name }}} account, click the button below.
+{{ /update }}
 
 {{{ origin }}}/verify#token={{{ token }}}
 

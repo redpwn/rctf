@@ -8,7 +8,7 @@ const ret = {
   },
   rDeployDirectory: '.rdeploy',
   rDeployFiles: 'files',
-  verifyEmail: false,
+  verifyEmail: true,
   removeDownloadHashes: true,
   tokenKey: process.env.RCTF_TOKEN_KEY,
   ctfName: process.env.RCTF_NAME,

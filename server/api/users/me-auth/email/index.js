@@ -1,4 +1,4 @@
 module.exports = [
-  require('./delete')
-  // require('./patch')
+  require('./delete'),
+  require('./patch')
 ]

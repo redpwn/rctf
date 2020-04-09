@@ -59,6 +59,10 @@ const responseList = {
     status: 200,
     message: 'The CTFtime team was removed from the user.'
   },
+  goodEmailSet: {
+    status: 200,
+    message: 'The email was set on the user.'
+  },
   goodEmailRemoved: {
     status: 200,
     message: 'The email address was removed from the user.'

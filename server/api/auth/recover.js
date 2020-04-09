@@ -41,7 +41,7 @@ module.exports = {
     await cache.login.makeLogin({ id: verifyUuid })
     const verifyToken = await auth.token.getToken(auth.token.tokenKinds.verify, {
       verifyId: verifyUuid,
-      register: false,
+      kind: 'recover',
       userId: user.id,
       email
     })

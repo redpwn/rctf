@@ -14,14 +14,18 @@ const sendVerification = async ({ token, kind, email }) => {
     origin: config.origin,
     token: encodeURIComponent(token),
     register: kind === 'register',
-    recover: kind === 'recover'
+    recover: kind === 'recover',
+    update: kind === 'update'
   }
   let subject
   if (kind === 'register') {
     subject = `Email verification for ${config.ctfName}`
   } else if (kind === 'recover') {
     subject = `Account recovery for ${config.ctfName}`
+  } else if (kind === 'update') {
+    subject = `Update your ${config.ctfName} email`
   }
+
   await transport.sendMail({
     from: `${config.ctfName} <${config.emailFrom}>`,
     to: email,
