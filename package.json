@@ -75,7 +75,7 @@
     "preact": "^10.4.0",
     "preact-cli": "^3.0.0-rc.10",
     "preact-router": "^3.2.1",
-    "purgecss-webpack-plugin": "^2.1.0",
+    "purgecss-webpack-plugin": "^2.1.2",
     "supertest": "^4.0.2",
     "svg-sprite-loader": "^4.2.3",
     "typescript": "^3.8.3"

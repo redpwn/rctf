@@ -27,13 +27,13 @@ module.exports = {
       return responses.badTokenVerification
     }
 
-    if (tokenData.register) {
+    if (tokenData.kind === 'register') {
       return auth.register.register({
         division: tokenData.division,
         email: tokenData.email,
         name: tokenData.name
       })
-    } else {
+    } else if (tokenData.kind === 'recover') {
       const user = await database.auth.getUserByIdAndEmail({
         id: tokenData.userId,
         email: tokenData.email
@@ -48,6 +48,17 @@ module.exports = {
         authToken,
         teamToken
       }]
+    } else if (tokenData.kind === 'update') {
+      const result = await database.auth.updateUser({
+        id: tokenData.userId,
+        email: tokenData.email
+      })
+      if (result === undefined) {
+        return responses.badUnknownUser
+      }
+      return responses.goodEmailSet
+    } else {
+      throw new Error('invalid tokenData.kind')
     }
   }
 }

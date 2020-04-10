@@ -51,6 +51,34 @@ const responseList = {
     status: 200,
     message: 'The CTFtime token was created.'
   },
+  goodCtftimeAuthSet: {
+    status: 200,
+    message: 'The CTFtime team was set on the user.'
+  },
+  goodCtftimeRemoved: {
+    status: 200,
+    message: 'The CTFtime team was removed from the user.'
+  },
+  goodEmailSet: {
+    status: 200,
+    message: 'The email was set on the user.'
+  },
+  goodEmailRemoved: {
+    status: 200,
+    message: 'The email address was removed from the user.'
+  },
+  badCtftimeNoExists: {
+    status: 404,
+    message: 'There is no CTFtime team associated with the user.'
+  },
+  badZeroAuth: {
+    status: 409,
+    message: 'At least one authentication method is required.'
+  },
+  badEmailNoExists: {
+    status: 404,
+    message: 'There is no email address associated with the user.'
+  },
   badCtftimeCode: {
     status: 401,
     message: 'The CTFtime code is invalid.'
@@ -86,6 +114,10 @@ const responseList = {
   badTokenVerification: {
     status: 401,
     message: 'The token provided is invalid.'
+  },
+  badCtftimeToken: {
+    status: 401,
+    message: 'The CTFtime token provided is invalid.'
   },
   badJson: {
     status: 400,

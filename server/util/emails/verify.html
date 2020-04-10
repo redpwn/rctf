@@ -10,6 +10,9 @@
     {{ #recover }}
       Account recovery for {{ ctf_name }}
     {{ /recover }}
+    {{ #update }}
+      Update your {{ ctf_name }} email
+    {{ /update }}
   </title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
@@ -317,6 +320,9 @@
                     {{ #recover }}
                       Recover your account for {{ ctf_name }}
                     {{ /recover }}
+                    {{ #update }}
+                      Update your {{ ctf_name }} email
+                    {{ /update }}
                   </h1>
                   {{ #register }}
                     <p style="margin: 0 0 15px;">Before you and your team start catching flags, we need a verified email.</p>
@@ -326,6 +332,10 @@
                     <p style="margin: 0 0 15px;">Before we recover your account, we need to make sure it's actually you.</p>
                     <p style="margin: 0 0 15px;">To verify your email and recover your {{ ctf_name }} account, click the button below.</p>
                   {{ /recover }}
+                  {{ #update }}
+                    <p style="margin: 0 0 15px;">Before we add this email to your account, we need to make sure it's actually you.</p>
+                    <p style="margin: 0 0 15px;">To add this email to your {{ ctf_name }} account, click the button below.</p>
+                  {{ /update }}
                 </td>
               </tr>
               <tr>
@@ -342,6 +352,9 @@
                           {{ #recover }}
                             Recover your {{ ctf_name }} account
                           {{ /recover }}
+                          {{ #update }}
+                            Update your {{ ctf_name }} email
+                          {{ /update }}
                         </a>
                       </td>
                     </tr>
