@@ -42,7 +42,7 @@ module.exports = {
     if (req.body.ctftimeToken !== undefined) {
       const ctftimeData = await auth.token.getData(auth.token.tokenKinds.ctftimeAuth, req.body.ctftimeToken)
       if (ctftimeData === null) {
-        return responses.badToken
+        return responses.badCtftimeToken
       }
       reqName = ctftimeData.name
       ctftimeId = ctftimeData.ctftimeId
@@ -84,7 +84,7 @@ module.exports = {
     await cache.login.makeLogin({ id: verifyUuid })
     const verifyToken = await auth.token.getToken(auth.token.tokenKinds.verify, {
       verifyId: verifyUuid,
-      register: true,
+      kind: 'register',
       email,
       name,
       division: req.body.division

@@ -3,5 +3,7 @@ module.exports = [
   require('./me'),
   require('./id'),
   require('./delete'),
-  require('./update')
+  require('./update'),
+  ...require('./me-auth/ctftime'),
+  ...require('./me-auth/email')
 ]
