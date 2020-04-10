@@ -115,6 +115,10 @@ const responseList = {
     status: 401,
     message: 'The token provided is invalid.'
   },
+  badCtftimeToken: {
+    status: 401,
+    message: 'The CTFtime token provided is invalid.'
+  },
   badJson: {
     status: 400,
     message: 'The request JSON body is malformed.'

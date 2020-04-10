@@ -1,3 +1,4 @@
+const config = require('../../../../../config/server')
 const { responses } = require('../../../../responses')
 const database = require('../../../../database')
 
@@ -6,6 +7,9 @@ module.exports = {
   path: '/users/me/auth/ctftime',
   requireAuth: true,
   handler: async ({ user }) => {
+    if (!config.ctftimeClientId) {
+      return responses.badEndpoint
+    }
     let result
     try {
       result = await database.auth.removeCtftimeId({ id: user.id })

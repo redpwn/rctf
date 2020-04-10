@@ -8,7 +8,7 @@ const auth = require('../../../../auth')
 const database = require('../../../../database')
 
 module.exports = {
-  method: 'patch',
+  method: 'put',
   path: '/users/me/auth/email',
   requireAuth: true,
   schema: {

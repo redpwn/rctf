@@ -29,7 +29,7 @@ module.exports = {
     if (req.body.ctftimeToken !== undefined) {
       const ctftimeData = await auth.token.getData(auth.token.tokenKinds.ctftimeAuth, req.body.ctftimeToken)
       if (ctftimeData === null) {
-        return responses.badToken
+        return responses.badCtftimeToken
       }
       user = await database.auth.getUserByCtftimeId({ ctftimeId: ctftimeData.ctftimeId })
     } else {
