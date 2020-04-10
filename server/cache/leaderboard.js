@@ -10,7 +10,24 @@ const redisDel = promisify(client.del.bind(client))
 const redisGet = promisify(client.get.bind(client))
 const redisScript = promisify(client.script.bind(client))
 
+const luaChunkCall = `
+  local function chunkCall(cmd, key, args)
+    local size = 7996
+    local len = #args
+    local chunks = math.ceil(len / size)
+    local output = {}
+    for i = 1, chunks, 1 do
+      local start = (i - 1) * size + 1
+      local stop = math.min(len, i * size)
+      output[i] = redis.call(cmd, key, unpack(args, start, stop))
+    end
+    return output
+  end
+`
+
 const setLeaderboardScript = redisScript('load', `
+  ${luaChunkCall}
+
   local leaderboard = cjson.decode(ARGV[1])
   local divisions = cjson.decode(ARGV[2])
   local challengeScores = cjson.decode(ARGV[3])
@@ -45,14 +62,14 @@ const setLeaderboardScript = redisScript('load', `
   end
 
   redis.call("DEL", unpack(KEYS))
-  redis.call("HSET", KEYS[1], unpack(positionKeys))
-  redis.call("HSET", KEYS[2], unpack(challengeScores))
-  redis.call("RPUSH", KEYS[3], unpack(globalBoard))
+  chunkCall("HSET", KEYS[1], positionKeys)
+  chunkCall("HSET", KEYS[2], challengeScores)
+  chunkCall("RPUSH", KEYS[3], globalBoard)
   redis.call("SET", KEYS[4], ARGV[4])
   for i, division in ipairs(divisions) do
     local divisionBoard = divisionBoards[division]
     if #divisionBoard ~= 0 then
-      redis.call("RPUSH", KEYS[i + 4], unpack(divisionBoard))
+      chunkCall("RPUSH", KEYS[i + 4], divisionBoard)
     end
   end
 `)
@@ -64,6 +81,8 @@ const getRangeScript = redisScript('load', `
 `)
 
 const getGraphScript = redisScript('load', `
+  ${luaChunkCall}
+
   local maxUsers = tonumber(ARGV[1])
   local samples = cjson.decode(ARGV[2])
   local latest = redis.call("LRANGE", KEYS[1], 0, maxUsers * 3 - 1)
@@ -81,7 +100,7 @@ const getGraphScript = redisScript('load', `
     end
   end
   local lastUpdate = redis.call("GET", KEYS[2])
-  local graphPoints = redis.call("HMGET", KEYS[3], unpack(graphKeys))
+  local graphPoints = chunkCall("HMGET", KEYS[3], graphKeys)
   return cjson.encode({
     lastUpdate,
     latest,
@@ -90,7 +109,9 @@ const getGraphScript = redisScript('load', `
 `)
 
 const setGraphScript = redisScript('load', `
-  redis.call("HSET", KEYS[1], unpack(cjson.decode(ARGV[1])))
+  ${luaChunkCall}
+
+  chunkCall("HSET", KEYS[1], cjson.decode(ARGV[1]))
   redis.call("SET", KEYS[2], ARGV[2])
 `)
 
@@ -216,7 +237,7 @@ const getGraph = async ({ division, maxTeams }) => {
   const parsed = JSON.parse(redisResult)
   const lastUpdate = parseInt(parsed[0])
   const latest = parsed[1]
-  const graphData = parsed[2]
+  const graphData = parsed[2].flat()
   const result = []
   for (let userIdx = 0; userIdx < latest.length / 3; userIdx++) {
     const points = [{
