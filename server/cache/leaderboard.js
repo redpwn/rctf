@@ -183,9 +183,6 @@ const setGraph = async ({ leaderboards }) => {
       values.push(sample + ':' + score[0], score[1])
     })
   })
-  if (values.length === 0) {
-    return
-  }
   await redisEvalsha(
     await setGraphScript,
     2,
