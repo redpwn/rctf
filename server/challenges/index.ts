@@ -45,6 +45,7 @@ const onUpdate = (newChallenges: Challenge[]): void => {
 import(path.join('../providers', config.challengeProvider.name))
   .then(({ default: Provider }) => {
     provider = new Provider(config.challengeProvider.options)
+
     provider.on('update', onUpdate)
   })
 
@@ -69,24 +70,6 @@ export function resetCache (): void {
   provider.forceUpdate()
 }
 
-/*
-  If the challenge doesn't exist already, create it.
-  Otherwise, update the challenge data.
-
-  Challenge equality is determined by chall.id.
-*/
 export function updateChallenge (chall: Challenge): void {
-  let updated = false
-  for (let i = 0; i < challenges.length; i++) {
-    if (challenges[i].id === chall.id) {
-      challenges[i] = { ...challenges[i], ...chall }
-      updated = true
-    }
-  }
-
-  if (!updated) {
-    challenges.push(chall)
-  }
-
-  rebuildCleanedChallenges()
+  provider.updateChallenge(chall)
 }
