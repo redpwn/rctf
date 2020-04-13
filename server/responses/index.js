@@ -159,6 +159,10 @@ const responseList = {
     status: 200,
     message: 'Your account was successfully updated'
   },
+  badPerms: {
+    status: 403,
+    message: 'The user does not have required permissions.'
+  },
   errorInternal: {
     status: 500,
     message: 'An internal error occurred.'

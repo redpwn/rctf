@@ -1,11 +1,12 @@
-const { responses } = require('../responses')
+const { responses } = require('../../../responses')
 const challenges = require('../../../challenges')
-const { Permissions } = require('./util')
+const perms = require('../../../util/perms')
 
 module.exports = {
   method: 'get',
-  path: '/:id',
-  perms: [Permissions.READ],
+  path: '/admin/challs/:id',
+  requireAuth: true,
+  perms: perms.challsRead,
   schema: {
     params: {
       type: 'object',

@@ -1,11 +1,12 @@
-const { responses } = require('../responses')
+const { responses } = require('../../../responses')
 const challenges = require('../../../challenges')
-const { Permissions } = require('./util')
+const perms = require('../../../util/perms')
 
 module.exports = {
   method: 'get',
-  path: '',
-  perms: [Permissions.READ],
+  path: '/admin/challs',
+  requireAuth: true,
+  perms: perms.challsRead,
   handler: async () => {
     const challs = challenges.getAllChallenges()
     return [responses.goodChallenges, challs]
