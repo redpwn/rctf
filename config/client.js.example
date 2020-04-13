@@ -3,6 +3,10 @@ const ret = {
   staticEndpoint: '/static',
   ctfTitle: ' | yourCTF',
   ctfName: 'yourCTF',
+  meta: {
+    description: "A description of your CTF",
+    imageUrl: ''
+  },
   logoUrl: 'https://webite.com/logo.png',
   sponsors: [
     {

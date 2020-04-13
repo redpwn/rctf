@@ -1,12 +1,14 @@
 const path = require('path')
 const express = require('express')
+const helmet = require('helmet')
 const { enableCORS, serveDownloads } = require('./util')
 
 require('./leaderboard').startUpdater()
 
 const app = express()
 
-if (process.env.NODE_ENV !== 'production' && process.env.TEST_COMPRESSION !== undefined) {
+// Compression testing should be done in development only
+if (process.env.NODE_ENV === 'development' && process.env.TEST_COMPRESSION !== undefined) {
   const compression = require('compression')
   app.use(compression({
     level: 9,
@@ -15,6 +17,17 @@ if (process.env.NODE_ENV !== 'production' && process.env.TEST_COMPRESSION !== un
 }
 
 app.use(enableCORS)
+app.use(helmet({
+  dnsPrefetchControl: false
+}))
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    fontSrc: ['fonts.gstatic.com', "'self'", 'data:'],
+    styleSrc: ['fonts.googleapis.com', "'unsafe-inline'", "'self'"],
+    imgSrc: ['*', 'data:']
+  }
+}))
 
 app.use(express.raw({
   type: 'application/json'
