@@ -143,6 +143,10 @@ const responseList = {
     status: 200,
     message: 'The retrieval of challenges was successful.'
   },
+  goodChallengeUpdate: {
+    status: 200,
+    message: 'Challenge sucessfully updated'
+  },
   goodUserData: {
     status: 200,
     message: 'The user data was successfully retrieved.'

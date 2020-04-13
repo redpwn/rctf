@@ -8,42 +8,38 @@ let provider: Provider
 
 let challenges: Challenge[] = []
 let cleanedChallenges: CleanedChallenge[] = []
-// Mapping from challenge.id to challenge
-const challMap: Map<string, Challenge> = new Map()
-const cleanedChallMap: Map<string, CleanedChallenge> = new Map()
+
+const cleanChallenge = (chall: Challenge): CleanedChallenge => {
+  const { files, description, author, points, id, name, category } = chall
+
+  const normalizedFiles = files.map(filename => {
+    const cleanedName = util.normalize.normalizeDownload(filename)
+
+    return {
+      name: cleanedName,
+      path: filename
+    }
+  })
+
+  return {
+    files: normalizedFiles,
+    description,
+    author,
+    points,
+    id,
+    name,
+    category
+  }
+}
+
+const rebuildCleanedChallenges = (): void => {
+  cleanedChallenges = challenges.map(cleanChallenge)
+}
 
 const onUpdate = (newChallenges: Challenge[]): void => {
   challenges = newChallenges
 
-  challMap.clear()
-  challenges.forEach(c => {
-    challMap.set(c.id, c)
-  })
-
-  cleanedChallenges = challenges.map(({ files, description, author, points, id, name, category }) => {
-    const normalizedFiles = files.map(filename => {
-      const cleanedName = util.normalize.normalizeDownload(filename)
-
-      return {
-        name: cleanedName,
-        path: filename
-      }
-    })
-    return {
-      files: normalizedFiles,
-      description,
-      author,
-      points,
-      id,
-      name,
-      category
-    }
-  })
-
-  cleanedChallMap.clear()
-  cleanedChallenges.forEach(c => {
-    cleanedChallMap.set(c.id, c)
-  })
+  rebuildCleanedChallenges()
 }
 
 import(path.join('../providers', config.challengeProvider.name))
@@ -61,12 +57,36 @@ export function getCleanedChallenges (): CleanedChallenge[] {
 }
 
 export function getChallenge (id: string): Challenge {
-  return challMap.get(id)
+  return challenges
+    .filter(chall => chall.id === id)[0]
 }
 
 export function getCleanedChallenge (id: string): CleanedChallenge {
-  return cleanedChallMap.get(id)
+  return cleanedChallenges
+    .filter(chall => chall.id === id)[0]
 }
 export function resetCache (): void {
   provider.forceUpdate()
+}
+
+/*
+  If the challenge doesn't exist already, create it.
+  Otherwise, update the challenge data.
+
+  Challenge equality is determined by chall.id.
+*/
+export function updateChallenge (chall: Challenge): void {
+  let updated = false
+  for (let i = 0; i < challenges.length; i++) {
+    if (challenges[i].id === chall.id) {
+      challenges[i] = { ...challenges[i], ...chall }
+      updated = true
+    }
+  }
+
+  if (!updated) {
+    challenges.push(chall)
+  }
+
+  rebuildCleanedChallenges()
 }
