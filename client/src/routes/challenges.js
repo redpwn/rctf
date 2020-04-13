@@ -1,5 +1,6 @@
 import { Component } from 'preact'
 import { useCallback } from 'preact/hooks'
+import snarkdown from 'snarkdown'
 import config from '../../../config/client'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
@@ -18,6 +19,12 @@ export default withStyles({
   },
   showSolved: {
     marginBottom: '0.625em'
+  },
+  description: {
+    '& a': {
+      display: 'inline',
+      padding: 0
+    }
   }
 }, withToast(class Challenges extends Component {
   state = {
@@ -113,7 +120,7 @@ export default withStyles({
           </div>
 
           <div class='content-no-padding u-center'><div class={`divider ${classes.divider}`} /></div>
-          <div class='frame__subtitle'>{problem.description}</div>
+          <div class={`${classes.description} frame__subtitle`} dangerouslySetInnerHTML={{ __html: snarkdown(problem.description) }} />
           <form class='form-section' onSubmit={this.submitFlag(problem.id)}>
 
             {

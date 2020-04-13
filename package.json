@@ -36,6 +36,7 @@
     "nodemailer": "^6.4.6",
     "pg": "^8.0.2",
     "redis": "^3.0.2",
+    "snarkdown": "^1.2.2",
     "uuid": "^7.0.3"
   },
   "devDependencies": {
