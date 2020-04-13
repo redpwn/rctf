@@ -12,6 +12,11 @@ const redisScript = promisify(client.script.bind(client))
 
 const luaChunkCall = `
   local function chunkCall(cmd, key, args)
+    -- The max number of arguments to a lua function is 7999.
+    -- The cmd and key must be included with every redis call.
+    -- Because hashes are specified as a value after a key,
+    -- the chunk size must also be even.
+    -- Therefore, the chunk size is set at 7996.
     local size = 7996
     local len = #args
     local chunks = math.ceil(len / size)
