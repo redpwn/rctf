@@ -7,7 +7,7 @@ const ret = {
   sponsors: [
     {
       name: 'Big Sponsor',
-      icon: 'https://website.com/logo.png',
+      icon: 'https://redpwn.net/logo.png',
       description: 'Brief description'
     },
     {

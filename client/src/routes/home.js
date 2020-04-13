@@ -5,7 +5,7 @@ import withStyles from '../components/jss'
 
 export default withStyles({
   root: {
-    padding: '9.375em'
+    padding: '3.375em'
   },
   row: {
     marginBottom: '3.125em'
