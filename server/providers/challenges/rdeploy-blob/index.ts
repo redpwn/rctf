@@ -12,10 +12,10 @@ interface RDeployBlobProviderOptions {
 }
 
 class RDeployBlobProvider extends EventEmitter implements Provider {
-  _updateInterval: number
-  _rDeployDirectory: string
-  _interval: NodeJS.Timeout
-  challenges: Challenge[]
+  private _updateInterval: number
+  private _rDeployDirectory: string
+  private _interval: NodeJS.Timeout
+  private challenges: Challenge[]
 
   constructor (options: RDeployBlobProviderOptions) {
     super()
@@ -59,15 +59,15 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
   }
 
   updateChallenge (chall: Challenge): void {
-    let updated = false
+    let challengeExists = false
     for (let i = 0; i < this.challenges.length; i++) {
       if (this.challenges[i].id === chall.id) {
         this.challenges[i] = { ...this.challenges[i], ...chall }
-        updated = true
+        challengeExists = true
       }
     }
 
-    if (!updated) {
+    if (!challengeExists) {
       this.challenges.push(chall)
     }
 
