@@ -143,6 +143,10 @@ const responseList = {
     status: 200,
     message: 'The retrieval of challenges was successful.'
   },
+  goodChallengeUpdate: {
+    status: 200,
+    message: 'Challenge sucessfully updated'
+  },
   goodUserData: {
     status: 200,
     message: 'The user data was successfully retrieved.'
@@ -154,6 +158,10 @@ const responseList = {
   goodUserUpdate: {
     status: 200,
     message: 'Your account was successfully updated'
+  },
+  badPerms: {
+    status: 403,
+    message: 'The user does not have required permissions.'
   },
   errorInternal: {
     status: 500,
