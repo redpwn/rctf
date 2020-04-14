@@ -10,7 +10,8 @@ import EnvelopeOpen from '../icons/envelope-open.svg'
 
 export default withStyles({
   root: {
-    padding: '1.5em'
+    padding: '1.5em',
+    maxWidth: '500px'
   },
   submit: {
     marginTop: '1.5em'

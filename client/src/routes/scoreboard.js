@@ -18,9 +18,9 @@ const Scoreboard = withStyles({
     paddingTop: '1.5em'
   },
   selected: {
-    backgroundColor: 'hsla(0, 100%, 95%, 0.8)',
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
     '&:hover': {
-      backgroundColor: 'hsla(0, 80%, 92%, 0.8) !important'
+      backgroundColor: 'rgba(0, 0, 0, 0.1) !important'
     }
   }
 }, ({ classes }) => {
@@ -113,8 +113,10 @@ const Scoreboard = withStyles({
 
   return (
     <div class='row u-center' style='align-items: initial !important'>
-      <div class='col-12'>
-        <Graph division={division} />
+      <div class='col-12 u-center'>
+        <div class='col-8'>
+          <Graph division={division} />
+        </div>
       </div>
       <div class='col-3'>
         <div class={`frame ${classes.frame}`}>
