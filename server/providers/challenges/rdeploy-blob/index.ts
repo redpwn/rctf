@@ -1,6 +1,7 @@
 import config from '../../../../config/server'
 import path from 'path'
 import { promises as fs } from 'fs'
+import { Challenge } from '../../../challenges/types'
 import { Provider } from '../../../challenges/Provider'
 import { EventEmitter } from 'events'
 
@@ -11,9 +12,10 @@ interface RDeployBlobProviderOptions {
 }
 
 class RDeployBlobProvider extends EventEmitter implements Provider {
-  _updateInterval: number
-  _rDeployDirectory: string
-  _interval: NodeJS.Timeout
+  private _updateInterval: number
+  private _rDeployDirectory: string
+  private _interval: NodeJS.Timeout
+  private challenges: Challenge[]
 
   constructor (options: RDeployBlobProviderOptions) {
     super()
@@ -38,9 +40,9 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
     fs.readFile(configPath, 'utf8')
       .then((data: string) => {
         try {
-          const challenges = JSON.parse(data)
+          this.challenges = JSON.parse(data)
 
-          this.emit('update', challenges)
+          this.emit('update', this.challenges)
         } catch (e) {
           // TODO: wrap error?
           this.emit('error', e)
@@ -54,6 +56,22 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
 
   forceUpdate (): void {
     this._update()
+  }
+
+  updateChallenge (chall: Challenge): void {
+    let challengeExists = false
+    for (let i = 0; i < this.challenges.length; i++) {
+      if (this.challenges[i].id === chall.id) {
+        this.challenges[i] = { ...this.challenges[i], ...chall }
+        challengeExists = true
+      }
+    }
+
+    if (!challengeExists) {
+      this.challenges.push(chall)
+    }
+
+    this.emit('update', this.challenges)
   }
 
   cleanup (): void {

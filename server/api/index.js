@@ -14,7 +14,8 @@ const routes = [
   require('./integrations-ctftime/leaderboard'),
   require('./integrations-ctftime/callback'),
   ...require('./users'),
-  ...require('./auth')
+  ...require('./auth'),
+  ...require('./admin/challs')
 ]
 
 const validationParams = ['body', 'params', 'query']
@@ -82,6 +83,16 @@ routes.forEach((route, i) => {
       })
       if (user == null) {
         sendResponse(responses.badToken)
+        return
+      }
+    }
+
+    if (route.perms !== undefined) {
+      if (user === undefined) {
+        throw new Error('routes with perms must set requireAuth to true')
+      }
+      if ((user.perms & route.perms) !== route.perms) {
+        sendResponse(responses.badPerms)
         return
       }
     }
