@@ -106,7 +106,6 @@ export default withStyles({
 
     const error = errors[problem.id]
     const hasError = error !== undefined
-    console.log(snarkdown(problem.description))
     return (
       <div class={`frame ${classes.frame}`} key={problem.id}>
         <div class='frame__body'>
