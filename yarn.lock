@@ -8652,6 +8652,11 @@ preact-cli@^3.0.0-rc.10:
     which "^2.0.2"
     workbox-webpack-plugin "^4.3.1"
 
+preact-markup@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/preact-markup/-/preact-markup-2.0.0.tgz#4889d1cc4340abf80155bf4d9c89cddecc53d4a6"
+  integrity sha512-1yPS+IuqJI6k9CoOLDj5x68W9rYp6cY4UqRNCXKt2QSRFcWhGrAZhv3fyz8i8urMu2zLuOrMJIxV4lhpVHHF/w==
+
 preact-router@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/preact-router/-/preact-router-3.2.1.tgz#c7d12d8fc7a60bfbe5cadf23a234551bec783468"
