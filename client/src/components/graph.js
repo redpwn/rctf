@@ -5,20 +5,21 @@ import withStyles from './jss'
 import { memo } from 'preact/compat'
 
 const height = 400
-const stroke = 5
+const stroke = 2
 const axis = 20
-const axisGap = 10
+const axisGap = 20
 const day = 24 * 60 * 60 * 1000
 
 const timeToX = ({ minX, maxX, time, width }) => {
   return (time - minX) / (maxX - minX) * width
 }
 
-const colors = ['#f44336', '#e91e63', '#9c27b0', '#3f51b5', '#2196f3', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#ffeb3b', '#ff9800', '#ff5722']
-
 const uuidToColor = (uuid) => {
-  const uuidInt = parseInt(uuid.slice(-12), 16)
-  return colors[uuidInt % colors.length]
+  const uuidInt = parseInt(uuid.slice(-12), 16) + 1
+  // Random primes
+  const g = uuidInt * 89 % 128
+  const b = uuidInt * 53 % 128
+  return `rgba(186, ${g}, ${b}, 0.8)`
 }
 
 const pointsToPolyline = ({ id, name, currentScore, points, maxX, minX, maxY, width }) => {

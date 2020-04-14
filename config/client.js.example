@@ -3,11 +3,15 @@ const ret = {
   staticEndpoint: '/static',
   ctfTitle: ' | yourCTF',
   ctfName: 'yourCTF',
+  meta: {
+    description: "A description of your CTF",
+    imageUrl: ''
+  },
   logoUrl: 'https://webite.com/logo.png',
   sponsors: [
     {
       name: 'Big Sponsor',
-      icon: 'https://website.com/logo.png',
+      icon: 'https://redpwn.net/logo.png',
       description: 'Brief description'
     },
     {
