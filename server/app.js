@@ -8,7 +8,7 @@ require('./leaderboard').startUpdater()
 const app = express()
 
 // Compression testing should be done in development only
-if (process.env.NODE_ENV === 'development' && process.env.TEST_COMPRESSION !== undefined) {
+if (process.env.NODE_ENV !== 'production' && process.env.TEST_COMPRESSION !== undefined) {
   const compression = require('compression')
   app.use(compression({
     level: 9,
