@@ -5,7 +5,7 @@ exports.up = function (pgm) {
 }
 
 exports.down = function (pgm) {
-  pgm.alterColumn('users', 'id', { type: 'uuid' })
-  pgm.alterColumn('solves', 'id', { type: 'uuid' })
-  pgm.alterColumn('solves', 'userid', { type: 'uuid' })
+  pgm.alterColumn('users', 'id', { type: 'uuid', using: 'id::uuid' })
+  pgm.alterColumn('solves', 'id', { type: 'uuid', using: 'id::uuid' })
+  pgm.alterColumn('solves', 'userid', { type: 'uuid', using: 'id::uuid' })
 }
