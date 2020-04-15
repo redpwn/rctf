@@ -18,7 +18,7 @@
     "test:slim": "ava",
     "test:report": "nyc --skip-full --reporter=lcov ava",
     "commit": "git cz",
-    "copy-static": "sh -c \"cpy 'server/**/*' '.rdeploy' '!**/*.ts' dist/ --no-overwrite --parents\""
+    "copy-static": "sh -c \"cpy 'server/**/*' '.rdeploy' '!**/*.ts' dist/ --parents\""
   },
   "husky": {
     "hooks": {
@@ -30,6 +30,7 @@
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
     "got": "^10.7.0",
+    "helmet": "^3.22.0",
     "jss-plugin-global": "^10.1.1",
     "mustache": "^4.0.0",
     "node-pg-migrate": "^4.6.1",
@@ -74,8 +75,10 @@
     "pascal-case": "^3.1.1",
     "preact": "^10.4.0",
     "preact-cli": "^3.0.0-rc.10",
+    "preact-markup": "^2.0.0",
     "preact-router": "^3.2.1",
     "purgecss-webpack-plugin": "^2.1.2",
+    "snarkdown": "^1.2.2",
     "supertest": "^4.0.2",
     "svg-sprite-loader": "^4.2.5",
     "typescript": "^3.8.3"

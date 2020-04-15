@@ -12,7 +12,8 @@ import CtftimeAdditional from '../components/ctftime-additional'
 
 export default withStyles({
   root: {
-    padding: '1.5em'
+    padding: '1.5em',
+    maxWidth: '500px'
   },
   submit: {
     marginTop: '1.5em'

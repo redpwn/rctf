@@ -1,5 +1,7 @@
 import { Component } from 'preact'
 import { useCallback } from 'preact/hooks'
+import snarkdown from 'snarkdown'
+import Markup from 'preact-markup'
 import config from '../../../config/client'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
@@ -18,6 +20,12 @@ export default withStyles({
   },
   showSolved: {
     marginBottom: '0.625em'
+  },
+  description: {
+    '& a': {
+      display: 'inline',
+      padding: 0
+    }
   }
 }, withToast(class Challenges extends Component {
   state = {
@@ -98,7 +106,6 @@ export default withStyles({
 
     const error = errors[problem.id]
     const hasError = error !== undefined
-
     return (
       <div class={`frame ${classes.frame}`} key={problem.id}>
         <div class='frame__body'>
@@ -113,7 +120,10 @@ export default withStyles({
           </div>
 
           <div class='content-no-padding u-center'><div class={`divider ${classes.divider}`} /></div>
-          <div class='frame__subtitle'>{problem.description}</div>
+
+          <div class={`${classes.description} frame__subtitle`}>
+            <Markup type='html' trim={false} markup={snarkdown(problem.description)} />
+          </div>
           <form class='form-section' onSubmit={this.submitFlag(problem.id)}>
 
             {
@@ -135,7 +145,7 @@ export default withStyles({
                     problem.files.map(file => {
                       return (
                         <div class='tag' key={file.path}>
-                          <a native href={`${config.staticEndpoint}/${file.path}`}>
+                          <a native download href={`${config.staticEndpoint}/${file.path}`}>
                             {file.name}
                           </a>
                         </div>

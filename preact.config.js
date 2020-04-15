@@ -1,5 +1,5 @@
 require('dotenv').config()
-const appCfg = require('./config/server')
+const appCfg = require('./config/client')
 
 const glob = require('glob')
 
@@ -52,7 +52,8 @@ export default (config, env, helpers) => {
   if (HtmlWebpackPluginWrapper !== undefined) {
     const HtmlWebpackPlugin = HtmlWebpackPluginWrapper.plugin
     HtmlWebpackPlugin.options.view = {
-      ctfName: appCfg.ctfName
+      ctfName: appCfg.ctfName,
+      meta: appCfg.meta
     }
   }
 

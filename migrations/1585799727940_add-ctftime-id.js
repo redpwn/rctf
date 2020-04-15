@@ -7,7 +7,7 @@ exports.up = function (pgm) {
 }
 
 exports.down = function (pgm) {
-  pgm.dropColumns('users', ['ctftime_id'])
-  pgm.alterColumn('users', 'email', { notNull: true })
   pgm.dropConstraint('users', 'require_email_or_ctftime_id')
+  pgm.alterColumn('users', 'email', { notNull: true })
+  pgm.dropColumns('users', ['ctftime_id'])
 }
