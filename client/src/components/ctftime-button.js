@@ -15,9 +15,25 @@ export default withStyles({
     }
   },
   or: {
-    textAlign: 'center',
-    display: 'block',
-    margin: '15px auto'
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: '15px auto',
+    maxWidth: '500px',
+    '&::before, &::after': {
+      display: 'block',
+      content: '""',
+      flex: '1 0 0',
+      height: '0.05rem',
+      backgroundColor: 'var(--cirrus-fg)',
+      opacity: 0.2
+    },
+    '& > *': {
+      marginLeft: 'var(--gap-4)',
+      marginRight: 'var(--gap-4)',
+      fontVariant: 'small-caps',
+      fontSize: '1.0rem'
+    }
   }
 }, withToast(class CtftimeButton extends Component {
   componentDidMount () {
@@ -61,7 +77,7 @@ export default withStyles({
     return (
       <div {...props} >
         <div class={classes.or}>
-          <h5>or</h5>
+          <h6>or</h6>
         </div>
         <button class={classes.ctftimeButton} onClick={this.handleClick}>
           <Ctftime />
