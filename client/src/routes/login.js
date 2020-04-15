@@ -7,6 +7,8 @@ import withStyles from '../components/jss'
 import { login } from '../api/auth'
 import IdCard from '../icons/id-card.svg'
 import { route } from 'preact-router'
+import CtftimeButton from '../components/ctftime-button'
+import CtftimeAdditional from '../components/ctftime-additional'
 
 export default withStyles({
   root: {
@@ -20,7 +22,8 @@ export default withStyles({
   state = {
     teamToken: '',
     errors: {},
-    disabledButton: false
+    disabledButton: false,
+    ctftimeToken: undefined
   }
 
   componentDidMount () {
@@ -42,15 +45,32 @@ export default withStyles({
     }
   }
 
-  render (props, { teamToken, errors, disabledButton }) {
-    const { classes } = props
+  render ({ classes }, { teamToken, errors, disabledButton, ctftimeToken }) {
+    if (ctftimeToken) {
+      return <CtftimeAdditional ctftimeToken={ctftimeToken} />
+    }
     return (
       <div class='row u-center'>
         <Form class={`${classes.root} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} buttonText='Login' errors={errors}>
           <input autofocus name='teamToken' icon={<IdCard />} placeholder='Team Token' type='text' value={teamToken} onChange={this.linkState('teamToken')} />
         </Form>
+        <CtftimeButton class='col-12' onCtftimeDone={this.handleCtftimeDone} />
       </div>
     )
+  }
+
+  handleCtftimeDone = async (ctftimeToken) => {
+    this.setState({
+      disabledButton: true
+    })
+    const loginRes = await login({
+      ctftimeToken
+    })
+    if (loginRes && loginRes.badUnknownUser) {
+      this.setState({
+        ctftimeToken
+      })
+    }
   }
 
   handleSubmit = e => {
