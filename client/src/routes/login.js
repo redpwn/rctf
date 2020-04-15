@@ -9,6 +9,7 @@ import IdCard from '../icons/id-card.svg'
 import { route } from 'preact-router'
 import CtftimeButton from '../components/ctftime-button'
 import CtftimeAdditional from '../components/ctftime-additional'
+import AuthOr from '../components/or'
 
 export default withStyles({
   root: {
@@ -54,6 +55,7 @@ export default withStyles({
         <Form class={`${classes.root} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} buttonText='Login' errors={errors}>
           <input autofocus name='teamToken' icon={<IdCard />} placeholder='Team Token' type='text' value={teamToken} onChange={this.linkState('teamToken')} />
         </Form>
+        <AuthOr />
         <CtftimeButton class='col-12' onCtftimeDone={this.handleCtftimeDone} />
       </div>
     )

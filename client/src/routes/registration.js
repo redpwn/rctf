@@ -9,6 +9,7 @@ import UserCircle from '../icons/user-circle.svg'
 import EnvelopeOpen from '../icons/envelope-open.svg'
 import CtftimeButton from '../components/ctftime-button'
 import CtftimeAdditional from '../components/ctftime-additional'
+import AuthOr from '../components/or'
 
 export default withStyles({
   root: {
@@ -53,6 +54,7 @@ export default withStyles({
             }
           </select>
         </Form>
+        <AuthOr />
         <CtftimeButton class='col-12' onCtftimeDone={this.handleCtftimeDone} />
       </div>
     )

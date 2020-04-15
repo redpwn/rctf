@@ -13,11 +13,6 @@ export default withStyles({
     '& svg': {
       width: '150px'
     }
-  },
-  or: {
-    textAlign: 'center',
-    display: 'block',
-    margin: '15px auto'
   }
 }, withToast(class CtftimeButton extends Component {
   componentDidMount () {
@@ -60,9 +55,6 @@ export default withStyles({
   render ({ classes, ...props }) {
     return (
       <div {...props} >
-        <div class={classes.or}>
-          <h5>or</h5>
-        </div>
         <button class={classes.ctftimeButton} onClick={this.handleClick}>
           <Ctftime />
         </button>
