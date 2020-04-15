@@ -1,18 +1,24 @@
 import { request } from './util'
 import { route } from 'preact-router'
 
-export const login = ({ teamToken }) => {
+export const login = ({ teamToken, ctftimeToken }) => {
   return request('POST', '/auth/login', {
-    teamToken
+    teamToken,
+    ctftimeToken
   })
     .then(resp => {
       switch (resp.kind) {
         case 'goodLogin':
           localStorage.setItem('token', resp.data.authToken)
-          return route('/challs')
+          route('/challs')
+          return
         case 'badTokenVerification':
           return {
             teamToken: resp.message
+          }
+        case 'badUnknownUser':
+          return {
+            badUnknownUser: true
           }
         default:
           return {
@@ -53,11 +59,12 @@ export const verify = ({ verifyToken }) => {
     })
 }
 
-export const register = ({ email, name, division }) => {
+export const register = ({ email, name, division, ctftimeToken }) => {
   return request('POST', '/auth/register', {
     email,
     name,
-    division: Number.parseInt(division)
+    division: Number.parseInt(division),
+    ctftimeToken
   })
     .then(resp => {
       switch (resp.kind) {
@@ -79,4 +86,10 @@ export const register = ({ email, name, division }) => {
           }
       }
     })
+}
+
+export const ctftimeCallback = ({ ctftimeCode }) => {
+  return request('POST', '/integrations/ctftime/callback', {
+    ctftimeCode
+  })
 }

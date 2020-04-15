@@ -4,9 +4,11 @@ import config from '../../../config/client'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
-import { register } from '../api/auth'
+import { register, login } from '../api/auth'
 import UserCircle from '../icons/user-circle.svg'
 import EnvelopeOpen from '../icons/envelope-open.svg'
+import CtftimeButton from '../components/ctftime-button'
+import CtftimeAdditional from '../components/ctftime-additional'
 
 export default withStyles({
   root: {
@@ -14,12 +16,16 @@ export default withStyles({
   },
   submit: {
     marginTop: '1.5em'
+  },
+  or: {
+    textAlign: 'center'
   }
 }, class Register extends Component {
   state = {
     name: '',
     email: '',
     division: '',
+    ctftimeToken: undefined,
     disabledButton: false,
     errors: {}
   }
@@ -28,7 +34,10 @@ export default withStyles({
     document.title = `Registration${config.ctfTitle}`
   }
 
-  render ({ classes }, { name, email, division, disabledButton, errors }) {
+  render ({ classes }, { name, email, division, disabledButton, errors, ctftimeToken }) {
+    if (ctftimeToken) {
+      return <CtftimeAdditional ctftimeToken={ctftimeToken} />
+    }
     return (
       <div class='row u-center'>
         <Form class={`${classes.root} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} errors={errors} buttonText='Register'>
@@ -43,8 +52,26 @@ export default withStyles({
             }
           </select>
         </Form>
+        <div class={`${classes.or} col-12`}>
+          <h3>or</h3>
+        </div>
+        <CtftimeButton onCtftimeDone={this.handleCtftimeDone} />
       </div>
     )
+  }
+
+  handleCtftimeDone = async (ctftimeToken) => {
+    this.setState({
+      disabledButton: true
+    })
+    const loginRes = await login({
+      ctftimeToken
+    })
+    if (loginRes && loginRes.badUnknownUser) {
+      this.setState({
+        ctftimeToken
+      })
+    }
   }
 
   handleSubmit = e => {
@@ -56,6 +83,10 @@ export default withStyles({
 
     register(this.state)
       .then(errors => {
+        if (!errors) {
+          return
+        }
+
         this.setState({
           errors,
           disabledButton: false

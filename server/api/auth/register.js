@@ -67,11 +67,6 @@ module.exports = {
       })
     }
 
-    const conflictError = await util.auth.getRegisterConflict({ name, email, ctftimeId })
-    if (conflictError !== undefined) {
-      return conflictError
-    }
-
     if (req.body.ctftimeToken !== undefined) {
       return auth.register.register({
         division: req.body.division,

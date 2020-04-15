@@ -21,6 +21,9 @@ export default withStyles({
     <form onSubmit={onSubmit} class={props.class}>
       {
         [].concat(children).map(input => {
+          if (input.props === undefined) {
+            return
+          }
           let { icon, error, name } = input.props
 
           if (errors !== undefined && name !== undefined) error = error || errors[name]
