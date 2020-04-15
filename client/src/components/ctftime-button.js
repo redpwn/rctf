@@ -13,27 +13,6 @@ export default withStyles({
     '& svg': {
       width: '150px'
     }
-  },
-  or: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: '15px auto',
-    maxWidth: '500px',
-    '&::before, &::after': {
-      display: 'block',
-      content: '""',
-      flex: '1 0 0',
-      height: '0.05rem',
-      backgroundColor: 'var(--cirrus-fg)',
-      opacity: 0.2
-    },
-    '& > *': {
-      marginLeft: 'var(--gap-4)',
-      marginRight: 'var(--gap-4)',
-      fontVariant: 'small-caps',
-      fontSize: '1.0rem'
-    }
   }
 }, withToast(class CtftimeButton extends Component {
   componentDidMount () {
@@ -76,9 +55,6 @@ export default withStyles({
   render ({ classes, ...props }) {
     return (
       <div {...props} >
-        <div class={classes.or}>
-          <h6>or</h6>
-        </div>
         <button class={classes.ctftimeButton} onClick={this.handleClick}>
           <Ctftime />
         </button>
