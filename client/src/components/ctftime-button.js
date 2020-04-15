@@ -3,18 +3,23 @@ import Ctftime from '../icons/ctftime.svg'
 import openPopup from '../util/ctftime'
 import withStyles from '../components/jss'
 import { ctftimeCallback } from '../api/auth'
+import { withToast } from '../components/toast'
 
 export default withStyles({
   ctftimeButton: {
     margin: 'auto',
+    lineHeight: '0',
+    padding: '10px',
     '& svg': {
       width: '150px'
     }
   },
-  error: {
-    color: '#b71c1c'
+  or: {
+    textAlign: 'center',
+    display: 'block',
+    margin: '15px auto'
   }
-}, class CtftimeButton extends Component {
+}, withToast(class CtftimeButton extends Component {
   componentDidMount () {
     window.addEventListener('message', this.handlePostMessage)
   }
@@ -39,8 +44,9 @@ export default withStyles({
       ctftimeCode: evt.data.ctftimeCode
     })
     if (kind !== 'goodCtftimeToken') {
-      this.setState({
-        error: message
+      this.props.toast({
+        body: message,
+        type: 'error'
       })
       return
     }
@@ -51,16 +57,16 @@ export default withStyles({
     this.oauthState = openPopup()
   }
 
-  render ({ classes }, { error }) {
+  render ({ classes, ...props }) {
     return (
-      <div>
+      <div {...props} >
+        <div class={classes.or}>
+          <h5>or</h5>
+        </div>
         <button class={classes.ctftimeButton} onClick={this.handleClick}>
           <Ctftime />
         </button>
-        {error && (
-          <h6 class={classes.error}>{error}</h6>
-        )}
       </div>
     )
   }
-})
+}))

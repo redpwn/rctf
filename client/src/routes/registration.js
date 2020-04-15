@@ -53,10 +53,7 @@ export default withStyles({
             }
           </select>
         </Form>
-        <div class={`${classes.or} col-12`}>
-          <h3>or</h3>
-        </div>
-        <CtftimeButton onCtftimeDone={this.handleCtftimeDone} />
+        <CtftimeButton class='col-12' onCtftimeDone={this.handleCtftimeDone} />
       </div>
     )
   }

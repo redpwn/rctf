@@ -17,9 +17,6 @@ export default withStyles({
   },
   submit: {
     marginTop: '1.5em'
-  },
-  or: {
-    textAlign: 'center'
   }
 }, class Login extends Component {
   state = {
@@ -57,10 +54,7 @@ export default withStyles({
         <Form class={`${classes.root} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} buttonText='Login' errors={errors}>
           <input autofocus name='teamToken' icon={<IdCard />} placeholder='Team Token' type='text' value={teamToken} onChange={this.linkState('teamToken')} />
         </Form>
-        <div class={`${classes.or} col-12`}>
-          <h3>or</h3>
-        </div>
-        <CtftimeButton onCtftimeDone={this.handleCtftimeDone} />
+        <CtftimeButton class='col-12' onCtftimeDone={this.handleCtftimeDone} />
       </div>
     )
   }

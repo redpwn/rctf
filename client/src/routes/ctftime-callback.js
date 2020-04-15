@@ -11,6 +11,6 @@ export default class CtftimeCallback extends Component {
   }
 
   render () {
-    return <span />
+    return null
   }
 }
