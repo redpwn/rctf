@@ -16,6 +16,8 @@ import Error from './routes/error'
 import Sponsors from './routes/sponsors'
 import Verify from './routes/verify'
 
+import AdminChallenges from './routes/admin/challs'
+
 import { ToastProvider } from './components/toast'
 
 function useTriggerRerender () {
@@ -48,6 +50,7 @@ function App () {
   let allPaths = [
     <Profile key='multiProfile' path='/profile/:uuid' />,
     <Verify key='verify' path='/verify' />,
+    <AdminChallenges key='adminchalls' path='/admin/challs' />,
     <Error key='error' error='404' default />
   ]
   allPaths = allPaths.concat(loggedInPaths).concat(loggedOutPaths)

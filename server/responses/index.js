@@ -145,7 +145,11 @@ const responseList = {
   },
   goodChallengeUpdate: {
     status: 200,
-    message: 'Challenge sucessfully updated'
+    message: 'Challenge successfully updated'
+  },
+  goodChallengeDelete: {
+    status: 200,
+    message: 'Challenge successfully deleted'
   },
   goodUserData: {
     status: 200,

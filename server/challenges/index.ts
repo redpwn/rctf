@@ -73,3 +73,7 @@ export function resetCache (): void {
 export function updateChallenge (chall: Challenge): void {
   provider.updateChallenge(chall)
 }
+
+export function deleteChallenge (id: string): void {
+  provider.deleteChallenge(id)
+}
