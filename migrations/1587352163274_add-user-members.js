@@ -2,7 +2,7 @@ exports.up = pgm => {
   pgm.createTable('user_members', {
     id: { type: 'uuid', primaryKey: true },
     userid: { type: 'string', notNull: true },
-    name: { type: 'string', unique: true, notNull: true },
+    name: { type: 'string', notNull: true },
     email: { type: 'string', unique: true, notNull: true },
     grade: { type: 'string', notNull: true }
   })
