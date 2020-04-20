@@ -7,7 +7,8 @@ const redisEvalsha = promisify(client.evalsha.bind(client))
 const redisHget = promisify(client.hget.bind(client))
 const redisHmget = promisify(client.hmget.bind(client))
 const redisDel = promisify(client.del.bind(client))
-const redisGet = promisify(client.get.bind(client))
+const redisMget = promisify(client.mget.bind(client))
+const redisSet = promisify(client.set.bind(client))
 const redisScript = promisify(client.script.bind(client))
 
 const luaChunkCall = `
@@ -118,6 +119,9 @@ const setGraphScript = redisScript('load', `
 
   chunkCall("HSET", KEYS[1], cjson.decode(ARGV[1]))
   redis.call("SET", KEYS[2], ARGV[2])
+  if tonumber(ARGV[3]) ~= 0 then
+    redis.call("SET", KEYS[3], ARGV[3])
+  end
 `)
 
 const setLeaderboard = async ({ challengeScores, leaderboard }) => {
@@ -198,7 +202,7 @@ const getChallengeScores = async ({ ids }) => {
   return redisResult.map((score) => parseInt(score))
 }
 
-const setGraph = async ({ leaderboards }) => {
+const setGraph = async ({ leaderboards, challsUpdate = 0 }) => {
   const values = []
   let lastSample = 0
   leaderboards.forEach(({ sample, scores }) => {
@@ -214,11 +218,13 @@ const setGraph = async ({ leaderboards }) => {
   }
   await redisEvalsha(
     await setGraphScript,
-    2,
+    3,
     'graph',
     'graph-update',
+    'graph-recalc',
     JSON.stringify(values),
-    lastSample
+    lastSample,
+    challsUpdate
   )
 }
 
@@ -282,11 +288,16 @@ const getGraph = async ({ division, maxTeams }) => {
 }
 
 const getGraphUpdate = async () => {
-  const redisResult = await redisGet('graph-update')
-  if (redisResult === null) {
-    return null
+  const redisResult = await redisMget('graph-update', 'graph-recalc', 'challs-update')
+  return {
+    graphUpdate: redisResult[0] === null ? null : parseInt(redisResult[0]),
+    graphRecalc: redisResult[1] === null ? 0 : parseInt(redisResult[1]),
+    challsUpdate: redisResult[2] === null ? 0 : parseInt(redisResult[2])
   }
-  return parseInt(redisResult)
+}
+
+const setChallsDirty = () => {
+  return redisSet('challs-update', Date.now())
 }
 
 module.exports = {
@@ -296,5 +307,6 @@ module.exports = {
   getScore,
   getChallengeScores,
   getGraph,
-  getGraphUpdate
+  getGraphUpdate,
+  setChallsDirty
 }

@@ -1,6 +1,7 @@
 const { responses } = require('../../../responses')
 const challenges = require('../../../challenges')
 const perms = require('../../../util/perms')
+const cache = require('../../../cache')
 
 module.exports = {
   method: 'delete',
@@ -21,7 +22,7 @@ module.exports = {
   handler: async ({ req }) => {
     const chall = challenges.deleteChallenge(req.params.id)
 
-    // TODO: Update leaderboard cache
+    cache.leaderboard.setChallsDirty()
 
     return [responses.goodChallengeDelete, chall]
   }
