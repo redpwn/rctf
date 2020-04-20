@@ -32,7 +32,8 @@ module.exports = {
       limit: 1
     })
 
-    if (!passRateLimit.ok) {
+    // Rate limit name changes only
+    if (name !== undefined && !passRateLimit.ok) {
       return [responses.badRateLimit, {
         timeLeft: passRateLimit.timeLeft
       }]
