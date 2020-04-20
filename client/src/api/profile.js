@@ -20,7 +20,7 @@ export const deleteAccount = () => {
     })
 }
 
-export const updateAccount = (name, division) => {
+export const updateAccount = ({ name, division }) => {
   return request('PATCH', '/users/me', {
     name,
     division: Number.parseInt(division)

@@ -26,7 +26,7 @@ export default withStyles({
   state = {
     name: '',
     email: '',
-    division: '',
+    division: config.defaultDivision.toString(),
     ctftimeToken: undefined,
     disabledButton: false,
     errors: {}
@@ -45,14 +45,6 @@ export default withStyles({
         <Form class={`${classes.root} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} errors={errors} buttonText='Register'>
           <input autofocus required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={name} onChange={this.linkState('name')} />
           <input required icon={<EnvelopeOpen />} name='email' placeholder='Email' type='text' value={email} onChange={this.linkState('email')} />
-          <select required class='select' name='division' value={division} onChange={this.linkState('division')}>
-            <option value='' disabled selected>Division</option>
-            {
-              Object.entries(config.divisions).map(([name, code]) => {
-                return <option key={code} value={code}>{name}</option>
-              })
-            }
-          </select>
         </Form>
         <AuthOr />
         <CtftimeButton class='col-12' onCtftimeDone={this.handleCtftimeDone} />
