@@ -8,7 +8,6 @@ const normalize = require('./normalize')
 module.exports = {
   scores: require('./scores'),
   email: require('./email'),
-  auth: require('./auth'),
   normalize,
   notStarted: () => {
     return [

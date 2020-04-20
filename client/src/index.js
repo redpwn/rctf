@@ -15,6 +15,7 @@ import Scoreboard from './routes/scoreboard'
 import Error from './routes/error'
 import Sponsors from './routes/sponsors'
 import Verify from './routes/verify'
+import CtftimeCallback from './routes/ctftime-callback'
 
 import AdminChallenges from './routes/admin/challs'
 
@@ -51,6 +52,7 @@ function App () {
     <Profile key='multiProfile' path='/profile/:uuid' />,
     <Verify key='verify' path='/verify' />,
     <AdminChallenges key='adminchalls' path='/admin/challs' />,
+    <CtftimeCallback key='ctftimeCallback' path='/integrations/ctftime/callback' />,
     <Error key='error' error='404' default />
   ]
   allPaths = allPaths.concat(loggedInPaths).concat(loggedOutPaths)
