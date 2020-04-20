@@ -1,10 +1,10 @@
 const { v4: uuidv4 } = require('uuid')
-const database = require('../../database')
-const { responses } = require('../../responses')
+const database = require('../../../database')
+const { responses } = require('../../../responses')
 
 module.exports = {
   method: 'post',
-  path: '/user/members/new',
+  path: '/users/members/new',
   requireAuth: true,
   schema: {
     body: {
@@ -28,17 +28,21 @@ module.exports = {
 
     const id = uuidv4()
     try {
-      await database.members.makeMember({
+      const data = await database.members.makeMember({
         id,
         userid: user.id,
         name,
         email,
         grade
       })
-    } catch (e) {
-      return responses.badKnownEmail
-    }
 
-    return responses.goodMemberCreate
+      return [responses.goodMemberCreate, data]
+    } catch (e) {
+      if (e.constraint === 'user_members_email_key') {
+        return responses.badKnownEmail
+      }
+
+      throw e
+    }
   }
 }

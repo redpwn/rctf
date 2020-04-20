@@ -1,12 +1,12 @@
-const database = require('../../database')
-const { responses } = require('../../responses')
+const database = require('../../../database')
+const { responses } = require('../../../responses')
 
 module.exports = {
-  method: 'post',
-  path: '/user/members/delete',
+  method: 'delete',
+  path: '/users/members/:id',
   requireAuth: true,
   schema: {
-    body: {
+    params: {
       type: 'object',
       properties: {
         id: {
@@ -17,7 +17,7 @@ module.exports = {
     }
   },
   handler: async ({ req, user }) => {
-    const { id } = req.body
+    const { id } = req.params
 
     await database.members.removeMember({
       id,

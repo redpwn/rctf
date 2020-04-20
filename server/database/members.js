@@ -3,7 +3,7 @@ const db = require('./db')
 module.exports = {
   getMembers: ({ userid }) => {
     return db.query('SELECT * FROM user_members WHERE userid = $1', [userid])
-      .then(res => res.rows[0])
+      .then(res => res.rows)
   },
   makeMember: ({ id, userid, name, email, grade }) => {
     return db.query('INSERT INTO user_members (id, userid, name, email, grade) VALUES ($1, $2, $3, $4, $5) RETURNING *',
