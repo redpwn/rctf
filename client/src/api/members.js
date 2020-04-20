@@ -11,7 +11,7 @@ export const addMember = ({ name, email, grade }) => {
       switch (resp.kind) {
         case 'badKnownEmail':
           return {
-            err: resp.message
+            error: resp.message
           }
         case 'goodMemberCreate':
           return {
@@ -19,7 +19,7 @@ export const addMember = ({ name, email, grade }) => {
           }
         default:
           return {
-            err: 'Unknown error'
+            error: 'Unknown error'
           }
       }
     })

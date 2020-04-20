@@ -43,12 +43,18 @@ const MembersCard = withStyles({
   const handleDivisionChange = useCallback(e => {
     e.preventDefault()
 
+    const division = e.target.value
+
     updateAccount({ division })
-      .then(() => {
-        setDivision(division)
-        toast({ body: 'Division successsfully updated' })
+      .then(({ error, data }) => {
+        if (error) {
+          toast({ body: error, type: 'error' })
+        } else {
+          setDivision(data.division)
+          toast({ body: 'Division successsfully updated' })
+        }
       })
-  }, [division, toast])
+  }, [toast])
 
   const [members, setMembers] = useState([])
   const ineligible = members.length === 0
@@ -60,11 +66,11 @@ const MembersCard = withStyles({
     addMember({
       name, email, grade
     })
-      .then(({ err, data }) => {
+      .then(({ error, data }) => {
         setButtonDisabled(false)
 
-        if (err) {
-          toast({ body: err, type: 'error' })
+        if (error) {
+          toast({ body: error, type: 'error' })
         } else {
           toast({ body: 'Team member successfully added' })
           setMembers(members => [...members, data])
