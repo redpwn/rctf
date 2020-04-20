@@ -15,6 +15,7 @@ const routes = [
   require('./integrations-ctftime/callback'),
   ...require('./users'),
   ...require('./auth'),
+  ...require('./members'),
   ...require('./admin/challs')
 ]
 

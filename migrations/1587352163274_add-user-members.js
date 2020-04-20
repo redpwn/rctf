@@ -15,7 +15,7 @@ exports.up = pgm => {
       onUpdate: 'cascade'
     }
   })
-};
+}
 
 exports.down = pgm => {
   pgm.dropConstraint('user_members', 'uuid_fkey')

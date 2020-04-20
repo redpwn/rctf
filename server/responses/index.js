@@ -159,6 +159,14 @@ const responseList = {
     status: 200,
     message: 'Your account was successfully updated'
   },
+  goodMemberCreate: {
+    status: 200,
+    message: 'Team member successfully created'
+  },
+  goodMemberDelete: {
+    status: 200,
+    message: 'Team member successfully deleted'
+  },
   badPerms: {
     status: 403,
     message: 'The user does not have required permissions.'
