@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from 'preact/hooks'
+import { useCallback, useState, useEffect, useMemo } from 'preact/hooks'
 
 import config from '../../../config/client'
 import withStyles from '../components/jss'
@@ -18,68 +18,77 @@ const Challenges = ({ classes }) => {
     }
   }, [solveIDs])
 
-  const handleInvertShowSolved = useCallback(() => {
-    setShowSolved(!showSolved)
-  }, [showSolved])
+  const handleShowSolvedChange = useCallback(e => {
+    setShowSolved(e.target.checked)
+  }, [])
 
-  const handleInvertCategoryStateFn = prop => () => {
-    setCategories({
+  const handleCategoryCheckedChange = useCallback(e => {
+    setCategories(categories => ({
       ...categories,
-      [prop]: !categories[prop]
-    })
-  }
+      [e.target.id]: e.target.checked
+    }))
+  }, [])
 
   useEffect(() => {
     document.title = `Challenges${config.ctfTitle}`
-
-    getChallenges()
-      .then(problems => {
-        const categories = {}
-        problems.forEach(problem => {
-          if (categories[problem.category] === undefined) {
-            categories[problem.category] = false
-          }
-        })
-
-        setProblems(problems)
-        setCategories(categories)
-      })
-
-    getPrivateSolves()
-      .then(data => {
-        const solveIDs = []
-        data.map(solve => solveIDs.push(solve.id))
-
-        setSolveIDs(solveIDs)
-      })
   }, [])
 
-  let problemsToDisplay = problems
-  if (!showSolved) {
-    problemsToDisplay = problemsToDisplay.filter(problem => !solveIDs.includes(problem.id))
-  }
-  let filterCategories = false
-  Object.values(categories).forEach(displayCategory => {
-    if (displayCategory) filterCategories = true
-  })
-  if (filterCategories) {
-    Object.keys(categories).forEach(category => {
-      if (categories[category] === false) {
-        // Do not display this category
-        problemsToDisplay = problemsToDisplay.filter(problem => problem.category !== category)
-      }
+  useEffect(() => {
+    const action = async () => {
+      const problems = await getChallenges()
+      const categories = {}
+      problems.forEach(problem => {
+        if (categories[problem.category] === undefined) {
+          categories[problem.category] = false
+        }
+      })
+
+      setProblems(problems)
+      setCategories(categories)
+    }
+    action()
+  }, [])
+
+  useEffect(() => {
+    const action = async () => {
+      const data = await getPrivateSolves()
+      const solveIDs = []
+      data.map(solve => solveIDs.push(solve.id))
+
+      setSolveIDs(solveIDs)
+    }
+    action()
+  }, [])
+
+  const problemsToDisplay = useMemo(() => {
+    let filtered = problems
+    if (!showSolved) {
+      filtered = filtered.filter(problem => !solveIDs.includes(problem.id))
+    }
+    let filterCategories = false
+    Object.values(categories).forEach(displayCategory => {
+      if (displayCategory) filterCategories = true
     })
-  }
+    if (filterCategories) {
+      Object.keys(categories).forEach(category => {
+        if (categories[category] === false) {
+          // Do not display this category
+          filtered = filtered.filter(problem => problem.category !== category)
+        }
+      })
+    }
+    return filtered
+  }, [problems, categories, showSolved, solveIDs])
 
   return (
-    <div class='row u-center' style='align-items: initial !important'>
+    <div class={`row ${classes.row}`}>
       <div class='col-3'>
         <div class={`frame ${classes.frame}`}>
           <div class='frame__body'>
             <div class='frame__title title'>Filters</div>
             <div class={classes.showSolved}>
               <div class='form-ext-control form-ext-checkbox'>
-                <input id='check1' class='form-ext-input' type='checkbox' checked={showSolved} onClick={handleInvertShowSolved} />
+                <input id='check1' class='form-ext-input' type='checkbox' checked={showSolved} onChange={handleShowSolvedChange} />
                 <label class='form-ext-label' for='check1'>Show Solved</label>
               </div>
             </div>
@@ -92,7 +101,7 @@ const Challenges = ({ classes }) => {
               Object.keys(categories).map(category => {
                 return (
                   <div key={category} class='form-ext-control form-ext-checkbox'>
-                    <input id={category} class='form-ext-input' type='checkbox' checked={categories[category]} onClick={handleInvertCategoryStateFn(category)} />
+                    <input id={category} class='form-ext-input' type='checkbox' checked={categories[category]} onChange={handleCategoryCheckedChange} />
                     <label class='form-ext-label' for={category}>{category}</label>
                   </div>
                 )
@@ -122,5 +131,8 @@ export default withStyles({
   frame: {
     marginBottom: '1em',
     paddingBottom: '0.625em'
+  },
+  row: {
+    justifyContent: 'center'
   }
 }, Challenges)

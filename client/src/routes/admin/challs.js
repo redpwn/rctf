@@ -11,15 +11,17 @@ const Challenges = ({ classes }) => {
 
   useEffect(() => {
     document.title = `Challenges${config.ctfTitle}`
+  }, [])
 
-    getChallenges()
-      .then(problems => {
-        setProblems(problems)
-      })
+  useEffect(() => {
+    const action = async () => {
+      setProblems(await getChallenges())
+    }
+    action()
   }, [])
 
   return (
-    <div class='row u-center' style='align-items: initial !important'>
+    <div class={`row ${classes.row}`}>
       <div class='col-9'>
         {
           problems.map(problem => {
@@ -40,5 +42,8 @@ export default withStyles({
   frame: {
     marginBottom: '1em',
     paddingBottom: '0.625em'
+  },
+  row: {
+    justifyContent: 'center'
   }
 }, Challenges)

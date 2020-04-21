@@ -2,30 +2,11 @@ import withStyles from '../../components/jss'
 import { useState, useCallback } from 'preact/hooks'
 
 import { updateChallenge, deleteChallenge } from '../../api/admin/challs'
-import { withToast } from '../../components/toast'
+import { useToast } from '../../components/toast'
 
-const Problem = withStyles({
-  frame: {
-    marginBottom: '1em',
-    paddingBottom: '0.625em'
-  },
-  description: {
-    '& a': {
-      display: 'inline',
-      padding: 0
-    }
-  },
-  divider: {
-    margin: '0.625em',
-    width: '80%'
-  },
-  header: {
-    marginTop: '15px',
-    '& input': {
-      margin: '5px 0'
-    }
-  }
-}, ({ classes, problem, toast }) => {
+const Problem = ({ classes, problem }) => {
+  const { toast } = useToast()
+
   const [flag, setFlag] = useState(problem.flag)
   const handleFlagChange = useCallback(e => setFlag(e.target.value), [])
 
@@ -41,7 +22,7 @@ const Problem = withStyles({
   const [name, setName] = useState(problem.name)
   const handleNameChange = useCallback(e => setName(e.target.value), [])
 
-  const handleUpdate = e => {
+  const handleUpdate = useCallback(e => {
     e.preventDefault()
 
     updateChallenge({
@@ -54,18 +35,19 @@ const Problem = withStyles({
         name
       }
     })
-  }
+  }, [problem, flag, description, category, author, name])
 
-  const handleDelete = e => {
+  const handleDelete = useCallback(e => {
     e.preventDefault()
 
     deleteChallenge({
       id: problem.id
     })
       .then(() => toast({
-        body: `${problem.name} successfully deleted`
+        body: `${problem.name} successfully deleted`,
+        type: 'success'
       }))
-  }
+  }, [toast, problem])
 
   return (
     <div class={`frame ${classes.frame}`} key={problem.id}>
@@ -84,18 +66,43 @@ const Problem = withStyles({
           <div class='content-no-padding u-center'><div class={`divider ${classes.divider}`} /></div>
 
           <textarea placeholder='Description' value={description} onChange={handleDescriptionChange} />
-          <input class='form-group-input input-small' placeholder='Flag' value={flag} onChange={handleFlagChange} />
+          <div class='input-control'>
+            <input class='form-group-input input-small' placeholder='Flag' value={flag} onChange={handleFlagChange} />
+          </div>
 
-          <div style='height: 15px' />
-
-          <div class='col-12' style='display: flex; justify-content: space-between;'>
-            <button class='form-group-btn btn-small btn-info'>Update</button>
-            <button class='form-group-btn btn-small btn-danger' onClick={handleDelete} >Delete</button>
+          <div class={`form-section ${classes.controls}`}>
+            <button class='btn-small btn-info'>Update</button>
+            <button class='btn-small btn-danger' onClick={handleDelete} type='button' >Delete</button>
           </div>
         </form>
       </div>
     </div>
   )
-})
+}
 
-export default withToast(Problem)
+export default withStyles({
+  frame: {
+    marginBottom: '1em',
+    paddingBottom: '0.625em'
+  },
+  description: {
+    '& a': {
+      display: 'inline',
+      padding: 0
+    }
+  },
+  divider: {
+    margin: '0.625em !important',
+    width: '80% !important'
+  },
+  header: {
+    marginTop: '15px',
+    '& input': {
+      margin: '5px 0'
+    }
+  },
+  controls: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  }
+}, Problem)
