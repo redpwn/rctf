@@ -55,10 +55,7 @@ const Challenges = ({ classes }) => {
   useEffect(() => {
     const action = async () => {
       const data = await getPrivateSolves()
-      const solveIDs = []
-      data.map(solve => solveIDs.push(solve.id))
-
-      setSolveIDs(solveIDs)
+      setSolveIDs(data.map(solve => solve.id))
     }
     action()
   }, [])
