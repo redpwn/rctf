@@ -35,7 +35,7 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
   }, [toast, setSolved, problem, value])
 
   return (
-    <div class={`frame ${classes.frame}`} key={problem.id}>
+    <div class={`frame ${classes.frame}`}>
       <div class='frame__body'>
         <div class='row u-no-padding'>
           <div class='col-6 u-no-padding'>

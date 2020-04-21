@@ -107,7 +107,7 @@ const Problem = ({ classes, problem }) => {
 
   return (
     <Fragment>
-      <div class={`frame ${classes.frame}`} key={problem.id}>
+      <div class={`frame ${classes.frame}`}>
         <div class='frame__body'>
           <form onSubmit={handleUpdate}>
             <div class='row u-no-padding'>
