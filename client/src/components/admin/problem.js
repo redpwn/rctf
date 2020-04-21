@@ -1,8 +1,54 @@
+import { Fragment } from 'preact'
 import withStyles from '../../components/jss'
 import { useState, useCallback } from 'preact/hooks'
+import Modal from '../../components/modal'
 
 import { updateChallenge, deleteChallenge } from '../../api/admin/challs'
 import { useToast } from '../../components/toast'
+
+const DeleteModal = withStyles({
+  modalBody: {
+    paddingTop: '0em !important' // reduce space between header and body
+  },
+  controls: {
+    display: 'flex',
+    justifyContent: 'center',
+    '& :first-child': {
+      marginLeft: '0em'
+    },
+    '& :last-child': {
+      marginRight: '0em'
+    }
+  }
+}, ({ open, onClose, onDelete, classes }) => {
+  const wrappedOnClose = useCallback((e) => {
+    e.preventDefault()
+    onClose()
+  }, [onClose])
+  const wrappedOnDelete = useCallback((e) => {
+    e.preventDefault()
+    onDelete()
+  }, [onDelete])
+
+  return (
+    <Modal {...{ open, onClose }}>
+      <div class='modal-header'>
+        <div class='modal-title'>Delete Challenge?</div>
+      </div>
+      <div class={`modal-body ${classes.modalBody}`}>
+        This is an irreversible action that permanently deletes the challenge and revokes all solves.
+        <div class={`${classes.controls}`}>
+          <div class='btn-container u-inline-block'>
+            <button type='button' class='btn-small' onClick={wrappedOnClose}>Cancel</button>
+          </div>
+          <div class='btn-container u-inline-block'>
+            <button type='submit' class='btn-small btn-danger' onClick={wrappedOnDelete}>Delete Challenge</button>
+          </div>
+        </div>
+      </div>
+    </Modal>
+  )
+})
 
 const Problem = ({ classes, problem }) => {
   const { toast } = useToast()
@@ -37,46 +83,59 @@ const Problem = ({ classes, problem }) => {
     })
   }, [problem, flag, description, category, author, name])
 
-  const handleDelete = useCallback(e => {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const openDeleteModal = useCallback(e => {
     e.preventDefault()
-
-    deleteChallenge({
-      id: problem.id
-    })
-      .then(() => toast({
+    setIsDeleteModalOpen(true)
+  }, [])
+  const closeDeleteModal = useCallback(() => {
+    setIsDeleteModalOpen(false)
+  }, [])
+  const handleDelete = useCallback(() => {
+    const action = async () => {
+      await deleteChallenge({
+        id: problem.id
+      })
+      toast({
         body: `${problem.name} successfully deleted`,
         type: 'success'
-      }))
-  }, [toast, problem])
+      })
+      closeDeleteModal()
+    }
+    action()
+  }, [problem, toast, closeDeleteModal])
 
   return (
-    <div class={`frame ${classes.frame}`} key={problem.id}>
-      <div class='frame__body'>
-        <form onSubmit={handleUpdate}>
-          <div class='row u-no-padding'>
-            <div class={`col-6 ${classes.header}`}>
-              <input class='form-group-input input-small' placeholder='Category' value={category} onChange={handleCategoryChange} />
-              <input class='form-group-input input-small' placeholder='Problem Name' value={name} onChange={handleNameChange} />
+    <Fragment>
+      <div class={`frame ${classes.frame}`} key={problem.id}>
+        <div class='frame__body'>
+          <form onSubmit={handleUpdate}>
+            <div class='row u-no-padding'>
+              <div class={`col-6 ${classes.header}`}>
+                <input class='form-group-input input-small' placeholder='Category' value={category} onChange={handleCategoryChange} />
+                <input class='form-group-input input-small' placeholder='Problem Name' value={name} onChange={handleNameChange} />
+              </div>
+              <div class={`col-6 ${classes.header}`}>
+                <input class='form-group-input input-small' placeholder='Author' value={author} onChange={handleAuthorChange} />
+              </div>
             </div>
-            <div class={`col-6 ${classes.header}`}>
-              <input class='form-group-input input-small' placeholder='Author' value={author} onChange={handleAuthorChange} />
+
+            <div class='content-no-padding u-center'><div class={`divider ${classes.divider}`} /></div>
+
+            <textarea placeholder='Description' value={description} onChange={handleDescriptionChange} />
+            <div class='input-control'>
+              <input class='form-group-input input-small' placeholder='Flag' value={flag} onChange={handleFlagChange} />
             </div>
-          </div>
 
-          <div class='content-no-padding u-center'><div class={`divider ${classes.divider}`} /></div>
-
-          <textarea placeholder='Description' value={description} onChange={handleDescriptionChange} />
-          <div class='input-control'>
-            <input class='form-group-input input-small' placeholder='Flag' value={flag} onChange={handleFlagChange} />
-          </div>
-
-          <div class={`form-section ${classes.controls}`}>
-            <button class='btn-small btn-info'>Update</button>
-            <button class='btn-small btn-danger' onClick={handleDelete} type='button' >Delete</button>
-          </div>
-        </form>
+            <div class={`form-section ${classes.controls}`}>
+              <button class='btn-small btn-info'>Update</button>
+              <button class='btn-small btn-danger' onClick={openDeleteModal} type='button' >Delete</button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+      <DeleteModal open={isDeleteModalOpen} onClose={closeDeleteModal} onDelete={handleDelete} />
+    </Fragment>
   )
 }
 
