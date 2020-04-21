@@ -7,7 +7,7 @@ module.exports = {
   method: 'delete',
   path: '/admin/challs/:id',
   requireAuth: true,
-  perms: perms.challsRead,
+  perms: perms.challsWrite,
   schema: {
     params: {
       type: 'object',
