@@ -7,7 +7,7 @@ import config from '../../../config/client'
 import { submitFlag } from '../api/challenges'
 import { useToast } from '../components/toast'
 
-const Problem = ({ classes, problem, setSolved }) => {
+const Problem = ({ classes, problem, solved, setSolved }) => {
   const { toast } = useToast()
 
   const hasDownloads = problem.files.length !== 0
@@ -26,7 +26,7 @@ const Problem = ({ classes, problem, setSolved }) => {
         if (error === undefined) {
           toast({ body: 'Flag successfully submitted!', type: 'success' })
 
-          setSolved()
+          setSolved(problem.id)
         } else {
           toast({ body: error, type: 'error' })
           setError(error)
@@ -54,7 +54,12 @@ const Problem = ({ classes, problem, setSolved }) => {
         </div>
         <form class='form-section' onSubmit={handleSubmit}>
           <div class='form-group'>
-            <input class={`form-group-input input-small ${hasError ? 'input-error' : ''}`} placeholder='Flag' value={value} onChange={handleInputChange} />
+            <input
+              class={`form-group-input input-small ${hasError ? 'input-error' : ''} ${solved ? 'input-success' : ''}`}
+              placeholder={`Flag${solved ? ' (solved)' : ''}`}
+              value={value}
+              onChange={handleInputChange}
+            />
             <button class='form-group-btn btn-small'>Submit</button>
           </div>
         </form>

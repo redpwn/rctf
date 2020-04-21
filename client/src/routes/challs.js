@@ -12,11 +12,14 @@ const Challenges = ({ classes }) => {
   const [showSolved, setShowSolved] = useState(false)
   const [solveIDs, setSolveIDs] = useState([])
 
-  const setSolvedFn = useCallback(id => () => {
-    if (!solveIDs.includes(id)) {
-      setSolveIDs([...solveIDs, id])
-    }
-  }, [solveIDs])
+  const setSolved = useCallback(id => {
+    setSolveIDs(solveIDs => {
+      if (!solveIDs.includes(id)) {
+        return [...solveIDs, id]
+      }
+      return solveIDs
+    })
+  }, [])
 
   const handleShowSolvedChange = useCallback(e => {
     setShowSolved(e.target.checked)
@@ -114,7 +117,12 @@ const Challenges = ({ classes }) => {
         {
           problemsToDisplay.map(problem => {
             return (
-              <Problem key={problem.id} problem={problem} setSolved={setSolvedFn(problem.id)} />
+              <Problem
+                key={problem.id}
+                problem={problem}
+                solved={solveIDs.includes(problem.id)}
+                setSolved={setSolved}
+              />
             )
           })
         }
