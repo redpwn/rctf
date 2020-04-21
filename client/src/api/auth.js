@@ -43,7 +43,7 @@ export const verify = ({ verifyToken }) => {
       switch (resp.kind) {
         case 'goodVerify':
           localStorage.setItem('token', resp.data.authToken)
-          route('/challenges')
+          route('/challs')
 
           return {}
         case 'badTokenVerification':
