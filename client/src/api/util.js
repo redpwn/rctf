@@ -19,12 +19,15 @@ export const request = (method, endpoint, data) => {
   } else {
     body = data
   }
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  }
+  if (body) {
+    headers['Content-Type'] = 'application/json'
+  }
   return fetch(config.apiEndpoint + endpoint + qs, {
     method,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    },
+    headers,
     body: body && JSON.stringify(body)
   })
     .then(resp => resp.json())

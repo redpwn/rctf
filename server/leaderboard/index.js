@@ -17,6 +17,21 @@ const fetchData = async () => {
   }
 }
 
+const runBulkGraphUpdate = async ({ start, end, challsUpdate }) => {
+  const worker = new Worker(path.join(__dirname, 'calculate.js'), {
+    workerData: {
+      graph: true,
+      start,
+      end,
+      challsUpdate,
+      data: await fetchData()
+    }
+  })
+  worker.once('message', async (data) => {
+    await cache.leaderboard.setGraph(data)
+  })
+}
+
 let updating = false
 
 const runUpdate = async () => {
@@ -24,10 +39,18 @@ const runUpdate = async () => {
     return
   }
   updating = true
+  const updateData = await cache.leaderboard.getGraphUpdate()
+  if (updateData.challsUpdate > updateData.graphRecalc) {
+    runBulkGraphUpdate({
+      start: config.startTime,
+      end: Math.min(Date.now(), config.endTime),
+      challsUpdate: updateData.challsUpdate
+    })
+  }
   const worker = new Worker(path.join(__dirname, 'calculate.js'), {
     workerData: {
       graph: false,
-      lastUpdate: await cache.leaderboard.getGraphUpdate(),
+      lastUpdate: updateData.graphUpdate,
       data: await fetchData()
     }
   })
@@ -42,20 +65,6 @@ const runUpdate = async () => {
       })
     }
     updating = false
-  })
-}
-
-const runBulkGraphUpdate = async ({ start, end }) => {
-  const worker = new Worker(path.join(__dirname, 'calculate.js'), {
-    workerData: {
-      graph: true,
-      start,
-      end,
-      data: await fetchData()
-    }
-  })
-  worker.once('message', async (data) => {
-    await cache.leaderboard.setGraph(data)
   })
 }
 

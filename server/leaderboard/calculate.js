@@ -7,6 +7,7 @@ const {
   start,
   end,
   lastUpdate,
+  challsUpdate,
   data: {
     solves,
     users,
@@ -102,7 +103,8 @@ if (graph) {
   })
 
   parentPort.postMessage({
-    leaderboards: output
+    leaderboards: output,
+    challsUpdate
   })
 } else {
   let sample
