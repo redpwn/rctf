@@ -25,7 +25,7 @@ module.exports = {
     if (config.origin !== undefined) {
       res.header('Access-Control-Allow-Origin', config.origin)
       res.header('Access-Control-Allow-Headers', 'Authorization, Content-Type')
-      res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE')
+      res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT')
     }
 
     if (req.method === 'OPTIONS') {

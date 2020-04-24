@@ -10,12 +10,14 @@ import Home from './routes/home'
 import Registration from './routes/registration'
 import Login from './routes/login'
 import Profile from './routes/profile'
-import Challenges from './routes/challenges'
+import Challenges from './routes/challs'
 import Scoreboard from './routes/scoreboard'
 import Error from './routes/error'
 import Sponsors from './routes/sponsors'
 import Verify from './routes/verify'
 import CtftimeCallback from './routes/ctftime-callback'
+
+import AdminChallenges from './routes/admin/challs'
 
 import { ToastProvider } from './components/toast'
 
@@ -49,6 +51,7 @@ function App () {
   let allPaths = [
     <Profile key='multiProfile' path='/profile/:uuid' />,
     <Verify key='verify' path='/verify' />,
+    <AdminChallenges key='adminchalls' path='/admin/challs' />,
     <CtftimeCallback key='ctftimeCallback' path='/integrations/ctftime/callback' />,
     <Error key='error' error='404' default />
   ]
