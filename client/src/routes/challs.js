@@ -98,10 +98,10 @@ const Challenges = ({ classes }) => {
           <div class='frame__body'>
             <div class='frame__title title'>Categories</div>
             {
-              Object.keys(categories).map(category => {
+              Object.entries(categories).map(([category, checked]) => {
                 return (
                   <div key={category} class='form-ext-control form-ext-checkbox'>
-                    <input id={category} class='form-ext-input' type='checkbox' checked={categories[category]} onChange={handleCategoryCheckedChange} />
+                    <input id={category} class='form-ext-input' type='checkbox' checked={checked} onChange={handleCategoryCheckedChange} />
                     <label class='form-ext-label' for={category}>{category}</label>
                   </div>
                 )

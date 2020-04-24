@@ -37,7 +37,7 @@ const DeleteModal = withStyles({
       </div>
       <div class={`modal-body ${classes.modalBody}`}>
         This is an irreversible action that permanently deletes the challenge and revokes all solves.
-        <div class={`${classes.controls}`}>
+        <div class={classes.controls}>
           <div class='btn-container u-inline-block'>
             <button type='button' class='btn-small' onClick={wrappedOnClose}>Cancel</button>
           </div>
