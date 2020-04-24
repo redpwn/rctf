@@ -1,12 +1,12 @@
 import { request } from './util'
 
 export const getMembers = () => {
-  return request('GET', '/users/members')
+  return request('GET', '/users/me/members')
     .then(resp => resp.data)
 }
 
 export const addMember = ({ name, email, grade }) => {
-  return request('POST', '/users/members', { name, email, grade })
+  return request('POST', '/users/me/members', { name, email, grade })
     .then(resp => {
       switch (resp.kind) {
         case 'badKnownEmail':
@@ -26,6 +26,6 @@ export const addMember = ({ name, email, grade }) => {
 }
 
 export const removeMember = ({ id }) => {
-  return request('DELETE', `/users/members/${encodeURIComponent(id)}`)
+  return request('DELETE', `/users/me/members/${encodeURIComponent(id)}`)
     .then(resp => resp.data)
 }

@@ -4,7 +4,7 @@ const { responses } = require('../../../responses')
 
 module.exports = {
   method: 'post',
-  path: '/users/members',
+  path: '/users/me/members',
   requireAuth: true,
   schema: {
     body: {

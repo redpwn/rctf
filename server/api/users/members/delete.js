@@ -3,7 +3,7 @@ const { responses } = require('../../../responses')
 
 module.exports = {
   method: 'delete',
-  path: '/users/members/:id',
+  path: '/users/me/members/:id',
   requireAuth: true,
   schema: {
     params: {

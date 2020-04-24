@@ -24,7 +24,7 @@ const MemberRow = withStyles({
 
         toast({ body: 'Team member successfully deleted' })
       })
-  }, [id, setMembers])
+  }, [id, setMembers, toast])
 
   return (
     <div class={classes.root} key={id}>
