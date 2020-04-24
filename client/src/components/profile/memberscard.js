@@ -5,29 +5,42 @@ import { useState, useCallback, useEffect } from 'preact/hooks'
 import config from '../../../../config/client'
 
 import Form from '../form'
-import { withToast } from '../toast'
+import { useToast } from '../toast'
 
-const MemberRow = ({ id, name, setMembers }) => {
+const MemberRow = withStyles({
+  root: {
+    alignItems: 'center',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between'
+  }
+}, ({ classes, id, name, setMembers }) => {
+  const { toast } = useToast()
+
   const handleDelete = useCallback(() => {
     removeMember({ id })
       .then(() => {
         setMembers(members => members.filter(a => a.id !== id))
+
+        toast({ body: 'Team member successfully deleted' })
       })
   }, [id, setMembers])
 
   return (
-    <div class='u-vertical-center' style='width: 100%; display: flex; justify-content: space-between;' key={id}>
+    <div class={classes.root} key={id}>
       <p class='u-no-margin'>{name}</p>
       <div class='btn-container u-vertical-center'>
         <input onClick={handleDelete} type='submit' class='btn-tiny btn-danger u-no-margin' value='Delete' />
       </div>
     </div>
   )
-}
+})
 
 const MembersCard = withStyles({
 
-}, withToast(({ classes, division: originalDivision, toast }) => {
+}, ({ classes, division: originalDivision }) => {
+  const { toast } = useToast()
+
   const [name, setName] = useState('')
   const handleNameChange = useCallback(e => setName(e.target.value), [])
 
@@ -122,6 +135,6 @@ const MembersCard = withStyles({
       </div>
     </div>
   )
-}))
+})
 
 export default MembersCard

@@ -6,7 +6,7 @@ export const getMembers = () => {
 }
 
 export const addMember = ({ name, email, grade }) => {
-  return request('POST', '/users/members/new', { name, email, grade })
+  return request('POST', '/users/members', { name, email, grade })
     .then(resp => {
       switch (resp.kind) {
         case 'badKnownEmail':

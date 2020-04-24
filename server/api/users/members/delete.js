@@ -24,6 +24,6 @@ module.exports = {
       userid: user.id
     })
 
-    return responses.goodMemberCreate
+    return responses.goodMemberDelete
   }
 }
