@@ -31,7 +31,7 @@ const DeleteModal = withStyles({
   }, [onDelete])
 
   return (
-    <Modal {...{ open, onClose }}>
+    <Modal open={open} onClose={onClose}>
       <div class='modal-header'>
         <div class='modal-title'>Delete Challenge?</div>
       </div>
