@@ -74,6 +74,12 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
     this.emit('update', this.challenges)
   }
 
+  deleteChallenge (id: string): void {
+    this.challenges = this.challenges.filter(chall => chall.id !== id)
+
+    this.emit('update', this.challenges)
+  }
+
   cleanup (): void {
     clearInterval(this._interval)
   }
