@@ -3,5 +3,6 @@ module.exports = {
     'High School': 0,
     College: 1,
     Other: 2
-  }
+  },
+  defaultDivision: 2
 }

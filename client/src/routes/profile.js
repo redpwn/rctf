@@ -7,6 +7,7 @@ import { privateProfile, publicProfile, deleteAccount, updateAccount } from '../
 import { useToast } from '../components/toast'
 import Form from '../components/form'
 import Modal from '../components/modal'
+import MembersCard from '../components/profile/memberscard'
 import TokenPreview from '../components/tokenPreview'
 import util from '../util'
 import Trophy from '../icons/trophy.svg'
@@ -192,8 +193,6 @@ const UpdateCard = withStyles({
 
   const [updateName, setUpdateName] = useState(name)
   const handleUpdateName = useCallback((e) => setUpdateName(e.target.value), [])
-  const [updateDivision, setUpdateDivision] = useState(divisionId)
-  const handleUpdateDivision = useCallback((e) => setUpdateDivision(e.target.value), [])
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
@@ -202,7 +201,9 @@ const UpdateCard = withStyles({
 
     setIsButtonDisabled(true)
 
-    updateAccount(updateName, updateDivision)
+    updateAccount({
+      name: updateName
+    })
       .then(({ error, data }) => {
         setIsButtonDisabled(false)
 
@@ -218,7 +219,7 @@ const UpdateCard = withStyles({
           divisionId: Number.parseInt(data.user.division)
         })
       })
-  }, [updateName, updateDivision, onUpdate, toast])
+  }, [updateName, onUpdate, toast])
 
   return (
     <div class='card u-flex u-flex-column'>
@@ -228,14 +229,6 @@ const UpdateCard = withStyles({
         <div class='row u-center'>
           <Form class={`col-12 ${classes.form}`} onSubmit={doUpdate} disabled={isButtonDisabled} buttonText='Update'>
             <input required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={updateName} onChange={handleUpdateName} />
-            <select required class='select' name='division' value={updateDivision} onChange={handleUpdateDivision}>
-              <option value='' disabled>Division</option>
-              {
-                Object.entries(config.divisions).map(([name, code]) => {
-                  return <option key={code} value={code}>{name}</option>
-                })
-              }
-            </select>
           </Form>
         </div>
         <div class='u-center action-bar' style='margin: 0.5rem; padding: 1rem'>
@@ -324,6 +317,7 @@ function Profile ({ uuid }) {
     <div class='row u-center' style='align-items: initial !important'>
       { isPrivate && <LoggedInRail {...{ name, teamToken, divisionId }} onUpdate={onProfileUpdate} /> }
       <div class='col-6'>
+        { isPrivate && <MembersCard division={config.divisions[division]} /> }
         <SummaryCard {...{ name, score, division, divisionPlace, globalPlace }} />
         <SolvesCard solves={solves} />
       </div>
