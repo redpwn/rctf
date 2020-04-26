@@ -1,10 +1,9 @@
-import { Component } from 'preact'
 import Form from '../components/form'
 import config from '../../../config/client'
-import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 import { register } from '../api/auth'
 import UserCircle from '../icons/user-circle.svg'
+import { useEffect, useState, useCallback } from 'preact/hooks'
 
 export default withStyles({
   root: {
@@ -16,62 +15,55 @@ export default withStyles({
   title: {
     textAlign: 'center'
   }
-}, class CtftimeAdditional extends Component {
-  state = {
-    showName: false,
-    disabledButton: false,
-    division: '',
-    name: '',
-    errors: {}
-  }
+}, ({ classes, ctftimeToken }) => {
+  const [disabledButton, setDisabledButton] = useState(false)
+  const division = config.defaultDivision.toString()
+  const [showName, setShowName] = useState(false)
 
-  render ({ classes }, { showName, disabledButton, division, name, errors }) {
-    return (
-      <div class='row u-center'>
-        <h4 class={`col-12 ${classes.title}`}>Finish registration</h4>
-        <Form class={`${classes.root} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} errors={errors} buttonText='Register'>
-          <select required class='select' name='division' value={division} onChange={this.linkState('division')}>
-            <option value='' disabled selected>Division</option>
-            {
-              Object.entries(config.divisions).map(([name, code]) => {
-                return <option key={code} value={code}>{name}</option>
-              })
-            }
-          </select>
-          {showName && (
-            <input autofocus required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={name} onChange={this.linkState('name')} />
-          )}
-        </Form>
-      </div>
-    )
-  }
+  const [name, setName] = useState('')
+  const handleNameChange = useCallback(e => setName(e.target.value), [])
 
-  handleSubmit = (e) => {
-    e.preventDefault()
+  const [errors, setErrors] = useState({})
 
-    this.setState({
-      disabledButton: true
-    })
+  const handleRegister = () => {
+    setDisabledButton(true)
 
     register({
-      ctftimeToken: this.props.ctftimeToken,
-      division: this.state.division,
-      name: this.state.name || undefined
+      ctftimeToken,
+      name: name || undefined,
+      division
     })
-      .then(errors => {
+      .then(({ errors, data }) => {
+        setDisabledButton(false)
+
         if (!errors) {
           return
         }
         if (errors.name) {
-          this.setState({
-            showName: true
-          })
+          setShowName(true)
+          setName(data)
         }
 
-        this.setState({
-          errors,
-          disabledButton: false
-        })
+        setErrors(errors)
       })
   }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+
+    handleRegister()
+  }
+
+  // Try login with CTFtime token only, if fails prompt for name
+  useEffect(handleRegister, [])
+
+  return (
+    <div class='row u-center'>
+      <Form class={`${classes.root} col-6`} onSubmit={handleSubmit} disabled={disabledButton} errors={errors} buttonText='Register'>
+        { showName &&
+          <input autofocus required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={name} onChange={handleNameChange} />
+        }
+      </Form>
+    </div>
+  )
 })
