@@ -14,6 +14,7 @@ import Trophy from '../icons/trophy.svg'
 import AddressBook from '../icons/address-book.svg'
 import UserCircle from '../icons/user-circle.svg'
 import Rank from '../icons/rank.svg'
+import Ctftime from '../icons/ctftime.svg'
 
 const divisionMap = new Map()
 
@@ -89,11 +90,30 @@ const SummaryCard = memo(withStyles({
       fill: '#333'
     },
     marginRight: '1.5em'
+  },
+  header: {
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    margin: '0 !important'
+  },
+  wrapper: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    paddingTop: '15px',
+    paddingBottom: '5px'
   }
-}, ({ name, score, division, divisionPlace, globalPlace, classes }) =>
+}, ({ name, score, division, divisionPlace, globalPlace, ctftimeId, classes }) =>
   <div class='card u-flex u-flex-column'>
     <div class='content'>
-      <h5 class='title' style='text-overflow: ellipsis; overflow: hidden;'>{name}</h5>
+        <div class={classes.wrapper}>
+          <h5 class={'title ' + classes.header}>{name}</h5>
+          {
+            ctftimeId !== undefined && 
+              <a href={'https://ctftime.org/team/' + ctftimeId} target="_blank">
+                <Ctftime style='height: 20px;'/>
+              </a>
+          }
+        </div>
       <div class='action-bar'>
         <p>
           <span class={`icon ${classes.icon}`}>
@@ -256,7 +276,8 @@ function Profile ({ uuid }) {
     division: divisionId,
     score,
     solves,
-    teamToken
+    teamToken,
+    ctftimeId
   } = data
   const division = divisionMap.get(data.division)
   const divisionPlace = util.strings.placementString(data.divisionPlace)
@@ -318,7 +339,7 @@ function Profile ({ uuid }) {
       { isPrivate && <LoggedInRail {...{ name, teamToken, divisionId }} onUpdate={onProfileUpdate} /> }
       <div class='col-6'>
         { isPrivate && <MembersCard division={config.divisions[division]} /> }
-        <SummaryCard {...{ name, score, division, divisionPlace, globalPlace }} />
+        <SummaryCard {...{ name, score, division, divisionPlace, globalPlace, ctftimeId }} />
         <SolvesCard solves={solves} />
       </div>
     </div>

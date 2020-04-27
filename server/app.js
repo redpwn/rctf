@@ -20,6 +20,7 @@ app.use(enableCORS)
 app.use(helmet({
   dnsPrefetchControl: false
 }))
+app.use(helmet.referrerPolicy({ policy: 'same-origin' }))
 app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
