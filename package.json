@@ -29,7 +29,7 @@
     "ajv": "^6.12.2",
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
-    "got": "^10.7.0",
+    "got": "^11.0.2",
     "helmet": "^3.22.0",
     "jss-plugin-global": "^10.1.1",
     "mustache": "^4.0.0",
