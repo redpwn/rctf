@@ -38,3 +38,40 @@ export const updateAccount = ({ name, division }) => {
       }
     })
 }
+
+export const updateEmail = ({ email }) => {
+  return request('PUT', '/users/me/auth/email', {
+    email
+  })
+    .then(resp => {
+      switch (resp.kind) {
+        case 'badKnownEmail':
+        case 'badEmail':
+          return {
+            error: resp.message
+          }
+        case 'goodVerifySent':
+          return {
+            data: resp.message
+          }
+      }
+    })
+}
+
+export const deleteEmail = () => {
+  return request('DELETE', '/users/me/auth/email')
+    .then(resp => {
+      switch (resp.kind) {
+        case 'badZeroAuth':
+          return {
+            error: resp.message
+          }
+        // If the email did not exist, still a "success" in that no more email
+        case 'badEmailNoExists':
+        case 'goodEmailRemoved':
+          return {
+            data: resp.message
+          }
+      }
+    })
+}

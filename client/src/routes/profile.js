@@ -3,7 +3,7 @@ import { memo } from 'preact/compat'
 import config from '../../../config/client'
 import withStyles from '../components/jss'
 
-import { privateProfile, publicProfile, deleteAccount, updateAccount } from '../api/profile'
+import { privateProfile, publicProfile, deleteAccount, updateAccount, updateEmail, deleteEmail } from '../api/profile'
 import { useToast } from '../components/toast'
 import Form from '../components/form'
 import Modal from '../components/modal'
@@ -105,15 +105,15 @@ const SummaryCard = memo(withStyles({
 }, ({ name, score, division, divisionPlace, globalPlace, ctftimeId, classes }) =>
   <div class='card u-flex u-flex-column'>
     <div class='content'>
-        <div class={classes.wrapper}>
-          <h5 class={'title ' + classes.header}>{name}</h5>
-          {
-            ctftimeId !== undefined && 
-              <a href={'https://ctftime.org/team/' + ctftimeId} target="_blank">
-                <Ctftime style='height: 20px;'/>
+      <div class={classes.wrapper}>
+        <h5 class={`title ${classes.header}`} title={name}h>{name}</h5>
+        {
+          ctftimeId !== undefined &&
+              <a href={`https://ctftime.org/team/${ctftimeId}`} target='_blank' rel='noopener noreferrer'>
+                <Ctftime style='height: 20px;' />
               </a>
-          }
-        </div>
+        }
+      </div>
       <div class='action-bar'>
         <p>
           <span class={`icon ${classes.icon}`}>
@@ -181,7 +181,7 @@ const SolvesCard = memo(({ solves }) => {
   )
 })
 
-const TeamCodeCard = memo(({ teamToken, classes }) => {
+const TeamCodeCard = memo(({ teamToken }) => {
   return (
     <div class='card u-flex u-flex-column'>
       <div class='content'>
@@ -204,27 +204,50 @@ const UpdateCard = withStyles({
     },
     padding: '0 !important'
   }
-}, ({ name, divisionId, onUpdate, classes }) => {
+}, ({ name: oldName, email: oldEmail, onUpdate, classes }) => {
   const { toast } = useToast()
 
   const [deleteModalVisible, setDeleteModalVisible] = useState(false)
   const dismissDeleteModal = useCallback(() => setDeleteModalVisible(false), [])
   const handleDelete = useCallback(() => setDeleteModalVisible(true), [])
 
-  const [updateName, setUpdateName] = useState(name)
-  const handleUpdateName = useCallback((e) => setUpdateName(e.target.value), [])
+  const [name, setName] = useState(oldName)
+  const handleSetName = useCallback((e) => setName(e.target.value), [])
+
+  const [email, setEmail] = useState(oldEmail)
+  const handleSetEmail = useCallback(e => setEmail(e.target.value), [])
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
   const doUpdate = useCallback((e) => {
     e.preventDefault()
 
-    setIsButtonDisabled(true)
+    if (name !== oldName) {
+      setIsButtonDisabled(true)
+      updateAccount({
+        name
+      })
+        .then(({ error, data }) => {
+          setIsButtonDisabled(false)
 
-    updateAccount({
-      name: updateName
-    })
-      .then(({ error, data }) => {
+          if (error !== undefined) {
+            toast({ body: error, type: 'error' })
+            return
+          }
+
+          toast({ body: 'Profile updated' })
+
+          onUpdate({
+            name: data.user.name,
+            divisionId: Number.parseInt(data.user.division)
+          })
+        })
+    }
+
+    if (email !== oldEmail) {
+      setIsButtonDisabled(true)
+
+      const handleResponse = ({ error, data }) => {
         setIsButtonDisabled(false)
 
         if (error !== undefined) {
@@ -232,23 +255,30 @@ const UpdateCard = withStyles({
           return
         }
 
-        toast({ body: 'Profile updated' })
+        toast({ body: data })
+      }
 
-        onUpdate({
-          name: data.user.name,
-          divisionId: Number.parseInt(data.user.division)
+      if (email === '') {
+        deleteEmail()
+          .then(handleResponse)
+      } else {
+        updateEmail({
+          email
         })
-      })
-  }, [updateName, onUpdate, toast])
+          .then(handleResponse)
+      }
+    }
+  }, [name, email, oldName, oldEmail, onUpdate, toast])
 
   return (
     <div class='card u-flex u-flex-column'>
       <div class='content'>
         <p>Update Information</p>
-        <p class='font-thin u-no-margin'>This will change how your team appears on the scoreboard. Note that you may only update your team's information once every 10 minutes.</p>
+        <p class='font-thin u-no-margin'>This will change how your team appears on the scoreboard. Note that you may only change your team's name once every 10 minutes (changing only email won't count).</p>
         <div class='row u-center'>
           <Form class={`col-12 ${classes.form}`} onSubmit={doUpdate} disabled={isButtonDisabled} buttonText='Update'>
-            <input required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={updateName} onChange={handleUpdateName} />
+            <input required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={name} onChange={handleSetName} />
+            <input required name='email' placeholder='Email' type='email' value={email} onChange={handleSetEmail} />
           </Form>
         </div>
         <div class='u-center action-bar' style='margin: 0.5rem; padding: 1rem'>
@@ -260,10 +290,10 @@ const UpdateCard = withStyles({
   )
 })
 
-const LoggedInRail = memo(({ name, teamToken, divisionId, onUpdate }) =>
+const LoggedInRail = memo(({ name, email, teamToken, divisionId, onUpdate }) =>
   <div class='col-4'>
     <TeamCodeCard {...{ teamToken }} />
-    <UpdateCard {...{ name, divisionId, onUpdate }} />
+    <UpdateCard {...{ name, email, divisionId, onUpdate }} />
   </div>
 )
 
@@ -273,6 +303,7 @@ function Profile ({ uuid }) {
   const [data, setData] = useState({})
   const {
     name,
+    email,
     division: divisionId,
     score,
     solves,
@@ -336,7 +367,7 @@ function Profile ({ uuid }) {
 
   return (
     <div class='row u-center' style='align-items: initial !important'>
-      { isPrivate && <LoggedInRail {...{ name, teamToken, divisionId }} onUpdate={onProfileUpdate} /> }
+      { isPrivate && <LoggedInRail {...{ name, email, teamToken, divisionId }} onUpdate={onProfileUpdate} /> }
       <div class='col-6'>
         { isPrivate && <MembersCard division={config.divisions[division]} /> }
         <SummaryCard {...{ name, score, division, divisionPlace, globalPlace, ctftimeId }} />
