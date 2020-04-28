@@ -25,7 +25,7 @@ export default withStyles({
 
   const [errors, setErrors] = useState({})
 
-  const handleRegister = () => {
+  const handleRegister = useCallback(() => {
     setDisabledButton(true)
 
     register({
@@ -46,13 +46,13 @@ export default withStyles({
 
         setErrors(errors)
       })
-  }
+  }, [ctftimeToken, name, division])
 
-  const handleSubmit = e => {
+  const handleSubmit = useCallback(e => {
     e.preventDefault()
 
     handleRegister()
-  }
+  }, [handleRegister])
 
   // Try login with CTFtime token only, if fails prompt for name
   useEffect(handleRegister, [])

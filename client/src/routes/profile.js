@@ -13,6 +13,7 @@ import util from '../util'
 import Trophy from '../icons/trophy.svg'
 import AddressBook from '../icons/address-book.svg'
 import UserCircle from '../icons/user-circle.svg'
+import EnvelopeOpen from '../icons/envelope-open.svg'
 import Rank from '../icons/rank.svg'
 import Ctftime from '../icons/ctftime.svg'
 
@@ -108,7 +109,7 @@ const SummaryCard = memo(withStyles({
       <div class={classes.wrapper}>
         <h5 class={`title ${classes.header}`} title={name}h>{name}</h5>
         {
-          ctftimeId !== undefined &&
+          ctftimeId &&
               <a href={`https://ctftime.org/team/${ctftimeId}`} target='_blank' rel='noopener noreferrer'>
                 <Ctftime style='height: 20px;' />
               </a>
@@ -278,7 +279,7 @@ const UpdateCard = withStyles({
         <div class='row u-center'>
           <Form class={`col-12 ${classes.form}`} onSubmit={doUpdate} disabled={isButtonDisabled} buttonText='Update'>
             <input required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={name} onChange={handleSetName} />
-            <input required name='email' placeholder='Email' type='email' value={email} onChange={handleSetEmail} />
+            <input required icon={<EnvelopeOpen />} name='email' placeholder='Email' type='email' value={email} onChange={handleSetEmail} />
           </Form>
         </div>
         <div class='u-center action-bar' style='margin: 0.5rem; padding: 1rem'>
