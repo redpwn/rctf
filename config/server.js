@@ -1,6 +1,7 @@
 const ret = {
   challengeProvider: {
-    name: 'challenges/rdeploy-blob',
+    // name: 'challenges/rdeploy-blob',
+    name: 'challenges/database',
     options: {
       useGlobalRDeployDirectory: true,
       updateInterval: 60 * 1000
