@@ -107,7 +107,7 @@ const SummaryCard = memo(withStyles({
   <div class='card u-flex u-flex-column'>
     <div class='content'>
       <div class={classes.wrapper}>
-        <h5 class={`title ${classes.header}`} title={name}h>{name}</h5>
+        <h5 class={`title ${classes.header}`} title={name}>{name}</h5>
         {
           ctftimeId &&
               <a href={`https://ctftime.org/team/${ctftimeId}`} target='_blank' rel='noopener noreferrer'>
@@ -275,7 +275,7 @@ const UpdateCard = withStyles({
     <div class='card u-flex u-flex-column'>
       <div class='content'>
         <p>Update Information</p>
-        <p class='font-thin u-no-margin'>This will change how your team appears on the scoreboard. Note that you may only change your team's name once every 10 minutes (changing only email won't count).</p>
+        <p class='font-thin u-no-margin'>This will change how your team appears on the scoreboard. Note that you may only change your team's name once every 10 minutes.</p>
         <div class='row u-center'>
           <Form class={`col-12 ${classes.form}`} onSubmit={doUpdate} disabled={isButtonDisabled} buttonText='Update'>
             <input required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={name} onChange={handleSetName} />
