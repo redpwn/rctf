@@ -2,7 +2,6 @@ import withStyles from '../components/jss'
 import { useState, useCallback } from 'preact/hooks'
 import snarkdown from 'snarkdown'
 import Markup from 'preact-markup'
-import config from '../../../config/client'
 
 import { submitFlag } from '../api/challenges'
 import { useToast } from '../components/toast'
@@ -72,8 +71,8 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
                 {
                   problem.files.map(file => {
                     return (
-                      <div class='tag' key={file.path}>
-                        <a native download href={`${config.staticEndpoint}/${file.path}`}>
+                      <div class='tag' key={file.url}>
+                        <a native download href={`${file.url}`}>
                           {file.name}
                         </a>
                       </div>

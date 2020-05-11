@@ -65,10 +65,13 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
                 .then(data => {
                   if (data === null) return null
 
-                  return {
-                    file,
-                    url: uploadProvider.upload(data, util.normalize.normalizeDownload(file))
-                  }
+                  return uploadProvider.upload(data, util.normalize.normalizeDownload(file))
+                    .then(url => {
+                      return {
+                        file,
+                        url
+                      }
+                    })
                 })
             })
         )
@@ -77,7 +80,7 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
         uploadInfo.forEach(data => {
           if (data !== null) {
             const { file, url } = data
-            this.downloadMap.set(file, url.toString())
+            this.downloadMap.set(file, url)
           }
         })
       })

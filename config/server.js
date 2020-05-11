@@ -11,9 +11,10 @@ const ret = {
     name: 'uploads/local',
     options: {
       uploadDirectory: 'uploads',
-      endpoint: '/api/v1/uploads'
+      endpoint: '/uploads'
     }
   },
+  serverOrigin: 'http://localhost:3000',
   verifyEmail: false,
   removeDownloadHashes: true,
   tokenKey: process.env.RCTF_TOKEN_KEY,

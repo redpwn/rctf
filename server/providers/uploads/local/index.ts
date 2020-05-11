@@ -11,10 +11,17 @@ interface LocalProviderOptions {
   endpoint: string;
 }
 
+interface Upload {
+  filePath: string;
+  name: string;
+}
+
 export default class LocalProvider implements Provider {
   private uploadDirectory: string
   private endpoint: string
   private app: express.Application
+
+  private uploadMap: Map<string, Upload>
 
   constructor (options: LocalProviderOptions, app: express.Application) {
     if (options.uploadDirectory === undefined) {
@@ -29,23 +36,37 @@ export default class LocalProvider implements Provider {
     this.endpoint = options.endpoint
     this.app = app
 
-    this.app.use(this.endpoint, express.static(this.uploadDirectory))
+    this.uploadMap = new Map()
+    this.app.get(this.endpoint, (req, res) => {
+      const key = req.query.key.toString()
+
+      if (this.uploadMap.has(key)) {
+        const upload = this.uploadMap.get(key)
+
+        res.download(upload.filePath, upload.name)
+      } else {
+        res.status(400)
+        res.end()
+      }
+    })
   }
 
-  upload (data: Buffer, name: string): Promise<URL> {
+  upload (data: Buffer, name: string): Promise<string> {
     const hash = crypto.createHash('sha256')
       .update(data)
       .digest()
       .toString('hex')
 
-    const urlPath = `${this.endpoint}/${hash}/${name}`
+    const key = `${hash}/${name}`
+    const urlPath = `${this.endpoint}?key=${encodeURIComponent(key)}`
     const filePath = path.join(this.uploadDirectory, hash)
 
-    this.app.get(urlPath, (req, res) => {
-      res.download(filePath, name)
+    this.uploadMap.set(key, {
+      filePath,
+      name
     })
 
     return fs.promises.writeFile(filePath, data)
-      .then(() => new URL(`${config.origin}/${urlPath}`))
+      .then(() => config.serverOrigin + urlPath)
   }
 }
