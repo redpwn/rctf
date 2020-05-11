@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect, useMemo } from 'preact/hooks'
+gimport { useCallback, useState, useEffect, useMemo } from 'preact/hooks'
 
 import config from '../../../config/client'
 import withStyles from '../components/jss'

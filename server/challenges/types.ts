@@ -5,7 +5,7 @@ export interface Points {
 
 export interface File {
   name: string;
-  path: string;
+  url: string;
 }
 
 export interface CleanedChallenge {

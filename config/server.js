@@ -2,7 +2,8 @@ const ret = {
   challengeProvider: {
     name: 'challenges/rdeploy-blob',
     options: {
-      useGlobalRDeployDirectory: true,
+      rDeployDirectory: '.rdeploy',
+      rDeployFiles: 'files',
       updateInterval: 60 * 1000
     }
   },
@@ -13,8 +14,6 @@ const ret = {
       endpoint: '/api/v1/uploads'
     }
   },
-  rDeployDirectory: '.rdeploy',
-  rDeployFiles: 'files',
   verifyEmail: false,
   removeDownloadHashes: true,
   tokenKey: process.env.RCTF_TOKEN_KEY,

@@ -36,7 +36,7 @@ export default class LocalProvider implements Provider {
     const hash = crypto.createHash('sha256')
       .update(data)
       .digest()
-      .toString()
+      .toString('hex')
 
     const urlPath = `${this.endpoint}/${hash}/${name}`
     const filePath = path.join(this.uploadDirectory, hash)
