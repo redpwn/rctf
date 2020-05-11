@@ -17,7 +17,8 @@ module.exports = {
     return [responses.goodUserData, {
       ...userData,
       teamToken,
-      id: uuid
+      id: uuid,
+      email: user.email
     }]
   }
 }

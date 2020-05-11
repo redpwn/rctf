@@ -22,7 +22,7 @@ const register = async ({ division, email, name, ctftimeId }) => {
       return responses.badKnownEmail
     }
     if (e.constraint === 'users_name_key') {
-      return responses.badKnownName
+      return [responses.badKnownName, name]
     }
     throw e
   }

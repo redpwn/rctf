@@ -36,7 +36,7 @@ export default withStyles({
     document.title = `Registration${config.ctfTitle}`
   }
 
-  render ({ classes }, { name, email, division, disabledButton, errors, ctftimeToken }) {
+  render ({ classes }, { name, email, disabledButton, errors, ctftimeToken }) {
     if (ctftimeToken) {
       return <CtftimeAdditional ctftimeToken={ctftimeToken} />
     }
@@ -47,7 +47,7 @@ export default withStyles({
           <input required icon={<EnvelopeOpen />} name='email' placeholder='Email' type='text' value={email} onChange={this.linkState('email')} />
         </Form>
         <AuthOr />
-        <CtftimeButton class='col-12' onCtftimeDone={this.handleCtftimeDone} />
+        <CtftimeButton class={`${classes.root} col-6`} onCtftimeDone={this.handleCtftimeDone} />
       </div>
     )
   }
