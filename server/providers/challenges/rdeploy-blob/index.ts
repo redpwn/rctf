@@ -22,7 +22,6 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
     options = {
       updateInterval: 60 * 1000,
       useGlobalRDeployDirectory: true,
-      // rDeployDirectory: ''
       ...options
     }
 

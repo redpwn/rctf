@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 const helmet = require('helmet')
 const { enableCORS, serveDownloads } = require('./util')
+const uploadProvider = require('./uploads/index')
 
 require('./leaderboard').startUpdater()
 
@@ -28,6 +29,9 @@ app.use(helmet.contentSecurityPolicy({
     imgSrc: ['*', 'data:']
   }
 }))
+
+// May contain call to express.
+uploadProvider.init(app)
 
 app.use(express.raw({
   type: 'application/json'

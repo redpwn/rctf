@@ -6,6 +6,13 @@ const ret = {
       updateInterval: 60 * 1000
     }
   },
+  uploadProvider: {
+    name: 'uploads/local',
+    options: {
+      uploadDirectory: 'uploads',
+      endpoint: '/api/v1/uploads'
+    }
+  },
   rDeployDirectory: '.rdeploy',
   rDeployFiles: 'files',
   verifyEmail: false,
