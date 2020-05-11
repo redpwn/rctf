@@ -256,6 +256,7 @@ const UpdateCard = withStyles({
         }
 
         toast({ body: data })
+        onUpdate({ email })
       }
 
       if (email === '') {
@@ -338,10 +339,11 @@ function Profile ({ uuid }) {
     }
   }, [uuid, isPrivate])
 
-  const onProfileUpdate = useCallback(({ name, divisionId }) => {
+  const onProfileUpdate = useCallback(({ name, email, divisionId }) => {
     setData(data => ({
       ...data,
       name,
+      email,
       division: divisionId
     }))
   }, [])

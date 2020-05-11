@@ -45,8 +45,7 @@ export const updateEmail = ({ email }) => {
   })
     .then(resp => {
       switch (resp.kind) {
-        case 'badKnownEmail':
-        case 'badEmail':
+        default:
           return {
             error: resp.message
           }
