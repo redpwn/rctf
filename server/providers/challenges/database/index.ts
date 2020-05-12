@@ -17,7 +17,6 @@ class DatabaseProvider extends EventEmitter implements Provider {
     super()
     options = {
       updateInterval: 60 * 1000,
-      // rDeployDirectory: ''
       ...options
     }
 
