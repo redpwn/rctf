@@ -31,7 +31,6 @@ app.use(helmet.contentSecurityPolicy({
   }
 }))
 
-// May contain call to express.
 uploadProvider.init(app)
 
 app.use(express.raw({
