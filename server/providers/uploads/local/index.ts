@@ -46,6 +46,7 @@ export default class LocalProvider implements Provider {
     if (this.uploadMap.has(key)) {
       const upload = this.uploadMap.get(key)
 
+      res.set('Cache-Control', 'public, max-age=31557600')
       res.download(upload.filePath, upload.name)
     } else {
       res.status(404)
