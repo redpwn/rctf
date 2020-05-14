@@ -37,18 +37,20 @@ export default class LocalProvider implements Provider {
     this.app = app
 
     this.uploadMap = new Map()
-    this.app.get(this.endpoint, (req, res) => {
-      const key = req.query.key.toString()
+    this.app.get(this.endpoint, this.handleRequest.bind(this))
+  }
 
-      if (this.uploadMap.has(key)) {
-        const upload = this.uploadMap.get(key)
+  handleRequest (req: express.Request, res: express.Response): void {
+    const key = req.query.key.toString()
 
-        res.download(upload.filePath, upload.name)
-      } else {
-        res.status(400)
-        res.end()
-      }
-    })
+    if (this.uploadMap.has(key)) {
+      const upload = this.uploadMap.get(key)
+
+      res.download(upload.filePath, upload.name)
+    } else {
+      res.status(404)
+      res.end()
+    }
   }
 
   upload (data: Buffer, name: string): Promise<string> {
