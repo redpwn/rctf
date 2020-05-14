@@ -1,14 +1,28 @@
-import config from '../../../../config/server'
 import path from 'path'
 import { promises as fs } from 'fs'
-import { Challenge } from '../../../challenges/types'
+import util from '../../../util'
+import { get as getUploadProvider } from '../../../uploads'
+import { Challenge, Points, File } from '../../../challenges/types'
 import { Provider } from '../../../challenges/Provider'
 import { EventEmitter } from 'events'
 
+const uploadProvider = getUploadProvider()
+
 interface RDeployBlobProviderOptions {
-  updateInterval: number;
-  useGlobalRDeployDirectory: boolean;
-  rDeployDirectory?: string;
+  updateInterval?: number;
+  rDeployDirectory: string;
+  rDeployFiles: string;
+}
+
+interface RDeployChallenge {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  author: string;
+  files: string[];
+  points: Points;
+  flag: string;
 }
 
 class RDeployBlobProvider extends EventEmitter implements Provider {
@@ -17,30 +31,67 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
   private _interval: NodeJS.Timeout
   private challenges: Challenge[]
 
+  private ready = false
+  private downloadMap: Map<string, string>
+
   constructor (options: RDeployBlobProviderOptions) {
     super()
     options = {
       updateInterval: 60 * 1000,
-      useGlobalRDeployDirectory: true,
-      // rDeployDirectory: ''
       ...options
     }
 
     this._updateInterval = options.updateInterval
-    this._rDeployDirectory = options.useGlobalRDeployDirectory
-      ? config.rDeployDirectory
-      : options.rDeployDirectory
+    this._rDeployDirectory = path.join(__dirname, '../../../../', options.rDeployDirectory)
     this._interval = setInterval(() => this._update(), this._updateInterval)
-    this._update()
+
+    this.downloadMap = new Map()
+
+    const fileDir = path.join(this._rDeployDirectory, options.rDeployFiles)
+    fs.readdir(fileDir)
+      .then(async files => {
+        await Promise.all(files.map(async file => {
+          const filePath = path.join(fileDir, file)
+
+          const stats = await fs.stat(filePath)
+          if (stats.isFile) {
+            const data = await fs.readFile(filePath)
+
+            const url = await uploadProvider.upload(data, util.normalize.normalizeDownload(file))
+
+            this.downloadMap.set(file, url)
+          }
+        }))
+
+        // When done uploading files, allow updates
+        this.ready = true
+        this._update()
+      })
   }
 
   _update (): void {
-    const configPath = path.join(__dirname, '../../../../', this._rDeployDirectory, 'config.json')
+    // Prevent updates if downloads not initialized
+    if (!this.ready) return
 
-    fs.readFile(configPath, 'utf8')
+    fs.readFile(path.join(this._rDeployDirectory, 'config.json'), 'utf8')
       .then((data: string) => {
         try {
-          this.challenges = JSON.parse(data)
+          const rawChallenges: RDeployChallenge[] = JSON.parse(data)
+
+          this.challenges = rawChallenges.map((chall: RDeployChallenge): Challenge => {
+            const downloadUrls: File[] = chall.files.map(file => {
+              const basename = path.basename(file)
+              return {
+                name: util.normalize.normalizeDownload(basename),
+                url: this.downloadMap.get(basename)
+              }
+            })
+
+            return {
+              ...chall,
+              files: downloadUrls
+            }
+          })
 
           this.emit('update', this.challenges)
         } catch (e) {

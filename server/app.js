@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 const helmet = require('helmet')
 const { enableCORS, serveDownloads } = require('./util')
+const uploadProvider = require('./uploads/index')
 
 require('./leaderboard').startUpdater()
 
@@ -20,6 +21,7 @@ app.use(enableCORS)
 app.use(helmet({
   dnsPrefetchControl: false
 }))
+app.use(helmet.referrerPolicy({ policy: 'same-origin' }))
 app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
@@ -28,6 +30,8 @@ app.use(helmet.contentSecurityPolicy({
     imgSrc: ['*', 'data:']
   }
 }))
+
+uploadProvider.init(app)
 
 app.use(express.raw({
   type: 'application/json'

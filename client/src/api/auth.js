@@ -82,7 +82,10 @@ export const register = ({ email, name, division, ctftimeToken }) => {
           }
         case 'badKnownName':
           return {
-            name: resp.message
+            errors: {
+              name: resp.message
+            },
+            data: resp.data
           }
       }
     })
