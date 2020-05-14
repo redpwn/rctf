@@ -49,43 +49,21 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
 
     const fileDir = path.join(this._rDeployDirectory, options.rDeployFiles)
     fs.readdir(fileDir)
-      .then(files => {
-        return Promise.all(
-          files.map(
-            file => {
-              const filePath = path.join(fileDir, file)
+      .then(async files => {
+        for (const file of files) {
+          const filePath = path.join(fileDir, file)
 
-              return fs.stat(filePath)
-                .then(stats => {
-                  if (stats.isFile) {
-                    return fs.readFile(filePath)
-                  }
-                  return null
-                })
-                .then(data => {
-                  if (data === null) return null
+          const stats = await fs.stat(filePath)
+          if (stats.isFile) {
+            const data = await fs.readFile(filePath)
 
-                  return uploadProvider.upload(data, util.normalize.normalizeDownload(file))
-                    .then(url => {
-                      return {
-                        file,
-                        url
-                      }
-                    })
-                })
-            })
-        )
-      })
-      .then(uploadInfo => {
-        uploadInfo.forEach(data => {
-          if (data !== null) {
-            const { file, url } = data
+            const url = await uploadProvider.upload(data, util.normalize.normalizeDownload(file))
+
             this.downloadMap.set(file, url)
           }
-        })
-      })
-      // When done uploading files, allow updates
-      .then(() => {
+        }
+
+        // When done uploading files, allow updates
         this.ready = true
         this._update()
       })
