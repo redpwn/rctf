@@ -1,5 +1,4 @@
 import config from '../../config/server'
-import util from '../util'
 import path from 'path'
 import { Challenge, CleanedChallenge } from './types'
 import { Provider } from './Provider'
@@ -12,17 +11,8 @@ let cleanedChallenges: CleanedChallenge[] = []
 const cleanChallenge = (chall: Challenge): CleanedChallenge => {
   const { files, description, author, points, id, name, category } = chall
 
-  const normalizedFiles = files.map(filename => {
-    const cleanedName = util.normalize.normalizeDownload(filename)
-
-    return {
-      name: cleanedName,
-      path: filename
-    }
-  })
-
   return {
-    files: normalizedFiles,
+    files,
     description,
     author,
     points,

@@ -3,9 +3,9 @@ export interface Points {
   max: number;
 }
 
-export interface CleanedFile {
+export interface File {
   name: string;
-  path: string;
+  url: string;
 }
 
 export interface CleanedChallenge {
@@ -14,7 +14,7 @@ export interface CleanedChallenge {
   description: string;
   category: string;
   author: string;
-  files: CleanedFile[];
+  files: File[];
   points: Points;
 }
 
@@ -24,7 +24,7 @@ export interface Challenge {
   description: string;
   category: string;
   author: string;
-  files: string[];
+  files: File[];
   points: Points;
   flag: string;
 }
