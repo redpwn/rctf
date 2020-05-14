@@ -23,5 +23,3 @@ module.exports = {
   ],
   ctftimeClientId: 0
 }
-
-module.exports = ret
