@@ -50,7 +50,7 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
     const fileDir = path.join(this._rDeployDirectory, options.rDeployFiles)
     fs.readdir(fileDir)
       .then(async files => {
-        for (const file of files) {
+        await Promise.all(files.map(async file => {
           const filePath = path.join(fileDir, file)
 
           const stats = await fs.stat(filePath)
@@ -61,7 +61,7 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
 
             this.downloadMap.set(file, url)
           }
-        }
+        }))
 
         // When done uploading files, allow updates
         this.ready = true
