@@ -40,7 +40,13 @@ app.use(express.raw({
 app.use('/api/v1', require('./api'))
 
 const staticPath = path.join(__dirname, '../build')
+
+const indexRoute = serveIndex(path.join(staticPath, 'index.html'))
+
+// Override index.html in express.static
+app.get('/', indexRoute)
+app.get('/index.html', indexRoute)
 app.use(express.static(staticPath, { extensions: ['html'] }))
-app.use(serveIndex(path.join(staticPath, 'index.html')))
+app.use(indexRoute)
 
 module.exports = app

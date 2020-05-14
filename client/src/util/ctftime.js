@@ -1,4 +1,4 @@
-import config from '../../../config/client'
+import config from '../config'
 
 const openPopup = ({ url, title, w, h }) => {
   const systemZoom = window.innerWidth / window.screen.availWidth

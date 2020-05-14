@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'preact/hooks'
 import { memo } from 'preact/compat'
-import config from '../../../config/client'
+import config from '../config'
 import withStyles from '../components/jss'
 
 import { privateProfile, publicProfile, deleteAccount, updateAccount, updateEmail, deleteEmail } from '../api/profile'

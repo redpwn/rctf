@@ -38,7 +38,9 @@ module.exports = {
     const indexTemplate = fs.readFileSync(indexPath).toString()
 
     const rendered = mustache.render(indexTemplate, {
-      config: clientConfig
+      config: JSON.stringify(clientConfig),
+      ctfName: clientConfig.ctfName,
+      meta: clientConfig.meta
     })
 
     return (req, res, next) => {

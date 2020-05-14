@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'preact/hooks'
-import config from '../../../config/client'
+import config from '../config'
 import withStyles from '../components/jss'
 import Pagination from '../components/pagination'
 import Graph from '../components/graph'

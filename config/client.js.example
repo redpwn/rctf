@@ -1,8 +1,9 @@
-const ret = {
+const shared = require('./shared')
+
+module.exports = {
+  ...shared,
   apiEndpoint: '/api/v1',
-  staticEndpoint: '/static',
-  ctfTitle: ' | yourCTF',
-  ctfName: 'yourCTF',
+  ctfTitle: ' | ' + shared.ctfName,
   meta: {
     description: 'A description of your CTF',
     imageUrl: ''
@@ -19,12 +20,8 @@ const ret = {
       description: 'Brief description',
       small: true
     }
-  ]
+  ],
+  ctftimeClientId: 0
 }
-
-const shared = require('./shared')
-Object.entries(shared).forEach(([key, val]) => {
-  if (ret[key] === undefined) ret[key] = val
-})
 
 module.exports = ret
