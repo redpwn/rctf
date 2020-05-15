@@ -1,7 +1,7 @@
 const config = require('../../config/server')
-const path = require('path')
+const clientConfig = require('../../config/client')
 const fs = require('fs')
-const contentDisposition = require('content-disposition')
+const mustache = require('mustache')
 const { responses } = require('../responses')
 const normalize = require('./normalize')
 
@@ -34,37 +34,22 @@ module.exports = {
       next()
     }
   },
-  serveDownloads: root => {
-    if (!root.startsWith('/')) root = '/' + root
-    if (!root.endsWith('/')) root = root + '/'
+  serveIndex: indexPath => {
+    const indexTemplate = fs.readFileSync(indexPath).toString()
+
+    const rendered = mustache.render(indexTemplate, {
+      config: JSON.stringify(clientConfig),
+      ctfName: clientConfig.ctfName,
+      meta: clientConfig.meta
+    })
 
     return (req, res, next) => {
-      if (req.method !== 'GET') return next()
-
-      if (req.path.startsWith(root)) {
-        const filename = req.path.substring(root.length)
-
-        const filepath = path.join(config.rDeployDirectory, config.rDeployFiles, filename)
-
-        if (filepath.startsWith(path.join(config.rDeployDirectory, config.rDeployFiles))) {
-          fs.access(filepath, fs.constants.R_OK, err => {
-            if (err) return next()
-
-            const cleanName = normalize.normalizeDownload(filename)
-
-            return res.sendFile(filename, {
-              root: path.join(config.rDeployDirectory, config.rDeployFiles),
-              headers: {
-                'Content-Disposition': contentDisposition(cleanName)
-              }
-            })
-          })
-
-          return
-        }
-        // Something sketchy is happening...
+      if (req.method !== 'GET') {
+        next()
+        return
       }
-      return next()
+      res.setHeader('Content-Type', 'text/html; charset=UTF-8')
+      res.send(rendered)
     }
   }
 }

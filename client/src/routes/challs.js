@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect, useMemo } from 'preact/hooks'
 
-import config from '../../../config/client'
+import config from '../config'
 import withStyles from '../components/jss'
 import Problem from '../components/problem'
 

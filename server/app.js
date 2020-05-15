@@ -1,7 +1,7 @@
 const path = require('path')
 const express = require('express')
 const helmet = require('helmet')
-const { enableCORS, serveDownloads } = require('./util')
+const { enableCORS, serveIndex } = require('./util')
 const uploadProvider = require('./uploads/index')
 
 require('./leaderboard').startUpdater()
@@ -40,14 +40,13 @@ app.use(express.raw({
 app.use('/api/v1', require('./api'))
 
 const staticPath = path.join(__dirname, '../build')
+
+const indexRoute = serveIndex(path.join(staticPath, 'index.html'))
+
+// Override index.html in express.static
+app.get('/', indexRoute)
+app.get('/index.html', indexRoute)
 app.use(express.static(staticPath, { extensions: ['html'] }))
-app.use(serveDownloads('/static/files'))
-app.use((req, res, next) => {
-  if (req.method !== 'GET') {
-    next()
-    return
-  }
-  res.sendFile(path.join(staticPath, 'index.html'))
-})
+app.use(indexRoute)
 
 module.exports = app

@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'preact/hooks'
 import Router from 'preact-router'
-import config from '../../config/client'
+import config from './config'
 
 import 'cirrus-ui'
 import withStyles from './components/jss'

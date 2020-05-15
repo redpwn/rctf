@@ -1,5 +1,4 @@
 require('dotenv').config()
-const appCfg = require('./config/client')
 
 const glob = require('glob')
 
@@ -47,15 +46,6 @@ export default (config, env, helpers) => {
       }
     }
   })
-
-  const HtmlWebpackPluginWrapper = helpers.getPluginsByName(config, 'HtmlWebpackPlugin')[0]
-  if (HtmlWebpackPluginWrapper !== undefined) {
-    const HtmlWebpackPlugin = HtmlWebpackPluginWrapper.plugin
-    HtmlWebpackPlugin.options.view = {
-      ctfName: appCfg.ctfName,
-      meta: appCfg.meta
-    }
-  }
 
   const SizePluginWrapper = helpers.getPluginsByName(config, 'SizePlugin')[0]
   if (SizePluginWrapper !== undefined) {
