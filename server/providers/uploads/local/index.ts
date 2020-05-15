@@ -70,6 +70,6 @@ export default class LocalProvider implements Provider {
     })
 
     return fs.promises.writeFile(filePath, data)
-      .then(() => config.serverOrigin + urlPath)
+      .then(() => (config.serverOrigin || '') + urlPath)
   }
 }
