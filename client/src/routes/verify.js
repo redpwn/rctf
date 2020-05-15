@@ -1,5 +1,5 @@
 import Error from './error'
-import config from '../../../config/client'
+import config from '../config'
 import 'linkstate/polyfill'
 
 import TokenPreview from '../components/tokenPreview'

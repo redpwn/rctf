@@ -1,5 +1,5 @@
 import Form from '../components/form'
-import config from '../../../config/client'
+import config from '../config'
 import withStyles from '../components/jss'
 import { register } from '../api/auth'
 import UserCircle from '../icons/user-circle.svg'

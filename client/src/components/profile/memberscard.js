@@ -2,7 +2,7 @@ import withStyles from '../jss'
 import { getMembers, addMember, removeMember } from '../../api/members'
 import { updateAccount } from '../../api/profile'
 import { useState, useCallback, useEffect } from 'preact/hooks'
-import config from '../../../../config/client'
+import config from '../../config'
 
 import Form from '../form'
 import { useToast } from '../toast'

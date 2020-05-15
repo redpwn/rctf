@@ -2,16 +2,18 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title><%= htmlWebpackPlugin.options.view.ctfName %></title>
+		<title>{{ ctfName }}</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
 
-		<meta property="og:title" content="<%= htmlWebpackPlugin.options.view.ctfName %>">
-		<meta property="og:description" content="<%= htmlWebpackPlugin.options.view.meta.description %>">
-		<meta property="og:image" content="<%= htmlWebpackPlugin.options.view.meta.imageUrl %>">
+		<meta property="og:title" content="{{ ctfName }}">
+	<meta property="og:description" content="{{ meta.description }}">
+		<meta property="og:image" content="{{ meta.imageUrl }}">
 		<meta property="og:type" content="website" />
+
+		<meta name="rctf-config" content="{{ config }}" />
 
 		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">

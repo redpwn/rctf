@@ -1,5 +1,5 @@
 import { Component } from 'preact'
-import config from '../../../config/client'
+import config from '../config'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
