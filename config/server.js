@@ -1,8 +1,7 @@
 const config = {
   ...require('./shared'),
   challengeProvider: {
-    // name: 'challenges/rdeploy-blob',
-    name: 'challenges/database',
+    name: 'challenges/rdeploy-blob',
     options: {
       rDeployDirectory: '.rdeploy',
       rDeployFiles: 'files',
