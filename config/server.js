@@ -15,7 +15,7 @@ const config = {
       endpoint: '/uploads'
     }
   },
-  serverOrigin: 'http://localhost:3000',
+  serverOrigin: process.env.RCTF_ORIGIN,
   verifyEmail: false,
   removeDownloadHashes: true,
   tokenKey: process.env.RCTF_TOKEN_KEY,
@@ -32,7 +32,7 @@ const config = {
   leaderboardMaxLimit: 100,
   leaderboardMaxOffset: 2 ** 32,
   graphSampleTime: 10 * 60 * 1000,
-  graphMaxTeams: 100,
+  graphMaxTeams: 10,
   startTime: Date.now() - 24 * 60 * 60 * 1000,
   endTime: Date.now() + 24 * 60 * 60 * 1000
 }
