@@ -70,11 +70,19 @@ class DatabaseProvider extends EventEmitter implements Provider {
     // If we're inserting, have sane defaults
     if (originalData === undefined) {
       chall = patchChallenge(chall)
+    } else {
+      chall = {
+        ...originalData,
+        ...chall
+      }
     }
 
     const data = this.challengeToRow(chall)
 
-    await db.challenges.upsertChallenge(data)
+    await db.challenges.upsertChallenge({
+      id: chall.id,
+      data
+    })
 
     this._update()
   }
