@@ -1,31 +1,19 @@
-FROM node:12-slim
-
+FROM node:12.16.3-buster-slim AS build
 WORKDIR /app
 
-ARG rctf_name
-ENV RCTF_NAME=${rctf_name}
-
-RUN groupmod -g 999 node && usermod -u 999 -g 999 node
-
 COPY package.json yarn.lock ./
-COPY config ./config
-
-COPY client ./client
-COPY public ./public
-COPY preact.config.js ./
-
-COPY server ./server
-COPY tsconfig.json ./
-
-RUN yarn && yarn build && rm -rf node_modules && yarn cache clean
-
-ENV NODE_ENV production
-RUN yarn && yarn cache clean
-
-ENV PORT 8000
-EXPOSE 8000
+RUN yarn
 
 COPY . .
+RUN yarn build
 
+FROM node:12.16.3-buster-slim AS run
+WORKDIR /app
 
-CMD ["node", "dist/server/index.js"]
+COPY --from=build /app/dist /app/dist
+COPY --from=build /app/yarn.lock /app/package.json /app/
+
+ENV NODE_ENV production
+RUN yarn
+
+CMD ["node", "/app/dist/server/index.js"]
