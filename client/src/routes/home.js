@@ -11,8 +11,8 @@ export default withStyles({
     marginBottom: '3.125em'
   },
   logo: {
-    height: '9.375em',
-    width: '9.375em'
+    height: '9.375em !important',
+    width: '9.375em !important'
   }
 }, class Home extends Component {
   componentDidMount () {
