@@ -1,4 +1,4 @@
-import { Challenge } from '../../../challenges/types'
+import { Challenge, patchChallenge } from '../../../challenges/types'
 import { Provider } from '../../../challenges/Provider'
 import { EventEmitter } from 'events'
 
@@ -63,6 +63,15 @@ class DatabaseProvider extends EventEmitter implements Provider {
   }
 
   async updateChallenge (chall: Challenge): Promise<void> {
+    const originalData = await db.challenges.getChallengeById({
+      id: chall.id
+    })
+
+    // If we're inserting, have sane defaults
+    if (originalData === undefined) {
+      chall = patchChallenge(chall)
+    }
+
     const data = this.challengeToRow(chall)
 
     await db.challenges.upsertChallenge(data)

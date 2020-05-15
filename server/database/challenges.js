@@ -5,6 +5,10 @@ const ret = {
     return db.query('SELECT * FROM challenges')
       .then(res => res.rows)
   },
+  getChallengeById: ({ id }) => {
+    return db.query('SELECT * FROM challenges WHERE id = $1', [id])
+      .then(res => res.rows[0])
+  },
   createChallenge: ({ id, data }) => {
     return db.query('INSERT INTO challenges ($1, $2) RETURNING *',
       [id, data]

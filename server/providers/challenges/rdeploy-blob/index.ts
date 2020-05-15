@@ -2,7 +2,7 @@ import path from 'path'
 import { promises as fs } from 'fs'
 import util from '../../../util'
 import { get as getUploadProvider } from '../../../uploads'
-import { Challenge, Points, File } from '../../../challenges/types'
+import { Challenge, Points, File, patchChallenge } from '../../../challenges/types'
 import { Provider } from '../../../challenges/Provider'
 import { EventEmitter } from 'events'
 
@@ -119,7 +119,7 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
     }
 
     if (!challengeExists) {
-      this.challenges.push(chall)
+      this.challenges.push(patchChallenge(chall))
     }
 
     this.emit('update', this.challenges)
