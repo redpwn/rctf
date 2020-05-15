@@ -2,10 +2,15 @@ import { Challenge } from '../../../challenges/types'
 import { Provider } from '../../../challenges/Provider'
 import { EventEmitter } from 'events'
 
-const db = require('../../../database') // eslint-disable-line @typescript-eslint/no-var-requires
+import db from '../../../database'
 
 interface DatabaseProviderOptions {
   updateInterval: number;
+}
+
+interface DatabaseChallenge {
+  id: string;
+  data: any;
 }
 
 class DatabaseProvider extends EventEmitter implements Provider {
@@ -26,10 +31,15 @@ class DatabaseProvider extends EventEmitter implements Provider {
   }
 
   async _update (): Promise<void> {
-    const dbchallenges = await db.challenges.getAllChallenges()
+    const dbchallenges: DatabaseChallenge[] = await db.challenges.getAllChallenges()
 
     try {
-      this.challenges = dbchallenges
+      this.challenges = dbchallenges.map(({ id, data }) => {
+        return {
+          ...data,
+          id
+        }
+      })
 
       this.emit('update', this.challenges)
     } catch (e) {
@@ -42,31 +52,20 @@ class DatabaseProvider extends EventEmitter implements Provider {
     this._update()
   }
 
-  async updateChallenge (chall: Challenge): Promise<void> {
-    const updateResponse = await db.challenges.updateChallenge({
-      id: chall.id,
-      name: chall.name,
-      description: chall.description,
-      files: chall.files,
-      author: chall.author,
-      category: chall.category,
-      points: chall.points,
-      flag: chall.flag
-    })
+  challengeToRow (chall: Challenge): DatabaseChallenge {
+    const id = chall.id
+    delete chall.id
 
-    if (updateResponse.length === 0) {
-      // Nothing was updated which means chall with id does not exist, create the challenge
-      await db.challenges.createChallenge({
-        id: chall.id,
-        name: chall.name,
-        description: chall.description,
-        files: chall.files,
-        author: chall.author,
-        category: chall.category,
-        points: chall.points,
-        flag: chall.flag
-      })
+    return {
+      id,
+      data: chall
     }
+  }
+
+  async updateChallenge (chall: Challenge): Promise<void> {
+    const data = this.challengeToRow(chall)
+
+    await db.challenges.upsertChallenge(data)
 
     this._update()
   }
