@@ -1,4 +1,5 @@
-import { Challenge, patchChallenge } from '../../../challenges/types'
+import { Challenge } from '../../../challenges/types'
+import { applyChallengeDefaults } from '../../../challenges/util'
 import { Provider } from '../../../challenges/Provider'
 import { EventEmitter } from 'events'
 
@@ -10,7 +11,7 @@ interface DatabaseProviderOptions {
 
 interface DatabaseChallenge {
   id: string;
-  data: any;
+  data: Omit<Challenge, 'id'>;
 }
 
 class DatabaseProvider extends EventEmitter implements Provider {
@@ -31,9 +32,9 @@ class DatabaseProvider extends EventEmitter implements Provider {
   }
 
   async _update (): Promise<void> {
-    const dbchallenges: DatabaseChallenge[] = await db.challenges.getAllChallenges()
-
     try {
+      const dbchallenges: DatabaseChallenge[] = await db.challenges.getAllChallenges()
+
       this.challenges = dbchallenges.map(({ id, data }) => {
         return {
           ...data,
@@ -69,7 +70,7 @@ class DatabaseProvider extends EventEmitter implements Provider {
 
     // If we're inserting, have sane defaults
     if (originalData === undefined) {
-      chall = patchChallenge(chall)
+      chall = applyChallengeDefaults(chall)
     } else {
       chall = {
         ...originalData,

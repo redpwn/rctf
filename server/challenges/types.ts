@@ -28,26 +28,3 @@ export interface Challenge {
   points: Points;
   flag: string;
 }
-
-const ChallengeDefaults: Challenge = {
-  id: '',
-  name: '',
-  description: '',
-  category: '',
-  author: '',
-  files: [],
-  points: {
-    min: 0,
-    max: 0
-  },
-  flag: ''
-}
-
-export const patchChallenge = (chall: Challenge): Challenge => {
-  const copy = JSON.parse(JSON.stringify(ChallengeDefaults))
-
-  return {
-    ...copy,
-    ...chall
-  }
-}
