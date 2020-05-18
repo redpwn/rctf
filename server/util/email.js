@@ -1,14 +1,14 @@
-const path = require('path')
-const fs = require('fs')
-const nodemailer = require('nodemailer')
-const mustache = require('mustache')
-const config = require('../../config/server')
+import path from 'path'
+import fs from 'fs'
+import nodemailer from 'nodemailer'
+import mustache from 'mustache'
+import config from '../../config/server'
 
 const transport = nodemailer.createTransport(config.smtpUrl)
 const verifyHtml = fs.readFileSync(path.join(__dirname, 'emails/verify.html')).toString()
 const verifyText = fs.readFileSync(path.join(__dirname, 'emails/verify.txt')).toString()
 
-const sendVerification = async ({ token, kind, email }) => {
+export const sendVerification = async ({ token, kind, email }) => {
   const emailView = {
     ctf_name: config.ctfName,
     origin: config.origin,
@@ -33,8 +33,4 @@ const sendVerification = async ({ token, kind, email }) => {
     html: mustache.render(verifyHtml, emailView),
     text: mustache.render(verifyText, emailView)
   })
-}
-
-module.exports = {
-  sendVerification
 }

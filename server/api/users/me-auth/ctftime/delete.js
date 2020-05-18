@@ -1,8 +1,8 @@
-const config = require('../../../../../config/server')
-const { responses } = require('../../../../responses')
-const database = require('../../../../database')
+import config from '../../../../../config/server'
+import { responses } from '../../../../responses'
+import * as database from '../../../../database'
 
-module.exports = {
+export default {
   method: 'delete',
   path: '/users/me/auth/ctftime',
   requireAuth: true,

@@ -1,7 +1,7 @@
-module.exports = [
-  require('./login'),
-  require('./recover'),
-  require('./register'),
-  require('./test'),
-  require('./verify')
+export default [
+  require('./login').default,
+  require('./recover').default,
+  require('./register').default,
+  require('./test').default,
+  require('./verify').default
 ]

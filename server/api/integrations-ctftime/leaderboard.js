@@ -1,9 +1,9 @@
-const { responses } = require('../../responses')
-const cache = require('../../cache')
-const challenges = require('../../challenges')
-const config = require('../../../config/server')
+import { responses } from '../../responses'
+import * as cache from '../../cache'
+import * as challenges from '../../challenges'
+import config from '../../../config/server'
 
-module.exports = {
+export default {
   method: 'get',
   path: '/integrations/ctftime/leaderboard',
   requireAuth: false,

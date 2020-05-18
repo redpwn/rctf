@@ -1,6 +1,6 @@
-const os = require('os')
-const fs = require('fs')
-const config = require('../../config/server')
+import os from 'os'
+import fs from 'fs'
+import config from '../../config/server'
 
 let consumer = () => {}
 
@@ -26,4 +26,4 @@ const log = (...rest) => {
   consumer(content)
 }
 
-module.exports = log
+export default log

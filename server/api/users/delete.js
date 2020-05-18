@@ -1,7 +1,7 @@
-const { responses } = require('../../responses')
-const database = require('../../database')
+import { responses } from '../../responses'
+import * as database from '../../database'
 
-module.exports = {
+export default {
   method: 'delete',
   path: '/users/me',
   requireAuth: true,

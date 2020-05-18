@@ -1,9 +1,9 @@
-const { responses } = require('../../../responses')
-const challenges = require('../../../challenges')
-const perms = require('../../../util/perms')
-const cache = require('../../../cache')
+import { responses } from '../../../responses'
+import * as challenges from '../../../challenges'
+import perms from '../../../util/perms'
+import * as cache from '../../../cache'
 
-module.exports = {
+export default {
   method: 'delete',
   path: '/admin/challs/:id',
   requireAuth: true,

@@ -1,5 +1,5 @@
-module.exports = [
-  require('./new'),
-  require('./delete'),
-  require('./list')
+export default [
+  require('./new').default,
+  require('./delete').default,
+  require('./list').default
 ]

@@ -1,9 +1,9 @@
-const path = require('path')
-const { Worker } = require('worker_threads')
-const database = require('../database')
-const challenges = require('../challenges')
-const cache = require('../cache')
-const config = require('../../config/server')
+import path from 'path'
+import { Worker } from 'worker_threads'
+import * as database from '../database'
+import { getAllChallenges } from '../challenges'
+import * as cache from '../cache'
+import config from '../../config/server'
 
 const fetchData = async () => {
   const [solves, users] = await Promise.all([
@@ -13,11 +13,11 @@ const fetchData = async () => {
   return {
     solves,
     users,
-    allChallenges: challenges.getAllChallenges()
+    allChallenges: getAllChallenges()
   }
 }
 
-const runBulkGraphUpdate = async ({ start, end, challsUpdate }) => {
+export const runBulkGraphUpdate = async ({ start, end, challsUpdate }) => {
   const worker = new Worker(path.join(__dirname, 'calculate.js'), {
     workerData: {
       graph: true,
@@ -68,14 +68,11 @@ const runUpdate = async () => {
   })
 }
 
-module.exports = {
-  startUpdater: () => {
-    setInterval(runUpdate, config.leaderboardUpdateInterval)
-    runUpdate()
-    runBulkGraphUpdate({
-      start: config.startTime,
-      end: Math.min(Date.now(), config.endTime)
-    })
-  },
-  runBulkGraphUpdate
+export const startUpdater = () => {
+  setInterval(runUpdate, config.leaderboardUpdateInterval)
+  runUpdate()
+  runBulkGraphUpdate({
+    start: config.startTime,
+    end: Math.min(Date.now(), config.endTime)
+  })
 }

@@ -1,9 +1,9 @@
-const config = require('../../../../../config/server')
-const { responses } = require('../../../../responses')
-const database = require('../../../../database')
-const auth = require('../../../../auth')
+import config from '../../../../../config/server'
+import { responses } from '../../../../responses'
+import * as database from '../../../../database'
+import * as auth from '../../../../auth'
 
-module.exports = {
+export default {
   method: 'put',
   path: '/users/me/auth/ctftime',
   requireAuth: true,

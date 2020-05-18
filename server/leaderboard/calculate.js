@@ -1,6 +1,6 @@
-const { workerData, parentPort } = require('worker_threads')
-const utilScores = require('../util/scores')
-const { calcSamples, getPreviousSample } = require('./samples')
+import { workerData, parentPort } from 'worker_threads'
+import { getScore } from '../util/scores'
+import { calcSamples, getPreviousSample } from './samples'
 
 const {
   graph,
@@ -53,9 +53,9 @@ const calculateScores = (sample) => {
     const challenge = allChallenges[i]
     if (!solveAmount.has(challenge.id)) {
       // There are currently no solves
-      challengeValues.set(challenge.id, utilScores.getScore('dynamic', challenge.points.min, challenge.points.max, 0))
+      challengeValues.set(challenge.id, getScore('dynamic', challenge.points.min, challenge.points.max, 0))
     } else {
-      challengeValues.set(challenge.id, utilScores.getScore('dynamic', challenge.points.min, challenge.points.max, solveAmount.get(challenge.id)))
+      challengeValues.set(challenge.id, getScore('dynamic', challenge.points.min, challenge.points.max, solveAmount.get(challenge.id)))
     }
   }
 

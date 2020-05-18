@@ -1,4 +1,2 @@
-module.exports = {
-  token: require('./token'),
-  register: require('./register')
-}
+export * as token from './token'
+export * as register from './register'

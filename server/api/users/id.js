@@ -1,7 +1,7 @@
-const { responses } = require('../../responses')
-const { getGenericUserData } = require('./util')
+import { responses } from '../../responses'
+import { getGenericUserData } from './util'
 
-module.exports = {
+export default {
   method: 'get',
   path: '/users/:id',
   requireAuth: false,

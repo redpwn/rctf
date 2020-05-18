@@ -1,21 +1,21 @@
-const express = require('express')
-const Ajv = require('ajv')
-const { responses, responseList } = require('../responses')
-const auth = require('../auth')
-const db = require('../database')
+import express from 'express'
+import Ajv from 'ajv'
+import { responses, responseList } from '../responses'
+import * as auth from '../auth'
+import * as db from '../database'
 
 const router = express.Router()
 
 const routes = [
-  require('./leaderboard/now'),
-  require('./leaderboard/graph'),
-  require('./submitflag'),
-  require('./challenges'),
-  require('./integrations-ctftime/leaderboard'),
-  require('./integrations-ctftime/callback'),
-  ...require('./users'),
-  ...require('./auth'),
-  ...require('./admin/challs')
+  require('./leaderboard/now').default,
+  require('./leaderboard/graph').default,
+  require('./submitflag').default,
+  require('./challenges').default,
+  require('./integrations-ctftime/leaderboard').default,
+  require('./integrations-ctftime/callback').default,
+  ...require('./users').default,
+  ...require('./auth').default,
+  ...require('./admin/challs').default
 ]
 
 const validationParams = ['body', 'params', 'query']
@@ -133,4 +133,4 @@ router.use((req, res) => {
   makeSendResponse(res)(responses.badEndpoint)
 })
 
-module.exports = router
+export default router
