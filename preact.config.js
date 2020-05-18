@@ -72,7 +72,8 @@ export default (config, env, helpers) => {
     const HtmlWebpackPluginsWrappers = helpers.getPluginsByName(config, 'HtmlWebpackPlugin')
     for (const HtmlWebpackPluginWrapper of HtmlWebpackPluginsWrappers) {
       const options = HtmlWebpackPluginWrapper.plugin.options
-      assert(/^!!ejs-loader!/.test(options.template))
+      const loaderMatch = options.template.match(/^!!ejs-loader!(.*)$/)
+      assert(loaderMatch !== null)
 
       // FIXME: refactor this (copy-pasted from server)
       const context = {
@@ -81,7 +82,7 @@ export default (config, env, helpers) => {
         meta: clientConfig.meta
       }
 
-      options.template = `!!ejs-loader!mustache-rendered-loader?${JSON.stringify(context)}!${options.template.substr(13)}`
+      options.template = `!!ejs-loader!mustache-rendered-loader?${JSON.stringify(context)}!${loaderMatch[1]}`
     }
   }
 }
