@@ -10500,10 +10500,10 @@ svg-baker@^1.5.0, svg-baker@^1.7.0:
     query-string "^4.3.2"
     traverse "^0.6.6"
 
-svg-sprite-loader@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/svg-sprite-loader/-/svg-sprite-loader-4.3.0.tgz#a427f777fe15bba83a806e2fde01a736b19445c8"
-  integrity sha512-IkXI2e0bWr32G6VCqw0g8x8eRsMSUKkyd3axnI6D5pEZ9zv3Zi7FTVVnOUi/Io3i2D1UAofOW+35N8qwIUql4w==
+svg-sprite-loader@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/svg-sprite-loader/-/svg-sprite-loader-5.0.0.tgz#fd5c63c7110df3ca289282def49f34e6a62e6f65"
+  integrity sha512-/hedkRC2IS0E+kFIb+OUCfqQlbVx72/WEEeRGw2uPsNgOOgJEONXzjfSm+CJ3pB9gOHytlBmPMS8ijMCp5s2Eg==
   dependencies:
     bluebird "^3.5.0"
     deepmerge "1.3.2"
