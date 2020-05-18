@@ -1,10 +1,10 @@
-const { responses } = require('../../responses')
-const cache = require('../../cache')
-const config = require('../../../config/server')
+import { responses } from '../../responses'
+import * as cache from '../../cache'
+import config from '../../../config/server'
 
 const stringDivisions = Object.values(config.divisions).map(String)
 
-module.exports = {
+export default {
   method: 'get',
   path: '/leaderboard/now',
   requireAuth: false,

@@ -1,4 +1,2 @@
-module.exports = {
-  login: require('./login'),
-  leaderboard: require('./leaderboard')
-}
+export * as login from './login'
+export * as leaderboard from './leaderboard'

@@ -1,9 +1,9 @@
-const auth = require('../../auth')
-const cache = require('../../cache')
-const database = require('../../database')
-const { responses } = require('../../responses')
+import * as auth from '../../auth'
+import * as cache from '../../cache'
+import * as database from '../../database'
+import { responses } from '../../responses'
 
-module.exports = {
+export default {
   method: 'post',
   path: '/auth/verify',
   requireAuth: false,

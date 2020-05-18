@@ -1,7 +1,7 @@
-const { promisify } = require('util')
-const client = require('./client')
-const config = require('../../config/server')
-const { calcSamples } = require('../leaderboard/samples')
+import { promisify } from 'util'
+import client from './client'
+import config from '../../config/server'
+import { calcSamples } from '../leaderboard/samples'
 
 const redisEvalsha = promisify(client.evalsha.bind(client))
 const redisHget = promisify(client.hget.bind(client))
@@ -124,7 +124,7 @@ const setGraphScript = redisScript('load', `
   end
 `)
 
-const setLeaderboard = async ({ challengeScores, leaderboard }) => {
+export const setLeaderboard = async ({ challengeScores, leaderboard }) => {
   const divisions = Object.values(config.divisions)
   const divisionKeys = divisions.map((division) => 'division-leaderboard:' + division)
   const keys = [
@@ -157,7 +157,7 @@ const getLeaderboardKey = (division) => {
   }
 }
 
-const getRange = async ({ start, end, division }) => {
+export const getRange = async ({ start, end, division }) => {
   const redisResult = await redisEvalsha(
     await getRangeScript,
     1,
@@ -181,7 +181,7 @@ const getRange = async ({ start, end, division }) => {
   }
 }
 
-const getScore = async ({ id }) => {
+export const getScore = async ({ id }) => {
   const redisResult = await redisHget('score-positions', id)
   if (redisResult === null) {
     return null
@@ -194,7 +194,7 @@ const getScore = async ({ id }) => {
   }
 }
 
-const getChallengeScores = async ({ ids }) => {
+export const getChallengeScores = async ({ ids }) => {
   if (ids.length === 0) {
     return []
   }
@@ -202,7 +202,7 @@ const getChallengeScores = async ({ ids }) => {
   return redisResult.map((score) => parseInt(score))
 }
 
-const setGraph = async ({ leaderboards, challsUpdate = 0 }) => {
+export const setGraph = async ({ leaderboards, challsUpdate = 0 }) => {
   const values = []
   let lastSample = 0
   leaderboards.forEach(({ sample, scores }) => {
@@ -228,7 +228,7 @@ const setGraph = async ({ leaderboards, challsUpdate = 0 }) => {
   )
 }
 
-const getGraph = async ({ division, maxTeams }) => {
+export const getGraph = async ({ division, maxTeams }) => {
   const samples = calcSamples({
     start: config.startTime,
     end: Math.min(Date.now(), config.endTime)
@@ -287,7 +287,7 @@ const getGraph = async ({ division, maxTeams }) => {
   return result
 }
 
-const getGraphUpdate = async () => {
+export const getGraphUpdate = async () => {
   const redisResult = await redisMget('graph-update', 'graph-recalc', 'challs-update')
   return {
     graphUpdate: redisResult[0] === null ? null : parseInt(redisResult[0]),
@@ -296,17 +296,6 @@ const getGraphUpdate = async () => {
   }
 }
 
-const setChallsDirty = () => {
+export const setChallsDirty = () => {
   return redisSet('challs-update', Date.now())
-}
-
-module.exports = {
-  setLeaderboard,
-  setGraph,
-  getRange,
-  getScore,
-  getChallengeScores,
-  getGraph,
-  getGraphUpdate,
-  setChallsDirty
 }

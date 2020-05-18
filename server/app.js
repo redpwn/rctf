@@ -1,10 +1,12 @@
-const path = require('path')
-const express = require('express')
-const helmet = require('helmet')
-const { enableCORS, serveIndex } = require('./util')
-const uploadProvider = require('./uploads/index')
+import path from 'path'
+import express from 'express'
+import helmet from 'helmet'
+import { enableCORS, serveIndex } from './util'
+import { init as uploadProviderInit } from './uploads'
+import { startUpdater as leaderboardStartUpdater } from './leaderboard'
+import api from './api'
 
-require('./leaderboard').startUpdater()
+leaderboardStartUpdater()
 
 const app = express()
 
@@ -31,13 +33,13 @@ app.use(helmet.contentSecurityPolicy({
   }
 }))
 
-uploadProvider.init(app)
+uploadProviderInit(app)
 
 app.use(express.raw({
   type: 'application/json'
 }))
 
-app.use('/api/v1', require('./api'))
+app.use('/api/v1', api)
 
 const staticPath = path.join(__dirname, '../build')
 
@@ -49,4 +51,4 @@ app.get('/index.html', indexRoute)
 app.use(express.static(staticPath, { extensions: ['html'] }))
 app.use(indexRoute)
 
-module.exports = app
+export default app

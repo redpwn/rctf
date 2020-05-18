@@ -1,7 +1,5 @@
-module.exports = {
-  auth: require('./auth'),
-  solves: require('./solves'),
-  users: require('./users'),
-  members: require('./members'),
-  challenges: require('./challenges')
-}
+export * as auth from './auth'
+export * as solves from './solves'
+export * as users from './users'
+export * as members from './members'
+export * as challenges from './challenges'

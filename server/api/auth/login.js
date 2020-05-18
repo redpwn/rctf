@@ -1,8 +1,8 @@
-const database = require('../../database')
-const auth = require('../../auth')
-const { responses } = require('../../responses')
+import * as database from '../../database'
+import * as auth from '../../auth'
+import { responses } from '../../responses'
 
-module.exports = {
+export default {
   method: 'post',
   path: '/auth/login',
   requireAuth: false,

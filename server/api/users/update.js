@@ -1,9 +1,9 @@
-const { responses } = require('../../responses')
-const database = require('../../database')
-const config = require('../../../config/server')
-const timeouts = require('../../cache/timeouts')
+import { responses } from '../../responses'
+import * as database from '../../database'
+import config from '../../../config/server'
+import * as timeouts from '../../cache/timeouts'
 
-module.exports = {
+export default {
   method: 'patch',
   path: '/users/me',
   requireAuth: true,

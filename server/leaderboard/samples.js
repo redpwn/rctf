@@ -1,6 +1,6 @@
-const config = require('../../config/server')
+import config from '../../config/server'
 
-const calcSamples = ({ start, end }) => {
+export const calcSamples = ({ start, end }) => {
   const samples = []
   const sampleStart = Math.ceil(start / config.graphSampleTime) * config.graphSampleTime
   const sampleEnd = Math.floor(end / config.graphSampleTime) * config.graphSampleTime
@@ -11,11 +11,6 @@ const calcSamples = ({ start, end }) => {
   return samples
 }
 
-const getPreviousSample = () => {
+export const getPreviousSample = () => {
   return Math.floor(Date.now() / config.graphSampleTime) * config.graphSampleTime
-}
-
-module.exports = {
-  calcSamples,
-  getPreviousSample
 }

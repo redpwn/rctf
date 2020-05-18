@@ -1,8 +1,6 @@
-try {
-  require('dotenv').config()
-} catch (e) {}
+import 'dotenv/config'
 
-const app = require('./app')
+import app from './app'
 
 const PORT = process.env.PORT || 3000
 

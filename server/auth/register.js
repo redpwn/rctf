@@ -1,9 +1,9 @@
-const { v4: uuidv4 } = require('uuid')
-const database = require('../database')
-const tokenUtils = require('./token')
-const { responses } = require('../responses')
+import { v4 as uuidv4 } from 'uuid'
+import * as database from '../database'
+import { getToken, tokenKinds } from './token'
+import { responses } from '../responses'
 
-const register = async ({ division, email, name, ctftimeId }) => {
+export const register = async ({ division, email, name, ctftimeId }) => {
   const userUuid = uuidv4()
   try {
     await database.auth.makeUser({
@@ -26,14 +26,10 @@ const register = async ({ division, email, name, ctftimeId }) => {
     }
     throw e
   }
-  const authToken = await tokenUtils.getToken(tokenUtils.tokenKinds.auth, userUuid)
-  const teamToken = await tokenUtils.getToken(tokenUtils.tokenKinds.team, userUuid)
+  const authToken = await getToken(tokenKinds.auth, userUuid)
+  const teamToken = await getToken(tokenKinds.team, userUuid)
   return [responses.goodRegister, {
     authToken,
     teamToken
   }]
-}
-
-module.exports = {
-  register
 }

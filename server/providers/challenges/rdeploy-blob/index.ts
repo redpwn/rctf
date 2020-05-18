@@ -1,6 +1,6 @@
 import path from 'path'
 import { promises as fs } from 'fs'
-import util from '../../../util'
+import { normalize } from '../../../util'
 import { get as getUploadProvider } from '../../../uploads'
 import { Challenge, Points, File } from '../../../challenges/types'
 import { applyChallengeDefaults } from '../../../challenges/util'
@@ -58,7 +58,7 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
           if (stats.isFile) {
             const data = await fs.readFile(filePath)
 
-            const url = await uploadProvider.upload(data, util.normalize.normalizeDownload(file))
+            const url = await uploadProvider.upload(data, normalize.normalizeDownload(file))
 
             this.downloadMap.set(file, url)
           }
@@ -83,7 +83,7 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
             const downloadUrls: File[] = chall.files.map(file => {
               const basename = path.basename(file)
               return {
-                name: util.normalize.normalizeDownload(basename),
+                name: normalize.normalizeDownload(basename),
                 url: this.downloadMap.get(basename)
               }
             })

@@ -1,8 +1,8 @@
-const { responses } = require('../../../responses')
-const challenges = require('../../../challenges')
-const perms = require('../../../util/perms')
+import { responses } from '../../../responses'
+import * as challenges from '../../../challenges'
+import perms from '../../../util/perms'
 
-module.exports = {
+export default {
   method: 'get',
   path: '/admin/challs/:id',
   requireAuth: true,

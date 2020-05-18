@@ -1,8 +1,8 @@
-const { v4: uuidv4 } = require('uuid')
-const database = require('../../../database')
-const { responses } = require('../../../responses')
+import { v4 as uuidv4 } from 'uuid'
+import * as database from '../../../database'
+import { responses } from '../../../responses'
 
-module.exports = {
+export default {
   method: 'post',
   path: '/users/me/members',
   requireAuth: true,

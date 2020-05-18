@@ -56,6 +56,7 @@ export function getCleanedChallenge (id: string): CleanedChallenge {
   return cleanedChallenges
     .filter(chall => chall.id === id)[0]
 }
+
 export function resetCache (): void {
   provider.forceUpdate()
 }

@@ -1,11 +1,11 @@
-const { promisify } = require('util')
-const crypto = require('crypto')
-const config = require('../../config/server')
+import { promisify } from 'util'
+import crypto from 'crypto'
+import config from '../../config/server'
 
 const randomBytes = promisify(crypto.randomBytes)
 const tokenKey = Buffer.from(config.tokenKey, 'base64')
 
-const tokenKinds = {
+export const tokenKinds = {
   auth: 0,
   team: 1,
   verify: 2,
@@ -44,7 +44,7 @@ const decryptToken = async (token) => {
   }
 }
 
-const getData = async (expectedTokenKind, token) => {
+export const getData = async (expectedTokenKind, token) => {
   const content = await decryptToken(token)
   if (content === null) {
     return null
@@ -59,17 +59,11 @@ const getData = async (expectedTokenKind, token) => {
   return data
 }
 
-const getToken = async (tokenKind, data) => {
+export const getToken = async (tokenKind, data) => {
   const token = await encryptToken({
     k: tokenKind,
     t: timeNow(),
     d: data
   })
   return token
-}
-
-module.exports = {
-  getData,
-  getToken,
-  tokenKinds
 }

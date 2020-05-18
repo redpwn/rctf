@@ -1,9 +1,9 @@
-const config = require('../../config/server')
-const challenges = require('../challenges')
-const { responses } = require('../responses')
-const util = require('../util')
+import config from '../../config/server'
+import * as challenges from '../challenges'
+import { responses } from '../responses'
+import * as util from '../util'
 
-module.exports = {
+export default {
   method: 'get',
   path: '/challs',
   requireAuth: true,
