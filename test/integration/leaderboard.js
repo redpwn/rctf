@@ -1,6 +1,6 @@
 const test = require('ava')
 const request = require('supertest')
-const app = require('../../dist/server/app')
+const app = require('../../dist/server/app').default
 
 const { responseList } = require('../../dist/server/responses')
 

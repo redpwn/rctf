@@ -23,7 +23,7 @@ test.serial('TEST_COMPRESSION env flag', async t => {
   const old = process.env.TEST_COMPRESSION
   process.env.TEST_COMPRESSION = '1'
 
-  const resp = await request(reloadModule(path.join(__dirname, '/../../dist/server/app')))
+  const resp = await request(reloadModule(path.join(__dirname, '/../../dist/server/app')).default)
     .get('/favicon.ico')
     .expect('Content-Encoding', /gzip/)
 
