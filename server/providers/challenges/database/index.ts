@@ -3,7 +3,7 @@ import { applyChallengeDefaults } from '../../../challenges/util'
 import { Provider } from '../../../challenges/Provider'
 import { EventEmitter } from 'events'
 
-import db from '../../../database'
+import * as db from '../../../database'
 
 interface DatabaseProviderOptions {
   updateInterval: number;

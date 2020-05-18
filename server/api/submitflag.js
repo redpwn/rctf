@@ -1,13 +1,13 @@
-const crypto = require('crypto')
-const db = require('../database')
-const challenges = require('../challenges')
-const { responses } = require('../responses')
-const config = require('../../config/server')
-const util = require('../util')
-const timeouts = require('../cache/timeouts')
-const { v4: uuidv4 } = require('uuid')
+import crypto from 'crypto'
+import * as db from '../database'
+import * as challenges from '../challenges'
+import { responses } from '../responses'
+import config from '../../config/server'
+import * as util from '../util'
+import * as timeouts from '../cache/timeouts'
+import { v4 as uuidv4 } from 'uuid'
 
-module.exports = {
+export default {
   method: 'post',
   path: '/challs/:id/submit',
   requireAuth: true,

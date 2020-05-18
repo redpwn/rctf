@@ -1,5 +1,5 @@
-const { promisify } = require('util')
-const client = require('./client')
+import { promisify } from 'util'
+import client from './client'
 
 const redisScript = promisify(client.script.bind(client))
 const redisEvalsha = promisify(client.evalsha.bind(client))
@@ -14,37 +14,35 @@ const rateLimitScript = redisScript('load', `
   end
 `)
 
-const types = {
+export const types = {
   FLAG: 'FLAG',
   UPDATE_PROFILE: 'UPDATE_PROFILE'
 }
 
-module.exports = {
-  /*
-  * The method does two things, but is in one database call for performance reasons. Rate limiting
-  * will be called frequently.
-  *
-  * First, the the method checks if the number of events meets the limit.
-  * If so, it resolves to an object with the `ok` key set to false, and `timeLeft` set
-  * to the number of milliseconds left until the bucket expires and new requests can be sent.
-  * Otherwise, the method will resolve to an object with the `ok` key set to true.
-  */
-  checkRateLimit: async ({ type, userid, duration, limit }) => {
-    const bucketKey = `rl:${type}:${userid}`
-    const result = await redisEvalsha(
-      await rateLimitScript,
-      1,
-      bucketKey,
-      limit,
-      duration
-    )
-    return {
-      ok: result === null,
-      timeLeft: result
-    }
-  },
-  getChallengeType: (name) => {
-    return `${types.FLAG}:${name}`
-  },
-  types
+/*
+* The method does two things, but is in one database call for performance reasons. Rate limiting
+* will be called frequently.
+*
+* First, the the method checks if the number of events meets the limit.
+* If so, it resolves to an object with the `ok` key set to false, and `timeLeft` set
+* to the number of milliseconds left until the bucket expires and new requests can be sent.
+* Otherwise, the method will resolve to an object with the `ok` key set to true.
+*/
+export const checkRateLimit = async ({ type, userid, duration, limit }) => {
+  const bucketKey = `rl:${type}:${userid}`
+  const result = await redisEvalsha(
+    await rateLimitScript,
+    1,
+    bucketKey,
+    limit,
+    duration
+  )
+  return {
+    ok: result === null,
+    timeLeft: result
+  }
+}
+
+export const getChallengeType = (name) => {
+  return `${types.FLAG}:${name}`
 }

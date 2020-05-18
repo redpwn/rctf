@@ -18,6 +18,9 @@ module.exports = {
       max: 1,
       maxEOF: 0,
       maxBOF: 0
-    }]
+    }],
+    'padding-line-between-statements': ['error',
+      {blankLine: 'always', prev: 'block-like', next: 'export'}
+    ]
   }
 }

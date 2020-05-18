@@ -1,8 +1,8 @@
-const { responses } = require('../../responses')
-const { getGenericUserData } = require('./util')
-const auth = require('../../auth')
+import { responses } from '../../responses'
+import { getGenericUserData } from './util'
+import * as auth from '../../auth'
 
-module.exports = {
+export default {
   method: 'get',
   path: '/users/me',
   requireAuth: true,

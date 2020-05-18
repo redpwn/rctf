@@ -1,14 +1,11 @@
-const db = require('./db')
+import db from './db'
 
-const ret = {
-  getAllUsers: () => {
-    return db.query('SELECT id, name, division FROM users')
-      .then(res => res.rows)
-  },
-  getUserByUserId: ({ userid }) => {
-    return db.query('SELECT * FROM users WHERE id = $1', [userid])
-      .then(res => res.rows[0])
-  }
+export const getAllUsers = () => {
+  return db.query('SELECT id, name, division FROM users')
+    .then(res => res.rows)
 }
 
-module.exports = ret
+export const getUserByUserId = ({ userid }) => {
+  return db.query('SELECT * FROM users WHERE id = $1', [userid])
+    .then(res => res.rows[0])
+}

@@ -1,12 +1,12 @@
-const got = require('got')
-const { responses } = require('../../responses')
-const auth = require('../../auth')
-const config = require('../../../config/server')
+import got from 'got'
+import { responses } from '../../responses'
+import * as auth from '../../auth'
+import config from '../../../config/server'
 
 const tokenEndpoint = 'https://oauth.ctftime.org/token'
 const userEndpoint = 'https://oauth.ctftime.org/user'
 
-module.exports = {
+export default {
   method: 'post',
   path: '/integrations/ctftime/callback',
   requireAuth: false,

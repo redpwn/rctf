@@ -1,13 +1,13 @@
-const { v4: uuidv4 } = require('uuid')
-const emailValidator = require('email-validator')
-const config = require('../../../../../config/server')
-const { responses } = require('../../../../responses')
-const cache = require('../../../../cache')
-const util = require('../../../../util')
-const auth = require('../../../../auth')
-const database = require('../../../../database')
+import { v4 as uuidv4 } from 'uuid'
+import emailValidator from 'email-validator'
+import config from '../../../../../config/server'
+import { responses } from '../../../../responses'
+import * as cache from '../../../../cache'
+import * as util from '../../../../util'
+import * as auth from '../../../../auth'
+import * as database from '../../../../database'
 
-module.exports = {
+export default {
   method: 'put',
   path: '/users/me/auth/email',
   requireAuth: true,

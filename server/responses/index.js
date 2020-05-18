@@ -1,4 +1,4 @@
-const responseList = {
+export const responseList = {
   goodVerify: {
     status: 200,
     message: 'The email was verified.'
@@ -190,7 +190,4 @@ Object.keys(responseList).forEach((kind) => {
   responses[kind] = kind
 })
 
-module.exports = {
-  responseList,
-  responses
-}
+export { responses }

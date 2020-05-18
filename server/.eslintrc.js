@@ -6,9 +6,9 @@ module.exports = {
   ],
   rules: {
   },
+  parser: '@typescript-eslint/parser',
   overrides: [{
     files: ['*.ts'],
-    parser: '@typescript-eslint/parser',
     extends: [
       'plugin:@typescript-eslint/eslint-recommended',
       'plugin:@typescript-eslint/recommended',

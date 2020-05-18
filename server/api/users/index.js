@@ -1,14 +1,14 @@
 // Note that the order of exports is important.
-module.exports = [
+export default [
   /*
    /users/members/* routes must come before /users/:id
    or else it will be interpreted as an id
   */
-  ...require('./members'),
-  require('./me'),
-  require('./id'),
-  require('./delete'),
-  require('./update'),
-  ...require('./me-auth/ctftime'),
-  ...require('./me-auth/email')
+  ...require('./members').default,
+  require('./me').default,
+  require('./id').default,
+  require('./delete').default,
+  require('./update').default,
+  ...require('./me-auth/ctftime').default,
+  ...require('./me-auth/email').default
 ]

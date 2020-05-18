@@ -1,6 +1,6 @@
-const { responses } = require('../../responses')
+import { responses } from '../../responses'
 
-module.exports = {
+export default {
   method: 'get',
   path: '/auth/test',
   requireAuth: true,
