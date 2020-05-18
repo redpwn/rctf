@@ -10,6 +10,8 @@ const axis = 20
 const axisGap = 20
 const day = 24 * 60 * 60 * 1000
 
+const strokeHoverWidth = 12
+
 const timeToX = ({ minX, maxX, time, width }) => {
   return (time - minX) / (maxX - minX) * width
 }
@@ -61,8 +63,9 @@ const GraphLine = memo(({ points, onTooltipIn, onMouseMove, onMouseOut, name, cu
       pointer-events='none'
     />
     <polyline
-      stroke-width={stroke * 2.5}
+      stroke-width={strokeHoverWidth}
       points={points}
+      stroke-linecap='round'
       fill='transparent'
       pointer-events='stroke'
       onMouseOver={onTooltipIn(`${name} - ${currentScore} points`)}

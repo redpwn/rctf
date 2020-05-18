@@ -19,7 +19,7 @@ function stringifySymbolRequest (symbol, request) {
 }
 
 // From JetBrains/svg-sprite-loader/examples/custom-runtime-generator/
-module.exports = function runtimeGenerator ({ symbol, config, context, loaderContext }) {
+module.exports = function runtimeGenerator ({ symbol, config, loaderContext }) {
   const { spriteModule, symbolModule, runtimeOptions } = config
   const compilerContext = loaderContext._compiler.context
 
