@@ -45,13 +45,13 @@ const config = {
   removeDownloadHashes: true,
   tokenKey: process.env.RCTF_TOKEN_KEY,
   origin: process.env.RCTF_ORIGIN,
-  CORSOrigin: process.env.RCTF_CORS_ORIGIN,
+  corsOrigin: process.env.RCTF_CORS_ORIGIN,
   logFile: process.env.RCTF_LOG_FILE,
   ctftimeClientId: process.env.RCTF_CTFTIME_CLIENT_ID,
   ctftimeClientSecret: process.env.RCTF_CTFTIME_CLIENT_SECRET,
   loginTimeout: 10 * 60 * 1000,
-  startTime: process.env.START_TIME || Date.now() - 24 * 60 * 60 * 1000,
-  endTime: process.env.END_TIME || Date.now() + 24 * 60 * 60 * 1000
+  startTime: parseInt(process.env.RCTF_START_TIME) || Date.now() - 24 * 60 * 60 * 1000,
+  endTime: parseInt(process.env.RCTF_END_TIME) || Date.now() + 24 * 60 * 60 * 1000
 }
 
 module.exports = config
