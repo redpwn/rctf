@@ -33,6 +33,10 @@ export const getGenericUserData = async ({ id }) => {
 
   userSolves.forEach((solve, i) => {
     const chall = challenges.getCleanedChallenge(solve.challengeid)
+
+    // Ignore challenges with invalid id, potentially deleted challs
+    if (chall === undefined) return
+
     solves.push({
       category: chall.category,
       name: chall.name,
