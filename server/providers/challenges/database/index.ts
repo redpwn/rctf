@@ -4,6 +4,7 @@ import { Provider } from '../../../challenges/Provider'
 import { EventEmitter } from 'events'
 
 import * as db from '../../../database'
+import { deepCopy } from '../../../util'
 
 interface DatabaseProviderOptions {
   updateInterval: number;
@@ -54,6 +55,8 @@ class DatabaseProvider extends EventEmitter implements Provider {
   }
 
   challengeToRow (chall: Challenge): DatabaseChallenge {
+    chall = deepCopy(chall)
+
     const id = chall.id
     delete chall.id
 
@@ -80,10 +83,7 @@ class DatabaseProvider extends EventEmitter implements Provider {
 
     const data = this.challengeToRow(chall)
 
-    await db.challenges.upsertChallenge({
-      id: chall.id,
-      data
-    })
+    await db.challenges.upsertChallenge(data)
 
     this._update()
   }

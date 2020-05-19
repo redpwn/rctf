@@ -17,6 +17,10 @@ export const notStarted = () => {
   ]
 }
 
+export const deepCopy = data => {
+  return JSON.parse(JSON.stringify(data))
+}
+
 export const reloadModule = m => {
   delete require.cache[require.resolve(m)]
   return require(m)
