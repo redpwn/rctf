@@ -50,6 +50,7 @@ const runUpdate = async () => {
   const worker = new Worker(path.join(__dirname, 'calculate.js'), {
     workerData: {
       graph: false,
+      end: config.endTime,
       lastUpdate: updateData.graphUpdate,
       data: await fetchData()
     }

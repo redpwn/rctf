@@ -110,11 +110,11 @@ if (graph) {
   let sample
   let isSample = false
   const prevSample = getPreviousSample()
-  if (lastUpdate !== prevSample) {
+  if (lastUpdate <= prevSample) {
     sample = prevSample
     isSample = true
   } else {
-    sample = Date.now()
+    sample = Math.min(Date.now(), end)
   }
 
   const { challengeValues, userScores } = calculateScores(sample)
