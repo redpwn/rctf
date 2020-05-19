@@ -1,8 +1,12 @@
 require('dotenv').config()
 
+const path = require('path')
 const glob = require('glob')
+const assert = require('assert').strict
 
 const PurgecssPlugin = require('purgecss-webpack-plugin')
+
+const clientConfig = require('./config/client.js')
 
 export default (config, env, helpers) => {
   if (env.production) {
@@ -13,6 +17,11 @@ export default (config, env, helpers) => {
       '/api': 'http://localhost:3000'
     }
   }
+
+  config.resolveLoader.modules.unshift(path.resolve(__dirname, 'client/lib/loaders'))
+
+  const { rule: { options: babelConfig } } = helpers.getLoadersByName(config, 'babel-loader')[0]
+  babelConfig.plugins.push('transform-export-extensions')
 
   // The webpack base config has minicssextractplugin already loaded
   config.plugins.push(
@@ -59,6 +68,24 @@ export default (config, env, helpers) => {
         }
         return filename.slice(0, match.index) + '.' + match[1]
       }
+    }
+  }
+
+  if (!env.production) {
+    const HtmlWebpackPluginsWrappers = helpers.getPluginsByName(config, 'HtmlWebpackPlugin')
+    for (const HtmlWebpackPluginWrapper of HtmlWebpackPluginsWrappers) {
+      const options = HtmlWebpackPluginWrapper.plugin.options
+      const loaderMatch = options.template.match(/^!!ejs-loader!(.*)$/)
+      assert(loaderMatch !== null)
+
+      // FIXME: refactor this (copy-pasted from server)
+      const context = {
+        config: JSON.stringify(clientConfig),
+        ctfName: clientConfig.ctfName,
+        meta: clientConfig.meta
+      }
+
+      options.template = `!!ejs-loader!mustache-rendered-loader?${JSON.stringify(context)}!${loaderMatch[1]}`
     }
   }
 }
