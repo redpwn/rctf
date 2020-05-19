@@ -35,6 +35,9 @@ export const runBulkGraphUpdate = async ({ start, end, challsUpdate }) => {
 let updating = false
 
 const runUpdate = async () => {
+  if (config.startTime > Date.now()) {
+    return
+  }
   if (updating) {
     return
   }
@@ -50,6 +53,7 @@ const runUpdate = async () => {
   const worker = new Worker(path.join(__dirname, 'calculate.js'), {
     workerData: {
       graph: false,
+      end: config.endTime,
       lastUpdate: updateData.graphUpdate,
       data: await fetchData()
     }

@@ -290,7 +290,7 @@ export const getGraph = async ({ division, maxTeams }) => {
 export const getGraphUpdate = async () => {
   const redisResult = await redisMget('graph-update', 'graph-recalc', 'challs-update')
   return {
-    graphUpdate: redisResult[0] === null ? null : parseInt(redisResult[0]),
+    graphUpdate: redisResult[0] === null ? 0 : parseInt(redisResult[0]),
     graphRecalc: redisResult[1] === null ? 0 : parseInt(redisResult[1]),
     challsUpdate: redisResult[2] === null ? 0 : parseInt(redisResult[2])
   }
