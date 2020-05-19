@@ -3,6 +3,7 @@ import config from '../config'
 import withStyles from '../components/jss'
 import Pagination from '../components/pagination'
 import Graph from '../components/graph'
+import { useToast } from '../components/toast'
 
 import { getScoreboard } from '../api/scoreboard'
 import { privateProfile } from '../api/profile'
@@ -32,6 +33,7 @@ const Scoreboard = withStyles({
   const [page, setPage] = useState(1)
   const [totalItems, setTotalItems] = useState(0)
   const selfRow = useRef()
+  const { toast } = useToast()
 
   const setDivision = useCallback((newDivision) => {
     _setDivision(newDivision)
@@ -51,7 +53,12 @@ const Scoreboard = withStyles({
   useEffect(() => {
     if (loggedIn) {
       privateProfile()
-        .then(p => setProfile(p))
+        .then(({ data, error }) => {
+          if (error) {
+            toast({ body: error, type: 'error' })
+          }
+          setProfile(data)
+        })
     }
   }, [loggedIn])
   useEffect(() => {

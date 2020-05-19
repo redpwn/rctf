@@ -154,7 +154,7 @@ const SummaryCard = memo(withStyles({
 ))
 
 const SolvesCard = memo(({ solves }) => {
-  if (solves.length === 0) return null
+  if (solves === undefined || solves.length === 0) return null
   return (
     <div class='card u-flex u-flex-column'>
       <div class='content'>
@@ -303,6 +303,8 @@ function Profile ({ uuid }) {
   const [loaded, setLoaded] = useState(false)
   const [error, setError] = useState(null)
   const [data, setData] = useState({})
+  const { toast } = useToast()
+
   const {
     name,
     email,
@@ -322,20 +324,23 @@ function Profile ({ uuid }) {
     setLoaded(false)
     if (isPrivate) {
       privateProfile()
-        .then(data => {
-          setData(data)
+        .then(({ data, error }) => {
+          if (error) {
+            toast({ body: error, type: 'error' })
+          } else {
+            setData(data)
+          }
           setLoaded(true)
         })
     } else {
       publicProfile(uuid)
-        .then(data => {
-          if (data === null) {
+        .then(({ data, error }) => {
+          if (error) {
             setError('Profile not found')
-            setLoaded(true)
           } else {
             setData(data)
-            setLoaded(true)
           }
+          setLoaded(true)
         })
     }
   }, [uuid, isPrivate])
