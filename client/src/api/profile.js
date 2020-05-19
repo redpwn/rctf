@@ -37,12 +37,14 @@ export const updateEmail = async ({ email }) => {
   const resp = await request('PUT', '/users/me/auth/email', {
     email
   })
+
   switch (resp.kind) {
     default:
       return {
         error: resp.message
       }
     case 'goodVerifySent':
+    case 'goodEmailSet':
       return {
         data: resp.message
       }
