@@ -6,8 +6,6 @@ const assert = require('assert').strict
 
 const PurgecssPlugin = require('purgecss-webpack-plugin')
 
-const clientConfig = require('./config/client.js')
-
 export default (config, env, helpers) => {
   if (env.production) {
     // Disable sourcemaps
@@ -72,6 +70,8 @@ export default (config, env, helpers) => {
   }
 
   if (!env.production) {
+    const clientConfig = require('./config/client.js')
+
     const HtmlWebpackPluginsWrappers = helpers.getPluginsByName(config, 'HtmlWebpackPlugin')
     for (const HtmlWebpackPluginWrapper of HtmlWebpackPluginsWrappers) {
       const options = HtmlWebpackPluginWrapper.plugin.options
