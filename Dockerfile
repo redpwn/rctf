@@ -17,4 +17,4 @@ RUN yarn install --prod --frozen-lockfile && yarn cache clean
 
 COPY --from=build /app/dist /app/dist
 
-CMD ["node", "/app/dist/server/index.js"]
+CMD ["node", "--enable-source-maps", "/app/dist/server/index.js"]
