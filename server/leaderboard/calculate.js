@@ -110,7 +110,7 @@ if (graph) {
   let sample
   let isSample = false
   const prevSample = getPreviousSample()
-  if (lastUpdate <= prevSample) {
+  if (lastUpdate < prevSample) {
     sample = prevSample
     isSample = true
   } else {

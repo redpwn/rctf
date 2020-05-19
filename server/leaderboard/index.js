@@ -35,6 +35,9 @@ export const runBulkGraphUpdate = async ({ start, end, challsUpdate }) => {
 let updating = false
 
 const runUpdate = async () => {
+  if (config.startTime > Date.now()) {
+    return
+  }
   if (updating) {
     return
   }
