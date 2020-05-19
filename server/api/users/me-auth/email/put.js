@@ -23,9 +23,6 @@ export default {
     }
   },
   handler: async ({ req, user }) => {
-    if (!config.verifyEmail) {
-      return responses.badEndpoint
-    }
     const email = util.normalize.normalizeEmail(req.body.email)
     if (!emailValidator.validate(email)) {
       return responses.badEmail
@@ -36,6 +33,15 @@ export default {
     })
     if (checkUser !== undefined) {
       return responses.badKnownEmail
+    }
+
+    if (!config.verifyEmail) {
+      await database.auth.updateUser({
+        id: user.id,
+        email: email
+      })
+
+      return responses.goodEmailSet
     }
 
     const verifyUuid = uuidv4()
