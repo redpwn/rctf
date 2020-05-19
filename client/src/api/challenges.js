@@ -1,35 +1,31 @@
 import { request } from './util'
 
-export const getChallenges = () => {
-  return request('GET', '/challs')
-    .then(resp => resp.data)
+export const getChallenges = async () => {
+  return (await request('GET', '/challs')).data
 }
 
-export const getPrivateSolves = () => {
-  return request('GET', '/users/me')
-    .then(resp => resp.data.solves)
+export const getPrivateSolves = async () => {
+  return (await request('GET', '/users/me')).data.solves
 }
 
-export const submitFlag = (id, flag) => {
+export const submitFlag = async (id, flag) => {
   if (flag === undefined || flag.length === 0) {
     return Promise.resolve({
       error: "Flag can't be empty"
     })
   }
 
-  return request('POST', `/challs/${encodeURIComponent(id)}/submit`, {
+  const resp = await request('POST', `/challs/${encodeURIComponent(id)}/submit`, {
     flag
   })
-    .then(resp => {
-      switch (resp.kind) {
-        case 'goodFlag':
-          return {
-            error: undefined
-          }
-        default:
-          return {
-            error: resp.message
-          }
+  switch (resp.kind) {
+    case 'goodFlag':
+      return {
+        error: undefined
       }
-    })
+    default:
+      return {
+        error: resp.message
+      }
+  }
 }
