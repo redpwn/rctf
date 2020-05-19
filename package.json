@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "ajv": "^6.12.2",
+    "dotenv": "^8.2.0",
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
     "got": "^11.1.4",
@@ -53,7 +54,6 @@
     "cpy-cli": "^3.1.1",
     "cross-env": "^7.0.2",
     "cz-conventional-changelog": "3.2.0",
-    "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-preact": "^1.1.1",
     "eslint-config-standard": "^14.1.1",
