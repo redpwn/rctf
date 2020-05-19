@@ -28,9 +28,7 @@ export default class LocalProvider implements Provider {
       options.uploadDirectory = path.join(process.cwd(), 'uploads')
     }
 
-    if (!fs.existsSync(options.uploadDirectory)) {
-      fs.mkdirSync(options.uploadDirectory)
-    }
+    fs.mkdirSync(options.uploadDirectory, { recursive: true })
 
     this.uploadDirectory = options.uploadDirectory
     this.endpoint = options.endpoint
@@ -70,6 +68,6 @@ export default class LocalProvider implements Provider {
     })
 
     return fs.promises.writeFile(filePath, data)
-      .then(() => (config.serverOrigin || '') + urlPath)
+      .then(() => (config.origin || '') + urlPath)
   }
 }
