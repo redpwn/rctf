@@ -1,0 +1,94 @@
+name: CI
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Shellcheck
+      run: |
+        shellcheck install/*.sh
+
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [12]
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node ${{ matrix.node }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+
+    - name: Install dependencies
+      run: |
+        yarn install --frozen-lockfile
+
+    - name: Lint
+      run: |
+        yarn lint
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [12]
+        postgres: [12]
+        redis: [6]
+    services:
+      postgres:
+        image: postgres:${{ matrix.postgres }}
+        env:
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:${{ matrix.redis }}
+        ports:
+          - 6379:6379
+    env:
+      RCTF_DATABASE_URL: postgres://postgres:password@localhost/rctf
+      RCTF_REDIS_URL: redis://@localhost:6379/0
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node ${{ matrix.node }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+
+    - name: Install dependencies
+      run: |
+        yarn install --frozen-lockfile
+
+    - name: Create table
+      run: |
+        PGPASSWORD=password psql -c 'CREATE DATABASE rctf;' -U postgres -h localhost -p 5432
+
+    - name: Load configuration
+      run: |
+        cp .env.example .env
+        cp -r .rdeploy.example .rdeploy
+        cp config/client.js.example config/client.js
+
+    - name: Run migrations
+      run: |
+        yarn migrate up
+
+    - name: Build
+      run: |
+        yarn build
+
+    - name: Run tests
+      run: |
+        yarn test:report
+
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v1
