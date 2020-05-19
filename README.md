@@ -42,7 +42,7 @@ $ cd rctf
 
 ![screenshot of tool](docs/rctf-cli.png)
 
-The rCTF CLI management tool [https://github.com/redpwn/rctf-cli](`rctf`) makes management of your rCTF installation simple. It is installed by default through the [automatic installation script](install/install.sh); however, if you have installed rCTF manually, you may install the tool by running:
+The [rCTF CLI management tool](https://github.com/redpwn/rctf-cli) makes management of your rCTF installation simple. It is installed by default through the [automatic installation script](install/install.sh); however, if you have installed rCTF manually, you may install the tool by running:
 
 ```
 # pip3 install rctf-cli
