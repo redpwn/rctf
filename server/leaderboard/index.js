@@ -69,7 +69,7 @@ const runUpdate = async () => {
 }
 
 export const startUpdater = () => {
-  setInterval(runUpdate, config.leaderboardUpdateInterval)
+  setInterval(runUpdate, config.leaderboard.updateInterval)
   runUpdate()
   runBulkGraphUpdate({
     start: config.startTime,

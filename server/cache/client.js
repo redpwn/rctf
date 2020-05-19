@@ -1,8 +1,24 @@
 import redis from 'redis'
 import config from '../../config/server'
 
-const client = redis.createClient({
-  url: config.redisUrl
-})
+const creds = config.database.redis
+
+let client
+
+// connection string
+if (typeof creds === 'string') {
+  client = redis.createClient({
+    url: creds
+  })
+} else {
+  const { host, port, password, database } = creds
+
+  client = redis.createClient({
+    host,
+    port,
+    password,
+    db: database
+  })
+}
 
 export default client

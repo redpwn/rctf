@@ -31,8 +31,8 @@ export default {
     const offset = parseInt(req.query.offset)
     if (limit < 0 ||
       offset < 0 ||
-      limit > config.leaderboardMaxLimit ||
-      offset > config.leaderboardMaxOffset) {
+      limit > config.leaderboard.maxLimit ||
+      offset > config.leaderboard.maxOffset) {
       return responses.badBody
     }
     const result = await cache.leaderboard.getRange({

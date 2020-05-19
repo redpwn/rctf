@@ -29,7 +29,7 @@ export default {
     if (req.query.division !== undefined) {
       division = parseInt(req.query.division)
     }
-    if (limit < 1 || limit > config.graphMaxTeams) {
+    if (limit < 1 || limit > config.leaderboard.graphMaxTeams) {
       return responses.badBody
     }
     const graph = await cache.leaderboard.getGraph({
