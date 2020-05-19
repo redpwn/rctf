@@ -23,7 +23,7 @@ export const deleteAccount = () => {
 export const updateAccount = ({ name, division }) => {
   return request('PATCH', '/users/me', {
     name,
-    division: Number.parseInt(division)
+    division: division === undefined ? undefined : Number.parseInt(division)
   })
     .then(resp => {
       switch (resp.kind) {
