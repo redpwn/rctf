@@ -19,7 +19,7 @@ export const deleteAccount = async () => {
 export const updateAccount = async ({ name, division }) => {
   const resp = await request('PATCH', '/users/me', {
     name,
-    division: Number.parseInt(division)
+    division: division === undefined ? undefined : Number.parseInt(division)
   })
   switch (resp.kind) {
     case 'goodUserUpdate':
