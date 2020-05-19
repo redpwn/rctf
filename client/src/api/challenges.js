@@ -22,15 +22,13 @@ export const submitFlag = (id, flag) => {
   })
     .then(resp => {
       switch (resp.kind) {
-        case 'badFlag':
-        case 'badAlreadySolvedChallenge':
-        case 'badRateLimit':
-          return {
-            error: resp.message
-          }
         case 'goodFlag':
           return {
             error: undefined
+          }
+        default:
+          return {
+            error: resp.message
           }
       }
     })
