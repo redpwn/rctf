@@ -50,6 +50,7 @@ export const updateEmail = ({ email }) => {
             error: resp.message
           }
         case 'goodVerifySent':
+        case 'goodEmailSet':
           return {
             data: resp.message
           }
