@@ -16,7 +16,7 @@ export default {
     }
     const { leaderboard } = await cache.leaderboard.getRange({
       start: 0,
-      end: config.leaderboardMaxLimit
+      end: config.leaderboard.maxLimit
     })
     const tasks = challenges.getCleanedChallenges().map(chall => chall.name)
     const standings = leaderboard.map((user, i) => ({

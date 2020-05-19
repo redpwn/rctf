@@ -23,8 +23,8 @@ export const reloadModule = m => {
 }
 
 export const enableCORS = (req, res, next) => {
-  if (config.origin !== undefined) {
-    res.header('Access-Control-Allow-Origin', config.origin)
+  if (config.corsOrigin !== undefined) {
+    res.header('Access-Control-Allow-Origin', config.corsOrigin)
     res.header('Access-Control-Allow-Headers', 'Authorization, Content-Type')
     res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT')
   }
