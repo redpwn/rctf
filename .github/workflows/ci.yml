@@ -92,3 +92,25 @@ jobs:
 
     - name: Upload coverage reports
       uses: codecov/codecov-action@v1
+
+  docker-build:
+    runs-on: ubuntu-latest
+    # TODO: handle tagging releases correctly
+    if: github.ref == 'refs/heads/master'
+    needs:
+      - shellcheck
+      - lint
+      - test
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build & push
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASS }}
+        repository: redpwn/rctf
+        # TODO: handle tagging releases correctly
+        tags: ${{ github.sha }}
+        # TODO: add cache_froms once we have full releases
