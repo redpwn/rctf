@@ -1,3 +1,1 @@
-module.exports = {
-  strings: require('./strings')
-}
+export * as strings from './strings'
