@@ -1,4 +1,5 @@
 import { Challenge } from './types'
+import { deepCopy } from '../util'
 
 const ChallengeDefaults: Challenge = {
   id: '',
@@ -15,7 +16,7 @@ const ChallengeDefaults: Challenge = {
 }
 
 export const applyChallengeDefaults = (chall: Challenge): Challenge => {
-  const copy = JSON.parse(JSON.stringify(ChallengeDefaults))
+  const copy = deepCopy(ChallengeDefaults)
 
   return {
     ...copy,

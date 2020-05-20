@@ -53,7 +53,7 @@ export const responseList = {
   },
   goodCtftimeAuthSet: {
     status: 200,
-    message: 'The CTFtime team was set on the user.'
+    message: 'The CTFtime team was successfully updated.'
   },
   goodCtftimeRemoved: {
     status: 200,
@@ -61,7 +61,7 @@ export const responseList = {
   },
   goodEmailSet: {
     status: 200,
-    message: 'The email was set on the user.'
+    message: 'The email was successfully updated.'
   },
   goodEmailRemoved: {
     status: 200,

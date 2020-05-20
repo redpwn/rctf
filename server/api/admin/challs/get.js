@@ -21,6 +21,10 @@ export default {
   handler: async ({ req }) => {
     const chall = challenges.getChallenge(req.params.id)
 
+    if (!chall) {
+      return responses.badChallenge
+    }
+
     return [responses.goodChallenges, chall]
   }
 }
