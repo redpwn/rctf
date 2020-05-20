@@ -17,6 +17,7 @@ export const notStarted = () => {
   ]
 }
 
+// This function does not work for non JSON stringifiable objects
 export const deepCopy = data => {
   return JSON.parse(JSON.stringify(data))
 }
