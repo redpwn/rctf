@@ -223,7 +223,11 @@ const UpdateCard = withStyles({
   const doUpdate = useCallback((e) => {
     e.preventDefault()
 
+    let updated = false
+
     if (name !== oldName) {
+      updated = true
+
       setIsButtonDisabled(true)
       updateAccount({
         name
@@ -246,6 +250,8 @@ const UpdateCard = withStyles({
     }
 
     if (email !== oldEmail) {
+      updated = true
+
       setIsButtonDisabled(true)
 
       const handleResponse = ({ error, data }) => {
@@ -269,6 +275,10 @@ const UpdateCard = withStyles({
         })
           .then(handleResponse)
       }
+    }
+
+    if (!updated) {
+      toast({ body: 'Nothing to update!' })
     }
   }, [name, email, oldName, oldEmail, onUpdate, toast])
 
@@ -348,9 +358,9 @@ function Profile ({ uuid }) {
   const onProfileUpdate = useCallback(({ name, email, divisionId }) => {
     setData(data => ({
       ...data,
-      name,
-      email,
-      division: divisionId
+      name: name || data.name,
+      email: email || data.email,
+      division: divisionId || data.division
     }))
   }, [])
 

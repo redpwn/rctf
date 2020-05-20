@@ -6,8 +6,14 @@ export const relog = () => {
   route('/register')
 }
 
-export const handleResponse = ({ resp, valid }) => {
+export const handleResponse = ({ resp, valid, resolveDataMessage }) => {
   if (valid.includes(resp.kind)) {
+    if (resolveDataMessage) {
+      return {
+        data: resp.message
+      }
+    }
+
     return {
       data: resp.data
     }

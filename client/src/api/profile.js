@@ -39,12 +39,12 @@ export const updateEmail = async ({ email }) => {
     email
   })
 
-  return handleResponse({ resp, valid: ['goodVerifySent', 'goodEmailSet'] })
+  return handleResponse({ resp, valid: ['goodVerifySent', 'goodEmailSet'], resolveDataMessage: true })
 }
 
 export const deleteEmail = async () => {
   const resp = await request('DELETE', '/users/me/auth/email')
 
   // If the email did not exist, still a "success" in that no more email
-  return handleResponse({ resp, valid: ['goodEmailRemoved', 'badEmailNoExists'] })
+  return handleResponse({ resp, valid: ['goodEmailRemoved', 'badEmailNoExists'], resolveDataMessage: true })
 }
