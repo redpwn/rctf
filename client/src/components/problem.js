@@ -22,7 +22,7 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
     submitFlag(problem.id, value)
       .then(({ error }) => {
         if (error === undefined) {
-          toast({ body: 'Flag successfully submitted!', type: 'success' })
+          toast({ body: 'Flag successfully submitted!' })
 
           setSolved(problem.id)
         } else {

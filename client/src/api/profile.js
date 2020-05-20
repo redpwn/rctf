@@ -1,18 +1,27 @@
-import { request, relog } from './util'
+import { request, relog, handleResponse } from './util'
 
 export const privateProfile = async () => {
-  return (await request('GET', '/users/me')).data
+  const resp = await request('GET', '/users/me')
+
+  return handleResponse({ resp, valid: ['goodUserData'] })
 }
 
 export const publicProfile = async (uuid) => {
-  return (await request('GET', `/users/${encodeURIComponent(uuid)}`)).data
+  const resp = await request('GET', `/users/${encodeURIComponent(uuid)}`)
+
+  return handleResponse({ resp, valid: ['goodUserData'] })
 }
 
 export const deleteAccount = async () => {
   const resp = await request('DELETE', '/users/me')
+
   switch (resp.kind) {
     case 'goodUserDelete':
       return relog()
+    default:
+      return {
+        error: resp.message
+      }
   }
 }
 
@@ -21,16 +30,8 @@ export const updateAccount = async ({ name, division }) => {
     name,
     division: division === undefined ? undefined : Number.parseInt(division)
   })
-  switch (resp.kind) {
-    case 'goodUserUpdate':
-      return {
-        data: resp.data
-      }
-    default:
-      return {
-        error: resp.message
-      }
-  }
+
+  return handleResponse({ resp, valid: ['goodUserUpdate'] })
 }
 
 export const updateEmail = async ({ email }) => {
@@ -38,31 +39,12 @@ export const updateEmail = async ({ email }) => {
     email
   })
 
-  switch (resp.kind) {
-    default:
-      return {
-        error: resp.message
-      }
-    case 'goodVerifySent':
-    case 'goodEmailSet':
-      return {
-        data: resp.message
-      }
-  }
+  return handleResponse({ resp, valid: ['goodVerifySent', 'goodEmailSet'], resolveDataMessage: true })
 }
 
 export const deleteEmail = async () => {
   const resp = await request('DELETE', '/users/me/auth/email')
-  switch (resp.kind) {
-    case 'badZeroAuth':
-      return {
-        error: resp.message
-      }
-    // If the email did not exist, still a "success" in that no more email
-    case 'badEmailNoExists':
-    case 'goodEmailRemoved':
-      return {
-        data: resp.message
-      }
-  }
+
+  // If the email did not exist, still a "success" in that no more email
+  return handleResponse({ resp, valid: ['goodEmailRemoved', 'badEmailNoExists'], resolveDataMessage: true })
 }

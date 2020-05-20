@@ -3,6 +3,7 @@ import { useCallback, useState, useEffect, useMemo } from 'preact/hooks'
 import config from '../config'
 import withStyles from '../components/jss'
 import Problem from '../components/problem'
+import { useToast } from '../components/toast'
 
 import { getChallenges, getPrivateSolves } from '../api/challenges'
 
@@ -11,6 +12,7 @@ const Challenges = ({ classes }) => {
   const [categories, setCategories] = useState({})
   const [showSolved, setShowSolved] = useState(false)
   const [solveIDs, setSolveIDs] = useState([])
+  const { toast } = useToast()
 
   const setSolved = useCallback(id => {
     setSolveIDs(solveIDs => {
@@ -38,7 +40,13 @@ const Challenges = ({ classes }) => {
 
   useEffect(() => {
     const action = async () => {
-      const problems = await getChallenges()
+      const { data, error } = await getChallenges()
+      if (error) {
+        toast({ body: error, type: 'error' })
+        return
+      }
+
+      const problems = data
       const categories = {}
       problems.forEach(problem => {
         if (categories[problem.category] === undefined) {
@@ -50,15 +58,20 @@ const Challenges = ({ classes }) => {
       setCategories(categories)
     }
     action()
-  }, [])
+  }, [toast])
 
   useEffect(() => {
     const action = async () => {
-      const data = await getPrivateSolves()
+      const { data, error } = await getPrivateSolves()
+      if (error) {
+        toast({ body: error, type: 'error' })
+        return
+      }
+
       setSolveIDs(data.map(solve => solve.id))
     }
     action()
-  }, [])
+  }, [toast])
 
   const problemsToDisplay = useMemo(() => {
     let filtered = problems
