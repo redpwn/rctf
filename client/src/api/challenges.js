@@ -1,11 +1,21 @@
-import { request } from './util'
+import { request, handleResponse } from './util'
+import { privateProfile } from './profile'
 
 export const getChallenges = async () => {
-  return (await request('GET', '/challs')).data
+  const resp = await request('GET', '/challs')
+
+  return handleResponse({ resp, valid: ['goodChallenges'] })
 }
 
 export const getPrivateSolves = async () => {
-  return (await request('GET', '/users/me')).data.solves
+  const { data, error } = await privateProfile()
+
+  if (error) {
+    return { error }
+  }
+  return {
+    data: data.solves
+  }
 }
 
 export const submitFlag = async (id, flag) => {
@@ -18,14 +28,6 @@ export const submitFlag = async (id, flag) => {
   const resp = await request('POST', `/challs/${encodeURIComponent(id)}/submit`, {
     flag
   })
-  switch (resp.kind) {
-    case 'goodFlag':
-      return {
-        error: undefined
-      }
-    default:
-      return {
-        error: resp.message
-      }
-  }
+
+  return handleResponse({ resp, valid: ['goodFlag'] })
 }
