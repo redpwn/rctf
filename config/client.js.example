@@ -8,7 +8,7 @@ module.exports = {
     description: 'A description of your CTF',
     imageUrl: ''
   },
-  homeContent: 'A description of your CTF. Markdown supported.'
+  homeContent: 'A description of your CTF. Markdown supported.',
   sponsors: [
     {
       name: 'Big Sponsor',
