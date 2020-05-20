@@ -353,7 +353,7 @@ function Profile ({ uuid }) {
           setLoaded(true)
         })
     }
-  }, [uuid, isPrivate])
+  }, [uuid, isPrivate, toast])
 
   const onProfileUpdate = useCallback(({ name, email, divisionId }) => {
     setData(data => ({

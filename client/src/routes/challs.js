@@ -58,7 +58,7 @@ const Challenges = ({ classes }) => {
       setCategories(categories)
     }
     action()
-  }, [])
+  }, [toast])
 
   useEffect(() => {
     const action = async () => {
@@ -71,7 +71,7 @@ const Challenges = ({ classes }) => {
       setSolveIDs(data.map(solve => solve.id))
     }
     action()
-  }, [])
+  }, [toast])
 
   const problemsToDisplay = useMemo(() => {
     let filtered = problems

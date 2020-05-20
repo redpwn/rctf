@@ -60,7 +60,8 @@ const Scoreboard = withStyles({
           setProfile(data)
         })
     }
-  }, [loggedIn])
+  }, [loggedIn, toast])
+
   useEffect(() => {
     const _division = division === 'all' ? undefined : division
     getScoreboard({
