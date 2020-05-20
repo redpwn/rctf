@@ -6,7 +6,7 @@ export default class CtftimeCallback extends Component {
       kind: 'ctftimeCallback',
       state: this.props.state,
       ctftimeCode: this.props.code
-    })
+    }, location.origin)
     window.close()
   }
 

@@ -1,10 +1,9 @@
 import withStyles from '../components/jss'
 import { useState, useCallback } from 'preact/hooks'
-import snarkdown from 'snarkdown'
-import Markup from 'preact-markup'
 
 import { submitFlag } from '../api/challenges'
 import { useToast } from '../components/toast'
+import Markdown from '../components/markdown'
 
 const Problem = ({ classes, problem, solved, setSolved }) => {
   const { toast } = useToast()
@@ -49,7 +48,7 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
         <div class='content-no-padding u-center'><div class={`divider ${classes.divider}`} /></div>
 
         <div class={`${classes.description} frame__subtitle`}>
-          <Markup type='html' trim={false} markup={snarkdown(problem.description)} />
+          <Markdown content={problem.description} />
         </div>
         <form class='form-section' onSubmit={handleSubmit}>
           <div class='form-group'>

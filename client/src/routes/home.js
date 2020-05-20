@@ -1,33 +1,46 @@
 import { Component } from 'preact'
 import config from '../config'
 import 'linkstate/polyfill'
+import Sponsors from '../components/sponsors'
+import Markdown from '../components/markdown'
 import withStyles from '../components/jss'
 
 export default withStyles({
-  root: {
-    padding: '3.375em'
-  },
   row: {
     marginBottom: '3.125em'
   },
   logo: {
     height: '9.375em !important',
     width: '9.375em !important'
+  },
+  content: {
+    '& a': {
+      display: 'inline',
+      padding: '0'
+    },
+    '& h3': {
+      margin: '32px 0 16px 0'
+    },
+    '& img': {
+      width: '300px',
+      margin: '20px auto',
+      display: 'block'
+    }
   }
 }, class Home extends Component {
   componentDidMount () {
-    document.title = `Home${config.ctfTitle}`
+    document.title = config.ctfName
   }
 
   render ({ classes }) {
     return (
-      <div class={classes.root}>
-        <div class={`${classes.row} row u-center`}>
-          <h2 class='level'>{config.ctfName}</h2>
+      <div>
+        <div class='row u-center'>
+          <div class={`col-6 ${classes.content}`}>
+            <Markdown content={config.homeContent} />
+          </div>
         </div>
-        <div class={`${classes.row} row u-center`}>
-          <img src={config.logoUrl} class={`avatar ${classes.logo}`} />
-        </div>
+        <Sponsors />
       </div>
     )
   }

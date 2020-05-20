@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'preact/hooks'
 import Router from 'preact-router'
-import config from './config'
 
 import 'cirrus-ui'
 import withStyles from './components/jss'
@@ -13,7 +12,6 @@ import Profile from './routes/profile'
 import Challenges from './routes/challs'
 import Scoreboard from './routes/scoreboard'
 import Error from './routes/error'
-import Sponsors from './routes/sponsors'
 import Verify from './routes/verify'
 import CtftimeCallback from './routes/ctftime-callback'
 
@@ -31,16 +29,10 @@ function App () {
 
   const loggedOut = localStorage.getItem('token') === null
 
-  let loggedOutPaths = [
-    <Home key='home' path='/' name='Home' />
-  ]
-  if (config.sponsors.length !== 0) {
-    loggedOutPaths.push(<Sponsors key='sponsors' path='/sponsors' name='Sponsors' />)
-  }
-  loggedOutPaths = loggedOutPaths.concat([
+  const loggedOutPaths = [
     <Registration key='register' path='/register' name='Register' />,
     <Login key='login' path='/login' name='Login' />
-  ])
+  ]
 
   const loggedInPaths = [
     <Profile key='profile' path='/profile/' name='Profile' />,
@@ -48,14 +40,20 @@ function App () {
     <Scoreboard key='scoreboard' path='/scores' name='Scoreboard' />
   ]
 
-  let allPaths = [
+  const allPaths = [
+    <Home key='home' path='/' name='Home' />,
     <Profile key='multiProfile' path='/profile/:uuid' />,
     <Verify key='verify' path='/verify' />,
     <AdminChallenges key='adminchalls' path='/admin/challs' />,
     <CtftimeCallback key='ctftimeCallback' path='/integrations/ctftime/callback' />,
-    <Error key='error' error='404' default />
+    <Error key='error' error='404' default />,
+    ...loggedInPaths,
+    ...loggedOutPaths
   ]
-  allPaths = allPaths.concat(loggedInPaths).concat(loggedOutPaths)
+
+  const home = <Home key='home' path='/' name='Home' />
+  loggedOutPaths.unshift(home)
+  loggedInPaths.unshift(home)
 
   const currentPaths = loggedOut ? loggedOutPaths : loggedInPaths
 
