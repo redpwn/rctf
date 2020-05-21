@@ -8,16 +8,16 @@ module.exports = {
     description: 'A description of your CTF',
     imageUrl: ''
   },
-  logoUrl: 'https://webite.com/logo.png',
+  homeContent: 'A description of your CTF. Markdown supported.',
   sponsors: [
     {
       name: 'Big Sponsor',
-      icon: 'https://redpwn.net/logo.png',
-      description: 'Brief description'
+      icon: 'https://example.com/logo.png',
+      description: 'Brief description. Markdown supported.'
     },
     {
       name: 'Smaller Sponsor',
-      description: 'Brief description',
+      description: 'Brief description, Markdown supported.',
       small: true
     }
   ],

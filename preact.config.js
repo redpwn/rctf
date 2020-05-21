@@ -70,22 +70,13 @@ export default (config, env, helpers) => {
   }
 
   if (!env.production) {
-    const clientConfig = require('./config/client.js')
-
     const HtmlWebpackPluginsWrappers = helpers.getPluginsByName(config, 'HtmlWebpackPlugin')
     for (const HtmlWebpackPluginWrapper of HtmlWebpackPluginsWrappers) {
       const options = HtmlWebpackPluginWrapper.plugin.options
       const loaderMatch = options.template.match(/^!!ejs-loader!(.*)$/)
       assert(loaderMatch !== null)
 
-      // FIXME: refactor this (copy-pasted from server)
-      const context = {
-        config: JSON.stringify(clientConfig),
-        ctfName: clientConfig.ctfName,
-        meta: clientConfig.meta
-      }
-
-      options.template = `!!ejs-loader!mustache-rendered-loader?${JSON.stringify(context)}!${loaderMatch[1]}`
+      options.template = `!!ejs-loader!mustache-config-loader!${loaderMatch[1]}`
     }
   }
 }
