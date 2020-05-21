@@ -43,7 +43,7 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
     }
 
     this._updateInterval = options.updateInterval
-    this._rDeployDirectory = path.join(__dirname, '../../../../', options.rDeployDirectory)
+    this._rDeployDirectory = path.join(__dirname, '../../../../../', options.rDeployDirectory)
     this._interval = setInterval(() => this._update(), this._updateInterval)
 
     this.downloadMap = new Map()

@@ -124,7 +124,7 @@ const setGraphScript = redisScript('load', `
   end
 `)
 
-export const setLeaderboard = async ({ challengeScores, leaderboard }) => {
+export const setLeaderboard = async ({ challengeScores, leaderboard, leaderboardUpdate }) => {
   const divisions = Object.values(config.divisions)
   const divisionKeys = divisions.map((division) => 'division-leaderboard:' + division)
   const keys = [
@@ -144,7 +144,7 @@ export const setLeaderboard = async ({ challengeScores, leaderboard }) => {
       JSON.stringify(leaderboard.flat()),
       JSON.stringify(divisions),
       JSON.stringify(challengeScores),
-      Date.now()
+      leaderboardUpdate
     )
   }
 }

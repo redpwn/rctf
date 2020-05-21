@@ -6,7 +6,7 @@ module.exports = {
   ctfTitle: ' | ' + shared.ctfName,
   meta: {
     description: 'A description of your CTF',
-    imageUrl: ''
+    imageUrl: 'https://example.com/logo.png'
   },
   homeContent: 'A description of your CTF. Markdown supported.',
   sponsors: [
@@ -17,7 +17,7 @@ module.exports = {
     },
     {
       name: 'Smaller Sponsor',
-      description: 'Brief description, Markdown supported.',
+      description: 'Brief description. Markdown supported.',
       small: true
     }
   ],
