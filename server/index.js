@@ -1,7 +1,15 @@
 import 'dotenv/config'
 
-import app from './app'
+import config from '../config/server'
+import migrate from './database/migrate'
 
-const PORT = process.env.PORT || 3000
+(async () => {
+  if (config.database.migrate) {
+    await migrate()
+  }
 
-app.listen(PORT, () => console.log(`Started server at port ${PORT}`))
+  const PORT = process.env.PORT || 3000
+
+  const { default: app } = await import('./app')
+  app.listen(PORT, () => console.log(`Started server at port ${PORT}`))
+})()

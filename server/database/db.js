@@ -11,14 +11,7 @@ if (typeof creds === 'string') {
     connectionString: creds
   })
 } else {
-  const { host, port, username, password, database } = creds
-  pool = new Pool({
-    host,
-    port,
-    user: username,
-    password,
-    database
-  })
+  pool = new Pool(creds)
 }
 
 export default pool

@@ -5,5 +5,6 @@ module.exports = {
     Other: 2
   },
   defaultDivision: 2,
-  ctfName: process.env.RCTF_NAME
+  ctfName: process.env.RCTF_NAME,
+  ctftimeClientId: process.env.RCTF_CTFTIME_CLIENT_ID
 }

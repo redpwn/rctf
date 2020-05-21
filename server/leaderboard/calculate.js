@@ -107,18 +107,17 @@ if (graph) {
     challsUpdate
   })
 } else {
-  let sample
-  let isSample = false
   const prevSample = getPreviousSample()
-  if (lastUpdate < prevSample) {
-    sample = prevSample
-    isSample = true
-  } else {
-    sample = Math.min(Date.now(), end)
+  const isSample = lastUpdate < prevSample
+  let sampleScores
+  if (isSample) {
+    const { userScores } = calculateScores(prevSample)
+    sampleScores = userScores.map((score) => [score[0], score[3]])
   }
 
-  const { challengeValues, userScores } = calculateScores(sample)
+  const leaderboardUpdate = Math.min(Date.now(), end)
 
+  const { userScores, challengeValues } = calculateScores(leaderboardUpdate)
   const sortedUsers = userScores.sort(userCompare).map((user) => user.slice(0, 4))
 
   const challengeScores = []
@@ -126,16 +125,12 @@ if (graph) {
     challengeScores.push(id, score)
   ])
 
-  let sampleScores
-  if (isSample) {
-    sampleScores = userScores.map((score) => [score[0], score[3]])
-  }
-
   parentPort.postMessage({
     leaderboard: sortedUsers,
     challengeScores,
     isSample,
-    sample,
-    sampleScores
+    sample: prevSample,
+    sampleScores,
+    leaderboardUpdate
   })
 }
