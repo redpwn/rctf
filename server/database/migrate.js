@@ -10,6 +10,7 @@ const migrate = async (attempt) => {
       databaseUrl: config.database.sql,
       dir: path.join(__dirname, '../../migrations'),
       direction: 'up',
+      migrationsTable: 'pgmigrations',
       verbose: true
     })
   } catch (e) {
