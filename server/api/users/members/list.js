@@ -3,7 +3,7 @@ import { responses } from '../../../responses'
 
 export default {
   method: 'get',
-  path: '/users/me/members/',
+  path: '/users/me/members',
   requireAuth: true,
   handler: async ({ user }) => {
     const members = await database.members.getMembers({

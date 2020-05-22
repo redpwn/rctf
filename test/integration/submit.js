@@ -10,8 +10,11 @@ const util = require('../_util')
 
 let chall, uuid, testUserData
 
-// Wait for challenges to load
-test.before(async () => {
+test.before('start server', async t => {
+  await app.ready()
+})
+
+test.before('wait for challenges to load', async () => {
   chall = await util.getFirstLoadedChallenge()
 
   testUserData = await util.generateRealTestUser()
@@ -24,7 +27,7 @@ test.after.always('cleanup test user', async t => {
 })
 
 test('fails with unauthorized', async t => {
-  const resp = await request(app)
+  const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/challs/1/submit')
     .expect(responseList.badToken.status)
 
@@ -35,7 +38,7 @@ test('fails with badBody', async t => {
   const badChallenge = uuidv4()
 
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
-  const resp = await request(app)
+  const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + `/challs/${encodeURIComponent(badChallenge)}/submit`)
     .set('Authorization', ' Bearer ' + authToken)
     .expect(responseList.badBody.status)
@@ -45,7 +48,7 @@ test('fails with badBody', async t => {
 
 test.serial('fails with badFlag', async t => {
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
-  const resp = await request(app)
+  const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: 'wrong_flag' })
@@ -56,7 +59,7 @@ test.serial('fails with badFlag', async t => {
 
 test.serial('succeeds with goodFlag', async t => {
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
-  const resp = await request(app)
+  const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: chall.flag })
@@ -67,7 +70,7 @@ test.serial('succeeds with goodFlag', async t => {
 
 test.serial('fails with badAlreadySolvedChallenge', async t => {
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
-  const resp = await request(app)
+  const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: chall.flag })

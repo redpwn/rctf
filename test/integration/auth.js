@@ -11,6 +11,10 @@ const util = require('../_util')
 
 const testUser = util.generateTestUser()
 
+test.before('start server', async t => {
+  await app.ready()
+})
+
 test.after.always('cleanup test user', async t => {
   await removeUserByEmail({
     email: testUser.email
@@ -18,7 +22,7 @@ test.after.always('cleanup test user', async t => {
 })
 
 test('fails with badEmail', async t => {
-  const resp = await request(app)
+  const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/auth/register')
     .send({
       ...testUser,
@@ -33,7 +37,7 @@ test('fails with badUnknownEmail', async t => {
   config.verifyEmail = true
 
   const unknownEmail = 'non-existent-email' + Math.random() + '@gmail.com'
-  const resp = await request(app)
+  const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/auth/recover')
     .send({
       email: unknownEmail
@@ -46,7 +50,7 @@ test('fails with badUnknownEmail', async t => {
 test.serial('when not verifyEmail, succeeds with goodRegister', async t => {
   config.verifyEmail = false
 
-  let resp = await request(app)
+  let resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/auth/register')
     .send(testUser)
     .expect(responseList.goodRegister.status)
@@ -55,7 +59,7 @@ test.serial('when not verifyEmail, succeeds with goodRegister', async t => {
   t.true(typeof resp.body.data.authToken === 'string')
   t.true(typeof resp.body.data.teamToken === 'string')
 
-  resp = await request(app)
+  resp = await request(app.server)
     .get(process.env.API_ENDPOINT + '/auth/test')
     .set('Authorization', ' Bearer ' + resp.body.data.authToken)
     .expect(responseList.goodToken.status)
@@ -66,7 +70,7 @@ test.serial('when not verifyEmail, succeeds with goodRegister', async t => {
 test.serial('duplicate email fails with badKnownEmail', async t => {
   config.verifyEmail = false
 
-  const resp = await request(app)
+  const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/auth/register')
     .send({
       ...testUser,
@@ -80,7 +84,7 @@ test.serial('duplicate email fails with badKnownEmail', async t => {
 test.serial('duplicate name fails with badKnownName', async t => {
   config.verifyEmail = false
 
-  const resp = await request(app)
+  const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/auth/register')
     .send({
       ...testUser,
@@ -100,7 +104,7 @@ test.serial('succeeds with goodUserUpdate', async t => {
 
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, user.id)
 
-  const resp = await request(app)
+  const resp = await request(app.server)
     .patch(process.env.API_ENDPOINT + '/users/me')
     .set('Authorization', ' Bearer ' + authToken)
     .send({
@@ -128,7 +132,7 @@ test.serial('succeeds with goodUserDelete', async t => {
 
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, user.id)
 
-  const resp = await request(app)
+  const resp = await request(app.server)
     .delete(process.env.API_ENDPOINT + '/users/me')
     .set('Authorization', ' Bearer ' + authToken)
     .expect(responseList.goodUserDelete.status)

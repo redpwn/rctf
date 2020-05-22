@@ -1,10 +1,6 @@
-import express from 'express'
-import Ajv from 'ajv'
 import { responses, responseList } from '../responses'
 import * as auth from '../auth'
 import * as db from '../database'
-
-const router = express.Router()
 
 const routes = [
   require('./leaderboard/now').default,
@@ -18,119 +14,111 @@ const routes = [
   ...require('./admin/challs').default
 ]
 
-const validationParams = ['body', 'params', 'query']
-const routeValidators = routes.map((route) => {
-  if (route.schema === undefined) {
-    return {}
-  }
-
-  const ret = {}
-  validationParams.forEach(param => {
-    if (route.schema[param] !== undefined) {
-      ret[param] = new Ajv().compile(route.schema[param])
-    }
-  })
-  return ret
-})
-
 const makeSendResponse = (res) => (responseKind, data = null) => {
   const response = responseList[responseKind]
   if (response === undefined) {
     throw new Error(`unknown response ${responseKind}`)
   }
-  res.status(response.status)
+  res.code(response.status)
   if (response.rawContentType !== undefined) {
-    res.set('content-type', response.rawContentType)
+    res.type(response.rawContentType)
     res.send(data)
   } else {
-    res.set('content-type', 'application/json')
-    res.send(JSON.stringify({
+    res.send({
       kind: responseKind,
       message: response.message,
       data
-    }))
+    })
   }
 }
 
-routes.forEach((route, i) => {
-  router[route.method](route.path, async (req, res) => {
+export default async (fastify, opts) => {
+  fastify.setErrorHandler((error, req, res) => {
     const sendResponse = makeSendResponse(res)
-
-    if (req.body instanceof Buffer) {
-      try {
-        req.body = JSON.parse(req.body)
-      } catch (e) {
-        sendResponse(responses.badJson)
-        return
-      }
-    }
-
-    let user
-    if (route.requireAuth) {
-      const authHeader = req.get('authorization')
-      if (authHeader === undefined || !authHeader.startsWith('Bearer ')) {
-        sendResponse(responses.badToken)
-        return
-      }
-      const uuid = await auth.token.getData(auth.token.tokenKinds.auth, authHeader.slice('Bearer '.length))
-      if (uuid === null) {
-        sendResponse(responses.badToken)
-        return
-      }
-
-      user = await db.auth.getUserById({
-        id: uuid
-      })
-      if (user == null) {
-        sendResponse(responses.badToken)
-        return
-      }
-    }
-
-    if (route.perms !== undefined) {
-      if (user === undefined) {
-        throw new Error('routes with perms must set requireAuth to true')
-      }
-      if ((user.perms & route.perms) !== route.perms) {
-        sendResponse(responses.badPerms)
-        return
-      }
-    }
-
-    const validator = routeValidators[i]
-    const allValid = validationParams.every(param => {
-      if (validator[param] !== undefined) {
-        return validator[param](req[param])
-      }
-      return true
-    })
-
-    if (!allValid) {
+    if (error.validation) {
       sendResponse(responses.badBody)
       return
     }
 
-    let response
-    try {
-      response = await route.handler({
-        req,
-        user
-      })
-    } catch (e) {
+    // based on https://github.com/fastify/fastify/blob/2.x/lib/context.js#L29
+    if (res.statusCode >= 500) {
+      res.log.error(
+        { req, res, err: error },
+        error && error.message
+      )
       sendResponse(responses.errorInternal)
-      console.error(e.stack)
+      return
+    } else if (res.statusCode >= 400) {
+      res.log.info(
+        { res, err: error },
+        error && error.message
+      )
+    }
+    res.send(error)
+  })
+
+  fastify.setNotFoundHandler((req, res) => {
+    const { url, method } = req.raw
+    req.log.info(`Route ${url}:${method} not found`)
+    makeSendResponse(res)(responses.badEndpoint)
+  })
+
+  routes.forEach((route, i) => {
+    const handler = async (req, res) => {
+      const sendResponse = makeSendResponse(res)
+      let user
+      if (route.requireAuth) {
+        const authHeader = req.headers.authorization
+        if (authHeader === undefined || !authHeader.startsWith('Bearer ')) {
+          sendResponse(responses.badToken)
+          return
+        }
+        const uuid = await auth.token.getData(auth.token.tokenKinds.auth, authHeader.slice('Bearer '.length))
+        if (uuid === null) {
+          sendResponse(responses.badToken)
+          return
+        }
+
+        user = await db.auth.getUserById({
+          id: uuid
+        })
+        if (user == null) {
+          sendResponse(responses.badToken)
+          return
+        }
+      }
+
+      if (route.perms !== undefined) {
+        if (user === undefined) {
+          throw new Error('routes with perms must set requireAuth to true')
+        }
+        if ((user.perms & route.perms) !== route.perms) {
+          sendResponse(responses.badPerms)
+          return
+        }
+      }
+
+      const response = await route.handler({ req, user })
+      if (response instanceof Array) {
+        sendResponse(...response)
+      } else {
+        sendResponse(response)
+      }
     }
 
-    if (response instanceof Array) {
-      sendResponse(...response)
-    } else {
-      sendResponse(response)
+    fastify.route({
+      method: route.method.toUpperCase(),
+      url: route.path,
+      schema: route.schema,
+      handler
+    })
+  })
+
+  fastify.route({
+    method: ['DELETE', 'GET', 'HEAD', 'PATCH', 'POST', 'PUT', 'OPTIONS'],
+    url: '/*',
+    handler: (req, res) => {
+      res.callNotFound()
     }
   })
-})
-
-router.use((req, res) => {
-  makeSendResponse(res)(responses.badEndpoint)
-})
-
-export default router
+}
