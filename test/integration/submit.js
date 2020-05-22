@@ -29,21 +29,33 @@ test.after.always('cleanup test user', async t => {
 test('fails with unauthorized', async t => {
   const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/challs/1/submit')
+    .send({ flag: 'wrong_flag' })
     .expect(responseList.badToken.status)
 
   t.is(resp.body.kind, 'badToken')
 })
 
 test('fails with badBody', async t => {
+  const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
+  const resp = await request(app.server)
+    .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
+    .set('Authorization', ' Bearer ' + authToken)
+    .expect(responseList.badBody.status)
+
+  t.is(resp.body.kind, 'badBody')
+})
+
+test('fails with badChallenge', async t => {
   const badChallenge = uuidv4()
 
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + `/challs/${encodeURIComponent(badChallenge)}/submit`)
     .set('Authorization', ' Bearer ' + authToken)
-    .expect(responseList.badBody.status)
+    .send({ flag: 'wrong_flag' })
+    .expect(responseList.badChallenge.status)
 
-  t.is(resp.body.kind, 'badBody')
+  t.is(resp.body.kind, 'badChallenge')
 })
 
 test.serial('fails with badFlag', async t => {
