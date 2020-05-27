@@ -2,6 +2,7 @@ import config from '../../config/server'
 import * as challenges from '../challenges'
 import { responses } from '../responses'
 import * as util from '../util'
+import { getChallengeScores } from '../cache/leaderboard'
 
 export default {
   method: 'get',
@@ -13,6 +14,13 @@ export default {
     }
 
     const cleaned = challenges.getCleanedChallenges()
-    return [responses.goodChallenges, cleaned]
+    const scores = await getChallengeScores({
+      ids: cleaned.map(chall => chall.id)
+    })
+
+    return [responses.goodChallenges, cleaned.map((chall, i) => ({
+      ...chall,
+      points: scores[i]
+    }))]
   }
 }
