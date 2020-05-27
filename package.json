@@ -38,7 +38,7 @@
     "nodemailer": "^6.4.6",
     "pg": "^8.2.1",
     "redis": "^3.0.2",
-    "uuid": "^8.0.0"
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.6",
