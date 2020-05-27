@@ -68,6 +68,12 @@ const Problem = ({ classes, problem }) => {
   const [name, setName] = useState(problem.name)
   const handleNameChange = useCallback(e => setName(e.target.value), [])
 
+  const [minPoints, setMinPoints] = useState(problem.points.min || 100)
+  const handleMinPointsChange = useCallback(e => setMinPoints(e.target.value), [])
+
+  const [maxPoints, setMaxPoints] = useState(problem.points.min || 500)
+  const handleMaxPointsChange = useCallback(e => setMaxPoints(e.target.value), [])
+
   const handleUpdate = useCallback(e => {
     e.preventDefault()
 
@@ -78,10 +84,14 @@ const Problem = ({ classes, problem }) => {
         description,
         category,
         author,
-        name
+        name,
+        points: {
+          min: minPoints,
+          max: maxPoints
+        }
       }
     })
-  }, [problem, flag, description, category, author, name])
+  }, [problem, flag, description, category, author, name, minPoints, maxPoints])
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const openDeleteModal = useCallback(e => {
@@ -117,6 +127,8 @@ const Problem = ({ classes, problem }) => {
               </div>
               <div class={`col-6 ${classes.header}`}>
                 <input class='form-group-input input-small' placeholder='Author' value={author} onChange={handleAuthorChange} />
+                <input class='form-group-input input-small' type='number' value={minPoints} onChange={handleMinPointsChange} />
+                <input class='form-group-input input-small' type='number' value={maxPoints} onChange={handleMaxPointsChange} />
               </div>
             </div>
 
