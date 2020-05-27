@@ -16,7 +16,7 @@ services:
       - RCTF_DATABASE_USERNAME=rctf
       - RCTF_DATABASE_PASSWORD=${RCTF_DATABASE_PASSWORD}
       - RCTF_REDIS_URL=redis://redis
-      - RCTF_DATABASE_MIGRATE=true
+      - RCTF_DATABASE_MIGRATE=before
     volumes:
       - ./config:/app/dist/config
       - ./.rdeploy:/app/.rdeploy
