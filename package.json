@@ -75,7 +75,7 @@
     "nodemon": "^2.0.4",
     "nyc": "^15.0.1",
     "pascal-case": "^3.1.1",
-    "preact": "^10.4.1",
+    "preact": "^10.4.4",
     "preact-cli": "^3.0.0-rc.10",
     "preact-markup": "^2.0.0",
     "preact-router": "^3.2.1",
