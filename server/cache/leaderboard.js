@@ -199,7 +199,7 @@ export const getChallengeScores = async ({ ids }) => {
     return []
   }
   const redisResult = await redisHmget('challenge-scores', ...ids)
-  return redisResult.map((score) => parseInt(score))
+  return redisResult.map((score) => parseInt(score) || null)
 }
 
 export const setGraph = async ({ leaderboards, challsUpdate = 0 }) => {
