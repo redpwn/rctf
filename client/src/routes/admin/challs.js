@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'preact/hooks'
+import { useState, useEffect, useCallback, useMemo } from 'preact/hooks'
 import { v4 as uuid } from 'uuid'
 
 import config from '../../config'
@@ -14,16 +14,19 @@ const SAMPLE_PROBLEM = {
   author: '',
   files: [],
   points: {
-    min: 0,
-    max: 0
+    min: 100,
+    max: 500
   }
 }
 
 const Challenges = ({ classes }) => {
   const [problems, setProblems] = useState([])
-  const [newId, setNewId] = useState(uuid())
+  const newId = useMemo(() => uuid(), [problems])
 
-  useEffect(() => setNewId(uuid()), [problems])
+  const completeProblems = problems.concat({
+    ...SAMPLE_PROBLEM,
+    id: newId
+  })
 
   useEffect(() => {
     document.title = `Challenges${config.ctfTitle}`
@@ -36,16 +39,25 @@ const Challenges = ({ classes }) => {
     action()
   }, [])
 
+  const updateProblem = useCallback(({ problem }) => {
+    let nextProblems = completeProblems
+
+    // If we aren't creating new problem, remove sample problem first
+    if (problem.id !== newId) {
+      nextProblems = nextProblems.filter(p => p.id !== newId)
+    }
+    setProblems(nextProblems.map(p => {
+      return p.id === problem.id ? problem : p
+    }))
+  }, [newId, completeProblems])
+
   return (
     <div class={`row ${classes.row}`}>
       <div class='col-9'>
         {
-          problems.concat({
-            ...SAMPLE_PROBLEM,
-            id: newId
-          }).map(problem => {
+          completeProblems.map(problem => {
             return (
-              <Problem key={problem.id} problem={problem} />
+              <Problem update={updateProblem} key={problem.id} problem={problem} />
             )
           })
         }

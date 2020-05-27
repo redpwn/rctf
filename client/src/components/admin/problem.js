@@ -1,10 +1,11 @@
-import { Fragment } from 'preact'
+import { Fragment, createRef } from 'preact'
 import withStyles from '../../components/jss'
 import { useState, useCallback } from 'preact/hooks'
 import Modal from '../../components/modal'
 
 import { updateChallenge, deleteChallenge } from '../../api/admin/challs'
 import { useToast } from '../../components/toast'
+import { encodeFile } from '../../util'
 
 const DeleteModal = withStyles({
   modalBody: {
@@ -50,7 +51,7 @@ const DeleteModal = withStyles({
   )
 })
 
-const Problem = ({ classes, problem }) => {
+const Problem = ({ classes, problem, update: updateClient }) => {
   const { toast } = useToast()
 
   const [flag, setFlag] = useState(problem.flag)
@@ -68,16 +69,25 @@ const Problem = ({ classes, problem }) => {
   const [name, setName] = useState(problem.name)
   const handleNameChange = useCallback(e => setName(e.target.value), [])
 
-  const [minPoints, setMinPoints] = useState(problem.points.min || 100)
+  const [minPoints, setMinPoints] = useState(problem.points.min)
   const handleMinPointsChange = useCallback(e => setMinPoints(e.target.value), [])
 
-  const [maxPoints, setMaxPoints] = useState(problem.points.min || 500)
+  const [maxPoints, setMaxPoints] = useState(problem.points.max)
   const handleMaxPointsChange = useCallback(e => setMaxPoints(e.target.value), [])
 
-  const handleUpdate = useCallback(e => {
+  const fileElem = createRef()
+
+  const handleUpdate = useCallback(async e => {
     e.preventDefault()
 
-    updateChallenge({
+    const fileData = await Promise.all(
+      Array.from(fileElem.current.files)
+        .map(file => encodeFile(file))
+    )
+
+    console.log(fileData)
+
+    const data = await updateChallenge({
       id: problem.id,
       data: {
         flag,
@@ -91,7 +101,11 @@ const Problem = ({ classes, problem }) => {
         }
       }
     })
-  }, [problem, flag, description, category, author, name, minPoints, maxPoints])
+
+    updateClient({
+      problem: data
+    })
+  }, [problem, flag, description, category, author, name, minPoints, maxPoints, updateClient, fileElem])
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const openDeleteModal = useCallback(e => {
@@ -137,6 +151,10 @@ const Problem = ({ classes, problem }) => {
             <textarea placeholder='Description' value={description} onChange={handleDescriptionChange} />
             <div class='input-control'>
               <input class='form-group-input input-small' placeholder='Flag' value={flag} onChange={handleFlagChange} />
+            </div>
+
+            <div class='input-control'>
+              <input class='form-group-input input-small' placeholder='Flag' type='file' multiple ref={fileElem} />
             </div>
 
             <div class={`form-section ${classes.controls}`}>
