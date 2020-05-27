@@ -3,10 +3,9 @@ import { memo } from 'preact/compat'
 import config from '../config'
 import withStyles from '../components/jss'
 
-import { privateProfile, publicProfile, deleteAccount, updateAccount, updateEmail, deleteEmail } from '../api/profile'
+import { privateProfile, publicProfile, updateAccount, updateEmail, deleteEmail } from '../api/profile'
 import { useToast } from '../components/toast'
 import Form from '../components/form'
-import Modal from '../components/modal'
 import MembersCard from '../components/profile/memberscard'
 import TokenPreview from '../components/tokenPreview'
 import * as util from '../util'
@@ -22,66 +21,6 @@ const divisionMap = new Map()
 for (const division of Object.entries(config.divisions)) {
   divisionMap.set(division[1], division[0])
 }
-
-const DeleteModal = withStyles({
-  modalBody: {
-    paddingTop: '0em !important' // reduce space between header and body
-  },
-  controls: {
-    display: 'flex',
-    justifyContent: 'center',
-    '& :first-child': {
-      marginLeft: '0em'
-    },
-    '& :last-child': {
-      marginRight: '0em'
-    }
-  }
-}, ({ open, onClose, onSuccess, teamName, classes }) => {
-  const [inputName, setInputName] = useState('')
-  const handleInputNameChange = useCallback((e) => setInputName(e.target.value), [])
-  const isNameValid = inputName === teamName
-  const verifyName = useCallback((e) => {
-    e.preventDefault()
-    if (isNameValid) {
-      onSuccess()
-    }
-  }, [isNameValid, onSuccess])
-  const wrappedOnClose = useCallback((e) => {
-    e.preventDefault()
-    onClose()
-  }, [onClose])
-
-  useEffect(() => {
-    if (!open) {
-      setInputName('')
-    }
-  }, [open])
-
-  return (
-    <Modal {...{ open, onClose }}>
-      <div class='modal-header'>
-        <div class='modal-title'>Delete Account</div>
-      </div>
-      {/* Put buttons in the body because otherwise there is too much padding */}
-      <form class={`modal-body ${classes.modalBody}`} onSubmit={verifyName}>
-        <div>Are you sure you want to delete your team? This action is permanent.</div>
-        <div class='form-section'>
-          <label>Type your team name to confirm:</label>
-          <input placeholder={teamName} value={inputName} onInput={handleInputNameChange} />
-        </div>
-        <div class={`${classes.controls}`}>
-          <div class='btn-container u-inline-block'>
-            <button class='btn-small' onClick={wrappedOnClose}>Cancel</button>
-          </div>
-          <div class='btn-container u-inline-block'>
-            <input type='submit' class='btn-small btn-danger outline' disabled={!isNameValid} value='Delete Team' />
-          </div>
-        </div>
-      </form>
-    </Modal>
-  )
-})
 
 const SummaryCard = memo(withStyles({
   icon: {
@@ -208,10 +147,6 @@ const UpdateCard = withStyles({
 }, ({ name: oldName, email: oldEmail, onUpdate, classes }) => {
   const { toast } = useToast()
 
-  const [deleteModalVisible, setDeleteModalVisible] = useState(false)
-  const dismissDeleteModal = useCallback(() => setDeleteModalVisible(false), [])
-  const handleDelete = useCallback(() => setDeleteModalVisible(true), [])
-
   const [name, setName] = useState(oldName)
   const handleSetName = useCallback((e) => setName(e.target.value), [])
 
@@ -292,10 +227,6 @@ const UpdateCard = withStyles({
             <input required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={name} onChange={handleSetName} />
             <input required icon={<EnvelopeOpen />} name='email' placeholder='Email' type='email' value={email} onChange={handleSetEmail} />
           </Form>
-        </div>
-        <div class='u-center action-bar' style='margin: 0.5rem; padding: 1rem'>
-          <button class='btn-small btn-danger outline' style='border-color: var(--btn-color)' onClick={handleDelete}>Delete Account</button>
-          <DeleteModal open={deleteModalVisible} onClose={dismissDeleteModal} onSuccess={deleteAccount} teamName={name} />
         </div>
       </div>
     </div>

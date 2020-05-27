@@ -14,7 +14,7 @@ To verify your email and recover your {{{ ctf_name }}} account, click the link b
 Update your {{{ ctf_name }}} email
 
 Before we add this email to your account, we need to make sure it's actually you.
-To add this email to your {{{ ctf_name }}} account, click the button below.
+To add this email to your {{{ ctf_name }}} account, click the link below.
 {{ /update }}
 
 {{{ origin }}}/verify#token={{{ token }}}
