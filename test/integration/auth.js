@@ -120,18 +120,3 @@ test.serial('succeeds with goodUserUpdate', async t => {
   t.is(respUser.email, testUser.email)
   t.is(respUser.division, nextUser.division)
 })
-
-test.serial('succeeds with goodUserDelete', async t => {
-  const user = await database.auth.getUserByEmail({
-    email: testUser.email
-  })
-
-  const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, user.id)
-
-  const resp = await request(app)
-    .delete(process.env.API_ENDPOINT + '/users/me')
-    .set('Authorization', ' Bearer ' + authToken)
-    .expect(responseList.goodUserDelete.status)
-
-  t.is(resp.body.kind, 'goodUserDelete')
-})
