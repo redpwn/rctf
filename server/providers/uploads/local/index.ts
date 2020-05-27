@@ -3,8 +3,11 @@ import process from 'process'
 import path from 'path'
 import fs from 'fs'
 import crypto from 'crypto'
-import express from 'express'
 import config from '../../../../config/server'
+import fastify from 'fastify'
+import { Server, IncomingMessage, ServerResponse } from 'http'
+import fastifyStatic from 'fastify-static'
+import contentDisposition from 'content-disposition'
 
 interface LocalProviderOptions {
   uploadDirectory?: string;
@@ -19,40 +22,51 @@ interface Upload {
 export default class LocalProvider implements Provider {
   private uploadDirectory: string
   private endpoint: string
-  private app: express.Application
 
   private uploadMap: Map<string, Upload>
 
-  constructor (options: LocalProviderOptions, app: express.Application) {
+  constructor (options: LocalProviderOptions, app: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse>) {
     if (options.uploadDirectory === undefined) {
       options.uploadDirectory = path.join(process.cwd(), 'uploads')
     }
 
     fs.mkdirSync(options.uploadDirectory, { recursive: true })
 
-    this.uploadDirectory = options.uploadDirectory
+    this.uploadDirectory = path.resolve(options.uploadDirectory)
     this.endpoint = options.endpoint
-    this.app = app
 
     this.uploadMap = new Map()
-    this.app.get(this.endpoint, this.handleRequest.bind(this))
+
+    app.register(async (fastify) => {
+      fastify.register(fastifyStatic, {
+        root: this.uploadDirectory,
+        serve: false
+      })
+      fastify.get('/', this.handleRequest.bind(this))
+      fastify.setNotFoundHandler(async (req, res) => {
+        res.status(404)
+        return 'Not found'
+      })
+    }, {
+      prefix: this.endpoint
+    })
   }
 
-  handleRequest (req: express.Request, res: express.Response): void {
+  async handleRequest (req: fastify.FastifyRequest, res: fastify.FastifyReply<ServerResponse>): Promise<void> {
     const key = req.query.key.toString()
 
     if (this.uploadMap.has(key)) {
       const upload = this.uploadMap.get(key)
 
-      res.set('Cache-Control', 'public, max-age=31557600, immutable')
-      res.download(upload.filePath, upload.name)
+      res.header('Cache-Control', 'public, max-age=31557600, immutable')
+      res.header('Content-Disposition', contentDisposition(upload.name))
+      res.sendFile(path.relative(this.uploadDirectory, upload.filePath))
     } else {
-      res.status(404)
-      res.end()
+      res.callNotFound()
     }
   }
 
-  upload (data: Buffer, name: string): Promise<string> {
+  async upload (data: Buffer, name: string): Promise<string> {
     const hash = crypto.createHash('sha256')
       .update(data)
       .digest()
@@ -67,7 +81,8 @@ export default class LocalProvider implements Provider {
       name
     })
 
-    return fs.promises.writeFile(filePath, data)
-      .then(() => (config.origin || '') + urlPath)
+    await fs.promises.writeFile(filePath, data)
+
+    return (config.origin || '') + urlPath
   }
 }
