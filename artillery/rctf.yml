@@ -41,10 +41,3 @@ scenarios:
         url: "/api/v1/users/me"
         headers:
           Authorization: "Bearer {{ token }}"
-    - delete:
-        url: "/api/v1/users/me"
-        headers:
-          Authorization: "Bearer {{ token }}"
-
-
-

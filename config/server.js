@@ -29,7 +29,7 @@ const config = {
       password: process.env.RCTF_REDIS_PASSWORD,
       database: process.env.RCTF_REDIS_DATABASE
     },
-    migrate: process.env.RCTF_DATABASE_MIGRATE === 'true'
+    migrate: process.env.RCTF_DATABASE_MIGRATE || 'never'
   },
   email: {
     smtpUrl: process.env.RCTF_SMTP_URL,

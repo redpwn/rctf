@@ -7,7 +7,6 @@ export default [
   ...require('./members').default,
   require('./me').default,
   require('./id').default,
-  require('./delete').default,
   require('./update').default,
   ...require('./me-auth/ctftime').default,
   ...require('./me-auth/email').default

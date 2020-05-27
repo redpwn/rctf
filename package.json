@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "tsc --noEmit && eslint --ext .js,.ts .",
     "start": "node --enable-source-maps dist/server/index.js",
-    "migrate": "node-pg-migrate --database-url-var=RCTF_DATABASE_URL",
+    "migrate": "sh -c \"yarn build:ts && RCTF_DATABASE_MIGRATE=only yarn start\"",
     "build:client": "preact build --src client/src --template client/index.html --dest dist/build --no-prerender",
     "build:ts": "tsc && yarn copy-static",
     "build": "yarn build:ts && yarn build:client",
@@ -36,16 +36,16 @@
     "got": "^11.1.4",
     "jss-plugin-global": "^10.1.1",
     "mustache": "^4.0.0",
-    "node-pg-migrate": "^4.8.0",
+    "node-pg-migrate": "^5.0.0",
     "nodemailer": "^6.4.6",
     "pg": "^8.2.1",
     "redis": "^3.0.2",
-    "uuid": "^8.0.0"
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
     "@types/content-disposition": "^0.5.3",
-    "@typescript-eslint/eslint-plugin": "^2.33.0",
-    "@typescript-eslint/parser": "^2.33.0",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
     "ava": "^3.8.2",
     "babel-eslint": "^10.0.3",
     "babel-plugin-transform-export-extensions": "^6.22.0",
@@ -78,7 +78,7 @@
     "nyc": "^15.0.1",
     "pascal-case": "^3.1.1",
     "pino-pretty": "^4.0.0",
-    "preact": "^10.4.1",
+    "preact": "^10.4.4",
     "preact-cli": "^3.0.0-rc.10",
     "preact-markup": "^2.0.0",
     "preact-router": "^3.2.1",
@@ -86,7 +86,7 @@
     "snarkdown": "^1.2.2",
     "supertest": "^4.0.2",
     "svg-sprite-loader": "^5.0.0",
-    "typescript": "^3.9.2"
+    "typescript": "^3.9.3"
   },
   "description": "rctf is RedpwnCTF's CTF platform. It is developed and maintained by the [redpwn](https://redpwn.net) CTF team.",
   "repository": {
