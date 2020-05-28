@@ -212,7 +212,7 @@ const Problem = ({ classes, problem, update: updateClient }) => {
                       problem.files.map(file => {
                         return (
                           <div class='tag' key={file.url}>
-                            <a native download href={`${file.url}`}>
+                            <a native download href={file.url}>
                               {file.name}
                             </a>
                             <div class='tag tag--delete' style='margin: 0; margin-left: 3px' onClick={handleRemoveFile(file)} />

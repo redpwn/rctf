@@ -21,6 +21,9 @@ const SAMPLE_PROBLEM = {
 
 const Challenges = ({ classes }) => {
   const [problems, setProblems] = useState([])
+
+  // newId is the id of the new problem. this allows us to reuse code for problem creation
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const newId = useMemo(() => uuid(), [problems])
 
   const completeProblems = problems.concat({
