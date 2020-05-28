@@ -8,7 +8,13 @@ const config = {
       updateInterval: 60 * 1000
     }
   },
-  uploadProvider: {
+  uploadProvider: process.env.RCTF_GCS_BUCKET ? {
+    name: 'uploads/gcs',
+    options: {
+      credentials: JSON.parse(process.env.RCTF_GCS_CREDENTIALS),
+      bucketName: process.env.RCTF_GCS_BUCKET
+    }
+  } : {
     name: 'uploads/local',
     options: {
       uploadDirectory: 'uploads',
@@ -42,7 +48,7 @@ const config = {
     graphMaxTeams: 10,
     graphSampleTime: 10 * 60 * 1000
   },
-  verifyEmail: false,
+  verifyEmail: !!process.env.RCTF_SMTP_URL,
   removeDownloadHashes: true,
   tokenKey: process.env.RCTF_TOKEN_KEY,
   origin: process.env.RCTF_ORIGIN,
