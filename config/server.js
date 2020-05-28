@@ -8,7 +8,13 @@ const config = {
       updateInterval: 60 * 1000
     }
   },
-  uploadProvider: {
+  uploadProvider: process.env.RCTF_GCS_BUCKET ? {
+    name: 'uploads/gcs',
+    options: {
+      credentials: JSON.parse(process.env.RCTF_GCS_CREDENTIALS),
+      bucketName: process.env.RCTF_GCS_BUCKET
+    }
+  } : {
     name: 'uploads/local',
     options: {
       uploadDirectory: 'uploads',
