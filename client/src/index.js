@@ -4,6 +4,7 @@ import Router from 'preact-router'
 import 'cirrus-ui'
 import withStyles from './components/jss'
 import Header from './components/header'
+import Footer from './components/footer'
 
 import Home from './routes/home'
 import Registration from './routes/registration'
@@ -24,7 +25,7 @@ function useTriggerRerender () {
   return useCallback(() => setToggle(t => !t), [setToggle])
 }
 
-function App () {
+function App ({ classes }) {
   const triggerRerender = useTriggerRerender()
 
   const loggedOut = localStorage.getItem('token') === null
@@ -61,9 +62,12 @@ function App () {
     <div id='app'>
       <ToastProvider>
         <Header paths={currentPaths} />
-        <Router onChange={triggerRerender}>
-          {allPaths}
-        </Router>
+        <div class={classes.contentWrapper}>
+          <Router onChange={triggerRerender}>
+            {allPaths}
+          </Router>
+        </div>
+        <Footer />
       </ToastProvider>
     </div>
   )
@@ -72,5 +76,13 @@ function App () {
 export default withStyles({
   '@global body': {
     overflowX: 'hidden'
+  },
+  '@global #app': {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100%'
+  },
+  contentWrapper: {
+    flex: '1 0 auto'
   }
 }, App)
