@@ -30,7 +30,7 @@ export default {
           items: itemSchema
         }
       },
-      required: ['fiels']
+      required: ['files']
     }
   },
   handler: async ({ req }) => {

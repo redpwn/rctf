@@ -1,8 +1,6 @@
 import { responses } from '../../../responses'
 import * as challenges from '../../../challenges'
 import perms from '../../../util/perms'
-import { get as getUploadProvider } from '../../../uploads'
-import toBuffer from 'data-uri-to-buffer'
 
 export default {
   method: 'put',
@@ -26,7 +24,19 @@ export default {
           type: 'object',
           properties: {
             files: {
-              type: 'array'
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  name: {
+                    type: 'string'
+                  },
+                  url: {
+                    type: 'string'
+                  }
+                },
+                required: ['name', 'url']
+              }
             }
           }
         }
@@ -34,24 +44,10 @@ export default {
     }
   },
   handler: async ({ req }) => {
-    const uploadProvider = getUploadProvider()
     const chall = req.body.data
 
     // Ensure id is consistent
     chall.id = req.params.id
-
-    const files = await Promise.all(
-      chall.files.map(async ({ name, data }) => {
-        const url = await uploadProvider.upload(toBuffer(data))
-
-        return {
-          name,
-          url
-        }
-      })
-    )
-
-    chall.files = files
 
     challenges.updateChallenge(chall)
 

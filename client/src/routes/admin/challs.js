@@ -47,7 +47,14 @@ const Challenges = ({ classes }) => {
       nextProblems = nextProblems.filter(p => p.id !== newId)
     }
     setProblems(nextProblems.map(p => {
-      return p.id === problem.id ? problem : p
+      // Perform partial update by merging properties
+      if (p.id === problem.id) {
+        return {
+          ...p,
+          ...problem
+        }
+      }
+      return p
     }))
   }, [newId, completeProblems])
 

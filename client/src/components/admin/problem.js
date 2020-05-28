@@ -1,9 +1,9 @@
-import { Fragment, createRef } from 'preact'
+import { Fragment } from 'preact'
 import withStyles from '../../components/jss'
 import { useState, useCallback } from 'preact/hooks'
 import Modal from '../../components/modal'
 
-import { updateChallenge, deleteChallenge } from '../../api/admin/challs'
+import { updateChallenge, deleteChallenge, uploadFiles } from '../../api/admin/challs'
 import { useToast } from '../../components/toast'
 import { encodeFile } from '../../util'
 
@@ -75,13 +75,11 @@ const Problem = ({ classes, problem, update: updateClient }) => {
   const [maxPoints, setMaxPoints] = useState(problem.points.max)
   const handleMaxPointsChange = useCallback(e => setMaxPoints(e.target.value), [])
 
-  const fileElem = createRef()
-
-  const handleUpdate = useCallback(async e => {
+  const handleFileUpload = useCallback(async e => {
     e.preventDefault()
 
     const fileData = await Promise.all(
-      Array.from(fileElem.current.files)
+      Array.from(e.target.files)
         .map(async file => {
           const data = await encodeFile(file)
 
@@ -91,6 +89,51 @@ const Problem = ({ classes, problem, update: updateClient }) => {
           }
         })
     )
+
+    const fileUpload = await uploadFiles({
+      files: fileData
+    })
+
+    if (fileUpload.error) {
+      toast({ body: fileUpload.error, type: 'error' })
+      return
+    }
+
+    const data = await updateChallenge({
+      id: problem.id,
+      data: {
+        files: fileUpload.data.concat(problem.files)
+      }
+    })
+
+    e.target.value = null
+
+    updateClient({
+      problem: data
+    })
+
+    toast({ body: 'Problem successfully updated' })
+  }, [problem.id, problem.files, updateClient, toast])
+
+  const handleRemoveFile = file => async () => {
+    const newFiles = problem.files.filter(f => f !== file)
+
+    const data = await updateChallenge({
+      id: problem.id,
+      data: {
+        files: newFiles
+      }
+    })
+
+    updateClient({
+      problem: data
+    })
+
+    toast({ body: 'Problem successfully updated' })
+  }
+
+  const handleUpdate = async e => {
+    e.preventDefault()
 
     const data = await updateChallenge({
       id: problem.id,
@@ -103,15 +146,16 @@ const Problem = ({ classes, problem, update: updateClient }) => {
         points: {
           min: minPoints,
           max: maxPoints
-        },
-        files: fileData
+        }
       }
     })
 
     updateClient({
       problem: data
     })
-  }, [problem, flag, description, category, author, name, minPoints, maxPoints, updateClient, fileElem])
+
+    toast({ body: 'Problem successfully updated' })
+  }
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const openDeleteModal = useCallback(e => {
@@ -171,6 +215,7 @@ const Problem = ({ classes, problem, update: updateClient }) => {
                             <a native download href={`${file.url}`}>
                               {file.name}
                             </a>
+                            <div class='tag tag--delete' style='margin: 0; margin-left: 3px' onClick={handleRemoveFile(file)} />
                           </div>
                         )
                       })
@@ -181,7 +226,7 @@ const Problem = ({ classes, problem, update: updateClient }) => {
             }
 
             <div class='input-control'>
-              <input class='form-group-input input-small' placeholder='Flag' type='file' multiple ref={fileElem} />
+              <input class='form-group-input input-small' placeholder='Flag' type='file' multiple onChange={handleFileUpload} />
             </div>
 
             <div class={`form-section ${classes.controls}`}>
