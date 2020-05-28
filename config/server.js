@@ -48,7 +48,7 @@ const config = {
     graphMaxTeams: 10,
     graphSampleTime: 10 * 60 * 1000
   },
-  verifyEmail: false,
+  verifyEmail: !!process.env.RCTF_SMTP_URL,
   removeDownloadHashes: true,
   tokenKey: process.env.RCTF_TOKEN_KEY,
   origin: process.env.RCTF_ORIGIN,
