@@ -82,10 +82,15 @@ const Problem = ({ classes, problem, update: updateClient }) => {
 
     const fileData = await Promise.all(
       Array.from(fileElem.current.files)
-        .map(file => encodeFile(file))
-    )
+        .map(async file => {
+          const data = await encodeFile(file)
 
-    console.log(fileData)
+          return {
+            data,
+            name: file.name
+          }
+        })
+    )
 
     const data = await updateChallenge({
       id: problem.id,
@@ -98,7 +103,8 @@ const Problem = ({ classes, problem, update: updateClient }) => {
         points: {
           min: minPoints,
           max: maxPoints
-        }
+        },
+        files: fileData
       }
     })
 
@@ -152,6 +158,27 @@ const Problem = ({ classes, problem, update: updateClient }) => {
             <div class='input-control'>
               <input class='form-group-input input-small' placeholder='Flag' value={flag} onChange={handleFlagChange} />
             </div>
+
+            {
+              problem.files.length !== 0 &&
+                <div>
+                  <p class='faded frame__subtitle u-no-margin'>Downloads</p>
+                  <div class='tag-container'>
+                    {
+                      problem.files.map(file => {
+                        return (
+                          <div class='tag' key={file.url}>
+                            <a native download href={`${file.url}`}>
+                              {file.name}
+                            </a>
+                          </div>
+                        )
+                      })
+                    }
+
+                  </div>
+                </div>
+            }
 
             <div class='input-control'>
               <input class='form-group-input input-small' placeholder='Flag' type='file' multiple ref={fileElem} />
