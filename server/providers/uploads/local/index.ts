@@ -55,8 +55,7 @@ export default class LocalProvider implements Provider {
   upload (data: Buffer, name: string): Promise<string> {
     const hash = crypto.createHash('sha256')
       .update(data)
-      .digest()
-      .toString('hex')
+      .digest('hex')
 
     const key = `${hash}/${name}`
     const urlPath = `${this.endpoint}?key=${encodeURIComponent(key)}`
