@@ -22,7 +22,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint"
+      "pre-commit": "lint-staged"
     }
   },
   "dependencies": {
@@ -75,6 +75,7 @@
     "jss-nested": "6.0.1",
     "jss-vendor-prefixer": "8.0.1",
     "linkstate": "1.1.1",
+    "lint-staged": "10.2.6",
     "loader-utils": "2.0.0",
     "nodemon": "2.0.4",
     "nyc": "15.0.1",
