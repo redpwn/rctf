@@ -21,7 +21,24 @@ export default {
       type: 'object',
       properties: {
         data: {
-          type: 'object'
+          type: 'object',
+          properties: {
+            files: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  name: {
+                    type: 'string'
+                  },
+                  url: {
+                    type: 'string'
+                  }
+                },
+                required: ['name', 'url']
+              }
+            }
+          }
         }
       }
     }
