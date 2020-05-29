@@ -58,6 +58,11 @@ export default {
     }
     const name = util.normalize.normalizeName(reqName)
 
+    const nameRegex = /^[!-~][ -~]{0,62}[!-~]$/
+    if (!nameRegex.test(name)) {
+      return [responses.badNameFormat, 'Name should match ' + nameRegex.toString()]
+    }
+
     if (!config.verifyEmail) {
       return auth.register.register({
         division: req.body.division,

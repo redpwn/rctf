@@ -84,6 +84,12 @@ export const register = async ({ email, name, division, ctftimeToken }) => {
         },
         data: resp.data
       }
+    case 'badNameFormat':
+      return {
+        errors: {
+          name: resp.data
+        }
+      }
   }
 }
 
