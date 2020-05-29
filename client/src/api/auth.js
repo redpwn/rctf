@@ -73,7 +73,9 @@ export const register = async ({ email, name, division, ctftimeToken }) => {
     case 'badEmail':
     case 'badKnownEmail':
       return {
-        email: resp.message
+        errors: {
+          email: resp.message
+        }
       }
     case 'badKnownName':
       return {
