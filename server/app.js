@@ -26,7 +26,7 @@ if (process.env.NODE_ENV !== 'production' && process.env.TEST_COMPRESSION !== un
 
 app.register(enableCORS)
 app.register(helmet, {
-  dnsPrefetchControl: true,
+  dnsPrefetchControl: false,
   referrerPolicy: { policy: 'same-origin' },
   contentSecurityPolicy: {
     directives: {

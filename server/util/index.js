@@ -1,6 +1,6 @@
 import config from '../../config/server'
 import clientConfig from '../../config/client'
-import { promises as fs } from 'fs' // fs/promises doesn't work for some reason
+import { promises as fs } from 'fs'
 import mustache from 'mustache'
 import fastifyCors from 'fastify-cors'
 import { responses } from '../responses'
