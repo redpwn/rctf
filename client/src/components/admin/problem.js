@@ -3,8 +3,9 @@ import withStyles from '../../components/jss'
 import { useState, useCallback } from 'preact/hooks'
 import Modal from '../../components/modal'
 
-import { updateChallenge, deleteChallenge } from '../../api/admin/challs'
+import { updateChallenge, deleteChallenge, uploadFiles } from '../../api/admin/challs'
 import { useToast } from '../../components/toast'
+import { encodeFile } from '../../util'
 
 const DeleteModal = withStyles({
   modalBody: {
@@ -50,7 +51,7 @@ const DeleteModal = withStyles({
   )
 })
 
-const Problem = ({ classes, problem }) => {
+const Problem = ({ classes, problem, update: updateClient }) => {
   const { toast } = useToast()
 
   const [flag, setFlag] = useState(problem.flag)
@@ -68,20 +69,93 @@ const Problem = ({ classes, problem }) => {
   const [name, setName] = useState(problem.name)
   const handleNameChange = useCallback(e => setName(e.target.value), [])
 
-  const handleUpdate = useCallback(e => {
+  const [minPoints, setMinPoints] = useState(problem.points.min)
+  const handleMinPointsChange = useCallback(e => setMinPoints(e.target.value), [])
+
+  const [maxPoints, setMaxPoints] = useState(problem.points.max)
+  const handleMaxPointsChange = useCallback(e => setMaxPoints(e.target.value), [])
+
+  const handleFileUpload = useCallback(async e => {
     e.preventDefault()
 
-    updateChallenge({
+    const fileData = await Promise.all(
+      Array.from(e.target.files)
+        .map(async file => {
+          const data = await encodeFile(file)
+
+          return {
+            data,
+            name: file.name
+          }
+        })
+    )
+
+    const fileUpload = await uploadFiles({
+      files: fileData
+    })
+
+    if (fileUpload.error) {
+      toast({ body: fileUpload.error, type: 'error' })
+      return
+    }
+
+    const data = await updateChallenge({
+      id: problem.id,
+      data: {
+        files: fileUpload.data.concat(problem.files)
+      }
+    })
+
+    e.target.value = null
+
+    updateClient({
+      problem: data
+    })
+
+    toast({ body: 'Problem successfully updated' })
+  }, [problem.id, problem.files, updateClient, toast])
+
+  const handleRemoveFile = file => async () => {
+    const newFiles = problem.files.filter(f => f !== file)
+
+    const data = await updateChallenge({
+      id: problem.id,
+      data: {
+        files: newFiles
+      }
+    })
+
+    updateClient({
+      problem: data
+    })
+
+    toast({ body: 'Problem successfully updated' })
+  }
+
+  const handleUpdate = async e => {
+    e.preventDefault()
+
+    const data = await updateChallenge({
       id: problem.id,
       data: {
         flag,
         description,
         category,
         author,
-        name
+        name,
+        points: {
+          min: minPoints,
+          max: maxPoints
+        }
       }
     })
-  }, [problem, flag, description, category, author, name])
+
+    updateClient({
+      problem: data
+    })
+
+    toast({ body: 'Problem successfully updated' })
+  }
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const openDeleteModal = useCallback(e => {
@@ -117,6 +191,8 @@ const Problem = ({ classes, problem }) => {
               </div>
               <div class={`col-6 ${classes.header}`}>
                 <input class='form-group-input input-small' placeholder='Author' value={author} onChange={handleAuthorChange} />
+                <input class='form-group-input input-small' type='number' value={minPoints} onChange={handleMinPointsChange} />
+                <input class='form-group-input input-small' type='number' value={maxPoints} onChange={handleMaxPointsChange} />
               </div>
             </div>
 
@@ -125,6 +201,32 @@ const Problem = ({ classes, problem }) => {
             <textarea placeholder='Description' value={description} onChange={handleDescriptionChange} />
             <div class='input-control'>
               <input class='form-group-input input-small' placeholder='Flag' value={flag} onChange={handleFlagChange} />
+            </div>
+
+            {
+              problem.files.length !== 0 &&
+                <div>
+                  <p class='faded frame__subtitle u-no-margin'>Downloads</p>
+                  <div class='tag-container'>
+                    {
+                      problem.files.map(file => {
+                        return (
+                          <div class='tag' key={file.url}>
+                            <a native download href={file.url}>
+                              {file.name}
+                            </a>
+                            <div class='tag tag--delete' style='margin: 0; margin-left: 3px' onClick={handleRemoveFile(file)} />
+                          </div>
+                        )
+                      })
+                    }
+
+                  </div>
+                </div>
+            }
+
+            <div class='input-control'>
+              <input class='form-group-input input-small' placeholder='Flag' type='file' multiple onChange={handleFileUpload} />
             </div>
 
             <div class={`form-section ${classes.controls}`}>
