@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/redpwn/rCTF/master/docs/rCTF.png" width="350px">
 
-[![Build Status](https://github.com/redpwn/rCTF/workflows/CI/badge.svg?branch=master)](https://github.com/redpwn/rCTF/actions?query=workflow%3ACI)
+[![Build Status](https://github.com/redpwn/rCTF/workflows/CI/badge.svg?branch=master)](https://github.com/redpwn/rCTF/actions?query=workflow%3ACI+branch%3Amaster)
 [![Code Coverage](https://img.shields.io/codecov/c/github/redpwn/rctf.svg)](https://codecov.io/github/redpwn/rctf/)
 
 rCTF is RedpwnCTF's CTF platform. It is developed and maintained by the [redpwn](https://redpwn.net) CTF team.

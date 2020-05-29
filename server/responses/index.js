@@ -103,6 +103,14 @@ export const responseList = {
     status: 200,
     message: 'The authorization token is valid'
   },
+  goodFilesUpload: {
+    status: 200,
+    message: 'The files were successfully uploaded'
+  },
+  badFilesUpload: {
+    status: 500,
+    message: 'The message upload failed'
+  },
   badBody: {
     status: 400,
     message: 'The request body does not meet requirements.'
