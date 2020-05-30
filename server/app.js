@@ -3,10 +3,7 @@ import express from 'express'
 import helmet from 'helmet'
 import { enableCORS, serveIndex } from './util'
 import { init as uploadProviderInit } from './uploads'
-import { startUpdater as leaderboardStartUpdater } from './leaderboard'
 import api from './api'
-
-leaderboardStartUpdater()
 
 const app = express()
 
