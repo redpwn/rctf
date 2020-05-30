@@ -2,6 +2,7 @@ import path from 'path'
 import fastify from 'fastify'
 import fastifyStatic from 'fastify-static'
 import helmet from 'fastify-helmet'
+import hyperid from 'hyperid'
 import { enableCORS, serveIndex } from './util'
 import { init as uploadProviderInit } from './uploads'
 import api from './api'
@@ -9,7 +10,8 @@ import api from './api'
 const app = fastify({
   logger: {
     level: process.env.NODE_ENV === 'production' ? 'info' : 'debug'
-  }
+  },
+  genReqId: hyperid()
 })
 
 app.register(enableCORS)
