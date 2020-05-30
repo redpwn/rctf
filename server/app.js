@@ -4,10 +4,7 @@ import fastifyStatic from 'fastify-static'
 import helmet from 'fastify-helmet'
 import { enableCORS, serveIndex } from './util'
 import { init as uploadProviderInit } from './uploads'
-import { startUpdater as leaderboardStartUpdater } from './leaderboard'
 import api from './api'
-
-leaderboardStartUpdater()
 
 const app = fastify({
   logger: {
