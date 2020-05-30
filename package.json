@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "lint": "tsc --noEmit && eslint --ext .js,.ts .",
+    "lint": "tsc --noEmit && eslint --ext .js,.ts . -f codeframe",
     "start": "node --enable-source-maps dist/server/index.js",
     "migrate": "sh -c \"yarn build:ts && RCTF_DATABASE_MIGRATE=only yarn start\"",
     "build:client": "preact build --src client/src --template client/index.html --dest dist/build --no-prerender --no-inline-css",
