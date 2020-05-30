@@ -60,7 +60,7 @@ export default {
 
     const nameRegex = /^[!-~][ -~]{0,62}[!-~]$/
     if (!nameRegex.test(name)) {
-      return [responses.badNameFormat, 'Name should match ' + nameRegex.toString()]
+      return [responses.badNameFormat, 'The name should only use english letters, numbers, and symbols']
     }
 
     if (!config.verifyEmail) {
