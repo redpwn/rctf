@@ -84,10 +84,10 @@ export const register = async ({ email, name, division, ctftimeToken }) => {
         },
         data: resp.data
       }
-    case 'badNameFormat':
+    case 'badName':
       return {
         errors: {
-          name: resp.data
+          name: resp.message
         }
       }
   }
