@@ -4,7 +4,7 @@ import fastifyStatic from 'fastify-static'
 import helmet from 'fastify-helmet'
 import { enableCORS, serveIndex, getRealIp } from './util'
 import { init as uploadProviderInit } from './uploads'
-import api from './api'
+import api, { logSerializers as apiLogSerializers } from './api'
 
 const app = fastify({
   logger: {
@@ -43,7 +43,10 @@ app.register(helmet, {
 
 uploadProviderInit(app)
 
-app.register(api, { prefix: '/api/v1/' })
+app.register(api, {
+  prefix: '/api/v1/',
+  logSerializers: apiLogSerializers
+})
 
 const staticPath = path.join(__dirname, '../build')
 
