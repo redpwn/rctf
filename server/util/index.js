@@ -47,7 +47,7 @@ export const serveIndex = async (fastify, opts) => {
     meta: clientConfig.meta
   })
 
-  const routeHandler = (req, res) => {
+  const routeHandler = async (req, res) => {
     res.type('text/html; charset=UTF-8')
     res.send(rendered)
   }

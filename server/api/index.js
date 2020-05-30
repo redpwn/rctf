@@ -117,7 +117,7 @@ export default async (fastify) => {
   fastify.route({
     method: ['DELETE', 'GET', 'HEAD', 'PATCH', 'POST', 'PUT', 'OPTIONS'],
     url: '/*',
-    handler: (req, res) => {
+    handler: async (req, res) => {
       res.callNotFound()
     }
   })
