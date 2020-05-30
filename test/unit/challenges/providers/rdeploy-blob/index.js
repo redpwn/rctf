@@ -1,6 +1,6 @@
 const test = require('ava')
 
-const app = require('express')()
+const app = require('fastify')()
 const { init } = require('../../../../../dist/server/uploads')
 // RDeployBlob has a dependency on file upload, we should initalize just in case
 init(app)

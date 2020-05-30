@@ -1,7 +1,8 @@
 import config from '../../config/server'
 import clientConfig from '../../config/client'
-import fs from 'fs'
+import { promises as fs } from 'fs'
 import mustache from 'mustache'
+import fastifyCors from 'fastify-cors'
 import { responses } from '../responses'
 
 export * as normalize from './normalize'
@@ -27,22 +28,18 @@ export const reloadModule = m => {
   return require(m)
 }
 
-export const enableCORS = (req, res, next) => {
+export const enableCORS = async (fastify, opts) => {
   if (config.corsOrigin !== undefined) {
-    res.header('Access-Control-Allow-Origin', config.corsOrigin)
-    res.header('Access-Control-Allow-Headers', 'Authorization, Content-Type')
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT')
-  }
-
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(200)
-  } else {
-    next()
+    fastify.use(fastifyCors, {
+      origin: config.corsOrigin,
+      allowedHeaders: ['Authorization', 'Content-Type'],
+      methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE']
+    })
   }
 }
 
-export const serveIndex = indexPath => {
-  const indexTemplate = fs.readFileSync(indexPath).toString()
+export const serveIndex = async (fastify, opts) => {
+  const indexTemplate = (await fs.readFile(opts.indexPath)).toString()
 
   const rendered = mustache.render(indexTemplate, {
     config: JSON.stringify(clientConfig),
@@ -50,12 +47,11 @@ export const serveIndex = indexPath => {
     meta: clientConfig.meta
   })
 
-  return (req, res, next) => {
-    if (req.method !== 'GET') {
-      next()
-      return
-    }
-    res.setHeader('Content-Type', 'text/html; charset=UTF-8')
+  const routeHandler = async (req, res) => {
+    res.type('text/html; charset=UTF-8')
     res.send(rendered)
   }
+  fastify.get('/', routeHandler)
+  fastify.get('/index.html', routeHandler)
+  fastify.setNotFoundHandler(routeHandler)
 }

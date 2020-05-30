@@ -18,7 +18,11 @@ import { init as uploadProviderInit } from './uploads'
     const port = process.env.PORT || 3000
 
     const { default: app } = await import('./app')
-    app.listen(port, () => console.log(`Started server at port ${port}`))
+    app.listen(port, err => {
+      if (err) {
+        app.log.error(err)
+      }
+    })
   } else {
     uploadProviderInit(null)
   }

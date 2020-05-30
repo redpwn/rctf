@@ -10,6 +10,10 @@ const { getFirstLoadedChallenge } = require('../_util.js')
 
 let chall, uuid, testUserData
 
+test.before('start server', async t => {
+  await app.ready()
+})
+
 test.before(async () => {
   chall = await getFirstLoadedChallenge()
   testUserData = await util.generateRealTestUser()
@@ -26,7 +30,7 @@ test.serial('fails with badNotStarted', async t => {
   config.startTime = Date.now() + 10 * 60 * 1000
 
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
-  const resp = await request(app)
+  const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: chall.flag })
@@ -42,7 +46,7 @@ test.serial('fails with badEnded', async t => {
   config.endTime = Date.now() - 1
 
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
-  const resp = await request(app)
+  const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: chall.flag })

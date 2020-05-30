@@ -1,51 +1,42 @@
 import path from 'path'
-import express from 'express'
-import helmet from 'helmet'
+import fastify from 'fastify'
+import fastifyStatic from 'fastify-static'
+import helmet from 'fastify-helmet'
 import { enableCORS, serveIndex } from './util'
 import { init as uploadProviderInit } from './uploads'
 import api from './api'
 
-const app = express()
-
-// Compression testing should be done in development only
-if (process.env.NODE_ENV !== 'production' && process.env.TEST_COMPRESSION !== undefined) {
-  const compression = require('compression')
-  app.use(compression({
-    level: 9,
-    filter: () => true
-  }))
-}
-
-app.use(enableCORS)
-app.use(helmet({
-  dnsPrefetchControl: false
-}))
-app.use(helmet.referrerPolicy({ policy: 'same-origin' }))
-app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: ["'self'"],
-    fontSrc: ['fonts.gstatic.com', "'self'", 'data:'],
-    styleSrc: ['fonts.googleapis.com', "'unsafe-inline'", "'self'"],
-    imgSrc: ['*', 'data:']
+const app = fastify({
+  logger: {
+    level: process.env.NODE_ENV === 'production' ? 'info' : 'debug'
   }
-}))
+})
+
+app.register(enableCORS)
+app.register(helmet, {
+  dnsPrefetchControl: false,
+  referrerPolicy: { policy: 'same-origin' },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      fontSrc: ['fonts.gstatic.com', "'self'", 'data:'],
+      styleSrc: ['fonts.googleapis.com', "'unsafe-inline'", "'self'"],
+      imgSrc: ['*', 'data:']
+    }
+  }
+})
 
 uploadProviderInit(app)
 
-app.use(express.raw({
-  type: 'application/json'
-}))
-
-app.use('/api/v1', api)
+app.register(api, { prefix: '/api/v1/' })
 
 const staticPath = path.join(__dirname, '../build')
 
-const indexRoute = serveIndex(path.join(staticPath, 'index.html'))
-
-// Override index.html in express.static
-app.get('/', indexRoute)
-app.get('/index.html', indexRoute)
-app.use(express.static(staticPath, { extensions: ['html'] }))
-app.use(indexRoute)
+app.register(serveIndex, {
+  indexPath: path.join(staticPath, 'index.html')
+})
+app.register(fastifyStatic, {
+  root: staticPath
+})
 
 export default app

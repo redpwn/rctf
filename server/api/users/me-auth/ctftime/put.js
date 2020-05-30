@@ -4,7 +4,7 @@ import * as database from '../../../../database'
 import * as auth from '../../../../auth'
 
 export default {
-  method: 'put',
+  method: 'PUT',
   path: '/users/me/auth/ctftime',
   requireAuth: true,
   schema: {

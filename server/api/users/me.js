@@ -3,7 +3,7 @@ import { getGenericUserData } from './util'
 import * as auth from '../../auth'
 
 export default {
-  method: 'get',
+  method: 'GET',
   path: '/users/me',
   requireAuth: true,
   handler: async ({ user }) => {
