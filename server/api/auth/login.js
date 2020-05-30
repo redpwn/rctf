@@ -3,7 +3,7 @@ import * as auth from '../../auth'
 import { responses } from '../../responses'
 
 export default {
-  method: 'post',
+  method: 'POST',
   path: '/auth/login',
   requireAuth: false,
   schema: {

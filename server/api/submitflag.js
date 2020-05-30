@@ -8,7 +8,7 @@ import * as timeouts from '../cache/timeouts'
 import { v4 as uuidv4 } from 'uuid'
 
 export default {
-  method: 'post',
+  method: 'POST',
   path: '/challs/:id/submit',
   requireAuth: true,
   schema: {

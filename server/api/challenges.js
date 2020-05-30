@@ -5,7 +5,7 @@ import * as util from '../util'
 import { getChallengeScores } from '../cache/leaderboard'
 
 export default {
-  method: 'get',
+  method: 'GET',
   path: '/challs',
   requireAuth: true,
   handler: async () => {

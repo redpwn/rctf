@@ -7,7 +7,7 @@ const tokenEndpoint = 'https://oauth.ctftime.org/token'
 const userEndpoint = 'https://oauth.ctftime.org/user'
 
 export default {
-  method: 'post',
+  method: 'POST',
   path: '/integrations/ctftime/callback',
   requireAuth: false,
   schema: {

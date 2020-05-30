@@ -4,7 +4,7 @@ import perms from '../../../util/perms'
 import * as cache from '../../../cache'
 
 export default {
-  method: 'delete',
+  method: 'DELETE',
   path: '/admin/challs/:id',
   requireAuth: true,
   perms: perms.challsWrite,

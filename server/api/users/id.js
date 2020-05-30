@@ -2,7 +2,7 @@ import { responses } from '../../responses'
 import { getGenericUserData } from './util'
 
 export default {
-  method: 'get',
+  method: 'GET',
   path: '/users/:id',
   requireAuth: false,
   schema: {

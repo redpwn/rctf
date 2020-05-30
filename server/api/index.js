@@ -32,7 +32,7 @@ const makeSendResponse = (res) => (responseKind, data = null) => {
   }
 }
 
-export default async (fastify, opts) => {
+export default async (fastify) => {
   fastify.setErrorHandler((error, req, res) => {
     const sendResponse = makeSendResponse(res)
     if (error.validation) {
@@ -82,7 +82,7 @@ export default async (fastify, opts) => {
         user = await db.auth.getUserById({
           id: uuid
         })
-        if (user == null) {
+        if (user === null) {
           sendResponse(responses.badToken)
           return
         }
@@ -107,7 +107,7 @@ export default async (fastify, opts) => {
     }
 
     fastify.route({
-      method: route.method.toUpperCase(),
+      method: route.method,
       url: route.path,
       schema: route.schema,
       handler

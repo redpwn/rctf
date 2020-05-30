@@ -2,7 +2,7 @@ import * as database from '../../../database'
 import { responses } from '../../../responses'
 
 export default {
-  method: 'get',
+  method: 'GET',
   path: '/users/me/members',
   requireAuth: true,
   handler: async ({ user }) => {

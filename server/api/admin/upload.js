@@ -17,7 +17,7 @@ const itemSchema = {
 }
 
 export default {
-  method: 'post',
+  method: 'POST',
   path: '/admin/upload',
   requireAuth: true,
   perms: perms.challsWrite,
