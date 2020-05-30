@@ -53,7 +53,6 @@ test.serial('when not verifyEmail, succeeds with goodRegister', async t => {
 
   t.is(resp.body.kind, 'goodRegister')
   t.true(typeof resp.body.data.authToken === 'string')
-  t.true(typeof resp.body.data.teamToken === 'string')
 
   resp = await request(app)
     .get(process.env.API_ENDPOINT + '/auth/test')

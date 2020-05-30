@@ -27,9 +27,5 @@ export const register = async ({ division, email, name, ctftimeId }) => {
     throw e
   }
   const authToken = await getToken(tokenKinds.auth, userUuid)
-  const teamToken = await getToken(tokenKinds.team, userUuid)
-  return [responses.goodRegister, {
-    authToken,
-    teamToken
-  }]
+  return [responses.goodRegister, { authToken }]
 }

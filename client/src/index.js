@@ -7,12 +7,13 @@ import Header from './components/header'
 import Footer from './components/footer'
 
 import Home from './routes/home'
-import Registration from './routes/registration'
+import Register from './routes/register'
 import Login from './routes/login'
 import Profile from './routes/profile'
 import Challenges from './routes/challs'
 import Scoreboard from './routes/scoreboard'
 import Error from './routes/error'
+import Recover from './routes/recover'
 import Verify from './routes/verify'
 import CtftimeCallback from './routes/ctftime-callback'
 
@@ -31,7 +32,7 @@ function App ({ classes }) {
   const loggedOut = localStorage.getItem('token') === null
 
   const loggedOutPaths = [
-    <Registration key='register' path='/register' name='Register' />,
+    <Register key='register' path='/register' name='Register' />,
     <Login key='login' path='/login' name='Login' />
   ]
 
@@ -44,6 +45,7 @@ function App ({ classes }) {
   const allPaths = [
     <Home key='home' path='/' name='Home' />,
     <Profile key='multiProfile' path='/profile/:uuid' />,
+    <Recover key='recover' path='/recover' />,
     <Verify key='verify' path='/verify' />,
     <AdminChallenges key='adminchalls' path='/admin/challs' />,
     <CtftimeCallback key='ctftimeCallback' path='/integrations/ctftime/callback' />,

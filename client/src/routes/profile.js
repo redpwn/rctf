@@ -7,7 +7,7 @@ import { privateProfile, publicProfile, updateAccount, updateEmail, deleteEmail 
 import { useToast } from '../components/toast'
 import Form from '../components/form'
 import MembersCard from '../components/profile/memberscard'
-import TokenPreview from '../components/tokenPreview'
+import TokenPreview from '../components/token-preview'
 import * as util from '../util'
 import Trophy from '../icons/trophy.svg'
 import AddressBook from '../icons/address-book.svg'
@@ -125,9 +125,9 @@ const TeamCodeCard = memo(({ teamToken }) => {
   return (
     <div class='card u-flex u-flex-column'>
       <div class='content'>
-        <p>Team Code</p>
-        <p class='font-thin'>Copy this code and store it in a safe place as it is required to login. Then, share it with your teammates so that they can <a href='/login'>login</a> too!</p>
-        <TokenPreview token={teamToken} />
+        <p>Team Invite</p>
+        <p class='font-thin'>Send this team invite URL to your teammates so they can login.</p>
+        <TokenPreview token={`${location.origin}/login?token=${encodeURIComponent(teamToken)}`} />
       </div>
     </div>
   )
