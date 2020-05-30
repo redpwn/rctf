@@ -76,7 +76,7 @@ class DatabaseProvider extends EventEmitter implements Provider {
       chall = applyChallengeDefaults(chall)
     } else {
       chall = {
-        ...originalData,
+        ...originalData.data,
         ...chall
       }
     }

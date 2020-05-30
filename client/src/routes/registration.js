@@ -74,7 +74,7 @@ export default withStyles({
     })
 
     register(this.state)
-      .then(errors => {
+      .then(({ errors }) => {
         if (!errors) {
           return
         }

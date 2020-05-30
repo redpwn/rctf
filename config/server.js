@@ -8,7 +8,13 @@ const config = {
       updateInterval: 60 * 1000
     }
   },
-  uploadProvider: {
+  uploadProvider: process.env.RCTF_GCS_BUCKET ? {
+    name: 'uploads/gcs',
+    options: {
+      credentials: JSON.parse(process.env.RCTF_GCS_CREDENTIALS),
+      bucketName: process.env.RCTF_GCS_BUCKET
+    }
+  } : {
     name: 'uploads/local',
     options: {
       uploadDirectory: 'uploads',
@@ -29,7 +35,7 @@ const config = {
       password: process.env.RCTF_REDIS_PASSWORD,
       database: process.env.RCTF_REDIS_DATABASE
     },
-    migrate: process.env.RCTF_DATABASE_MIGRATE || 'never'
+    migrate: process.env.RCTF_DATABASE_MIGRATE || 'never' // enum: never, before, only
   },
   email: {
     smtpUrl: process.env.RCTF_SMTP_URL,
@@ -42,7 +48,7 @@ const config = {
     graphMaxTeams: 10,
     graphSampleTime: 10 * 60 * 1000
   },
-  verifyEmail: false,
+  verifyEmail: !!process.env.RCTF_SMTP_URL,
   removeDownloadHashes: true,
   tokenKey: process.env.RCTF_TOKEN_KEY,
   origin: process.env.RCTF_ORIGIN,
@@ -51,7 +57,8 @@ const config = {
   ctftimeClientSecret: process.env.RCTF_CTFTIME_CLIENT_SECRET,
   loginTimeout: 10 * 60 * 1000,
   startTime: parseInt(process.env.RCTF_START_TIME) || Date.now() - 24 * 60 * 60 * 1000,
-  endTime: parseInt(process.env.RCTF_END_TIME) || Date.now() + 24 * 60 * 60 * 1000
+  endTime: parseInt(process.env.RCTF_END_TIME) || Date.now() + 24 * 60 * 60 * 1000,
+  instanceType: process.env.RCTF_INSTANCE_TYPE || 'all' // enum: all, frontend, leaderboard
 }
 
 module.exports = config

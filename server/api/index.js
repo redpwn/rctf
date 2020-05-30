@@ -15,7 +15,7 @@ const routes = [
   require('./integrations-ctftime/callback').default,
   ...require('./users').default,
   ...require('./auth').default,
-  ...require('./admin/challs').default
+  ...require('./admin').default
 ]
 
 const validationParams = ['body', 'params', 'query']
