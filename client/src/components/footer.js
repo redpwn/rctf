@@ -17,6 +17,11 @@ export default withStyles({
       display: 'inline',
       padding: 0
     },
-    fontSize: '0.85rem'
+    fontSize: '0.85rem',
+    opacity: 0.7,
+    '&:hover': {
+      opacity: 1
+    },
+    transition: 'opacity 300ms ease'
   }
 }, Footer)
