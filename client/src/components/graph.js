@@ -234,7 +234,7 @@ export default withStyles({
     }
   },
   tooltip: {
-    position: 'absolute',
+    position: 'fixed',
     pointerEvents: 'none',
     background: 'var(--cirrus-fg)',
     color: 'var(--cirrus-bg)',
