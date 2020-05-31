@@ -35,6 +35,10 @@ export const responseList = {
     status: 409,
     message: 'An account with this name already exists.'
   },
+  badName: {
+    status: 400,
+    message: 'The name should only use english letters, numbers, and symbols.'
+  },
   badKnownCtftimeId: {
     status: 409,
     message: 'An account with this CTFtime ID already exists.'

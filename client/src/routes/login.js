@@ -15,7 +15,11 @@ import PendingToken from '../components/pending-token'
 export default withStyles({
   root: {
     padding: '1.5em',
-    maxWidth: '500px'
+    maxWidth: '500px',
+    '& input': {
+      background: '#111',
+      color: '#fff !important'
+    }
   },
   submit: {
     marginTop: '1.5em'

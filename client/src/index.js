@@ -82,7 +82,9 @@ export default withStyles({
   '@global #app': {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100%'
+    minHeight: '100%',
+    background: '#000',
+    color: '#fff'
   },
   contentWrapper: {
     flex: '1 0 auto'

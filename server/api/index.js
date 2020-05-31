@@ -33,28 +33,30 @@ const makeSendResponse = (res) => (responseKind, data = null) => {
 }
 
 export default async (fastify) => {
-  fastify.setErrorHandler((error, req, res) => {
-    const sendResponse = makeSendResponse(res)
+  fastify.setErrorHandler((error, req, reply) => {
+    const sendResponse = makeSendResponse(reply)
     if (error.validation) {
       sendResponse(responses.badBody)
       return
     }
 
+    const res = reply.res
+
     // based on https://github.com/fastify/fastify/blob/2.x/lib/context.js#L29
     if (res.statusCode >= 500) {
-      res.log.error(
-        { req, res, err: error },
+      reply.log.error(
+        { req: reply.request.raw, res, err: error },
         error && error.message
       )
       sendResponse(responses.errorInternal)
       return
     } else if (res.statusCode >= 400) {
-      res.log.info(
+      reply.log.info(
         { res, err: error },
         error && error.message
       )
     }
-    res.send(error)
+    reply.send(error)
   })
 
   fastify.setNotFoundHandler((req, res) => {

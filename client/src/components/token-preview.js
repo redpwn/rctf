@@ -8,7 +8,8 @@ export default withStyles({
     overflowWrap: 'break-word',
     userSelect: 'all',
     fontFamily: 'monospace',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    background: '#000'
   }
 }, ({ classes, token, ...props }) => {
   const { toast } = useToast()

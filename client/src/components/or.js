@@ -12,8 +12,7 @@ export default withStyles({
       content: '""',
       flex: '1 0 0',
       height: '0',
-      borderTop: '1px solid var(--cirrus-fg)',
-      opacity: 0.2
+      borderTop: '1px solid #333'
     },
     '& > *': {
       marginLeft: 'var(--gap-4)',
