@@ -7,7 +7,7 @@ function Header ({ classes, paths, currentPath }) {
 
   return (
     <div class='tab-container tabs-center'>
-      <ul>
+      <ul class={classes.list}>
         {
           paths.map(({ props: { path, name } }) =>
             <Match key={name} path={path}>
@@ -35,6 +35,14 @@ export default withStyles({
       boxShadow: 'none',
       // color copied from Cirrus styles - there is no variable for it
       borderBottomColor: 'rgba(240,61,77,.6)'
+    },
+    background: '#0000 !important',
+    color: '#fff !important'
+  },
+  list: {
+    borderBottomColor: '#333 !important',
+    '& li.selected a': {
+      color: 'rgb(240,61,77) !important'
     }
   }
 }, Header)

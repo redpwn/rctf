@@ -189,7 +189,7 @@ function Graph ({ division, classes }) {
           </Fragment>
           <Fragment>
             {labels.map((label, i) => (
-              <text x={label.x} y={height + axis + axisGap} key={i}>{label.label}</text>
+              <text x={label.x} y={height + axis + axisGap} key={i} fill='#fff'>{label.label}</text>
             ))}
           </Fragment>
           <line
@@ -197,7 +197,7 @@ function Graph ({ division, classes }) {
             y1={height + axisGap}
             x2={width}
             y2={height + axisGap}
-            stroke='var(--cirrus-fg)'
+            stroke='var(--cirrus-bg)'
             stroke-linecap='round'
             stroke-width={stroke}
           />
@@ -206,7 +206,7 @@ function Graph ({ division, classes }) {
             y1='0'
             x2={-axisGap}
             y2={height + axisGap}
-            stroke='var(--cirrus-fg)'
+            stroke='var(--cirrus-bg)'
             stroke-linecap='round'
             stroke-width={stroke}
           />
@@ -229,6 +229,7 @@ function Graph ({ division, classes }) {
 export default withStyles({
   root: {
     marginBottom: '20px',
+    background: '#111',
     '& .frame__body': {
       padding: '20px'
     }
@@ -236,8 +237,8 @@ export default withStyles({
   tooltip: {
     position: 'fixed',
     pointerEvents: 'none',
-    background: 'var(--cirrus-fg)',
-    color: 'var(--cirrus-bg)',
+    background: '#fff',
+    color: '#111',
     padding: '5px 10px',
     borderRadius: '5px',
     margin: '5px',
