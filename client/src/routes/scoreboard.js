@@ -13,7 +13,15 @@ const PAGESIZE_OPTIONS = [25, 50, 100]
 const Scoreboard = withStyles({
   frame: {
     paddingBottom: '1.5em',
-    paddingTop: '2.125em'
+    paddingTop: '2.125em',
+    background: '#111',
+    '& .frame__subtitle': {
+      color: '#fff'
+    },
+    '& button, & select, & option': {
+      background: '#000',
+      color: '#fff'
+    }
   },
   tableFrame: {
     paddingTop: '1.5em'

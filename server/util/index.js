@@ -55,3 +55,8 @@ export const serveIndex = async (fastify, opts) => {
   fastify.get('/index.html', routeHandler)
   fastify.setNotFoundHandler(routeHandler)
 }
+
+// Parse Cloudflare CF-Connecting-IP header
+export const getRealIp = (req) => {
+  return req.headers['cf-connecting-ip'] || req.ip
+}

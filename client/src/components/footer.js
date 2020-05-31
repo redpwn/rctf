@@ -18,7 +18,7 @@ export default withStyles({
       padding: 0
     },
     fontSize: '0.85rem',
-    opacity: 0.5,
+    opacity: 0.7,
     '&:hover': {
       opacity: 1
     },

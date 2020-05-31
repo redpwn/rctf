@@ -1,5 +1,5 @@
-import withStyles from '../components/jss'
-import { useToast } from '../components/toast'
+import withStyles from './jss'
+import { useToast } from './toast'
 import { useCallback } from 'preact/hooks'
 
 export default withStyles({
@@ -8,7 +8,8 @@ export default withStyles({
     overflowWrap: 'break-word',
     userSelect: 'all',
     fontFamily: 'monospace',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    background: '#000'
   }
 }, ({ classes, token, ...props }) => {
   const { toast } = useToast()
@@ -17,7 +18,7 @@ export default withStyles({
     if (navigator.clipboard) {
       try {
         navigator.clipboard.writeText(token).then(() => {
-          toast({ body: 'Copied team code to clipboard' })
+          toast({ body: 'Copied team invite URL to clipboard' })
         })
       } catch (error) {
         console.error(error)
@@ -25,7 +26,9 @@ export default withStyles({
     }
   }, [toast, token])
 
-  return <blockquote class={classes.quote} onClick={onTeamCodeClick} {...props}>
-    {token}
-  </blockquote>
+  return (
+    <blockquote class={classes.quote} onClick={onTeamCodeClick} {...props}>
+      {token}
+    </blockquote>
+  )
 })

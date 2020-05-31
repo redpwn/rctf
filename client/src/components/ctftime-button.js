@@ -10,6 +10,10 @@ export default withStyles({
     margin: 'auto',
     lineHeight: '0',
     padding: '10px',
+    background: '#111',
+    '&:hover': {
+      background: '#222'
+    },
     '& svg': {
       width: '150px'
     }
