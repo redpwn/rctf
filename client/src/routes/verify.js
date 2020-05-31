@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'preact/hooks'
-import 'linkstate/polyfill'
 import Error from './error'
 import config from '../config'
 import { verify } from '../api/auth'

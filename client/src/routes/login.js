@@ -31,7 +31,7 @@ export default withStyles({
     pending: false
   }
 
-  componentDidMount = async () => {
+  componentDidMount () {
     document.title = `Login${config.ctfTitle}`
 
     ;(async () => {
