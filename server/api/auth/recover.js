@@ -8,7 +8,7 @@ import config from '../../../config/server'
 import { responses } from '../../responses'
 
 export default {
-  method: 'post',
+  method: 'POST',
   path: '/auth/recover',
   requireAuth: false,
   schema: {

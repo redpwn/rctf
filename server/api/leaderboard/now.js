@@ -5,7 +5,7 @@ import config from '../../../config/server'
 const stringDivisions = Object.values(config.divisions).map(String)
 
 export default {
-  method: 'get',
+  method: 'GET',
   path: '/leaderboard/now',
   requireAuth: false,
   schema: {

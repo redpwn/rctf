@@ -13,17 +13,21 @@ const testUser = {
   division: Object.values(config.divisions)[0]
 }
 
+test.before('start server', async t => {
+  await app.ready()
+})
+
 test.serial('succeeds with goodUserData', async t => {
   config.verifyEmail = false
 
-  let resp = await request(app)
+  let resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/auth/register')
     .send(testUser)
     .expect(responseList.goodRegister.status)
 
   const authToken = resp.body.data.authToken
 
-  resp = await request(app)
+  resp = await request(app.server)
     .get(process.env.API_ENDPOINT + '/users/me')
     .set('Authorization', ' Bearer ' + authToken)
     .expect(responseList.goodUserData.status)

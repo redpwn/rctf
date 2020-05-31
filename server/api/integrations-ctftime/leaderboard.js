@@ -4,7 +4,7 @@ import * as challenges from '../../challenges'
 import config from '../../../config/server'
 
 export default {
-  method: 'get',
+  method: 'GET',
   path: '/integrations/ctftime/leaderboard',
   requireAuth: false,
   handler: async () => {
