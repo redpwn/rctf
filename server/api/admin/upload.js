@@ -39,7 +39,7 @@ export default {
     try {
       const files = await Promise.all(
         req.body.files.map(async ({ name, data }) => {
-          const url = await uploadProvider.upload(toBuffer(data))
+          const url = await uploadProvider.upload(toBuffer(data), name)
 
           return {
             name,
