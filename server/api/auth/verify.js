@@ -41,13 +41,8 @@ export default {
       if (user === undefined) {
         return responses.badUnknownUser
       }
-
       const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, user.id)
-      const teamToken = await auth.token.getToken(auth.token.tokenKinds.team, user.id)
-      return [responses.goodVerify, {
-        authToken,
-        teamToken
-      }]
+      return [responses.goodVerify, { authToken }]
     } else if (tokenData.kind === 'update') {
       const result = await database.auth.updateUser({
         id: tokenData.userId,

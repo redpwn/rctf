@@ -1,15 +1,16 @@
 import { Component } from 'preact'
+import { Link } from 'preact-router'
 import Form from '../components/form'
 import config from '../config'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
-import { login } from '../api/auth'
+import { login, setAuthToken } from '../api/auth'
 import IdCard from '../icons/id-card.svg'
-import { route } from 'preact-router'
 import CtftimeButton from '../components/ctftime-button'
 import CtftimeAdditional from '../components/ctftime-additional'
 import AuthOr from '../components/or'
+import PendingToken from '../components/pending-token'
 
 export default withStyles({
   root: {
@@ -28,36 +29,50 @@ export default withStyles({
     teamToken: '',
     errors: {},
     disabledButton: false,
-    ctftimeToken: undefined
+    ctftimeToken: undefined,
+    pendingAuthToken: null,
+    pendingUserName: null,
+    pending: false
   }
 
   componentDidMount () {
     document.title = `Login${config.ctfTitle}`
 
-    const prefix = '#token='
-    if (document.location.hash.startsWith(prefix)) {
-      route('/login', true)
-
-      const teamToken = decodeURIComponent(document.location.hash.substring(prefix.length))
-
-      login({ teamToken })
-        .then(errors => {
-          this.setState({
-            errors,
-            disabledButton: false
-          })
+    ;(async () => {
+      const qs = new URLSearchParams(location.search)
+      if (qs.has('token')) {
+        this.setState({
+          pending: true
         })
-    }
+
+        const loginRes = await login({ teamToken: qs.get('token') })
+        if (loginRes.authToken) {
+          this.setState({
+            pendingAuthToken: loginRes.authToken
+          })
+        }
+        this.setState({
+          pending: false
+        })
+      }
+    })()
   }
 
-  render ({ classes }, { teamToken, errors, disabledButton, ctftimeToken }) {
+  render ({ classes }, { teamToken, errors, disabledButton, ctftimeToken, pendingAuthToken, pending }) {
     if (ctftimeToken) {
       return <CtftimeAdditional ctftimeToken={ctftimeToken} />
+    }
+    if (pending) {
+      return null
+    }
+    if (pendingAuthToken) {
+      return <PendingToken authToken={pendingAuthToken} />
     }
     return (
       <div class='row u-center'>
         <Form class={`${classes.root} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} buttonText='Login' errors={errors}>
           <input autofocus name='teamToken' icon={<IdCard />} placeholder='Team Token' type='text' value={teamToken} onChange={this.linkState('teamToken')} />
+          <Link href='/recover'>Lost your team token?</Link>
         </Form>
         <AuthOr />
         <CtftimeButton class='col-12' onCtftimeDone={this.handleCtftimeDone} />
@@ -69,9 +84,10 @@ export default withStyles({
     this.setState({
       disabledButton: true
     })
-    const loginRes = await login({
-      ctftimeToken
-    })
+    const loginRes = await login({ ctftimeToken })
+    if (loginRes.authToken) {
+      setAuthToken({ authToken: loginRes.authToken })
+    }
     if (loginRes && loginRes.badUnknownUser) {
       this.setState({
         ctftimeToken
@@ -79,19 +95,33 @@ export default withStyles({
     }
   }
 
+  handlePendingLoginClick = () => {
+    setAuthToken({ authToken: this.state.pendingAuthToken })
+  }
+
   handleSubmit = e => {
     e.preventDefault()
-
-    const teamToken = this.state.teamToken
-
     this.setState({
       disabledButton: true
     })
 
+    let teamToken = this.state.teamToken
+    let url
+    try {
+      url = new URL(teamToken)
+      if (url.searchParams.has('token')) {
+        teamToken = url.searchParams.get('token')
+      }
+    } catch {}
+
     login({ teamToken })
-      .then(errors => {
+      .then(result => {
+        if (result.authToken) {
+          setAuthToken({ authToken: result.authToken })
+          return
+        }
         this.setState({
-          errors,
+          errors: result,
           disabledButton: false
         })
       })

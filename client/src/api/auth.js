@@ -1,6 +1,11 @@
 import { request } from './util'
 import { route } from 'preact-router'
 
+export const setAuthToken = ({ authToken }) => {
+  localStorage.token = authToken
+  route('/challs')
+}
+
 export const login = async ({ teamToken, ctftimeToken }) => {
   const resp = await request('POST', '/auth/login', {
     teamToken,
@@ -8,9 +13,9 @@ export const login = async ({ teamToken, ctftimeToken }) => {
   })
   switch (resp.kind) {
     case 'goodLogin':
-      localStorage.setItem('token', resp.data.authToken)
-      route('/challs')
-      return
+      return {
+        authToken: resp.data.authToken
+      }
     case 'badTokenVerification':
       return {
         teamToken: resp.message
@@ -28,7 +33,6 @@ export const login = async ({ teamToken, ctftimeToken }) => {
 
 export const logout = () => {
   localStorage.removeItem('token')
-  localStorage.removeItem('teamToken')
 
   return route('/')
 }
@@ -38,19 +42,18 @@ export const verify = async ({ verifyToken }) => {
     verifyToken
   })
   switch (resp.kind) {
+    case 'goodRegister':
     case 'goodVerify':
-      localStorage.setItem('token', resp.data.authToken)
-      route('/challs')
-
-      return {}
-    case 'badTokenVerification':
-    case 'badUnknownUser':
       return {
-        verifyToken: resp.message
+        authToken: resp.data.authToken
+      }
+    case 'goodEmailSet':
+      return {
+        emailSet: true
       }
     default:
       return {
-        verifyToken: 'Unknown response from server, please contact ctf administrator'
+        verifyToken: resp.message
       }
   }
 }
@@ -65,11 +68,12 @@ export const register = async ({ email, name, division, ctftimeToken }) => {
   switch (resp.kind) {
     case 'goodRegister':
       localStorage.setItem('token', resp.data.authToken)
-      localStorage.setItem('teamToken', resp.data.teamToken)
 
       return route('/profile')
     case 'goodVerifySent':
-      return route('/verify')
+      return {
+        verifySent: true
+      }
     case 'badEmail':
     case 'badKnownEmail':
       return {
@@ -97,4 +101,22 @@ export const ctftimeCallback = ({ ctftimeCode }) => {
   return request('POST', '/integrations/ctftime/callback', {
     ctftimeCode
   })
+}
+
+export const recover = async ({ email }) => {
+  const resp = await request('POST', '/auth/recover', {
+    email
+  })
+  switch (resp.kind) {
+    case 'goodVerifySent':
+      return {
+        verifySent: true
+      }
+    default:
+      return {
+        errors: {
+          email: resp.message
+        }
+      }
+  }
 }

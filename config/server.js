@@ -57,6 +57,7 @@ const config = {
   loginTimeout: 10 * 60 * 1000,
   startTime: parseInt(process.env.RCTF_START_TIME) || Date.now() - 24 * 60 * 60 * 1000,
   endTime: parseInt(process.env.RCTF_END_TIME) || Date.now() + 24 * 60 * 60 * 1000,
+  logoUrl: process.env.RCTF_LOGO_URL,
   instanceType: process.env.RCTF_INSTANCE_TYPE || 'all' // enum: all, frontend, leaderboard
 }
 

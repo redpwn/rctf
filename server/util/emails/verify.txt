@@ -17,7 +17,7 @@ Before we add this email to your account, we need to make sure it's actually you
 To add this email to your {{{ ctf_name }}} account, click the link below.
 {{ /update }}
 
-{{{ origin }}}/verify#token={{{ token }}}
+{{{ origin }}}/verify?token={{{ token }}}
 
 If you didn't attempt this, you can safely ignore this email.
 

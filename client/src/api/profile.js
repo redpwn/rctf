@@ -1,9 +1,20 @@
+import config from '../config'
 import { request, handleResponse } from './util'
 
 export const privateProfile = async () => {
   const resp = await request('GET', '/users/me')
 
   return handleResponse({ resp, valid: ['goodUserData'] })
+}
+
+export const pendingPrivateProfile = async ({ authToken }) => {
+  const { data } = await (await fetch(`${config.apiEndpoint}/users/me`, {
+    headers: {
+      authorization: `Bearer ${authToken}`
+    }
+  })).json()
+
+  return data
 }
 
 export const publicProfile = async (uuid) => {

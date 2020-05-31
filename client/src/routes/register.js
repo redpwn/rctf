@@ -4,7 +4,7 @@ import config from '../config'
 import 'linkstate/polyfill'
 import withStyles from '../components/jss'
 
-import { register, login } from '../api/auth'
+import { register, login, setAuthToken } from '../api/auth'
 import UserCircle from '../icons/user-circle.svg'
 import EnvelopeOpen from '../icons/envelope-open.svg'
 import CtftimeButton from '../components/ctftime-button'
@@ -33,16 +33,24 @@ export default withStyles({
     division: config.defaultDivision.toString(),
     ctftimeToken: undefined,
     disabledButton: false,
-    errors: {}
+    errors: {},
+    verifySent: false
   }
 
   componentDidMount () {
     document.title = `Registration${config.ctfTitle}`
   }
 
-  render ({ classes }, { name, email, disabledButton, errors, ctftimeToken }) {
+  render ({ classes }, { name, email, disabledButton, errors, ctftimeToken, verifySent }) {
     if (ctftimeToken) {
       return <CtftimeAdditional ctftimeToken={ctftimeToken} />
+    }
+    if (verifySent) {
+      return (
+        <div class='row u-center'>
+          <h3>Verification email sent!</h3>
+        </div>
+      )
     }
     return (
       <div class='row u-center'>
@@ -63,30 +71,36 @@ export default withStyles({
     const loginRes = await login({
       ctftimeToken
     })
-    if (loginRes && loginRes.badUnknownUser) {
+    if (loginRes.authToken) {
+      setAuthToken({ authToken: loginRes.authToken })
+    }
+    if (loginRes.badUnknownUser) {
       this.setState({
         ctftimeToken
       })
     }
   }
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault()
 
     this.setState({
       disabledButton: true
     })
 
-    register(this.state)
-      .then(({ errors }) => {
-        if (!errors) {
-          return
-        }
-
-        this.setState({
-          errors,
-          disabledButton: false
-        })
+    const { errors, verifySent } = await register(this.state)
+    if (verifySent) {
+      this.setState({
+        verifySent: true
       })
+    }
+    if (!errors) {
+      return
+    }
+
+    this.setState({
+      errors,
+      disabledButton: false
+    })
   }
 })
