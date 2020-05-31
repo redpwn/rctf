@@ -35,7 +35,7 @@ function Modal ({
   return (open || isLinger) && createPortal((
     <div class={`modal shown ${classes.animated}${open ? '' : ' leaving'}`} hidden={!(open || isLinger)}>
       <div class='modal-overlay' onClick={onClose} aria-label='Close' />
-      <div class='modal-content' role='document'>
+      <div class={`modal-content ${classes.modal}`} role='document'>
         {children}
       </div>
     </div>
@@ -60,6 +60,10 @@ export default withStyles({
     to: {
       transform: 'scale(1)'
     }
+  },
+  modal: {
+    background: '#111',
+    color: '#fff'
   },
   animated: {
     '&': {

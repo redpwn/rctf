@@ -240,7 +240,7 @@ const LoggedInRail = memo(({ name, email, teamToken, divisionId, onUpdate }) =>
   </div>
 )
 
-function Profile ({ uuid }) {
+const Profile = ({ uuid, classes }) => {
   const [loaded, setLoaded] = useState(false)
   const [error, setError] = useState(null)
   const [data, setData] = useState({})
@@ -315,7 +315,7 @@ function Profile ({ uuid }) {
   }
 
   return (
-    <div class='row u-center' style='align-items: initial !important'>
+    <div class={`row u-center ${classes.root}`} style='align-items: initial !important'>
       { isPrivate && <LoggedInRail {...{ name, email, teamToken, divisionId }} onUpdate={onProfileUpdate} /> }
       <div class='col-6'>
         { isPrivate && <MembersCard division={config.divisions[division]} /> }
@@ -326,4 +326,14 @@ function Profile ({ uuid }) {
   )
 }
 
-export default Profile
+export default withStyles({
+  root: {
+    '& .card': {
+      background: '#111'
+    },
+    '& input, & select, & option': {
+      background: '#000',
+      color: '#fff !important'
+    }
+  }
+}, Profile)

@@ -53,24 +53,24 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
         <form class='form-section' onSubmit={handleSubmit}>
           <div class='form-group'>
             <input
-              class={`form-group-input input-small ${hasError ? 'input-error' : ''} ${solved ? 'input-success' : ''}`}
+              class={`form-group-input input-small ${classes.input} ${hasError ? 'input-error' : ''} ${solved ? 'input-success' : ''}`}
               placeholder={`Flag${solved ? ' (solved)' : ''}`}
               value={value}
               onChange={handleInputChange}
             />
-            <button class='form-group-btn btn-small'>Submit</button>
+            <button class={`form-group-btn btn-small ${classes.submit}`}>Submit</button>
           </div>
         </form>
 
         {
           hasDownloads &&
             <div>
-              <p class='faded frame__subtitle u-no-margin'>Downloads</p>
+              <p class='frame__subtitle u-no-margin'>Downloads</p>
               <div class='tag-container'>
                 {
                   problem.files.map(file => {
                     return (
-                      <div class='tag' key={file.url}>
+                      <div class={`tag ${classes.tag}`} key={file.url}>
                         <a native download href={`${file.url}`}>
                           {file.name}
                         </a>
@@ -90,7 +90,8 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
 export default withStyles({
   frame: {
     marginBottom: '1em',
-    paddingBottom: '0.625em'
+    paddingBottom: '0.625em',
+    background: '#111'
   },
   description: {
     '& a': {
@@ -105,5 +106,19 @@ export default withStyles({
   points: {
     marginTop: '0.75rem !important',
     marginBottom: '0 !important'
+  },
+  tag: {
+    background: '#000'
+  },
+  input: {
+    background: '#000',
+    color: '#fff !important'
+  },
+  submit: {
+    background: '#000',
+    color: '#fff',
+    '&:hover': {
+      background: '#111'
+    }
   }
 }, Problem)

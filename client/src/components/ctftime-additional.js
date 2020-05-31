@@ -7,7 +7,11 @@ import { useEffect, useState, useCallback } from 'preact/hooks'
 
 export default withStyles({
   root: {
-    padding: '1.5em'
+    padding: '1.5em',
+    '& input': {
+      background: '#111',
+      color: '#fff'
+    }
   },
   submit: {
     marginTop: '1.5em'
