@@ -33,6 +33,7 @@ const Recover = ({ classes }) => {
     <div class='row u-center'>
       <Form class={`${classes.form} col-6`} onSubmit={handleSubmit} disabled={disabled} errors={errors} buttonText='Recover'>
         <input
+          class={classes.input}
           autofocus
           required
           icon={<EnvelopeOpen />}
@@ -51,5 +52,9 @@ export default withStyles({
   form: {
     padding: '1.5em',
     maxWidth: '500px'
+  },
+  input: {
+    background: '#111',
+    color: '#fff !important'
   }
 }, Recover)

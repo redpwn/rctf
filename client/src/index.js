@@ -38,35 +38,30 @@ function App ({ classes }) {
 
   const loggedInPaths = [
     <Profile key='profile' path='/profile/' name='Profile' />,
-    <Challenges key='challs' path='/challs' name='Challenges' />,
-    <Scoreboard key='scoreboard' path='/scores' name='Scoreboard' />
+    <Challenges key='challs' path='/challs' name='Challenges' />
   ]
 
   const allPaths = [
     <Home key='home' path='/' name='Home' />,
+    <Scoreboard key='scoreboard' path='/scores' name='Scoreboard' />,
     <Profile key='multiProfile' path='/profile/:uuid' />,
     <Recover key='recover' path='/recover' />,
     <Verify key='verify' path='/verify' />,
-    <AdminChallenges key='adminchalls' path='/admin/challs' />,
+    <AdminChallenges key='adminChalls' path='/admin/challs' />,
     <CtftimeCallback key='ctftimeCallback' path='/integrations/ctftime/callback' />,
-    <Error key='error' error='404' default />,
-    ...loggedInPaths,
-    ...loggedOutPaths
+    <Error key='error' error='404' default />
   ]
 
-  const home = <Home key='home' path='/' name='Home' />
-  loggedOutPaths.unshift(home)
-  loggedInPaths.unshift(home)
-
-  const currentPaths = loggedOut ? loggedOutPaths : loggedInPaths
+  const currentPaths = loggedOut ? [...allPaths, ...loggedOutPaths] : [...allPaths, ...loggedInPaths]
+  const headerPaths = currentPaths.filter(path => path.props.name !== undefined)
 
   return (
     <div id='app'>
       <ToastProvider>
-        <Header paths={currentPaths} />
+        <Header paths={headerPaths} />
         <div class={classes.contentWrapper}>
           <Router onChange={triggerRerender}>
-            {allPaths}
+            {[...allPaths, ...loggedOutPaths, ...loggedInPaths]}
           </Router>
         </div>
         <Footer />
