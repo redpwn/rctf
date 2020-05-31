@@ -36,6 +36,7 @@
     "fastify-helmet": "3.0.2",
     "fastify-static": "2.7.0",
     "got": "11.1.4",
+    "hyperid": "2.0.5",
     "jss-plugin-global": "10.1.1",
     "mustache": "4.0.1",
     "node-pg-migrate": "5.0.0",
