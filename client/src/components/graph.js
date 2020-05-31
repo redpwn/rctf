@@ -235,7 +235,7 @@ export default withStyles({
     }
   },
   tooltip: {
-    position: 'absolute',
+    position: 'fixed',
     pointerEvents: 'none',
     background: '#fff',
     color: '#111',
