@@ -43,7 +43,7 @@ export default withStyles({
     return (
       <div class='row u-center'>
         <Form class={`${classes.root} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} errors={errors} buttonText='Register'>
-          <input autofocus required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={name} onChange={this.linkState('name')} />
+          <input autofocus required icon={<UserCircle />} name='name' maxLength='64' minLength='2' placeholder='Team Name' type='text' value={name} onChange={this.linkState('name')} />
           <input required icon={<EnvelopeOpen />} name='email' placeholder='Email' type='text' value={email} onChange={this.linkState('email')} />
         </Form>
         <AuthOr />
