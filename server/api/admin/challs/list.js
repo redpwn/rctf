@@ -3,7 +3,7 @@ import * as challenges from '../../../challenges'
 import perms from '../../../util/perms'
 
 export default {
-  method: 'get',
+  method: 'GET',
   path: '/admin/challs',
   requireAuth: true,
   perms: perms.challsRead,

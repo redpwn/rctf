@@ -9,6 +9,10 @@ const { responseList } = require('../../dist/server/responses')
 
 let uuid, testUserData
 
+test.before('start server', async t => {
+  await app.ready()
+})
+
 test.before(async () => {
   testUserData = await util.generateRealTestUser()
   uuid = testUserData.user.id
@@ -19,7 +23,7 @@ test.after.always('cleanup test user', async t => {
 })
 
 test('fails with unauthorized', async t => {
-  const resp = await request(app)
+  const resp = await request(app.server)
     .get(process.env.API_ENDPOINT + '/challs')
     .expect(responseList.badToken.status)
 
@@ -32,7 +36,7 @@ test.serial('fails with badNotStarted', async t => {
   config.startTime = Date.now() + 10 * 60 * 1000
 
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
-  const resp = await request(app)
+  const resp = await request(app.server)
     .get(process.env.API_ENDPOINT + '/challs')
     .set('Authorization', ' Bearer ' + authToken)
     .expect(responseList.badNotStarted.status)
@@ -44,7 +48,7 @@ test.serial('fails with badNotStarted', async t => {
 
 test.serial('succeeds with goodChallenges', async t => {
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
-  const resp = await request(app)
+  const resp = await request(app.server)
     .get(process.env.API_ENDPOINT + '/challs')
     .set('Authorization', ' Bearer ' + authToken)
     .expect(responseList.goodChallenges.status)

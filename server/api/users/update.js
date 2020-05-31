@@ -4,7 +4,7 @@ import config from '../../../config/server'
 import * as timeouts from '../../cache/timeouts'
 
 export default {
-  method: 'patch',
+  method: 'PATCH',
   path: '/users/me',
   requireAuth: true,
   schema: {

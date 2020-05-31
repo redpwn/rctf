@@ -3,7 +3,7 @@ import { responses } from '../../../../responses'
 import * as database from '../../../../database'
 
 export default {
-  method: 'delete',
+  method: 'DELETE',
   path: '/users/me/auth/email',
   requireAuth: true,
   handler: async ({ user }) => {

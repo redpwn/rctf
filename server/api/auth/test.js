@@ -1,7 +1,7 @@
 import { responses } from '../../responses'
 
 export default {
-  method: 'get',
+  method: 'GET',
   path: '/auth/test',
   requireAuth: true,
   handler: async () => {

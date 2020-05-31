@@ -1,12 +1,14 @@
 import config from '../../config/server'
 import path from 'path'
-import express from 'express'
 import { Provider } from './types'
+import fastify from 'fastify'
+import { Server, IncomingMessage, ServerResponse } from 'http'
 
 let provider: Provider = null
 
-export const init = (app: express.Application): void => {
-  const ProviderClass = require(path.join('../providers', config.uploadProvider.name)).default
+export const init = (app: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> | null): void => {
+  const name = app === null ? 'uploads/dummy' : config.uploadProvider.name
+  const ProviderClass = require(path.join('../providers', name)).default
   provider = new ProviderClass(config.uploadProvider.options, app)
 }
 

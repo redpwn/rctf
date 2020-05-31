@@ -8,7 +8,7 @@ import * as auth from '../../../../auth'
 import * as database from '../../../../database'
 
 export default {
-  method: 'put',
+  method: 'PUT',
   path: '/users/me/auth/email',
   requireAuth: true,
   schema: {

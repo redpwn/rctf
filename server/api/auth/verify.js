@@ -4,7 +4,7 @@ import * as database from '../../database'
 import { responses } from '../../responses'
 
 export default {
-  method: 'post',
+  method: 'POST',
   path: '/auth/verify',
   requireAuth: false,
   schema: {

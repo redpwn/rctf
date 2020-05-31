@@ -8,7 +8,7 @@ import { responses } from '../../responses'
 import { getUserByNameOrEmail } from '../../database/auth'
 
 export default {
-  method: 'post',
+  method: 'POST',
   path: '/auth/register',
   requireAuth: false,
   schema: {

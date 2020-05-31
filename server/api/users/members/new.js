@@ -3,7 +3,7 @@ import * as database from '../../../database'
 import { responses } from '../../../responses'
 
 export default {
-  method: 'post',
+  method: 'POST',
   path: '/users/me/members',
   requireAuth: true,
   schema: {
