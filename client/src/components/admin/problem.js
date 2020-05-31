@@ -70,10 +70,10 @@ const Problem = ({ classes, problem, update: updateClient }) => {
   const handleNameChange = useCallback(e => setName(e.target.value), [])
 
   const [minPoints, setMinPoints] = useState(problem.points.min)
-  const handleMinPointsChange = useCallback(e => setMinPoints(e.target.value), [])
+  const handleMinPointsChange = useCallback(e => setMinPoints(Number.parseInt(e.target.value)), [])
 
   const [maxPoints, setMaxPoints] = useState(problem.points.max)
-  const handleMaxPointsChange = useCallback(e => setMaxPoints(e.target.value), [])
+  const handleMaxPointsChange = useCallback(e => setMaxPoints(Number.parseInt(e.target.value)), [])
 
   const handleFileUpload = useCallback(async e => {
     e.preventDefault()
