@@ -24,7 +24,7 @@ const config = {
   database: {
     sql: process.env.RCTF_DATABASE_URL || {
       host: process.env.RCTF_DATABASE_HOST,
-      port: process.env.RCTF_DATABASE_PORT || 5432,
+      port: parseInt(process.env.RCTF_DATABASE_PORT) || 5432,
       user: process.env.RCTF_DATABASE_USERNAME,
       password: process.env.RCTF_DATABASE_PASSWORD,
       database: process.env.RCTF_DATABASE_DATABASE
