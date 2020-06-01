@@ -9,7 +9,7 @@ export default withStyles({
     userSelect: 'all',
     fontFamily: 'monospace',
     cursor: 'pointer',
-    background: '#000'
+    background: '#111'
   }
 }, ({ classes, token, ...props }) => {
   const { toast } = useToast()

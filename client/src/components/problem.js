@@ -91,7 +91,7 @@ export default withStyles({
   frame: {
     marginBottom: '1em',
     paddingBottom: '0.625em',
-    background: '#111'
+    background: '#222'
   },
   description: {
     '& a': {
@@ -108,17 +108,17 @@ export default withStyles({
     marginBottom: '0 !important'
   },
   tag: {
-    background: '#000'
+    background: '#111'
   },
   input: {
-    background: '#000',
+    background: '#111',
     color: '#fff !important'
   },
   submit: {
-    background: '#000',
+    background: '#111',
     color: '#fff',
     '&:hover': {
-      background: '#111'
+      background: '#222'
     }
   }
 }, Problem)

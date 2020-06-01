@@ -149,7 +149,7 @@ export default withStyles({
   frame: {
     marginBottom: '1em',
     paddingBottom: '0.625em',
-    background: '#111'
+    background: '#222'
   },
   row: {
     justifyContent: 'center',
