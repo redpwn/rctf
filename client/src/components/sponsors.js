@@ -24,7 +24,7 @@ export default withStyles({
     marginBottom: '1.5em'
   },
   card: {
-    background: '#111'
+    background: '#222'
   }
 }, ({ classes }) => {
   const { sponsors } = config

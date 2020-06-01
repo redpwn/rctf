@@ -10,7 +10,7 @@ export default withStyles({
     margin: 'auto',
     lineHeight: '0',
     padding: '10px',
-    background: '#111',
+    background: '#222',
     '&:hover': {
       background: '#222'
     },

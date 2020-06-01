@@ -14,12 +14,12 @@ const Scoreboard = withStyles({
   frame: {
     paddingBottom: '1.5em',
     paddingTop: '2.125em',
-    background: '#111',
+    background: '#222',
     '& .frame__subtitle': {
       color: '#fff'
     },
     '& button, & select, & option': {
-      background: '#000',
+      background: '#111',
       color: '#fff'
     }
   },

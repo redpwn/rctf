@@ -2,22 +2,27 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>{{ ctfName }}</title>
+		<title>{{ config.ctfName }}</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes">
-		<link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
 
-		<meta property="og:title" content="{{ ctfName }}">
-	<meta property="og:description" content="{{ meta.description }}">
-		<meta property="og:image" content="{{ meta.imageUrl }}">
-		<meta property="og:type" content="website" />
+		<meta name="title" content="{{ config.ctfName }}">
+		<meta name="description" content="{{ config.meta.description }}">
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="{{ config.ctfName }}">
+		<meta property="og:image" content="{{ config.meta.imageUrl }}">
+		<meta property="og:description" content="{{ config.meta.description }}">
+		<meta property="og:url" content="{{ config.origin }}">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="{{ config.ctfName }}">
+		<meta name="twitter:description" content="{{ config.meta.description }}">
+		<meta name="twitter:image" content="{{ config.meta.imageUrl }}">
+		<meta name="twitter:url" content="{{ config.origin }}">
+		<link rel="canonical" href="{{ config.origin }}" />
 
-		<meta name="rctf-config" content="{{ config }}" />
+		<meta name="rctf-config" content="{{ jsonConfig }}" />
 
-		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
-		<% preact.headEnd %>
 	</head>
 	<body>
 		<% preact.bodyEnd %>

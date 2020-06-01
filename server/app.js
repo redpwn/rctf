@@ -20,9 +20,9 @@ const app = fastify({
         remoteAddress: getRealIp(req),
         remotePort: req.connection.remotePort
       })
-    },
-    genReqId: hyperid()
-  }
+    }
+  },
+  genReqId: hyperid()
 })
 
 app.addHook('onRequest', async (req, reply) => {
