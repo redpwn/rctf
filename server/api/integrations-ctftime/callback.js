@@ -58,7 +58,9 @@ export default {
       ctftimeId: userBody.team.id
     })
     return [responses.goodCtftimeToken, {
-      ctftimeToken: token
+      ctftimeToken: token,
+      ctftimeName: userBody.team.name,
+      ctftimeId: userBody.team.id
     }]
   }
 }

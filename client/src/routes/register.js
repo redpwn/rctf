@@ -59,12 +59,12 @@ export default withStyles({
           <input required icon={<EnvelopeOpen />} name='email' placeholder='Email' type='text' value={email} onChange={this.linkState('email')} />
         </Form>
         <AuthOr />
-        <CtftimeButton class={`${classes.root} col-6`} onCtftimeDone={this.handleCtftimeDone} />
+        <CtftimeButton class='col-6' onCtftimeDone={this.handleCtftimeDone} />
       </div>
     )
   }
 
-  handleCtftimeDone = async (ctftimeToken) => {
+  handleCtftimeDone = async ({ ctftimeToken }) => {
     this.setState({
       disabledButton: true
     })

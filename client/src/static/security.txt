@@ -1,4 +1,4 @@
-Contact: mailto:rctf@arinerron.com
+Contact: mailto:contact@redpwn.net
 Preferred-Languages: en
 Canonical: https://ctf.redpwn.net/security.txt
 Policy: https://github.com/redpwn/rctf/blob/master/SECURITY.md
