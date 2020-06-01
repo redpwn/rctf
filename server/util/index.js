@@ -47,12 +47,18 @@ export const serveIndex = async (fastify, opts) => {
     config: clientConfig
   })
 
-  const routeHandler = async (req, res) => {
-    res.type('text/html; charset=UTF-8')
-    res.send(rendered)
+  const routeHandler = async (req, reply) => {
+    reply.type('text/html; charset=UTF-8')
+    reply.send(rendered)
   }
+
+  const redirectHandler = async (req, reply) => {
+    reply.redirect(301, '/')
+  }
+
   fastify.get('/', routeHandler)
-  fastify.get('/index.html', routeHandler)
+  fastify.get('/index.html', redirectHandler)
+  fastify.get('//', redirectHandler)
   fastify.setNotFoundHandler(routeHandler)
 }
 
