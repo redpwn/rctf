@@ -56,7 +56,7 @@ function App ({ classes }) {
   const headerPaths = currentPaths.filter(path => path.props.name !== undefined)
 
   return (
-    <div id='app'>
+    <div class={classes.root}>
       <ToastProvider>
         <Header paths={headerPaths} />
         <div class={classes.contentWrapper}>
@@ -74,12 +74,15 @@ export default withStyles({
   '@global body': {
     overflowX: 'hidden'
   },
-  '@global #app': {
+  root: {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100%',
-    background: '#000',
-    color: '#fff'
+    background: '#111',
+    color: '#fff',
+    '& *': {
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Noto Sans", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important'
+    }
   },
   contentWrapper: {
     flex: '1 0 auto'

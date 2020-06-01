@@ -329,10 +329,10 @@ const Profile = ({ uuid, classes }) => {
 export default withStyles({
   root: {
     '& .card': {
-      background: '#111'
+      background: '#222'
     },
     '& input, & select, & option': {
-      background: '#000',
+      background: '#111',
       color: '#fff !important'
     }
   }

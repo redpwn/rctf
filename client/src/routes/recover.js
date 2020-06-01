@@ -54,7 +54,7 @@ export default withStyles({
     maxWidth: '500px'
   },
   input: {
-    background: '#111',
+    background: '#222',
     color: '#fff !important'
   }
 }, Recover)

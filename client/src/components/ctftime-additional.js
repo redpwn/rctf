@@ -9,7 +9,7 @@ export default withStyles({
   root: {
     padding: '1.5em',
     '& input': {
-      background: '#111',
+      background: '#222',
       color: '#fff'
     }
   },

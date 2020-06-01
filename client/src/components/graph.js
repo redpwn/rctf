@@ -229,7 +229,7 @@ function Graph ({ division, classes }) {
 export default withStyles({
   root: {
     marginBottom: '20px',
-    background: '#111',
+    background: '#222',
     '& .frame__body': {
       padding: '20px'
     }
@@ -238,7 +238,7 @@ export default withStyles({
     position: 'fixed',
     pointerEvents: 'none',
     background: '#fff',
-    color: '#111',
+    color: '#222',
     padding: '5px 10px',
     borderRadius: '5px',
     margin: '5px',

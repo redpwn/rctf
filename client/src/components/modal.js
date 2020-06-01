@@ -62,7 +62,7 @@ export default withStyles({
     }
   },
   modal: {
-    background: '#111',
+    background: '#222',
     color: '#fff'
   },
   animated: {

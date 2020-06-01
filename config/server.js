@@ -51,7 +51,6 @@ const config = {
   verifyEmail: !!process.env.RCTF_SMTP_URL,
   removeDownloadHashes: true,
   tokenKey: process.env.RCTF_TOKEN_KEY,
-  origin: process.env.RCTF_ORIGIN,
   corsOrigin: process.env.RCTF_CORS_ORIGIN,
   ctftimeClientSecret: process.env.RCTF_CTFTIME_CLIENT_SECRET,
   loginTimeout: 10 * 60 * 1000,

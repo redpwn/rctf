@@ -42,9 +42,8 @@ export const serveIndex = async (fastify, opts) => {
   const indexTemplate = (await fs.readFile(opts.indexPath)).toString()
 
   const rendered = mustache.render(indexTemplate, {
-    config: JSON.stringify(clientConfig),
-    ctfName: clientConfig.ctfName,
-    meta: clientConfig.meta
+    jsonConfig: JSON.stringify(clientConfig),
+    config: clientConfig
   })
 
   const routeHandler = async (req, res) => {
