@@ -37,7 +37,7 @@ function App ({ classes }) {
   ]
 
   const loggedInPaths = [
-    <Profile key='profile' path='/profile/' name='Profile' />,
+    <Profile key='profile' path='/profile' name='Profile' />,
     <Challenges key='challs' path='/challs' name='Challenges' />
   ]
 
@@ -83,6 +83,9 @@ export default withStyles({
     '& *': {
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Noto Sans", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important'
     }
+  },
+  '@global select': {
+    background: 'url("data:image/svg+xml;charset=utf8,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%204%205\'%3E%3Cpath%20fill=\'%23667189\'%20d=\'M2%200L0%202h4zm0%205L0%203h4z\'/%3E%3C/svg%3E") right .85rem center/.5rem .6rem no-repeat no-repeat #111 !important'
   },
   contentWrapper: {
     flex: '1 0 auto'

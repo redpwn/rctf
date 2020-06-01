@@ -6,6 +6,7 @@ import fastifyCors from 'fastify-cors'
 import { responses } from '../responses'
 
 export * as normalize from './normalize'
+export * as validate from './validate'
 export * as scores from './scores'
 export * as email from './email'
 
