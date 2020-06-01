@@ -58,9 +58,7 @@ export default {
       reqName = req.body.name
     }
     const name = util.normalize.normalizeName(reqName)
-
-    const nameRegex = /^[!-~][ -~]{0,62}[!-~]$/
-    if (!nameRegex.test(name)) {
+    if (!util.validate.validateName(name)) {
       return responses.badName
     }
 

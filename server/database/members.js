@@ -5,9 +5,9 @@ export const getMembers = ({ userid }) => {
     .then(res => res.rows)
 }
 
-export const makeMember = ({ id, userid, name, email, grade }) => {
-  return db.query('INSERT INTO user_members (id, userid, name, email, grade) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-    [id, userid, name, email, grade]
+export const makeMember = ({ id, userid, email }) => {
+  return db.query('INSERT INTO user_members (id, userid, email) VALUES ($1, $2, $3) RETURNING *',
+    [id, userid, email]
   )
     .then(res => res.rows[0])
 }
