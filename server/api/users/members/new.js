@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid'
+import emailValidator from 'email-validator'
 import * as database from '../../../database'
 import { responses } from '../../../responses'
+import * as util from '../../../util'
 
 export default {
   method: 'POST',
@@ -12,28 +14,23 @@ export default {
       properties: {
         email: {
           type: 'string'
-        },
-        name: {
-          type: 'string'
-        },
-        grade: {
-          type: 'string'
         }
       },
-      required: ['email', 'name', 'grade']
+      required: ['email']
     }
   },
   handler: async ({ req, user }) => {
-    const { name, email, grade } = req.body
+    const email = util.normalize.normalizeEmail(req.body.email)
+    if (!emailValidator.validate(email)) {
+      return responses.badEmail
+    }
 
     const id = uuidv4()
     try {
       const data = await database.members.makeMember({
         id,
         userid: user.id,
-        name,
-        email,
-        grade
+        email
       })
 
       return [responses.goodMemberCreate, data]

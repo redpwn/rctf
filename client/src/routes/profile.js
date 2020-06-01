@@ -138,13 +138,14 @@ const UpdateCard = withStyles({
     '& button': {
       margin: 0,
       marginBottom: '0.4em',
-      lineHeight: '1.25em',
-      padding: '0.65em',
       float: 'right'
     },
     padding: '0 !important'
+  },
+  divisionSelect: {
+    paddingLeft: '2.75rem'
   }
-}, ({ name: oldName, email: oldEmail, onUpdate, classes }) => {
+}, ({ name: oldName, email: oldEmail, divisionId: oldDivision, onUpdate, classes }) => {
   const { toast } = useToast()
 
   const [name, setName] = useState(oldName)
@@ -153,6 +154,9 @@ const UpdateCard = withStyles({
   const [email, setEmail] = useState(oldEmail)
   const handleSetEmail = useCallback(e => setEmail(e.target.value), [])
 
+  const [division, setDivision] = useState(oldDivision)
+  const handleSetDivision = useCallback(e => setDivision(e.target.value), [])
+
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
   const doUpdate = useCallback((e) => {
@@ -160,12 +164,13 @@ const UpdateCard = withStyles({
 
     let updated = false
 
-    if (name !== oldName) {
+    if (name !== oldName || division !== oldDivision) {
       updated = true
 
       setIsButtonDisabled(true)
       updateAccount({
-        name
+        name,
+        division
       })
         .then(({ error, data }) => {
           setIsButtonDisabled(false)
@@ -215,7 +220,7 @@ const UpdateCard = withStyles({
     if (!updated) {
       toast({ body: 'Nothing to update!' })
     }
-  }, [name, email, oldName, oldEmail, onUpdate, toast])
+  }, [name, email, division, oldName, oldEmail, oldDivision, onUpdate, toast])
 
   return (
     <div class='card u-flex u-flex-column'>
@@ -225,7 +230,15 @@ const UpdateCard = withStyles({
         <div class='row u-center'>
           <Form class={`col-12 ${classes.form}`} onSubmit={doUpdate} disabled={isButtonDisabled} buttonText='Update'>
             <input required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={name} onChange={handleSetName} />
-            <input required icon={<EnvelopeOpen />} name='email' placeholder='Email' type='email' value={email} onChange={handleSetEmail} />
+            <input icon={<EnvelopeOpen />} name='email' placeholder='Email' type='email' value={email} onChange={handleSetEmail} />
+            <select icon={<AddressBook />} class={`select ${classes.divisionSelect}`} name='division' value={division} onChange={handleSetDivision}>
+              <option value='' disabled>Division</option>
+              {
+                Object.entries(config.divisions).map(([name, code]) => {
+                  return <option key={code} value={code}>{name}</option>
+                })
+              }
+            </select>
           </Form>
         </div>
       </div>

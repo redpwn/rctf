@@ -206,12 +206,12 @@ const Problem = ({ classes, problem, update: updateClient }) => {
             {
               problem.files.length !== 0 &&
                 <div>
-                  <p class='faded frame__subtitle u-no-margin'>Downloads</p>
+                  <p class={`frame__subtitle u-no-margin ${classes.downloadsHeader}`}>Downloads</p>
                   <div class='tag-container'>
                     {
                       problem.files.map(file => {
                         return (
-                          <div class='tag' key={file.url}>
+                          <div class={`tag ${classes.tag}`} key={file.url}>
                             <a native download href={file.url}>
                               {file.name}
                             </a>
@@ -244,13 +244,24 @@ const Problem = ({ classes, problem, update: updateClient }) => {
 export default withStyles({
   frame: {
     marginBottom: '1em',
-    paddingBottom: '0.625em'
+    paddingBottom: '0.625em',
+    background: '#222',
+    '& input, & textarea': {
+      color: '#fff !important',
+      background: '#111'
+    }
+  },
+  downloadsHeader: {
+    color: '#fff !important'
   },
   description: {
     '& a': {
       display: 'inline',
       padding: 0
     }
+  },
+  tag: {
+    background: '#111'
   },
   divider: {
     margin: '0.625em !important',
