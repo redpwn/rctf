@@ -66,12 +66,16 @@ export default class LocalProvider implements Provider {
     }
   }
 
+  getKey (hash: string, name: string): string {
+    return `${hash}/${name}`
+  }
+
   async upload (data: Buffer, name: string): Promise<string> {
     const hash = crypto.createHash('sha256')
       .update(data)
       .digest('hex')
 
-    const key = `${hash}/${name}`
+    const key = this.getKey(hash, name)
     const urlPath = `${this.endpoint}?key=${encodeURIComponent(key)}`
     const filePath = path.join(this.uploadDirectory, hash)
 
@@ -83,5 +87,9 @@ export default class LocalProvider implements Provider {
     await fs.promises.writeFile(filePath, data)
 
     return (config.origin || '') + urlPath
+  }
+
+  async exists (sha256: string, name: string): Promise<boolean> {
+    return this.uploadMap.has(this.getKey(sha256, name))
   }
 }

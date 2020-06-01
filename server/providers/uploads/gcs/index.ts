@@ -35,4 +35,8 @@ export default class GcsProvider implements Provider {
     }
     return `https://${this.bucketName}.storage.googleapis.com/${key}`
   }
+
+  async exists (sha256: string, name: string): Promise<boolean> {
+    return false
+  }
 }
