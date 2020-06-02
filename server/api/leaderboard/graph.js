@@ -2,8 +2,6 @@ import { responses } from '../../responses'
 import * as cache from '../../cache'
 import config from '../../../config/server'
 
-const stringDivisions = Object.values(config.divisions).map(String)
-
 export default {
   method: 'GET',
   path: '/leaderboard/graph',
@@ -13,25 +11,21 @@ export default {
       type: 'object',
       properties: {
         division: {
-          type: 'string',
-          enum: stringDivisions
+          type: 'integer',
+          enum: Object.values(config.divisions)
         },
         limit: {
-          type: 'string'
+          type: 'integer',
+          minimum: 1,
+          maximum: config.leaderboard.graphMaxTeams
         }
       },
       required: ['limit']
     }
   },
   handler: async ({ req }) => {
-    let division
-    const limit = parseInt(req.query.limit)
-    if (req.query.division !== undefined) {
-      division = parseInt(req.query.division)
-    }
-    if (limit < 1 || limit > config.leaderboard.graphMaxTeams) {
-      return responses.badBody
-    }
+    const division = req.query.division
+    const limit = req.query.limit
     const graph = await cache.leaderboard.getGraph({
       division,
       maxTeams: limit

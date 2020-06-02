@@ -22,7 +22,7 @@ export default {
           type: 'string'
         },
         division: {
-          type: 'number',
+          type: 'integer',
           enum: Object.values(config.divisions)
         },
         ctftimeToken: {
