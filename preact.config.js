@@ -79,4 +79,12 @@ export default (config, env, helpers) => {
       options.template = `!!ejs-loader!mustache-config-loader!${loaderMatch[1]}`
     }
   }
+
+  const CopyPluginWrapper = helpers.getPluginsByName(config, 'CopyPlugin')[0]
+  if (CopyPluginWrapper !== undefined) {
+    const plugin = CopyPluginWrapper.plugin
+    plugin.patterns = plugin.patterns.filter(({ from }) => {
+      return /node-modules\/preact-cli.*resources\/(manifest.json|icon.png)/.test(from)
+    })
+  }
 }
