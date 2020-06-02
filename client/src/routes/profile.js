@@ -6,7 +6,8 @@ import withStyles from '../components/jss'
 import { privateProfile, publicProfile, updateAccount, updateEmail, deleteEmail } from '../api/profile'
 import { useToast } from '../components/toast'
 import Form from '../components/form'
-import MembersCard from '../components/profile/memberscard'
+import MembersCard from '../components/profile/members-card'
+import CtftimeCard from '../components/profile/ctftime-card'
 import TokenPreview from '../components/token-preview'
 import * as util from '../util'
 import Trophy from '../icons/trophy.svg'
@@ -246,10 +247,11 @@ const UpdateCard = withStyles({
   )
 })
 
-const LoggedInRail = memo(({ name, email, teamToken, divisionId, onUpdate }) =>
+const LoggedInRail = memo(({ name, email, teamToken, divisionId, ctftimeId, onUpdate }) =>
   <div class='col-4'>
     <TeamCodeCard {...{ teamToken }} />
     <UpdateCard {...{ name, email, divisionId, onUpdate }} />
+    <CtftimeCard {...{ ctftimeId, onUpdate }} />
   </div>
 )
 
@@ -299,12 +301,13 @@ const Profile = ({ uuid, classes }) => {
     }
   }, [uuid, isPrivate, toast])
 
-  const onProfileUpdate = useCallback(({ name, email, divisionId }) => {
+  const onProfileUpdate = useCallback(({ name, email, divisionId, ctftimeId }) => {
     setData(data => ({
       ...data,
       name: name || data.name,
       email: email || data.email,
-      division: divisionId || data.division
+      division: divisionId || data.division,
+      ctftimeId: ctftimeId === undefined ? data.ctftimeId : ctftimeId
     }))
   }, [])
 
@@ -329,7 +332,7 @@ const Profile = ({ uuid, classes }) => {
 
   return (
     <div class={`row u-center ${classes.root}`} style='align-items: initial !important'>
-      { isPrivate && <LoggedInRail {...{ name, email, teamToken, divisionId }} onUpdate={onProfileUpdate} /> }
+      { isPrivate && <LoggedInRail {...{ name, email, teamToken, divisionId, ctftimeId }} onUpdate={onProfileUpdate} /> }
       <div class='col-6'>
         { isPrivate && <MembersCard division={config.divisions[division]} /> }
         <SummaryCard {...{ name, score, division, divisionPlace, globalPlace, ctftimeId }} />
