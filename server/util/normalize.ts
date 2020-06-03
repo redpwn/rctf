@@ -6,7 +6,7 @@ export function normalizeEmail (email: string): string {
 }
 
 export function normalizeName (name: string): string {
-  return name.trim().toLowerCase()
+  return name.trim()
 }
 
 export function normalizeDownload (name: string): string {
