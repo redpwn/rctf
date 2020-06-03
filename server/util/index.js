@@ -6,6 +6,7 @@ import fastifyCors from 'fastify-cors'
 import { responses } from '../responses'
 
 export * as normalize from './normalize'
+export * as validate from './validate'
 export * as scores from './scores'
 export * as email from './email'
 
@@ -42,9 +43,8 @@ export const serveIndex = async (fastify, opts) => {
   const indexTemplate = (await fs.readFile(opts.indexPath)).toString()
 
   const rendered = mustache.render(indexTemplate, {
-    config: JSON.stringify(clientConfig),
-    ctfName: clientConfig.ctfName,
-    meta: clientConfig.meta
+    jsonConfig: JSON.stringify(clientConfig),
+    config: clientConfig
   })
 
   const routeHandler = async (req, res) => {

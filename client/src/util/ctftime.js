@@ -27,7 +27,7 @@ export default () => {
     `&redirect_uri=${encodeURIComponent(`${location.origin}/integrations/ctftime/callback`)}` +
     `&state=${encodeURIComponent(state)}`,
     title: 'CTFtime',
-    w: 500,
+    w: 600,
     h: 500
   })
   return state

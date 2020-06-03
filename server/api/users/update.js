@@ -2,6 +2,7 @@ import { responses } from '../../responses'
 import * as database from '../../database'
 import config from '../../../config/server'
 import * as timeouts from '../../cache/timeouts'
+import * as util from '../../util'
 
 export default {
   method: 'PATCH',
@@ -23,20 +24,28 @@ export default {
   },
   handler: async ({ user, req }) => {
     const uuid = user.id
-    const { name, division } = req.body
+    const { division } = req.body
+    let name
 
-    const passRateLimit = await timeouts.checkRateLimit({
-      type: timeouts.types.UPDATE_PROFILE,
-      userid: uuid,
-      duration: 10 * 60 * 1000,
-      limit: 1
-    })
+    if (req.body.name !== undefined) {
+      name = util.normalize.normalizeName(req.body.name)
+      if (!util.validate.validateName(name)) {
+        return responses.badName
+      }
 
-    // Rate limit name changes only
-    if (name !== undefined && !passRateLimit.ok) {
-      return [responses.badRateLimit, {
-        timeLeft: passRateLimit.timeLeft
-      }]
+      const passRateLimit = await timeouts.checkRateLimit({
+        type: timeouts.types.UPDATE_PROFILE,
+        userid: uuid,
+        duration: 10 * 60 * 1000,
+        limit: 1
+      })
+
+      // Rate limit name changes only
+      if (!passRateLimit.ok) {
+        return [responses.badRateLimit, {
+          timeLeft: passRateLimit.timeLeft
+        }]
+      }
     }
 
     const newUser = await database.auth.updateUser({

@@ -5,6 +5,7 @@ import * as util from '../../util'
 import * as auth from '../../auth'
 import config from '../../../config/server'
 import { responses } from '../../responses'
+import { getUserByNameOrEmail } from '../../database/auth'
 
 export default {
   method: 'POST',
@@ -57,9 +58,7 @@ export default {
       reqName = req.body.name
     }
     const name = util.normalize.normalizeName(reqName)
-
-    const nameRegex = /^[!-~][ -~]{0,62}[!-~]$/
-    if (!nameRegex.test(name)) {
+    if (!util.validate.validateName(name)) {
       return responses.badName
     }
 
@@ -78,6 +77,14 @@ export default {
         name,
         ctftimeId
       })
+    }
+
+    const conflictRes = await getUserByNameOrEmail({ name, email })
+    if (conflictRes) {
+      if (conflictRes.name === name) {
+        return responses.badKnownName
+      }
+      return responses.badKnownEmail
     }
 
     const verifyUuid = uuidv4()

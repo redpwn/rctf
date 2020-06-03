@@ -7,12 +7,13 @@ import Header from './components/header'
 import Footer from './components/footer'
 
 import Home from './routes/home'
-import Registration from './routes/registration'
+import Register from './routes/register'
 import Login from './routes/login'
 import Profile from './routes/profile'
 import Challenges from './routes/challs'
 import Scoreboard from './routes/scoreboard'
 import Error from './routes/error'
+import Recover from './routes/recover'
 import Verify from './routes/verify'
 import CtftimeCallback from './routes/ctftime-callback'
 
@@ -31,40 +32,36 @@ function App ({ classes }) {
   const loggedOut = localStorage.getItem('token') === null
 
   const loggedOutPaths = [
-    <Registration key='register' path='/register' name='Register' />,
+    <Register key='register' path='/register' name='Register' />,
     <Login key='login' path='/login' name='Login' />
   ]
 
   const loggedInPaths = [
-    <Profile key='profile' path='/profile/' name='Profile' />,
-    <Challenges key='challs' path='/challs' name='Challenges' />,
-    <Scoreboard key='scoreboard' path='/scores' name='Scoreboard' />
+    <Profile key='profile' path='/profile' name='Profile' />,
+    <Challenges key='challs' path='/challs' name='Challenges' />
   ]
 
   const allPaths = [
     <Home key='home' path='/' name='Home' />,
+    <Scoreboard key='scoreboard' path='/scores' name='Scoreboard' />,
     <Profile key='multiProfile' path='/profile/:uuid' />,
+    <Recover key='recover' path='/recover' />,
     <Verify key='verify' path='/verify' />,
-    <AdminChallenges key='adminchalls' path='/admin/challs' />,
+    <AdminChallenges key='adminChalls' path='/admin/challs' />,
     <CtftimeCallback key='ctftimeCallback' path='/integrations/ctftime/callback' />,
-    <Error key='error' error='404' default />,
-    ...loggedInPaths,
-    ...loggedOutPaths
+    <Error key='error' error='404' default />
   ]
 
-  const home = <Home key='home' path='/' name='Home' />
-  loggedOutPaths.unshift(home)
-  loggedInPaths.unshift(home)
-
-  const currentPaths = loggedOut ? loggedOutPaths : loggedInPaths
+  const currentPaths = loggedOut ? [...allPaths, ...loggedOutPaths] : [...allPaths, ...loggedInPaths]
+  const headerPaths = currentPaths.filter(path => path.props.name !== undefined)
 
   return (
-    <div id='app'>
+    <div class={classes.root}>
       <ToastProvider>
-        <Header paths={currentPaths} />
+        <Header paths={headerPaths} />
         <div class={classes.contentWrapper}>
           <Router onChange={triggerRerender}>
-            {allPaths}
+            {[...allPaths, ...loggedOutPaths, ...loggedInPaths]}
           </Router>
         </div>
         <Footer />
@@ -77,10 +74,18 @@ export default withStyles({
   '@global body': {
     overflowX: 'hidden'
   },
-  '@global #app': {
+  root: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100%'
+    minHeight: '100%',
+    background: '#111',
+    color: '#fff',
+    '& *': {
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Noto Sans", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important'
+    }
+  },
+  '@global select': {
+    background: 'url("data:image/svg+xml;charset=utf8,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%204%205\'%3E%3Cpath%20fill=\'%23667189\'%20d=\'M2%200L0%202h4zm0%205L0%203h4z\'/%3E%3C/svg%3E") right .85rem center/.5rem .6rem no-repeat no-repeat #111 !important'
   },
   contentWrapper: {
     flex: '1 0 auto'

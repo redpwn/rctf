@@ -10,6 +10,10 @@ export default withStyles({
     margin: 'auto',
     lineHeight: '0',
     padding: '10px',
+    background: '#222',
+    '&:hover': {
+      background: '#222'
+    },
     '& svg': {
       width: '150px'
     }
@@ -45,7 +49,7 @@ export default withStyles({
       })
       return
     }
-    this.props.onCtftimeDone(data.ctftimeToken)
+    this.props.onCtftimeDone(data)
   }
 
   handleClick = () => {

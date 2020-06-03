@@ -148,9 +148,13 @@ export default withStyles({
   },
   frame: {
     marginBottom: '1em',
-    paddingBottom: '0.625em'
+    paddingBottom: '0.625em',
+    background: '#222'
   },
   row: {
-    justifyContent: 'center'
+    justifyContent: 'center',
+    '& .title, & .frame__subtitle': {
+      color: '#fff'
+    }
   }
 }, Challenges)

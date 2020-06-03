@@ -77,13 +77,6 @@ const Challenges = ({ classes }) => {
 }
 
 export default withStyles({
-  showSolved: {
-    marginBottom: '0.625em'
-  },
-  frame: {
-    marginBottom: '1em',
-    paddingBottom: '0.625em'
-  },
   row: {
     justifyContent: 'center'
   }

@@ -4,9 +4,10 @@ export const getMembers = async () => {
   return (await request('GET', '/users/me/members')).data
 }
 
-export const addMember = async ({ name, email, grade }) => {
-  const resp = await request('POST', '/users/me/members', { name, email, grade })
+export const addMember = async ({ email }) => {
+  const resp = await request('POST', '/users/me/members', { email })
   switch (resp.kind) {
+    case 'badEmail':
     case 'badKnownEmail':
       return {
         error: resp.message

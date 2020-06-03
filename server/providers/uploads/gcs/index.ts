@@ -21,7 +21,7 @@ export default class GcsProvider implements Provider {
 
   upload = async (data: Buffer, name: string): Promise<string> => {
     const hash = crypto.createHash('sha256').update(data).digest('hex')
-    const key = `uploads/${hash}/${encodeURIComponent(name)}`
+    const key = `uploads/${hash}/${name}`
     const file = this.bucket.file(key)
     const exists = (await file.exists())[0]
     if (!exists) {
@@ -33,6 +33,6 @@ export default class GcsProvider implements Provider {
         }
       })
     }
-    return `https://${this.bucketName}.storage.googleapis.com/${key}`
+    return `https://${this.bucketName}.storage.googleapis.com/uploads/${hash}/${encodeURIComponent(name)}`
   }
 }
