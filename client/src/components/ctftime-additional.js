@@ -10,7 +10,7 @@ export default withStyles({
     padding: '1.5em',
     '& input': {
       background: '#222',
-      color: '#fff'
+      color: '#fff !important'
     }
   },
   submit: {
@@ -19,12 +19,12 @@ export default withStyles({
   title: {
     textAlign: 'center'
   }
-}, ({ classes, ctftimeToken }) => {
+}, ({ classes, ctftimeToken, ctftimeName }) => {
   const [disabledButton, setDisabledButton] = useState(false)
   const division = config.defaultDivision.toString()
   const [showName, setShowName] = useState(false)
 
-  const [name, setName] = useState('')
+  const [name, setName] = useState(ctftimeName)
   const handleNameChange = useCallback(e => setName(e.target.value), [])
 
   const [errors, setErrors] = useState({})
@@ -37,7 +37,7 @@ export default withStyles({
       name: name || undefined,
       division
     })
-      .then(({ errors, data }) => {
+      .then(({ errors }) => {
         setDisabledButton(false)
 
         if (!errors) {
@@ -45,7 +45,6 @@ export default withStyles({
         }
         if (errors.name) {
           setShowName(true)
-          setName(data)
         }
 
         setErrors(errors)

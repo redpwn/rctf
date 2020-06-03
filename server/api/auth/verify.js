@@ -44,10 +44,18 @@ export default {
       const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, user.id)
       return [responses.goodVerify, { authToken }]
     } else if (tokenData.kind === 'update') {
-      const result = await database.auth.updateUser({
-        id: tokenData.userId,
-        email: tokenData.email
-      })
+      let result
+      try {
+        result = await database.auth.updateUser({
+          id: tokenData.userId,
+          email: tokenData.email
+        })
+      } catch (e) {
+        if (e.constraint === 'users_email_key') {
+          return responses.badKnownEmail
+        }
+        throw e
+      }
       if (result === undefined) {
         return responses.badUnknownUser
       }

@@ -32,6 +32,7 @@ export default withStyles({
     email: '',
     division: config.defaultDivision.toString(),
     ctftimeToken: undefined,
+    ctftimeName: undefined,
     disabledButton: false,
     errors: {},
     verifySent: false
@@ -41,9 +42,9 @@ export default withStyles({
     document.title = `Registration${config.ctfTitle}`
   }
 
-  render ({ classes }, { name, email, disabledButton, errors, ctftimeToken, verifySent }) {
+  render ({ classes }, { name, email, disabledButton, errors, ctftimeToken, ctftimeName, verifySent }) {
     if (ctftimeToken) {
-      return <CtftimeAdditional ctftimeToken={ctftimeToken} />
+      return <CtftimeAdditional ctftimeToken={ctftimeToken} ctftimeName={ctftimeName} />
     }
     if (verifySent) {
       return (
@@ -64,7 +65,7 @@ export default withStyles({
     )
   }
 
-  handleCtftimeDone = async ({ ctftimeToken }) => {
+  handleCtftimeDone = async ({ ctftimeToken, ctftimeName }) => {
     this.setState({
       disabledButton: true
     })
@@ -76,7 +77,8 @@ export default withStyles({
     }
     if (loginRes.badUnknownUser) {
       this.setState({
-        ctftimeToken
+        ctftimeToken,
+        ctftimeName
       })
     }
   }
