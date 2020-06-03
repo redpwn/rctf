@@ -282,10 +282,10 @@
   </style>
 </head>
 
-<body width="100%" style="margin: 0; padding: 0 !important; background: #000000; mso-line-height-rule: exactly;">
-  <center style="width: 100%; background: #000000;">
+<body width="100%" style="margin: 0; padding: 0 !important; background: #111111; mso-line-height-rule: exactly;">
+  <center style="width: 100%; background: #111111;">
     <!--[if mso | IE]>
-    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #000000;">
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #111111;">
     <tr>
     <td>
     <![endif]-->
@@ -300,13 +300,13 @@
         <tr>
           <td style="padding: 20px 30px; text-align: left;" class="sm-px">
             <a href="{{ origin }}">
-              <img src="{{ origin }}/assets/logo-256.png" alt="{{ ctf_name }}" border="0" height="64" width="64"
+              <img src="{{ logo_url }}" alt="{{ ctf_name }}" border="0" height="64"
                 style="font-family: arial, sans-serif; font-size: 15px; line-height: 15px; color: #FFFFFF; margin: 0;">
             </a>
           </td>
         </tr>
         <tr>
-          <td style="padding: 30px; background-color: #101010;" class="sm-p bar">
+          <td style="padding: 30px; background-color: #222222;" class="sm-p bar">
           <!-- <td style="padding: 30px; background-color: #201F1F;" class="sm-p bar"> -->
             <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
               <tr>
@@ -343,17 +343,17 @@
                   <table align="left" border="0" cellpadding="0" cellspacing="0" role="presentation">
                     <tr>
                       <td class="s-btn s-btn__primary" style="border-radius: 4px; background: #BC2226;">
-                        <a class="s-btn s-btn__primary" href="{{ origin }}/verify#token={{ token }}"
+                        <a class="s-btn s-btn__primary" href="{{ origin }}/verify?token={{ token }}"
                           target="_parent"
                           style="background: #BC2226; font-family: arial, sans-serif; font-size: 17px; line-height: 17px; color: #FFFFFF; text-align: center; text-decoration: none; padding: 13px 17px; display: block; border-radius: 4px; white-space: nowrap;">
                           {{ #register }}
                             Register for {{ ctf_name }}
                           {{ /register}}
                           {{ #recover }}
-                            Recover your {{ ctf_name }} account
+                            Recover your account
                           {{ /recover }}
                           {{ #update }}
-                            Update your {{ ctf_name }} email
+                            Update your email
                           {{ /update }}
                         </a>
                       </td>

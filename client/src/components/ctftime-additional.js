@@ -7,7 +7,11 @@ import { useEffect, useState, useCallback } from 'preact/hooks'
 
 export default withStyles({
   root: {
-    padding: '1.5em'
+    padding: '1.5em',
+    '& input': {
+      background: '#222',
+      color: '#fff'
+    }
   },
   submit: {
     marginTop: '1.5em'
@@ -61,7 +65,7 @@ export default withStyles({
     <div class='row u-center'>
       <Form class={`${classes.root} col-6`} onSubmit={handleSubmit} disabled={disabledButton} errors={errors} buttonText='Register'>
         { showName &&
-          <input autofocus required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={name} onChange={handleNameChange} />
+          <input autofocus required icon={<UserCircle />} name='name' maxLength='64' minLength='2' placeholder='Team Name' type='text' value={name} onChange={handleNameChange} />
         }
       </Form>
     </div>

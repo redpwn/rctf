@@ -20,11 +20,11 @@ function LogoutDialog ({ onClose, ...props }) {
         <div class='modal-title'>Logout</div>
       </div>
       <div class='modal-body'>
-        <div>Make sure you have saved your team code, or you may not be able to login again!</div>
+        <div>This will log you out on your current device.</div>
       </div>
       <div class='modal-footer'>
         <div class='btn-container u-inline-block'>
-          <button class='btn-small' onClick={wrappedOnClose}>Cancel</button>
+          <button class='btn-small outline' onClick={wrappedOnClose}>Cancel</button>
         </div>
         <div class='btn-container u-inline-block'>
           <button class='btn-small btn-danger outline' onClick={doLogout}>Logout</button>

@@ -14,6 +14,7 @@ const verifyText = fs.readFileSync(path.join(__dirname, 'emails/verify.txt')).to
 export const sendVerification = async ({ token, kind, email }) => {
   const emailView = {
     ctf_name: config.ctfName,
+    logo_url: config.logoUrl,
     origin: config.origin,
     token: encodeURIComponent(token),
     register: kind === 'register',

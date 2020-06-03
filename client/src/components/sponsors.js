@@ -5,7 +5,10 @@ import withStyles from './jss'
 
 export default withStyles({
   icon: {
-    padding: '20px 0',
+    padding: '10px',
+    margin: '20px 0',
+    background: '#fff',
+    borderRadius: '10px',
     '& img': {
       height: '6.250em',
       width: 'auto'
@@ -19,6 +22,9 @@ export default withStyles({
   },
   row: {
     marginBottom: '1.5em'
+  },
+  card: {
+    background: '#222'
   }
 }, ({ classes }) => {
   const { sponsors } = config
@@ -28,7 +34,7 @@ export default withStyles({
         <div class='row'>
           {
             sponsors.map(sponsor => {
-              let cl = 'card'
+              let cl = `card ${classes.card}`
               if (!sponsor.small) cl += ' u-flex u-flex-column h-100'
 
               return (

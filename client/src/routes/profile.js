@@ -6,8 +6,9 @@ import withStyles from '../components/jss'
 import { privateProfile, publicProfile, updateAccount, updateEmail, deleteEmail } from '../api/profile'
 import { useToast } from '../components/toast'
 import Form from '../components/form'
-import MembersCard from '../components/profile/memberscard'
-import TokenPreview from '../components/tokenPreview'
+import MembersCard from '../components/profile/members-card'
+import CtftimeCard from '../components/profile/ctftime-card'
+import TokenPreview from '../components/token-preview'
 import * as util from '../util'
 import Trophy from '../icons/trophy.svg'
 import AddressBook from '../icons/address-book.svg'
@@ -125,9 +126,9 @@ const TeamCodeCard = memo(({ teamToken }) => {
   return (
     <div class='card u-flex u-flex-column'>
       <div class='content'>
-        <p>Team Code</p>
-        <p class='font-thin'>Copy this code and store it in a safe place as it is required to login. Then, share it with your teammates so that they can <a href='/login'>login</a> too!</p>
-        <TokenPreview token={teamToken} />
+        <p>Team Invite</p>
+        <p class='font-thin'>Send this team invite URL to your teammates so they can login.</p>
+        <TokenPreview token={`${location.origin}/login?token=${encodeURIComponent(teamToken)}`} />
       </div>
     </div>
   )
@@ -138,13 +139,14 @@ const UpdateCard = withStyles({
     '& button': {
       margin: 0,
       marginBottom: '0.4em',
-      lineHeight: '1.25em',
-      padding: '0.65em',
       float: 'right'
     },
     padding: '0 !important'
+  },
+  divisionSelect: {
+    paddingLeft: '2.75rem'
   }
-}, ({ name: oldName, email: oldEmail, onUpdate, classes }) => {
+}, ({ name: oldName, email: oldEmail, divisionId: oldDivision, onUpdate, classes }) => {
   const { toast } = useToast()
 
   const [name, setName] = useState(oldName)
@@ -153,6 +155,9 @@ const UpdateCard = withStyles({
   const [email, setEmail] = useState(oldEmail)
   const handleSetEmail = useCallback(e => setEmail(e.target.value), [])
 
+  const [division, setDivision] = useState(oldDivision)
+  const handleSetDivision = useCallback(e => setDivision(e.target.value), [])
+
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
   const doUpdate = useCallback((e) => {
@@ -160,12 +165,13 @@ const UpdateCard = withStyles({
 
     let updated = false
 
-    if (name !== oldName) {
+    if (name !== oldName || division !== oldDivision) {
       updated = true
 
       setIsButtonDisabled(true)
       updateAccount({
-        name
+        name: oldName === name ? undefined : name,
+        division: oldDivision === division ? undefined : division
       })
         .then(({ error, data }) => {
           setIsButtonDisabled(false)
@@ -215,7 +221,7 @@ const UpdateCard = withStyles({
     if (!updated) {
       toast({ body: 'Nothing to update!' })
     }
-  }, [name, email, oldName, oldEmail, onUpdate, toast])
+  }, [name, email, division, oldName, oldEmail, oldDivision, onUpdate, toast])
 
   return (
     <div class='card u-flex u-flex-column'>
@@ -225,7 +231,15 @@ const UpdateCard = withStyles({
         <div class='row u-center'>
           <Form class={`col-12 ${classes.form}`} onSubmit={doUpdate} disabled={isButtonDisabled} buttonText='Update'>
             <input required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={name} onChange={handleSetName} />
-            <input required icon={<EnvelopeOpen />} name='email' placeholder='Email' type='email' value={email} onChange={handleSetEmail} />
+            <input icon={<EnvelopeOpen />} name='email' placeholder='Email' type='email' value={email} onChange={handleSetEmail} />
+            <select icon={<AddressBook />} class={`select ${classes.divisionSelect}`} name='division' value={division} onChange={handleSetDivision}>
+              <option value='' disabled>Division</option>
+              {
+                Object.entries(config.divisions).map(([name, code]) => {
+                  return <option key={code} value={code}>{name}</option>
+                })
+              }
+            </select>
           </Form>
         </div>
       </div>
@@ -233,14 +247,15 @@ const UpdateCard = withStyles({
   )
 })
 
-const LoggedInRail = memo(({ name, email, teamToken, divisionId, onUpdate }) =>
+const LoggedInRail = memo(({ name, email, teamToken, divisionId, ctftimeId, onUpdate }) =>
   <div class='col-4'>
     <TeamCodeCard {...{ teamToken }} />
     <UpdateCard {...{ name, email, divisionId, onUpdate }} />
+    <CtftimeCard {...{ ctftimeId, onUpdate }} />
   </div>
 )
 
-function Profile ({ uuid }) {
+const Profile = ({ uuid, classes }) => {
   const [loaded, setLoaded] = useState(false)
   const [error, setError] = useState(null)
   const [data, setData] = useState({})
@@ -286,12 +301,13 @@ function Profile ({ uuid }) {
     }
   }, [uuid, isPrivate, toast])
 
-  const onProfileUpdate = useCallback(({ name, email, divisionId }) => {
+  const onProfileUpdate = useCallback(({ name, email, divisionId, ctftimeId }) => {
     setData(data => ({
       ...data,
-      name: name || data.name,
-      email: email || data.email,
-      division: divisionId || data.division
+      name: name === undefined ? data.name : name,
+      email: email === undefined ? data.email : email,
+      division: divisionId === undefined ? data.division : divisionId,
+      ctftimeId: ctftimeId === undefined ? data.ctftimeId : ctftimeId
     }))
   }, [])
 
@@ -315,10 +331,10 @@ function Profile ({ uuid }) {
   }
 
   return (
-    <div class='row u-center' style='align-items: initial !important'>
-      { isPrivate && <LoggedInRail {...{ name, email, teamToken, divisionId }} onUpdate={onProfileUpdate} /> }
+    <div class={`row u-center ${classes.root}`} style='align-items: initial !important'>
+      { isPrivate && <LoggedInRail {...{ name, email, teamToken, divisionId, ctftimeId }} onUpdate={onProfileUpdate} /> }
       <div class='col-6'>
-        { isPrivate && <MembersCard division={config.divisions[division]} /> }
+        { isPrivate && <MembersCard /> }
         <SummaryCard {...{ name, score, division, divisionPlace, globalPlace, ctftimeId }} />
         <SolvesCard solves={solves} />
       </div>
@@ -326,4 +342,14 @@ function Profile ({ uuid }) {
   )
 }
 
-export default Profile
+export default withStyles({
+  root: {
+    '& .card': {
+      background: '#222'
+    },
+    '& input, & select, & option': {
+      background: '#111',
+      color: '#fff !important'
+    }
+  }
+}, Profile)

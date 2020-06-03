@@ -55,7 +55,7 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
           const filePath = path.join(fileDir, file)
 
           const stats = await fs.stat(filePath)
-          if (stats.isFile) {
+          if (stats.isFile()) {
             const data = await fs.readFile(filePath)
 
             const url = await uploadProvider.upload(data, normalize.normalizeDownload(file))

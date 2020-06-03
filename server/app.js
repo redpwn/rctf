@@ -2,6 +2,7 @@ import path from 'path'
 import fastify from 'fastify'
 import fastifyStatic from 'fastify-static'
 import helmet from 'fastify-helmet'
+import hyperid from 'hyperid'
 import { enableCORS, serveIndex, getRealIp } from './util'
 import { init as uploadProviderInit } from './uploads'
 import api, { logSerializers as apiLogSerializers } from './api'
@@ -20,7 +21,8 @@ const app = fastify({
         remotePort: req.connection.remotePort
       })
     }
-  }
+  },
+  genReqId: hyperid()
 })
 
 app.addHook('onRequest', async (req, reply) => {

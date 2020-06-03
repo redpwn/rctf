@@ -9,6 +9,7 @@ const redisHmget = promisify(client.hmget.bind(client))
 const redisDel = promisify(client.del.bind(client))
 const redisMget = promisify(client.mget.bind(client))
 const redisSet = promisify(client.set.bind(client))
+const redisLlen = promisify(client.llen.bind(client))
 const redisScript = promisify(client.script.bind(client))
 
 const luaChunkCall = `
@@ -91,6 +92,7 @@ const getGraphScript = redisScript('load', `
 
   local maxUsers = tonumber(ARGV[1])
   local samples = cjson.decode(ARGV[2])
+  local samplesLen = #samples
   local latest = redis.call("LRANGE", KEYS[1], 0, maxUsers * 3 - 1)
   if #latest == 0 then
     return nil
@@ -101,8 +103,8 @@ const getGraphScript = redisScript('load', `
     if id == nil then
       break
     end
-    for s = 1, #samples, 1 do
-      graphKeys[#graphKeys + 1] = samples[s] .. ":" .. id
+    for s = 1, samplesLen, 1 do
+      graphKeys[(i - 1) * samplesLen + s] = samples[s] .. ":" .. id
     end
   end
   local lastUpdate = redis.call("GET", KEYS[2])
@@ -158,6 +160,13 @@ const getLeaderboardKey = (division) => {
 }
 
 export const getRange = async ({ start, end, division }) => {
+  if (start === end) {
+    // zero-length query - get total only
+    return {
+      total: await redisLlen(getLeaderboardKey(division)) / 3,
+      leaderboard: []
+    }
+  }
   const redisResult = await redisEvalsha(
     await getRangeScript,
     1,
