@@ -11,12 +11,24 @@ for (const division of Object.entries(config.divisions)) {
 }
 
 export const getGenericUserData = async ({ id }) => {
-  const user = await db.users.getUserByUserId({ userid: id })
+  let [
+    user,
+    { userSolves, challengeScores },
+    score
+  ] = await Promise.all([
+    db.users.getUserByUserId({ userid: id }),
+    (async () => {
+      const userSolves = await db.solves.getSolvesByUserId({ userid: id })
+      const challengeScores = await getChallengeScores({
+        ids: userSolves.map((solve) => solve.challengeid)
+      })
+      return { userSolves, challengeScores }
+    })(),
+    cache.leaderboard.getScore({ id })
+  ])
 
   if (user === undefined) return null
 
-  const userSolves = await db.solves.getSolvesByUserId({ userid: id })
-  let score = await cache.leaderboard.getScore({ id })
   if (score === null) {
     score = {
       score: 0,
@@ -26,10 +38,6 @@ export const getGenericUserData = async ({ id }) => {
   }
 
   const solves = []
-
-  const challengeScores = await getChallengeScores({
-    ids: userSolves.map((solve) => solve.challengeid)
-  })
 
   userSolves.forEach((solve, i) => {
     const chall = challenges.getCleanedChallenge(solve.challengeid)
