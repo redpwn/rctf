@@ -28,7 +28,7 @@ const MemberRow = withStyles({
     <div class={classes.root} key={id}>
       <p class='u-no-margin'>{email}</p>
       <div class='btn-container u-vertical-center'>
-        <input onClick={handleDelete} type='submit' class='btn-tiny btn-danger u-no-margin' value='Delete' />
+        <input onClick={handleDelete} type='submit' class='btn-small btn-danger u-no-margin' value='Delete' />
       </div>
     </div>
   )
@@ -43,7 +43,7 @@ const MembersCard = withStyles({
       marginTop: '10px'
     }
   }
-}, ({ classes, division: originalDivision }) => {
+}, ({ classes }) => {
   const { toast } = useToast()
 
   const [email, setEmail] = useState('')
@@ -66,6 +66,7 @@ const MembersCard = withStyles({
         } else {
           toast({ body: 'Team member successfully added' })
           setMembers(members => [...members, data])
+          setEmail('')
         }
       })
   }, [email, toast])

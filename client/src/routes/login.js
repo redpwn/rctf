@@ -80,7 +80,7 @@ export default withStyles({
     )
   }
 
-  handleCtftimeDone = async (ctftimeToken) => {
+  handleCtftimeDone = async ({ ctftimeToken }) => {
     this.setState({
       disabledButton: true
     })

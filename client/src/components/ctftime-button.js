@@ -49,7 +49,7 @@ export default withStyles({
       })
       return
     }
-    this.props.onCtftimeDone(data.ctftimeToken)
+    this.props.onCtftimeDone(data)
   }
 
   handleClick = () => {
