@@ -300,8 +300,16 @@
         <tr>
           <td style="padding: 20px 30px; text-align: left;" class="sm-px">
             <a href="{{ origin }}">
-              <img src="{{ logo_url }}" alt="{{ ctf_name }}" border="0" height="64"
-                style="font-family: arial, sans-serif; font-size: 15px; line-height: 15px; color: #FFFFFF; margin: 0;">
+              {{ #logo_url }}
+                <img src="{{ logo_url }}" alt="{{ ctf_name }}" border="0" height="64"
+                  style="font-family: arial, sans-serif; font-size: 15px; line-height: 15px; color: #FFFFFF; margin: 0;">
+              {{ /logo_url }}
+              {{ ^logo_url }}
+                <h1
+                  style="font-weight: bold; font-size: 27px; line-height: 27px; color: #FFFFFF; margin: 0 0 15px 0;">
+                  {{ ctf_name }}
+                </h1>
+              {{ /logo_url }}
             </a>
           </td>
         </tr>
@@ -333,7 +341,7 @@
                     <p style="margin: 0 0 15px;">To verify your email and recover your {{ ctf_name }} account, click the button below.</p>
                   {{ /recover }}
                   {{ #update }}
-                    <p style="margin: 0 0 15px;">Before we add this email to your account, we need to make sure it's actually you.</p>
+                    <p style="margin: 0 0 15px;">Before we update your account, we need to make sure it's actually you.</p>
                     <p style="margin: 0 0 15px;">To add this email to your {{ ctf_name }} account, click the button below.</p>
                   {{ /update }}
                 </td>
