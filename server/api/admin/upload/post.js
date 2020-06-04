@@ -1,6 +1,6 @@
-import { responses } from '../../responses'
-import perms from '../../util/perms'
-import { get as getUploadProvider } from '../../uploads'
+import { responses } from '../../../responses'
+import perms from '../../../util/perms'
+import { get as getUploadProvider } from '../../../uploads'
 import toBuffer from 'data-uri-to-buffer'
 
 const itemSchema = {

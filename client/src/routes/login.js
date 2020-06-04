@@ -30,6 +30,7 @@ export default withStyles({
     errors: {},
     disabledButton: false,
     ctftimeToken: undefined,
+    ctftimeName: undefined,
     pendingAuthToken: null,
     pendingUserName: null,
     pending: false
@@ -58,9 +59,9 @@ export default withStyles({
     })()
   }
 
-  render ({ classes }, { teamToken, errors, disabledButton, ctftimeToken, pendingAuthToken, pending }) {
+  render ({ classes }, { teamToken, errors, disabledButton, ctftimeToken, ctftimeName, pendingAuthToken, pending }) {
     if (ctftimeToken) {
-      return <CtftimeAdditional ctftimeToken={ctftimeToken} />
+      return <CtftimeAdditional ctftimeToken={ctftimeToken} ctftimeName={ctftimeName} />
     }
     if (pending) {
       return null
@@ -80,7 +81,7 @@ export default withStyles({
     )
   }
 
-  handleCtftimeDone = async (ctftimeToken) => {
+  handleCtftimeDone = async ({ ctftimeToken, ctftimeName }) => {
     this.setState({
       disabledButton: true
     })
@@ -90,7 +91,8 @@ export default withStyles({
     }
     if (loginRes && loginRes.badUnknownUser) {
       this.setState({
-        ctftimeToken
+        ctftimeToken,
+        ctftimeName
       })
     }
   }

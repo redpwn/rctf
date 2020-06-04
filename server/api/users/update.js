@@ -48,11 +48,19 @@ export default {
       }
     }
 
-    const newUser = await database.auth.updateUser({
-      id: uuid,
-      name,
-      division
-    })
+    let newUser
+    try {
+      newUser = await database.auth.updateUser({
+        id: uuid,
+        name,
+        division
+      })
+    } catch (e) {
+      if (e.constraint === 'users_name_key') {
+        return responses.badKnownName
+      }
+      throw e
+    }
 
     return [responses.goodUserUpdate, {
       user: {

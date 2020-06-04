@@ -26,10 +26,18 @@ export default {
     if (ctftimeData === null) {
       return responses.badCtftimeToken
     }
-    const result = await database.auth.updateUser({
-      id: user.id,
-      ctftimeId: ctftimeData.ctftimeId
-    })
+    let result
+    try {
+      result = await database.auth.updateUser({
+        id: user.id,
+        ctftimeId: ctftimeData.ctftimeId
+      })
+    } catch (e) {
+      if (e.constraint === 'users_ctftime_id_key') {
+        return responses.badKnownCtftimeId
+      }
+      throw e
+    }
     if (result === undefined) {
       return responses.badUnknownUser
     }

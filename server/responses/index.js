@@ -111,6 +111,10 @@ export const responseList = {
     status: 200,
     message: 'The files were successfully uploaded'
   },
+  goodUploadsQuery: {
+    status: 200,
+    message: 'The status of uploads was successfully queried'
+  },
   badFilesUpload: {
     status: 500,
     message: 'The message upload failed'

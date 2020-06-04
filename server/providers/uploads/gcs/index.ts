@@ -1,4 +1,4 @@
-import { Storage, Bucket } from '@google-cloud/storage'
+import { Storage, Bucket, File } from '@google-cloud/storage'
 import crypto from 'crypto'
 import { Provider } from '../../../uploads/types'
 
@@ -19,10 +19,15 @@ export default class GcsProvider implements Provider {
     this.bucketName = options.bucketName
   }
 
+  private getGcsFile = (sha256: string, name: string): File => {
+    const key = `uploads/${sha256}/${name}`
+    const file = this.bucket.file(key)
+    return file
+  }
+
   upload = async (data: Buffer, name: string): Promise<string> => {
     const hash = crypto.createHash('sha256').update(data).digest('hex')
-    const key = `uploads/${hash}/${name}`
-    const file = this.bucket.file(key)
+    const file = this.getGcsFile(hash, name)
     const exists = (await file.exists())[0]
     if (!exists) {
       await file.save(data, {
@@ -33,6 +38,19 @@ export default class GcsProvider implements Provider {
         }
       })
     }
-    return `https://${this.bucketName}.storage.googleapis.com/uploads/${hash}/${encodeURIComponent(name)}`
+    return this.toUrl(hash, name)
+  }
+
+  private toUrl (sha256: string, name: string): string {
+    return `https://${this.bucket}.storage.googleapis.com/${sha256}/${encodeURIComponent(name)}`
+  }
+
+  async getUrl (sha256: string, name: string): Promise<string|null> {
+    const file = this.getGcsFile(sha256, name)
+
+    const exists = (await file.exists())[0]
+    if (!exists) return null
+
+    return this.toUrl(sha256, name)
   }
 }

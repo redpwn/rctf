@@ -32,6 +32,7 @@ export default withStyles({
     email: '',
     division: config.defaultDivision.toString(),
     ctftimeToken: undefined,
+    ctftimeName: undefined,
     disabledButton: false,
     errors: {},
     verifySent: false
@@ -41,9 +42,9 @@ export default withStyles({
     document.title = `Registration${config.ctfTitle}`
   }
 
-  render ({ classes }, { name, email, disabledButton, errors, ctftimeToken, verifySent }) {
+  render ({ classes }, { name, email, disabledButton, errors, ctftimeToken, ctftimeName, verifySent }) {
     if (ctftimeToken) {
-      return <CtftimeAdditional ctftimeToken={ctftimeToken} />
+      return <CtftimeAdditional ctftimeToken={ctftimeToken} ctftimeName={ctftimeName} />
     }
     if (verifySent) {
       return (
@@ -59,12 +60,12 @@ export default withStyles({
           <input required icon={<EnvelopeOpen />} name='email' placeholder='Email' type='text' value={email} onChange={this.linkState('email')} />
         </Form>
         <AuthOr />
-        <CtftimeButton class={`${classes.root} col-6`} onCtftimeDone={this.handleCtftimeDone} />
+        <CtftimeButton class='col-6' onCtftimeDone={this.handleCtftimeDone} />
       </div>
     )
   }
 
-  handleCtftimeDone = async (ctftimeToken) => {
+  handleCtftimeDone = async ({ ctftimeToken, ctftimeName }) => {
     this.setState({
       disabledButton: true
     })
@@ -76,7 +77,8 @@ export default withStyles({
     }
     if (loginRes.badUnknownUser) {
       this.setState({
-        ctftimeToken
+        ctftimeToken,
+        ctftimeName
       })
     }
   }

@@ -103,6 +103,16 @@ export const ctftimeCallback = ({ ctftimeCode }) => {
   })
 }
 
+export const putCtftime = ({ ctftimeToken }) => {
+  return request('PUT', '/users/me/auth/ctftime', {
+    ctftimeToken
+  })
+}
+
+export const deleteCtftime = () => {
+  return request('DELETE', '/users/me/auth/ctftime')
+}
+
 export const recover = async ({ email }) => {
   const resp = await request('POST', '/auth/recover', {
     email
