@@ -83,7 +83,17 @@ const MembersCard = withStyles({
         <p class='font-thin u-no-margin'>There is no limit on team members. This data is collected for informational purposes only. Please ensure that this section is up to date in order to remain prize eligible.</p>
         <div class='row u-center'>
           <Form class={`col-12 ${classes.form}`} onSubmit={handleSubmit} disabled={buttonDisabled} buttonText='Add Member'>
-            <input required icon={<EnvelopeOpen />} name='email' placeholder='Email' type='email' value={email} onChange={handleEmailChange} />
+            <input
+              required
+              autocomplete='email'
+              autocorrect='off'
+              icon={<EnvelopeOpen />}
+              name='email'
+              placeholder='Email'
+              type='email'
+              value={email}
+              onChange={handleEmailChange}
+            />
           </Form>
           {
             members.length !== 0 &&

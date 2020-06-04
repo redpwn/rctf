@@ -53,6 +53,8 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
         <form class='form-section' onSubmit={handleSubmit}>
           <div class='form-group'>
             <input
+              autocomplete='off'
+              autocorrect='off'
               class={`form-group-input input-small ${classes.input} ${hasError ? 'input-error' : ''} ${solved ? 'input-success' : ''}`}
               placeholder={`Flag${solved ? ' (solved)' : ''}`}
               value={value}

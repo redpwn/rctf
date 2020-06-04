@@ -186,21 +186,71 @@ const Problem = ({ classes, problem, update: updateClient }) => {
           <form onSubmit={handleUpdate}>
             <div class='row u-no-padding'>
               <div class={`col-6 ${classes.header}`}>
-                <input class='form-group-input input-small' placeholder='Category' value={category} onChange={handleCategoryChange} />
-                <input class='form-group-input input-small' placeholder='Problem Name' value={name} onChange={handleNameChange} />
+                <input
+                  autocomplete='off'
+                  autocorrect='off'
+                  required
+                  class='form-group-input input-small'
+                  placeholder='Category'
+                  value={category}
+                  onChange={handleCategoryChange}
+                />
+                <input
+                  autocomplete='off'
+                  autocorrect='off'
+                  required
+                  class='form-group-input input-small'
+                  placeholder='Problem Name'
+                  value={name}
+                  onChange={handleNameChange}
+                />
               </div>
               <div class={`col-6 ${classes.header}`}>
-                <input class='form-group-input input-small' placeholder='Author' value={author} onChange={handleAuthorChange} />
-                <input class='form-group-input input-small' type='number' value={minPoints} onChange={handleMinPointsChange} />
-                <input class='form-group-input input-small' type='number' value={maxPoints} onChange={handleMaxPointsChange} />
+                <input
+                  autocomplete='off'
+                  autocorrect='off'
+                  required
+                  class='form-group-input input-small'
+                  placeholder='Author'
+                  value={author}
+                  onChange={handleAuthorChange}
+                />
+                <input
+                  class='form-group-input input-small'
+                  type='number'
+                  required
+                  value={minPoints}
+                  onChange={handleMinPointsChange}
+                />
+                <input
+                  class='form-group-input input-small'
+                  type='number'
+                  required
+                  value={maxPoints}
+                  onChange={handleMaxPointsChange}
+                />
               </div>
             </div>
 
             <div class='content-no-padding u-center'><div class={`divider ${classes.divider}`} /></div>
 
-            <textarea placeholder='Description' value={description} onChange={handleDescriptionChange} />
+            <textarea
+              autocomplete='off'
+              autocorrect='off'
+              placeholder='Description'
+              value={description}
+              onChange={handleDescriptionChange}
+            />
             <div class='input-control'>
-              <input class='form-group-input input-small' placeholder='Flag' value={flag} onChange={handleFlagChange} />
+              <input
+                autocomplete='off'
+                autocorrect='off'
+                required
+                class='form-group-input input-small'
+                placeholder='Flag'
+                value={flag}
+                onChange={handleFlagChange}
+              />
             </div>
 
             {
@@ -226,7 +276,7 @@ const Problem = ({ classes, problem, update: updateClient }) => {
             }
 
             <div class='input-control'>
-              <input class='form-group-input input-small' placeholder='Flag' type='file' multiple onChange={handleFileUpload} />
+              <input class='form-group-input input-small' type='file' multiple onChange={handleFileUpload} />
             </div>
 
             <div class={`form-section ${classes.controls}`}>
