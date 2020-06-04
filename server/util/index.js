@@ -52,15 +52,9 @@ export const serveIndex = async (fastify, opts) => {
     reply.send(rendered)
   }
 
-  const redirectHandler = async (req, reply) => {
-    reply.redirect(301, '/')
-  }
-
   fastify.get('/', routeHandler)
-  fastify.get('/index.html', redirectHandler)
-  fastify.get('//*', async (req, reply) => {
-    reply.redirect(301, '/' + req.params['*'].replace(/^\/*/, ''))
-  })
+  fastify.get('/index.html', (req, reply) => reply.redirect(301, '/'))
+  fastify.get('//*', (req, reply) => reply.redirect(302, '/'))
   fastify.setNotFoundHandler(routeHandler)
 }
 
