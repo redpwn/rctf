@@ -4,7 +4,7 @@ import { get as getUploadProvider } from '../../../uploads'
 
 export default {
   method: 'POST',
-  path: '/admin/upload/exists',
+  path: '/admin/upload/query',
   requireAuth: true,
   perms: perms.challsRead,
   schema: {

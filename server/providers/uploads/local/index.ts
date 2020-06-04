@@ -66,11 +66,11 @@ export default class LocalProvider implements Provider {
     }
   }
 
-  getKey (hash: string, name: string): string {
+  private getKey (hash: string, name: string): string {
     return `${hash}/${name}`
   }
 
-  getUrlPath (key: string): string {
+  private getUrlPath (key: string): string {
     return `${this.endpoint}?key=${encodeURIComponent(key)}`
   }
 

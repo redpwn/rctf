@@ -41,7 +41,7 @@ export default class GcsProvider implements Provider {
     return this.toUrl(hash, name)
   }
 
-  toUrl (sha256: string, name: string): string {
+  private toUrl (sha256: string, name: string): string {
     return `https://${this.bucket}.storage.googleapis.com/${sha256}/${encodeURIComponent(name)}`
   }
 
