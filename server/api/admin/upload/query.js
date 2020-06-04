@@ -35,12 +35,12 @@ export default {
 
     const data = await Promise.all(
       req.body.uploads.map(async ({ sha256, name }) => {
-        const exists = await uploadProvider.exists(sha256, name)
+        const url = await uploadProvider.getUrl(sha256, name)
 
         return {
           sha256,
           name,
-          exists
+          url
         }
       })
     )

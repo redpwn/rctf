@@ -1,4 +1,4 @@
 export default [
   require('./post').default,
-  require('./exists').default
+  require('./query').default
 ]
