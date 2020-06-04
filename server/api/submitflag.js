@@ -47,6 +47,11 @@ export default {
 
     const challenge = challenges.getChallenge(challengeid)
 
+    req.log.info({
+      chall: challengeid,
+      flag: submittedFlag
+    }, 'flag submission attempt')
+
     if (!challenge) {
       return responses.badChallenge
     }
@@ -59,6 +64,9 @@ export default {
     })
 
     if (!passRateLimit.ok) {
+      req.log.warn({
+        timeLeft: passRateLimit.timeLeft
+      }, 'flag submission rate limit exceeded')
       return [responses.badRateLimit, {
         timeLeft: passRateLimit.timeLeft
       }]

@@ -88,6 +88,8 @@ export default async (fastify) => {
           sendResponse(responses.badToken)
           return
         }
+        req.log = req.log.child({ user })
+        req.log.info('user authenticated')
       }
 
       if (route.perms !== undefined) {
@@ -123,4 +125,8 @@ export default async (fastify) => {
       res.callNotFound()
     }
   })
+}
+
+export const logSerializers = {
+  user: user => user.id
 }
