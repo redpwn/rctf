@@ -4,7 +4,7 @@ import { get as getUploadProvider } from '../../../uploads'
 
 export default {
   method: 'POST',
-  path: '/admin/upload/exists',
+  path: '/admin/upload/query',
   requireAuth: true,
   perms: perms.challsRead,
   schema: {
@@ -35,12 +35,12 @@ export default {
 
     const data = await Promise.all(
       req.body.uploads.map(async ({ sha256, name }) => {
-        const exists = await uploadProvider.exists(sha256, name)
+        const url = await uploadProvider.getUrl(sha256, name)
 
         return {
           sha256,
           name,
-          exists
+          url
         }
       })
     )

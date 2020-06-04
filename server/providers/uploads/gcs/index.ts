@@ -38,11 +38,19 @@ export default class GcsProvider implements Provider {
         }
       })
     }
-    return `https://${this.bucketName}.storage.googleapis.com/uploads/${hash}/${encodeURIComponent(name)}`
+    return this.toUrl(hash, name)
   }
 
-  async exists (sha256: string, name: string): Promise<boolean> {
+  private toUrl (sha256: string, name: string): string {
+    return `https://${this.bucket}.storage.googleapis.com/${sha256}/${encodeURIComponent(name)}`
+  }
+
+  async getUrl (sha256: string, name: string): Promise<string|null> {
     const file = this.getGcsFile(sha256, name)
-    return (await file.exists())[0]
+
+    const exists = (await file.exists())[0]
+    if (!exists) return null
+
+    return this.toUrl(sha256, name)
   }
 }
