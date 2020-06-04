@@ -81,10 +81,10 @@ export default {
 
     const conflictRes = await getUserByNameOrEmail({ name, email })
     if (conflictRes) {
-      if (conflictRes.name === name) {
-        return responses.badKnownName
+      if (conflictRes.email === email) {
+        return responses.badKnownEmail
       }
-      return responses.badKnownEmail
+      return responses.badKnownName
     }
 
     const verifyUuid = uuidv4()
