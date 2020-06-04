@@ -28,19 +28,29 @@ export default {
       return responses.badEmail
     }
 
-    const checkUser = await database.auth.getUserByEmail({
-      email
-    })
-    if (checkUser !== undefined) {
-      return responses.badKnownEmail
-    }
-
-    if (!config.verifyEmail) {
-      await database.auth.updateUser({
-        id: user.id,
-        email: email
+    if (config.verifyEmail) {
+      const checkUser = await database.auth.getUserByEmail({
+        email
       })
-
+      if (checkUser !== undefined) {
+        return responses.badKnownEmail
+      }
+    } else {
+      let result
+      try {
+        result = await database.auth.updateUser({
+          id: user.id,
+          email
+        })
+      } catch (e) {
+        if (e.constraint === 'users_email_key') {
+          return responses.badKnownEmail
+        }
+        throw e
+      }
+      if (result === undefined) {
+        return responses.badUnknownUser
+      }
       return responses.goodEmailSet
     }
 
