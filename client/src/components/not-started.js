@@ -5,13 +5,11 @@ import config from '../config'
 const NotStarted = withStyles({
   card: {
     background: '#222',
-    textAlign: 'center',
     padding: '30px !important',
-    display: 'initial'
+    flexDirection: 'column'
   },
   icon: {
-    width: '60px',
-    margin: 'auto'
+    width: '60px'
   }
 }, ({ classes }) => (
   <div class='row'>
