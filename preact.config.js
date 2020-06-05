@@ -84,7 +84,7 @@ export default (config, env, helpers) => {
   if (CopyPluginWrapper !== undefined) {
     const plugin = CopyPluginWrapper.plugin
     plugin.patterns = plugin.patterns.filter(({ from }) => {
-      return /node-modules\/preact-cli.*resources\/(manifest.json|icon.png)/.test(from)
+      return !/node_modules[\\/]preact-cli[\\/]lib[\\/]resources[\\/](manifest.json|icon.png)$/.test(from)
     })
   }
 }

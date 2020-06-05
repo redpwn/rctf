@@ -72,7 +72,18 @@ export default withStyles({
     return (
       <div class='row u-center'>
         <Form class={`${classes.root} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} buttonText='Login' errors={errors}>
-          <input autofocus name='teamToken' icon={<IdCard />} placeholder='Team Token' type='text' value={teamToken} onChange={this.linkState('teamToken')} />
+          <input
+            autofocus
+            required
+            autocomplete='off'
+            autocorrect='off'
+            name='teamToken'
+            icon={<IdCard />}
+            placeholder='Team Token'
+            type='text'
+            value={teamToken}
+            onChange={this.linkState('teamToken')}
+          />
           <Link href='/recover'>Lost your team token?</Link>
         </Form>
         <AuthOr />

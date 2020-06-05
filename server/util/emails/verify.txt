@@ -1,7 +1,7 @@
 {{ #register }}
 Verify your email for {{{ ctf_name }}}
 
-Before you and your team start catching flags, we need a verified email.
+Before you and your team start capturing flags, we need a verified email.
 To verify your email and register for {{{ ctf_name }}}, click the link below.
 {{ /register }}
 {{ #recover }}

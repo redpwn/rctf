@@ -230,8 +230,29 @@ const UpdateCard = withStyles({
         <p class='font-thin u-no-margin'>This will change how your team appears on the scoreboard. Note that you may only change your team's name once every 10 minutes.</p>
         <div class='row u-center'>
           <Form class={`col-12 ${classes.form}`} onSubmit={doUpdate} disabled={isButtonDisabled} buttonText='Update'>
-            <input required icon={<UserCircle />} name='name' placeholder='Team Name' type='text' value={name} onChange={handleSetName} />
-            <input icon={<EnvelopeOpen />} name='email' placeholder='Email' type='email' value={email} onChange={handleSetEmail} />
+            <input
+              required
+              autocomplete='username'
+              autocorrect='off'
+              maxLength='64'
+              minLength='2'
+              icon={<UserCircle />}
+              name='name'
+              placeholder='Team Name'
+              type='text'
+              value={name}
+              onChange={handleSetName}
+            />
+            <input
+              autocomplete='email'
+              autocorrect='off'
+              icon={<EnvelopeOpen />}
+              name='email'
+              placeholder='Email'
+              type='email'
+              value={email}
+              onChange={handleSetEmail}
+            />
             <select icon={<AddressBook />} class={`select ${classes.divisionSelect}`} name='division' value={division} onChange={handleSetDivision}>
               <option value='' disabled>Division</option>
               {
@@ -317,7 +338,7 @@ const Profile = ({ uuid, classes }) => {
 
   if (error !== null) {
     return (
-      <div class='row u-center' style='align-items: initial !important'>
+      <div class={`row u-center ${classes.root}`} style='align-items: initial !important'>
         <div class='col-4'>
           <div class='card u-flex u-flex-column'>
             <div class='content'>
