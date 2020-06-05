@@ -82,7 +82,7 @@ export default withStyles({
               icon={<EnvelopeOpen />}
               name='email'
               placeholder='Email'
-              type='text'
+              type='email'
               value={email}
               onChange={this.linkState('email')}
             />

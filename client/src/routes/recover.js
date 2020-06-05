@@ -36,10 +36,12 @@ const Recover = ({ classes }) => {
           class={classes.input}
           autofocus
           required
+          autocomplete='email'
+          autocorrect='off'
           icon={<EnvelopeOpen />}
           name='email'
           placeholder='Email'
-          type='text'
+          type='email'
           value={email}
           onChange={handleEmailChange}
         />
