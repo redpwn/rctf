@@ -31,6 +31,10 @@ export default {
     }
   },
   handler: async ({ req }) => {
+    if (Date.now() < config.startTime) {
+      return responses.badNotStarted
+    }
+
     const limit = req.query.limit
     const offset = req.query.offset
     const result = await cache.leaderboard.getRange({

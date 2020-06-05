@@ -1,14 +1,22 @@
+import { Fragment } from 'preact'
 import { useState, useEffect, useMemo, useCallback, useRef } from 'preact/hooks'
 import config from '../config'
 import withStyles from '../components/jss'
 import Pagination from '../components/pagination'
 import Graph from '../components/graph'
+import NotStarted from '../components/not-started'
 import { useToast } from '../components/toast'
 
 import { getScoreboard } from '../api/scoreboard'
 import { privateProfile } from '../api/profile'
 
 const PAGESIZE_OPTIONS = [25, 50, 100]
+
+const loadStates = {
+  pending: 0,
+  notStarted: 1,
+  loaded: 2
+}
 
 const Scoreboard = withStyles({
   frame: {
@@ -40,6 +48,7 @@ const Scoreboard = withStyles({
   const [division, _setDivision] = useState('all')
   const [page, setPage] = useState(1)
   const [totalItems, setTotalItems] = useState(0)
+  const [loadState, setLoadState] = useState(loadStates.pending)
   const selfRow = useRef()
   const { toast } = useToast()
 
@@ -71,19 +80,20 @@ const Scoreboard = withStyles({
   }, [loggedIn, toast])
 
   useEffect(() => {
-    const _division = division === 'all' ? undefined : division
-    getScoreboard({
-      division: _division,
-      offset: (page - 1) * pageSize,
-      limit: pageSize
-    })
-      .then(data => {
-        setScores(data.leaderboard.map((entry, i) => ({
-          ...entry,
-          rank: i + 1 + (page - 1) * pageSize
-        })))
-        setTotalItems(data.total)
+    (async () => {
+      const _division = division === 'all' ? undefined : division
+      const { kind, data } = await getScoreboard({
+        division: _division,
+        offset: (page - 1) * pageSize,
+        limit: pageSize
       })
+      setLoadState(kind === 'badNotStarted' ? loadStates.notStarted : loadStates.loaded)
+      setScores(data.leaderboard.map((entry, i) => ({
+        ...entry,
+        rank: i + 1 + (page - 1) * pageSize
+      })))
+      setTotalItems(data.total)
+    })()
   }, [division, page, pageSize])
 
   const isUserOnCurrentScoreboard = loggedIn && (division === 'all' || Number.parseInt(division) === profile.division)
@@ -127,6 +137,10 @@ const Scoreboard = withStyles({
     }
   }, [isSelfVisible, needsScrollToSelf, scrollToSelf])
 
+  if (loadState === loadStates.notStarted) {
+    return <NotStarted />
+  }
+
   return (
     <div class='row u-center' style='align-items: initial !important'>
       <div class='col-12 u-center'>
@@ -134,75 +148,79 @@ const Scoreboard = withStyles({
           <Graph division={division} />
         </div>
       </div>
-      <div class='col-3'>
-        <div class={`frame ${classes.frame}`}>
-          <div class='frame__body'>
-            <div class='frame__subtitle'>Filter by division</div>
-            <div class='input-control'>
-              <select required class='select' name='division' value={division} onChange={divisionChangeHandler}>
-                <option value='all' selected>All</option>
-                {
-                  Object.entries(config.divisions).map(([name, code]) => {
-                    return <option key={code} value={code}>{name}</option>
-                  })
+      {loadState === loadStates.loaded && (
+        <Fragment>
+          <div class='col-3'>
+            <div class={`frame ${classes.frame}`}>
+              <div class='frame__body'>
+                <div class='frame__subtitle'>Filter by division</div>
+                <div class='input-control'>
+                  <select required class='select' name='division' value={division} onChange={divisionChangeHandler}>
+                    <option value='all' selected>All</option>
+                    {
+                      Object.entries(config.divisions).map(([name, code]) => {
+                        return <option key={code} value={code}>{name}</option>
+                      })
+                    }
+                  </select>
+                </div>
+                <div class='frame__subtitle'>Teams per page</div>
+                <div class='input-control'>
+                  <select required class='select' name='pagesize' value={pageSize} onChange={pageSizeChangeHandler}>
+                    { PAGESIZE_OPTIONS.map(sz => <option value={sz}>{sz}</option>) }
+                  </select>
+                </div>
+                { loggedIn &&
+                  <div class='btn-container u-center'>
+                    <button disabled={!isUserOnCurrentScoreboard} onClick={goToSelfPage}>
+                      Go to my team
+                    </button>
+                  </div>
                 }
-              </select>
-            </div>
-            <div class='frame__subtitle'>Teams per page</div>
-            <div class='input-control'>
-              <select required class='select' name='pagesize' value={pageSize} onChange={pageSizeChangeHandler}>
-                { PAGESIZE_OPTIONS.map(sz => <option value={sz}>{sz}</option>) }
-              </select>
-            </div>
-            { loggedIn &&
-              <div class='btn-container u-center'>
-                <button disabled={!isUserOnCurrentScoreboard} onClick={goToSelfPage}>
-                  Go to my team
-                </button>
               </div>
-            }
+            </div>
           </div>
-        </div>
-      </div>
-      <div class='col-6'>
-        <div class={`frame ${classes.frame} ${classes.tableFrame}`}>
-          <div class='frame__body'>
-            <table class='table small'>
-              <thead>
-                <tr>
-                  <th style='width: 0.625em'>#</th>
-                  <th>Team</th>
-                  <th style='width: 3.125em'>Points</th>
-                </tr>
-              </thead>
-              <tbody>
-                { scores.map(({ id, name, score, rank }) => {
-                  const isSelf = profile != null && profile.id === id
-
-                  return (
-                    <tr key={id}
-                      class={isSelf ? classes.selected : ''}
-                      ref={isSelf ? selfRow : null}
-                    >
-                      <td>{rank}</td>
-                      <td>
-                        <a href={`/profile/${id}`}>{name}</a>
-                      </td>
-                      <td>{score}</td>
+          <div class='col-6'>
+            <div class={`frame ${classes.frame} ${classes.tableFrame}`}>
+              <div class='frame__body'>
+                <table class='table small'>
+                  <thead>
+                    <tr>
+                      <th style='width: 0.625em'>#</th>
+                      <th>Team</th>
+                      <th style='width: 3.125em'>Points</th>
                     </tr>
-                  )
-                }) }
-              </tbody>
-            </table>
+                  </thead>
+                  <tbody>
+                    { scores.map(({ id, name, score, rank }) => {
+                      const isSelf = profile != null && profile.id === id
+
+                      return (
+                        <tr key={id}
+                          class={isSelf ? classes.selected : ''}
+                          ref={isSelf ? selfRow : null}
+                        >
+                          <td>{rank}</td>
+                          <td>
+                            <a href={`/profile/${id}`}>{name}</a>
+                          </td>
+                          <td>{score}</td>
+                        </tr>
+                      )
+                    }) }
+                  </tbody>
+                </table>
+              </div>
+              { totalItems > pageSize &&
+                <Pagination
+                  {...{ totalItems, pageSize, page, setPage }}
+                  numVisiblePages={9}
+                />
+              }
+            </div>
           </div>
-          { totalItems > pageSize &&
-            <Pagination
-              {...{ totalItems, pageSize, page, setPage }}
-              numVisiblePages={9}
-            />
-          }
-        </div>
-      </div>
+        </Fragment>
+      )}
     </div>
   )
 })

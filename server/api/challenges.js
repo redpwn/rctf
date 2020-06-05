@@ -1,7 +1,6 @@
 import config from '../../config/server'
 import * as challenges from '../challenges'
 import { responses } from '../responses'
-import * as util from '../util'
 import { getChallengeScores } from '../cache/leaderboard'
 
 export default {
@@ -10,7 +9,7 @@ export default {
   requireAuth: true,
   handler: async () => {
     if (Date.now() < config.startTime) {
-      return util.notStarted()
+      return responses.badNotStarted
     }
 
     const cleaned = challenges.getCleanedChallenges()
