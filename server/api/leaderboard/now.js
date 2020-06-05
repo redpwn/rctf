@@ -13,10 +13,14 @@ export default {
       type: 'object',
       properties: {
         limit: {
-          type: 'string'
+          type: 'integer',
+          minimum: 0,
+          maximum: config.leaderboard.maxLimit
         },
         offset: {
-          type: 'string'
+          type: 'integer',
+          minimum: 0,
+          maximum: config.leaderboard.maxOffset
         },
         division: {
           type: 'string',
@@ -27,14 +31,8 @@ export default {
     }
   },
   handler: async ({ req }) => {
-    const limit = parseInt(req.query.limit)
-    const offset = parseInt(req.query.offset)
-    if (limit < 0 ||
-      offset < 0 ||
-      limit > config.leaderboard.maxLimit ||
-      offset > config.leaderboard.maxOffset) {
-      return responses.badBody
-    }
+    const limit = req.query.limit
+    const offset = req.query.offset
     const result = await cache.leaderboard.getRange({
       start: offset,
       end: offset + limit,
