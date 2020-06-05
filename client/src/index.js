@@ -87,6 +87,11 @@ export default withStyles({
   '@global select': {
     background: 'url("data:image/svg+xml;charset=utf8,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%204%205\'%3E%3Cpath%20fill=\'%23667189\'%20d=\'M2%200L0%202h4zm0%205L0%203h4z\'/%3E%3C/svg%3E") right .85rem center/.5rem .6rem no-repeat no-repeat #111 !important'
   },
+  '@global :root': {
+    '--cirrus-link': '#72b4e0',
+    '--cirrus-link-dark': '#277edb',
+    '--cirrus-select-bg': 'rgba(0, 161, 255, 0.4)'
+  },
   contentWrapper: {
     flex: '1 0 auto'
   }
