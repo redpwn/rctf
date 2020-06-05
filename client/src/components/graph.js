@@ -104,9 +104,10 @@ function Graph ({ division, classes }) {
 
   useEffect(() => {
     (async () => {
-      setGraphData(await getGraph({
+      const { data } = await getGraph({
         division: division === 'all' ? undefined : division
-      }))
+      })
+      setGraphData(data)
     })()
   }, [division])
 

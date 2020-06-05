@@ -24,6 +24,10 @@ export default {
     }
   },
   handler: async ({ req }) => {
+    if (Date.now() < config.startTime) {
+      return responses.badNotStarted
+    }
+
     const division = req.query.division
     const limit = req.query.limit
     const graph = await cache.leaderboard.getGraph({

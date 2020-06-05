@@ -4,6 +4,12 @@ import { privateProfile } from './profile'
 export const getChallenges = async () => {
   const resp = await request('GET', '/challs')
 
+  if (resp.kind === 'badNotStarted') {
+    return {
+      notStarted: true
+    }
+  }
+
   return handleResponse({ resp, valid: ['goodChallenges'] })
 }
 

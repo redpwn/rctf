@@ -3,7 +3,6 @@ import * as db from '../database'
 import * as challenges from '../challenges'
 import { responses } from '../responses'
 import config from '../../config/server'
-import * as util from '../util'
 import * as timeouts from '../cache/timeouts'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -35,7 +34,7 @@ export default {
     const uuid = user.id
 
     if (Date.now() < config.startTime) {
-      return util.notStarted()
+      return responses.badNotStarted
     }
 
     if (Date.now() >= config.endTime) {

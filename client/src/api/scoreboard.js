@@ -1,20 +1,16 @@
 import { request } from './util'
 
-export const getScoreboard = async ({
-  division,
-  limit,
-  offset
-}) => {
-  limit = limit || 100
-  offset = offset || 0
-  return (await request('GET', '/leaderboard/now', {
-    division, limit, offset
-  })).data
+export const getScoreboard = ({ division, limit = 100, offset = 0 }) => {
+  return request('GET', '/leaderboard/now', {
+    division,
+    limit,
+    offset
+  })
 }
 
 export const getGraph = async ({ division }) => {
-  return (await request('GET', '/leaderboard/graph', {
+  return request('GET', '/leaderboard/graph', {
     division,
     limit: 10
-  })).data
+  })
 }

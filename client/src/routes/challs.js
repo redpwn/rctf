@@ -3,15 +3,23 @@ import { useCallback, useState, useEffect, useMemo } from 'preact/hooks'
 import config from '../config'
 import withStyles from '../components/jss'
 import Problem from '../components/problem'
+import NotStarted from '../components/not-started'
 import { useToast } from '../components/toast'
 
 import { getChallenges, getPrivateSolves } from '../api/challenges'
+
+const loadStates = {
+  pending: 0,
+  notStarted: 1,
+  loaded: 2
+}
 
 const Challenges = ({ classes }) => {
   const [problems, setProblems] = useState([])
   const [categories, setCategories] = useState({})
   const [showSolved, setShowSolved] = useState(false)
   const [solveIDs, setSolveIDs] = useState([])
+  const [loadState, setLoadState] = useState(loadStates.pending)
   const { toast } = useToast()
 
   const setSolved = useCallback(id => {
@@ -40,11 +48,13 @@ const Challenges = ({ classes }) => {
 
   useEffect(() => {
     const action = async () => {
-      const { data, error } = await getChallenges()
+      const { data, error, notStarted } = await getChallenges()
       if (error) {
         toast({ body: error, type: 'error' })
         return
       }
+
+      setLoadState(notStarted ? loadStates.notStarted : loadStates.loaded)
 
       const problems = data
       const categories = {}
@@ -92,6 +102,14 @@ const Challenges = ({ classes }) => {
     }
     return filtered
   }, [problems, categories, showSolved, solveIDs])
+
+  if (loadState === loadStates.pending) {
+    return null
+  }
+
+  if (loadState === loadStates.notStarted) {
+    return <NotStarted />
+  }
 
   return (
     <div class={`row ${classes.row}`}>
