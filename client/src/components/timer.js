@@ -2,6 +2,15 @@ import config from '../config'
 import withStyles from './jss'
 import { useEffect, useState } from 'preact/hooks'
 
+const formatTime = (time) => {
+  const date = new Date(time)
+  const tz = date.getTimezoneOffset()
+  const tzHour = String(Math.floor(Math.abs(tz) / 60)).padStart(2, '0')
+  const tzMinute = String(Math.abs(tz) % 60).padStart(2, '0')
+  const tzSign = tz > 0 ? '-' : '+'
+  return `${date.toLocaleDateString()} ${date.toLocaleTimeString()} UTC${tzSign}${tzHour}:${tzMinute}`
+}
+
 const Timer = withStyles({
   card: {
     background: '#222',
@@ -21,9 +30,14 @@ const Timer = withStyles({
   time: {
     fontSize: '40px'
   },
+  absolute: {
+    gridColumn: 'span 4',
+    fontSize: '15px',
+    color: '#bbb'
+  },
   sub: {
     gridColumn: 'span 4',
-    marginTop: '20px',
+    marginTop: '10px',
     fontSize: '20px'
   },
   over: {
@@ -48,7 +62,8 @@ const Timer = withStyles({
     )
   }
   const targetEnd = time > config.startTime
-  const timeLeft = (targetEnd ? config.endTime : config.startTime) - time
+  const targetTime = targetEnd ? config.endTime : config.startTime
+  const timeLeft = targetTime - time
   const daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24))
   const hoursLeft = Math.floor(timeLeft / (1000 * 60 * 60)) % 24
   const minutesLeft = Math.floor(timeLeft / (1000 * 60)) % 60
@@ -66,6 +81,7 @@ const Timer = withStyles({
           <span>Minutes</span>
           <span>Seconds</span>
           <span class={classes.sub}>until {config.ctfName} {targetEnd ? 'ends' : 'starts'}</span>
+          <span class={classes.absolute}>{formatTime(targetTime)}</span>
         </div>
       </div>
     </div>
