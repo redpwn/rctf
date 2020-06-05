@@ -54,36 +54,42 @@ export default withStyles({
       )
     }
     return (
-      <div class='row u-center'>
-        <Form class={`${classes.root} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} errors={errors} buttonText='Register'>
-          <input
-            autofocus
-            required
-            autocomplete='username'
-            autocorrect='off'
-            icon={<UserCircle />}
-            name='name'
-            maxLength='64'
-            minLength='2'
-            placeholder='Team Name'
-            type='text'
-            value={name}
-            onChange={this.linkState('name')}
-          />
-          <input
-            required
-            autocomplete='email'
-            autocorrect='off'
-            icon={<EnvelopeOpen />}
-            name='email'
-            placeholder='Email'
-            type='text'
-            value={email}
-            onChange={this.linkState('email')}
-          />
-        </Form>
-        <AuthOr />
-        <CtftimeButton class='col-6' onCtftimeDone={this.handleCtftimeDone} />
+
+      <div>
+        <div class='row u-center'>
+          <p style='margin: 0'>Please register one account per team</p>
+        </div>
+        <div class='row u-center'>
+          <Form class={`${classes.root} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} errors={errors} buttonText='Register'>
+            <input
+              autofocus
+              required
+              autocomplete='username'
+              autocorrect='off'
+              icon={<UserCircle />}
+              name='name'
+              maxLength='64'
+              minLength='2'
+              placeholder='Team Name'
+              type='text'
+              value={name}
+              onChange={this.linkState('name')}
+            />
+            <input
+              required
+              autocomplete='email'
+              autocorrect='off'
+              icon={<EnvelopeOpen />}
+              name='email'
+              placeholder='Email'
+              type='text'
+              value={email}
+              onChange={this.linkState('email')}
+            />
+          </Form>
+          <AuthOr />
+          <CtftimeButton class='col-6' onCtftimeDone={this.handleCtftimeDone} />
+        </div>
       </div>
     )
   }
