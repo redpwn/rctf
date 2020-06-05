@@ -1,7 +1,6 @@
 import { Component } from 'preact'
 import config from '../config'
 import 'linkstate/polyfill'
-import Sponsors from '../components/sponsors'
 import Markdown from '../components/markdown'
 import withStyles from '../components/jss'
 
@@ -22,13 +21,10 @@ export default withStyles({
 
   render ({ classes }) {
     return (
-      <div>
-        <div class='row u-center'>
-          <div class={`col-6 ${classes.content}`}>
-            <Markdown content={config.homeContent} />
-          </div>
+      <div class='row u-center'>
+        <div class={`col-6 ${classes.content}`}>
+          <Markdown content={config.homeContent} />
         </div>
-        <Sponsors />
       </div>
     )
   }
