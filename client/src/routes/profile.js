@@ -355,9 +355,9 @@ const Profile = ({ uuid, classes }) => {
     <div class={`row u-center ${classes.root}`} style='align-items: initial !important'>
       { isPrivate && <LoggedInRail {...{ name, email, teamToken, divisionId, ctftimeId }} onUpdate={onProfileUpdate} /> }
       <div class='col-6'>
-        { isPrivate && <MembersCard /> }
         <SummaryCard {...{ name, score, division, divisionPlace, globalPlace, ctftimeId }} />
         <SolvesCard solves={solves} />
+        { isPrivate && <MembersCard /> }
       </div>
     </div>
   )

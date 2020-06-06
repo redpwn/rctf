@@ -14,6 +14,12 @@ import PendingToken from '../components/pending-token'
 
 export default withStyles({
   root: {
+    flexDirection: 'column'
+  },
+  title: {
+    marginBottom: '20px'
+  },
+  form: {
     padding: '1.5em',
     maxWidth: '500px',
     '& input': {
@@ -70,8 +76,9 @@ export default withStyles({
       return <PendingToken authToken={pendingAuthToken} />
     }
     return (
-      <div class='row u-center'>
-        <Form class={`${classes.root} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} buttonText='Login' errors={errors}>
+      <div class={`row u-center ${classes.root}`}>
+        <h4 class={classes.title}>Log in to {config.ctfName}</h4>
+        <Form class={`${classes.form} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} buttonText='Login' errors={errors}>
           <input
             autofocus
             required
