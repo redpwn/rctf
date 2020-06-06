@@ -16,6 +16,10 @@ const {
 } = workerData
 
 const solveAmount = new Map()
+for (let i = 0; i < allChallenges.length; i++) {
+  const challenge = allChallenges[i]
+  solveAmount.set(challenge.id, 0)
+}
 const userSolves = new Map()
 const userLastSolves = new Map()
 let lastIndex = 0
@@ -33,12 +37,7 @@ const calculateScores = (sample) => {
       break
     }
 
-    // Accumulate in solveAmount
-    if (!(challId in solveAmount)) {
-      solveAmount.set(challId, 1)
-    } else {
-      solveAmount.set(challId, solveAmount.get(challId) + 1)
-    }
+    solveAmount.set(challId, solveAmount.get(challId) + 1)
 
     userLastSolves.set(userId, createdAt)
     // Store which challenges each user solved for later
@@ -76,6 +75,7 @@ const calculateScores = (sample) => {
 
   return {
     challengeValues,
+    solveAmount,
     userScores
   }
 }
@@ -117,17 +117,13 @@ if (graph) {
 
   const leaderboardUpdate = Math.min(Date.now(), end)
 
-  const { userScores, challengeValues } = calculateScores(leaderboardUpdate)
+  const { userScores, challengeValues, solveAmount } = calculateScores(leaderboardUpdate)
   const sortedUsers = userScores.sort(userCompare).map((user) => user.slice(0, 4))
-
-  const challengeScores = []
-  challengeValues.forEach((score, id) => [
-    challengeScores.push(id, score)
-  ])
 
   parentPort.postMessage({
     leaderboard: sortedUsers,
-    challengeScores,
+    challengeValues,
+    solveAmount,
     isSample,
     sample: prevSample,
     sampleScores,

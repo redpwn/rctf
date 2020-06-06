@@ -41,7 +41,7 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
             <div class='frame__subtitle u-no-margin'>{problem.author}</div>
           </div>
           <div class='col-6 u-no-padding u-text-right'>
-            <div class={classes.points}>{problem.points} points</div>
+            <div class={classes.points}>{problem.solves} solves / {problem.points} points</div>
           </div>
         </div>
 

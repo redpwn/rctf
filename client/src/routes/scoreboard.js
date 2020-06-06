@@ -1,4 +1,3 @@
-import { Fragment } from 'preact'
 import { useState, useEffect, useMemo, useCallback, useRef } from 'preact/hooks'
 import config from '../config'
 import withStyles from '../components/jss'
@@ -7,7 +6,7 @@ import Graph from '../components/graph'
 import NotStarted from '../components/not-started'
 import { useToast } from '../components/toast'
 
-import { getScoreboard } from '../api/scoreboard'
+import { getScoreboard, getGraph } from '../api/scoreboard'
 import { privateProfile } from '../api/profile'
 
 const PAGESIZE_OPTIONS = [25, 50, 100]
@@ -45,10 +44,12 @@ const Scoreboard = withStyles({
   const [profile, setProfile] = useState(null)
   const [pageSize, _setPageSize] = useState(100)
   const [scores, setScores] = useState([])
+  const [graphData, setGraphData] = useState(null)
   const [division, _setDivision] = useState('all')
   const [page, setPage] = useState(1)
   const [totalItems, setTotalItems] = useState(0)
-  const [loadState, setLoadState] = useState(loadStates.pending)
+  const [scoreLoadState, setScoreLoadState] = useState(loadStates.pending)
+  const [graphLoadState, setGraphLoadState] = useState(loadStates.pending)
   const selfRow = useRef()
   const { toast } = useToast()
 
@@ -87,7 +88,7 @@ const Scoreboard = withStyles({
         offset: (page - 1) * pageSize,
         limit: pageSize
       })
-      setLoadState(kind === 'badNotStarted' ? loadStates.notStarted : loadStates.loaded)
+      setScoreLoadState(kind === 'badNotStarted' ? loadStates.notStarted : loadStates.loaded)
       setScores(data.leaderboard.map((entry, i) => ({
         ...entry,
         rank: i + 1 + (page - 1) * pageSize
@@ -95,6 +96,15 @@ const Scoreboard = withStyles({
       setTotalItems(data.total)
     })()
   }, [division, page, pageSize])
+
+  useEffect(() => {
+    (async () => {
+      const _division = division === 'all' ? undefined : division
+      const { kind, data } = await getGraph({ division: _division })
+      setGraphLoadState(kind === 'badNotStarted' ? loadStates.notStarted : loadStates.loaded)
+      setGraphData(data)
+    })()
+  }, [division])
 
   const isUserOnCurrentScoreboard = loggedIn && (division === 'all' || Number.parseInt(division) === profile.division)
   const isSelfVisible = useMemo(() => {
@@ -137,7 +147,11 @@ const Scoreboard = withStyles({
     }
   }, [isSelfVisible, needsScrollToSelf, scrollToSelf])
 
-  if (loadState === loadStates.notStarted) {
+  if (scoreLoadState === loadStates.pending || graphLoadState === loadStates.pending) {
+    return null
+  }
+
+  if (scoreLoadState === loadStates.notStarted || graphLoadState === loadStates.notStarted) {
     return <NotStarted />
   }
 
@@ -145,82 +159,78 @@ const Scoreboard = withStyles({
     <div class='row u-center' style='align-items: initial !important'>
       <div class='col-12 u-center'>
         <div class='col-8'>
-          <Graph division={division} />
+          <Graph graphData={graphData} />
         </div>
       </div>
-      {loadState === loadStates.loaded && (
-        <Fragment>
-          <div class='col-3'>
-            <div class={`frame ${classes.frame}`}>
-              <div class='frame__body'>
-                <div class='frame__subtitle'>Filter by division</div>
-                <div class='input-control'>
-                  <select required class='select' name='division' value={division} onChange={divisionChangeHandler}>
-                    <option value='all' selected>All</option>
-                    {
-                      Object.entries(config.divisions).map(([name, code]) => {
-                        return <option key={code} value={code}>{name}</option>
-                      })
-                    }
-                  </select>
-                </div>
-                <div class='frame__subtitle'>Teams per page</div>
-                <div class='input-control'>
-                  <select required class='select' name='pagesize' value={pageSize} onChange={pageSizeChangeHandler}>
-                    { PAGESIZE_OPTIONS.map(sz => <option value={sz}>{sz}</option>) }
-                  </select>
-                </div>
-                { loggedIn &&
-                  <div class='btn-container u-center'>
-                    <button disabled={!isUserOnCurrentScoreboard} onClick={goToSelfPage}>
-                      Go to my team
-                    </button>
-                  </div>
+      <div class='col-3'>
+        <div class={`frame ${classes.frame}`}>
+          <div class='frame__body'>
+            <div class='frame__subtitle'>Filter by division</div>
+            <div class='input-control'>
+              <select required class='select' name='division' value={division} onChange={divisionChangeHandler}>
+                <option value='all' selected>All</option>
+                {
+                  Object.entries(config.divisions).map(([name, code]) => {
+                    return <option key={code} value={code}>{name}</option>
+                  })
                 }
-              </div>
+              </select>
             </div>
+            <div class='frame__subtitle'>Teams per page</div>
+            <div class='input-control'>
+              <select required class='select' name='pagesize' value={pageSize} onChange={pageSizeChangeHandler}>
+                { PAGESIZE_OPTIONS.map(sz => <option value={sz}>{sz}</option>) }
+              </select>
+            </div>
+            { loggedIn &&
+              <div class='btn-container u-center'>
+                <button disabled={!isUserOnCurrentScoreboard} onClick={goToSelfPage}>
+                  Go to my team
+                </button>
+              </div>
+            }
           </div>
-          <div class='col-6'>
-            <div class={`frame ${classes.frame} ${classes.tableFrame}`}>
-              <div class='frame__body'>
-                <table class='table small'>
-                  <thead>
-                    <tr>
-                      <th style='width: 0.625em'>#</th>
-                      <th>Team</th>
-                      <th style='width: 3.125em'>Points</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    { scores.map(({ id, name, score, rank }) => {
-                      const isSelf = profile != null && profile.id === id
+        </div>
+      </div>
+      <div class='col-6'>
+        <div class={`frame ${classes.frame} ${classes.tableFrame}`}>
+          <div class='frame__body'>
+            <table class='table small'>
+              <thead>
+                <tr>
+                  <th style='width: 0.625em'>#</th>
+                  <th>Team</th>
+                  <th style='width: 3.125em'>Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                { scores.map(({ id, name, score, rank }) => {
+                  const isSelf = profile != null && profile.id === id
 
-                      return (
-                        <tr key={id}
-                          class={isSelf ? classes.selected : ''}
-                          ref={isSelf ? selfRow : null}
-                        >
-                          <td>{rank}</td>
-                          <td>
-                            <a href={`/profile/${id}`}>{name}</a>
-                          </td>
-                          <td>{score}</td>
-                        </tr>
-                      )
-                    }) }
-                  </tbody>
-                </table>
-              </div>
-              { totalItems > pageSize &&
-                <Pagination
-                  {...{ totalItems, pageSize, page, setPage }}
-                  numVisiblePages={9}
-                />
-              }
-            </div>
+                  return (
+                    <tr key={id}
+                      class={isSelf ? classes.selected : ''}
+                      ref={isSelf ? selfRow : null}
+                    >
+                      <td>{rank}</td>
+                      <td>
+                        <a href={`/profile/${id}`}>{name}</a>
+                      </td>
+                      <td>{score}</td>
+                    </tr>
+                  )
+                }) }
+              </tbody>
+            </table>
           </div>
-        </Fragment>
-      )}
+          { totalItems > pageSize &&
+            <Pagination
+              {...{ totalItems, pageSize, page, setPage }}
+              numVisiblePages={9}
+            />
+          }
+        </div>
+      </div>
     </div>
   )
 })

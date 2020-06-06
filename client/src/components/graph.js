@@ -1,6 +1,5 @@
 import { Fragment } from 'preact'
 import { useState, useEffect, useLayoutEffect, useMemo, useCallback, useRef } from 'preact/hooks'
-import { getGraph } from '../api/scoreboard'
 import withStyles from './jss'
 import { memo } from 'preact/compat'
 
@@ -75,9 +74,7 @@ const GraphLine = memo(({ points, onTooltipIn, onMouseMove, onMouseOut, name, cu
   </Fragment>
 ))
 
-function Graph ({ division, classes }) {
-  const [graphData, setGraphData] = useState(null)
-
+function Graph ({ graphData, classes }) {
   const svgRef = useRef(null)
   const [width, setWidth] = useState(window.innerWidth)
   const updateWidth = useCallback(() => {
@@ -101,15 +98,6 @@ function Graph ({ division, classes }) {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [updateWidth])
-
-  useEffect(() => {
-    (async () => {
-      const { data } = await getGraph({
-        division: division === 'all' ? undefined : division
-      })
-      setGraphData(data)
-    })()
-  }, [division])
 
   const { polylines, labels } = useMemo(() => {
     if (!graphData || graphData.length === 0) {
@@ -169,6 +157,10 @@ function Graph ({ division, classes }) {
       content: ''
     }))
   }, [])
+
+  if (graphData === null) {
+    return null
+  }
 
   return (
     <div class={`frame ${classes.root}`}>

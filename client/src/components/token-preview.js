@@ -7,7 +7,7 @@ export default withStyles({
     fontSize: 'small',
     overflowWrap: 'break-word',
     userSelect: 'all',
-    fontFamily: 'monospace',
+    fontFamily: 'monospace !important',
     cursor: 'pointer',
     background: '#111'
   }
@@ -20,9 +20,7 @@ export default withStyles({
         navigator.clipboard.writeText(token).then(() => {
           toast({ body: 'Copied team invite URL to clipboard' })
         })
-      } catch (error) {
-        console.error(error)
-      }
+      } catch {}
     }
   }, [toast, token])
 

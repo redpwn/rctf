@@ -24,6 +24,9 @@ export default withStyles({
           if (input.props === undefined) {
             return
           }
+          if (!input.props.name) {
+            return input
+          }
           let { icon, error, name } = input.props
 
           if (errors !== undefined && name !== undefined) error = error || errors[name]

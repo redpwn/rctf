@@ -119,8 +119,8 @@ const Challenges = ({ classes }) => {
             <div class='frame__title title'>Filters</div>
             <div class={classes.showSolved}>
               <div class='form-ext-control form-ext-checkbox'>
-                <input class='form-ext-input' type='checkbox' checked={showSolved} onChange={handleShowSolvedChange} />
-                <label class='form-ext-label'>Show Solved</label>
+                <input id='show-solved' class='form-ext-input' type='checkbox' checked={showSolved} onChange={handleShowSolvedChange} />
+                <label for='show-solved' class='form-ext-label'>Show Solved</label>
               </div>
             </div>
           </div>
@@ -132,8 +132,8 @@ const Challenges = ({ classes }) => {
               Object.entries(categories).map(([category, checked]) => {
                 return (
                   <div key={category} class='form-ext-control form-ext-checkbox'>
-                    <input class='form-ext-input' type='checkbox' checked={checked} onChange={handleCategoryCheckedChange} />
-                    <label class='form-ext-label'>{category}</label>
+                    <input id={`category-${category}`} class='form-ext-input' type='checkbox' checked={checked} onChange={handleCategoryCheckedChange} />
+                    <label for={`category-${category}`} class='form-ext-label'>{category}</label>
                   </div>
                 )
               })
