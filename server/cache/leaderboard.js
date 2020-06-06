@@ -6,19 +6,16 @@ import { calcSamples } from '../leaderboard/samples'
 const redisEvalsha = promisify(client.evalsha.bind(client))
 const redisHget = promisify(client.hget.bind(client))
 const redisHmget = promisify(client.hmget.bind(client))
-const redisDel = promisify(client.del.bind(client))
 const redisMget = promisify(client.mget.bind(client))
 const redisSet = promisify(client.set.bind(client))
 const redisLlen = promisify(client.llen.bind(client))
 const redisScript = promisify(client.script.bind(client))
 
+// The max number of arguments to a lua function is 7999. The cmd and key must be included with every redis call.
+// Because hashes are specified as a value after a key, the chunk size must also be even.
+// Therefore, the chunk size is set at 7996.
 const luaChunkCall = `
   local function chunkCall(cmd, key, args)
-    -- The max number of arguments to a lua function is 7999.
-    -- The cmd and key must be included with every redis call.
-    -- Because hashes are specified as a value after a key,
-    -- the chunk size must also be even.
-    -- Therefore, the chunk size is set at 7996.
     local size = 7996
     local len = #args
     local chunks = math.ceil(len / size)
@@ -37,7 +34,7 @@ const setLeaderboardScript = redisScript('load', `
 
   local leaderboard = cjson.decode(ARGV[1])
   local divisions = cjson.decode(ARGV[2])
-  local challengeScores = cjson.decode(ARGV[3])
+  local challengeInfo = cjson.decode(ARGV[3])
 
   local divisionBoards = {}
   local divisionCounts = {}
@@ -69,14 +66,18 @@ const setLeaderboardScript = redisScript('load', `
   end
 
   redis.call("DEL", unpack(KEYS))
-  chunkCall("HSET", KEYS[1], positionKeys)
-  chunkCall("HSET", KEYS[2], challengeScores)
-  chunkCall("RPUSH", KEYS[3], globalBoard)
-  redis.call("SET", KEYS[4], ARGV[4])
-  for i, division in ipairs(divisions) do
-    local divisionBoard = divisionBoards[division]
-    if #divisionBoard ~= 0 then
-      chunkCall("RPUSH", KEYS[i + 4], divisionBoard)
+  if #challengeInfo ~= 0 then
+    chunkCall("HSET", KEYS[2], challengeInfo)
+  end
+  if numUsers ~= 0 then
+    chunkCall("HSET", KEYS[1], positionKeys)
+    chunkCall("RPUSH", KEYS[3], globalBoard)
+    redis.call("SET", KEYS[4], ARGV[4])
+    for i, division in ipairs(divisions) do
+      local divisionBoard = divisionBoards[division]
+      if #divisionBoard ~= 0 then
+        chunkCall("RPUSH", KEYS[i + 4], divisionBoard)
+      end
     end
   end
 `)
@@ -126,29 +127,29 @@ const setGraphScript = redisScript('load', `
   end
 `)
 
-export const setLeaderboard = async ({ challengeScores, leaderboard, leaderboardUpdate }) => {
+export const setLeaderboard = async ({ challengeValues, solveAmount, leaderboard, leaderboardUpdate }) => {
   const divisions = Object.values(config.divisions)
   const divisionKeys = divisions.map((division) => 'division-leaderboard:' + division)
   const keys = [
     'score-positions',
-    'challenge-scores',
+    'challenge-info',
     'global-leaderboard',
     'leaderboard-update',
     ...divisionKeys
   ]
-  if (leaderboard.length === 0) {
-    await redisDel(...keys)
-  } else {
-    await redisEvalsha(
-      await setLeaderboardScript,
-      keys.length,
-      ...keys,
-      JSON.stringify(leaderboard.flat()),
-      JSON.stringify(divisions),
-      JSON.stringify(challengeScores),
-      leaderboardUpdate
-    )
-  }
+  const challengeInfo = []
+  challengeValues.forEach((value, key) => {
+    challengeInfo.push(key, `${value},${solveAmount.get(key)}`)
+  })
+  await redisEvalsha(
+    await setLeaderboardScript,
+    keys.length,
+    ...keys,
+    JSON.stringify(leaderboard.flat()),
+    JSON.stringify(divisions),
+    JSON.stringify(challengeInfo),
+    leaderboardUpdate
+  )
 }
 
 const getLeaderboardKey = (division) => {
@@ -203,12 +204,24 @@ export const getScore = async ({ id }) => {
   }
 }
 
-export const getChallengeScores = async ({ ids }) => {
+export const getChallengeInfo = async ({ ids }) => {
   if (ids.length === 0) {
     return []
   }
-  const redisResult = await redisHmget('challenge-scores', ...ids)
-  return redisResult.map((score) => parseInt(score) || null)
+  const redisResult = await redisHmget('challenge-info', ...ids)
+  return redisResult.map((info) => {
+    if (info === null) {
+      return {
+        score: null,
+        solves: null
+      }
+    }
+    const split = info.split(',')
+    return {
+      score: parseInt(split[0]),
+      solves: parseInt(split[1])
+    }
+  })
 }
 
 export const setGraph = async ({ leaderboards, challsUpdate = 0 }) => {

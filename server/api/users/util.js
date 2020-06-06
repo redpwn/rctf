@@ -1,7 +1,7 @@
 import * as db from '../../database'
 import * as challenges from '../../challenges'
 import * as cache from '../../cache'
-import { getChallengeScores } from '../../cache/leaderboard'
+import { getChallengeInfo } from '../../cache/leaderboard'
 import config from '../../../config/server'
 
 const divisionMap = new Map()
@@ -13,16 +13,16 @@ for (const division of Object.entries(config.divisions)) {
 export const getGenericUserData = async ({ id }) => {
   let [
     user,
-    { userSolves, challengeScores },
+    { userSolves, challengeInfo },
     score
   ] = await Promise.all([
     db.users.getUserByUserId({ userid: id }),
     (async () => {
       const userSolves = await db.solves.getSolvesByUserId({ userid: id })
-      const challengeScores = await getChallengeScores({
+      const challengeInfo = await getChallengeInfo({
         ids: userSolves.map((solve) => solve.challengeid)
       })
-      return { userSolves, challengeScores }
+      return { userSolves, challengeInfo }
     })(),
     cache.leaderboard.getScore({ id })
   ])
@@ -48,7 +48,8 @@ export const getGenericUserData = async ({ id }) => {
     solves.push({
       category: chall.category,
       name: chall.name,
-      points: challengeScores[i],
+      points: challengeInfo[i].score,
+      solves: challengeInfo[i].solves,
       id: chall.id
     })
   })

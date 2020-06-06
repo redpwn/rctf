@@ -13,6 +13,12 @@ import AuthOr from '../components/or'
 
 export default withStyles({
   root: {
+    flexDirection: 'column'
+  },
+  title: {
+    marginBottom: '20px'
+  },
+  form: {
     padding: '1.5em',
     maxWidth: '500px',
     '& input': {
@@ -54,42 +60,38 @@ export default withStyles({
       )
     }
     return (
-
-      <div>
-        <div class='row u-center'>
-          <p style='margin: 0'>Please register one account per team</p>
-        </div>
-        <div class='row u-center'>
-          <Form class={`${classes.root} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} errors={errors} buttonText='Register'>
-            <input
-              autofocus
-              required
-              autocomplete='username'
-              autocorrect='off'
-              icon={<UserCircle />}
-              name='name'
-              maxLength='64'
-              minLength='2'
-              placeholder='Team Name'
-              type='text'
-              value={name}
-              onChange={this.linkState('name')}
-            />
-            <input
-              required
-              autocomplete='email'
-              autocorrect='off'
-              icon={<EnvelopeOpen />}
-              name='email'
-              placeholder='Email'
-              type='text'
-              value={email}
-              onChange={this.linkState('email')}
-            />
-          </Form>
-          <AuthOr />
-          <CtftimeButton class='col-6' onCtftimeDone={this.handleCtftimeDone} />
-        </div>
+      <div class={`row u-center ${classes.root}`}>
+        <h4 class={classes.title}>Register for {config.ctfName}</h4>
+        <Form class={`${classes.form} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} errors={errors} buttonText='Register'>
+          <input
+            autofocus
+            required
+            autocomplete='username'
+            autocorrect='off'
+            icon={<UserCircle />}
+            name='name'
+            maxLength='64'
+            minLength='2'
+            placeholder='Team Name'
+            type='text'
+            value={name}
+            onChange={this.linkState('name')}
+          />
+          <input
+            required
+            autocomplete='email'
+            autocorrect='off'
+            icon={<EnvelopeOpen />}
+            name='email'
+            placeholder='Email'
+            type='email'
+            value={email}
+            onChange={this.linkState('email')}
+          />
+        </Form>
+        <p>Please register one account per team.</p>
+        <AuthOr />
+        <CtftimeButton class='col-6' onCtftimeDone={this.handleCtftimeDone} />
       </div>
     )
   }

@@ -2,6 +2,7 @@ import { useState, useCallback } from 'preact/hooks'
 import withStyles from '../components/jss'
 import EnvelopeOpen from '../icons/envelope-open.svg'
 import Form from '../components/form'
+import config from '../config'
 import { recover } from '../api/auth'
 
 const Recover = ({ classes }) => {
@@ -30,16 +31,19 @@ const Recover = ({ classes }) => {
   }
 
   return (
-    <div class='row u-center'>
+    <div class={`row u-center ${classes.root}`}>
+      <h4 class={classes.title}>Recover your {config.ctfName} account</h4>
       <Form class={`${classes.form} col-6`} onSubmit={handleSubmit} disabled={disabled} errors={errors} buttonText='Recover'>
         <input
           class={classes.input}
           autofocus
           required
+          autocomplete='email'
+          autocorrect='off'
           icon={<EnvelopeOpen />}
           name='email'
           placeholder='Email'
-          type='text'
+          type='email'
           value={email}
           onChange={handleEmailChange}
         />
@@ -56,5 +60,11 @@ export default withStyles({
   input: {
     background: '#222',
     color: '#fff !important'
+  },
+  root: {
+    flexDirection: 'column'
+  },
+  title: {
+    marginBottom: '20px'
   }
 }, Recover)

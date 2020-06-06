@@ -3,7 +3,7 @@ import { route } from 'preact-router'
 
 export const setAuthToken = ({ authToken }) => {
   localStorage.token = authToken
-  route('/challs')
+  route('/profile')
 }
 
 export const login = async ({ teamToken, ctftimeToken }) => {

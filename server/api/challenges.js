@@ -1,7 +1,7 @@
 import config from '../../config/server'
 import * as challenges from '../challenges'
 import { responses } from '../responses'
-import { getChallengeScores } from '../cache/leaderboard'
+import { getChallengeInfo } from '../cache/leaderboard'
 
 export default {
   method: 'GET',
@@ -13,13 +13,14 @@ export default {
     }
 
     const cleaned = challenges.getCleanedChallenges()
-    const scores = await getChallengeScores({
+    const challengeInfo = await getChallengeInfo({
       ids: cleaned.map(chall => chall.id)
     })
 
     return [responses.goodChallenges, cleaned.map((chall, i) => ({
       ...chall,
-      points: scores[i]
+      points: challengeInfo[i].score,
+      solves: challengeInfo[i].solves
     }))]
   }
 }
