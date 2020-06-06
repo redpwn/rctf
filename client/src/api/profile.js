@@ -29,6 +29,23 @@ export const updateAccount = async ({ name, division }) => {
     division: division === undefined ? undefined : Number.parseInt(division)
   })
 
+  if (resp.kind === 'badRateLimit') {
+    const ms = resp.data.timeLeft
+    const sec = Math.floor(ms / 1000)
+    const min = Math.floor(sec / 60)
+
+    let msg
+    if (min === 0) {
+      msg = `${sec} seconds`
+    } else {
+      msg = `${min} minutes`
+    }
+
+    return {
+      error: `Please wait ${msg} before trying this again`
+    }
+  }
+
   return handleResponse({ resp, valid: ['goodUserUpdate'] })
 }
 
