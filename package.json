@@ -20,6 +20,9 @@
     "commit": "git cz",
     "copy-static": "cpy \"server/**/*\" \"!**/*.{j,t}s\" \"migrations\" dist/ --parents"
   },
+  "nodemonConfig": {
+    "watch": ["dist/server", "dist/config", "dist/build/index.html"]
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
