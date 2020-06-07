@@ -1,0 +1,35 @@
+# The logo for this CTF
+logoUrl: 'https://example.com'
+
+# 32 byte long base64 tokeng
+tokenKey: 32_byte_long_base64_encoded_value_for_token
+
+# corsOrigin: 
+# ctftimeClientSecret: 
+
+challengeProvider: 
+  name: 'challenges/rdeploy-blob'
+  options: 
+    rDeployDirectory: '.rdeploy'
+    rDeployFiles: 'files'
+    updateInterval: 60000
+
+uploadProvider:
+  name: 'uploads/local'
+  options:
+    uploadDirectory: 'uploads'
+    endpoint: '/uploads'
+
+# email:
+#   smtpUrl:
+#   from:
+
+leaderboard:
+  maxLimit: 100
+  maxOffset: 4294967296 # 2**32
+  updateInterval: 10000
+  graphMaxTeams: 10
+  graphSampleTime: 60000
+
+removeDownloadHashes: true
+loginTimeout: 60000

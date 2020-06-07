@@ -1,26 +1,13 @@
-const config = {
-  ...require('./shared'),
-  challengeProvider: {
-    name: 'challenges/rdeploy-blob',
-    options: {
-      rDeployDirectory: '.rdeploy',
-      rDeployFiles: 'files',
-      updateInterval: 60 * 1000
-    }
-  },
-  uploadProvider: process.env.RCTF_GCS_BUCKET ? {
-    name: 'uploads/gcs',
-    options: {
-      credentials: JSON.parse(process.env.RCTF_GCS_CREDENTIALS),
-      bucketName: process.env.RCTF_GCS_BUCKET
-    }
-  } : {
-    name: 'uploads/local',
-    options: {
-      uploadDirectory: 'uploads',
-      endpoint: '/uploads'
-    }
-  },
+const shared = require('./shared')
+const fs = require('fs')
+const path = require('path')
+const yaml = require('yaml')
+
+const config = yaml.parse(
+  fs.readFileSync(path.join(__dirname, '/server.yml'), 'utf-8')
+)
+
+const envConfig = {
   database: {
     sql: process.env.RCTF_DATABASE_URL || {
       host: process.env.RCTF_DATABASE_HOST,
@@ -37,25 +24,12 @@ const config = {
     },
     migrate: process.env.RCTF_DATABASE_MIGRATE || 'never' // enum: never, before, only
   },
-  email: {
-    smtpUrl: process.env.RCTF_SMTP_URL,
-    from: process.env.RCTF_EMAIL_FROM
-  },
-  leaderboard: {
-    maxLimit: 100,
-    maxOffset: 2 ** 32,
-    updateInterval: 10 * 1000,
-    graphMaxTeams: 10,
-    graphSampleTime: 10 * 60 * 1000
-  },
-  verifyEmail: !!process.env.RCTF_SMTP_URL,
-  removeDownloadHashes: true,
-  tokenKey: process.env.RCTF_TOKEN_KEY,
-  corsOrigin: process.env.RCTF_CORS_ORIGIN,
-  ctftimeClientSecret: process.env.RCTF_CTFTIME_CLIENT_SECRET,
-  loginTimeout: 10 * 60 * 1000,
-  logoUrl: process.env.RCTF_LOGO_URL,
   instanceType: process.env.RCTF_INSTANCE_TYPE || 'all' // enum: all, frontend, leaderboard
 }
 
-module.exports = config
+module.exports = {
+  ...shared,
+  ...envConfig,
+  verifyEmail: (config.email !== undefined && config.email.smtpUrl !== undefined),
+  ...config
+}
