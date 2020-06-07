@@ -29,6 +29,9 @@ export default withStyles({
   },
   submit: {
     marginTop: '1.5em'
+  },
+  link: {
+    display: 'inline'
   }
 }, class Login extends Component {
   state = {
@@ -91,7 +94,7 @@ export default withStyles({
             value={teamToken}
             onChange={this.linkState('teamToken')}
           />
-          <Link href='/recover'>Lost your team token?</Link>
+          <Link href='/recover' class={classes.link}>Lost your team token?</Link>
         </Form>
         <AuthOr />
         <CtftimeButton class='col-12' onCtftimeDone={this.handleCtftimeDone} />
