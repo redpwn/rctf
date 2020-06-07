@@ -35,9 +35,10 @@ app.register(helmet, {
   referrerPolicy: { policy: 'same-origin' },
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'self'"],
-      fontSrc: ['fonts.gstatic.com', "'self'", 'data:'],
-      styleSrc: ['fonts.googleapis.com', "'unsafe-inline'", "'self'"],
+      defaultSrc: ['\'none\''],
+      styleSrc: ['\'unsafe-inline\'', '\'self\''],
+      scriptSrc: ['\'self\''],
+      connectSrc: ['\'self\''],
       imgSrc: ['*', 'data:']
     }
   }

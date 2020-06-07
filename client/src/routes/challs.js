@@ -55,6 +55,9 @@ const Challenges = ({ classes }) => {
       }
 
       setLoadState(notStarted ? loadStates.notStarted : loadStates.loaded)
+      if (notStarted) {
+        return
+      }
 
       const problems = data
       const categories = {}
