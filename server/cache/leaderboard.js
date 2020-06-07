@@ -270,7 +270,12 @@ export const getGraph = async ({ division, maxTeams }) => {
   const parsed = JSON.parse(redisResult)
   const lastUpdate = parseInt(parsed[0])
   const latest = parsed[1]
-  const graphData = parsed[2].flat()
+  let graphData
+  if (Array.isArray(parsed[2])) {
+    graphData = parsed[2].flat()
+  } else {
+    graphData = []
+  }
   const result = []
   for (let userIdx = 0; userIdx < latest.length / 3; userIdx++) {
     const points = [{
@@ -290,16 +295,10 @@ export const getGraph = async ({ division, maxTeams }) => {
         score: score === false ? 0 : parseInt(score)
       })
     }
-    if (!graphComputed) {
-      points.push({
-        time: samples[samples.length - 1],
-        score: 0
-      })
-      points.push({
-        time: config.startTime,
-        score: 0
-      })
-    }
+    points.push({
+      time: config.startTime,
+      score: 0
+    })
     result.push({
       id: latest[userIdx * 3],
       name: latest[userIdx * 3 + 1],
