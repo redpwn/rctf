@@ -40,7 +40,7 @@
     "fastify-static": "2.7.0",
     "got": "11.3.0",
     "hyperid": "2.0.5",
-    "jss-plugin-global": "10.1.1",
+    "jss-plugin-global": "10.2.0",
     "mustache": "4.0.1",
     "node-pg-migrate": "5.0.0",
     "nodemailer": "6.4.8",
