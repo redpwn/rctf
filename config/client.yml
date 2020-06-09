@@ -11,7 +11,7 @@ sponsors:
 
   - name: 'Smaller Sponsor'
     description: 'Brief description. Markdown supported.'
-    small: trueg
+    small: true
 
 apiEndpoint: '/api/v1'
 
