@@ -56,6 +56,7 @@ jobs:
     env:
       RCTF_DATABASE_URL: postgres://postgres:password@localhost/rctf
       RCTF_REDIS_URL: redis://@localhost:6379/0
+      RCTF_TOKEN_KEY: 32_byte_long_base64_encoded_value_for_token
     steps:
     - uses: actions/checkout@v2
 
