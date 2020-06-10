@@ -5,7 +5,7 @@ divisions:
 defaultDivision: 2
 ctfName: rCTF
 
-# ctftimeClientId: 
+#ctftimeClientId: 
 
 origin: http://127.0.0.1:8000
 startTime: 1591500500000

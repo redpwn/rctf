@@ -5,8 +5,8 @@ logoUrl: 'https://example.com'
 # For example, run `head -c32 </dev/random | base64`
 tokenKey: 
 
-# corsOrigin: 
-# ctftimeClientSecret: 
+#corsOrigin: 
+#ctftimeClientSecret: 
 
 challengeProvider: 
   name: 'challenges/rdeploy-blob'
@@ -22,9 +22,9 @@ uploadProvider:
     endpoint: '/uploads'
 
 # uncomment these lines to enable email auth
-# email:
-#   smtpUrl: smtp://user:pass@example.com
-#   from: rctf@example.com
+#email:
+  #smtpUrl: smtp://user:pass@example.com
+  #from: rctf@example.com
 
 leaderboard:
   maxLimit: 100
