@@ -8,7 +8,7 @@ const envConfig = cleanConfig({
 })
 
 const ymlConfig = yaml.parse(
-  fs.readFileSync(path.join(__dirname, '/yml/shared.yml'), 'utf-8')
+  fs.readFileSync(path.join(__dirname, 'yml/shared.yml'), 'utf-8')
 )
 
 module.exports = {

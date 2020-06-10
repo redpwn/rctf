@@ -4,7 +4,7 @@ const path = require('path')
 const yaml = require('yaml')
 
 const config = yaml.parse(
-  fs.readFileSync(path.join(__dirname, '/yml/client.yml'), 'utf-8')
+  fs.readFileSync(path.join(__dirname, 'yml/client.yml'), 'utf-8')
 )
 
 module.exports = {

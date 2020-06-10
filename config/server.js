@@ -5,7 +5,7 @@ const yaml = require('yaml')
 const { cleanConfig } = require('./util')
 
 const config = yaml.parse(
-  fs.readFileSync(path.join(__dirname, '/yml/server.yml'), 'utf-8')
+  fs.readFileSync(path.join(__dirname, 'yml/server.yml'), 'utf-8')
 )
 
 // process.env is undefined when unset, must clean
@@ -31,7 +31,11 @@ const envConfig = cleanConfig({
   instanceType: process.env.RCTF_INSTANCE_TYPE || 'all',
   tokenKey: process.env.RCTF_TOKEN_KEY,
   origin: process.env.RCTF_ORIGIN,
-  ctftimeClientSecret: process.env.RCTF_CTFTIME_CLIENT_SECRET
+  ctftimeClientSecret: process.env.RCTF_CTFTIME_CLIENT_SECRET,
+  email: {
+    smtpUrl: process.env.RCTF_SMTP_URL,
+    from: process.env.RCTF_EMAIL_FROM
+  }
 })
 
 const finalConfig = {
