@@ -89,6 +89,9 @@ const Scoreboard = withStyles({
         limit: pageSize
       })
       setScoreLoadState(kind === 'badNotStarted' ? loadStates.notStarted : loadStates.loaded)
+      if (kind !== 'goodLeaderboard') {
+        return
+      }
       setScores(data.leaderboard.map((entry, i) => ({
         ...entry,
         rank: i + 1 + (page - 1) * pageSize
@@ -102,6 +105,9 @@ const Scoreboard = withStyles({
       const _division = division === 'all' ? undefined : division
       const { kind, data } = await getGraph({ division: _division })
       setGraphLoadState(kind === 'badNotStarted' ? loadStates.notStarted : loadStates.loaded)
+      if (kind !== 'goodLeaderboard') {
+        return
+      }
       setGraphData(data)
     })()
   }, [division])
