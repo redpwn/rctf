@@ -3,5 +3,5 @@ const path = require('path')
 const yaml = require('yaml')
 
 module.exports = yaml.parse(
-  fs.readFileSync(path.join(__dirname, '/shared.yml'), 'utf-8')
+  fs.readFileSync(path.join(__dirname, '/yml/shared.yml'), 'utf-8')
 )
