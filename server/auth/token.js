@@ -38,6 +38,7 @@ const decryptToken = async (token) => {
     const cipher = crypto.createDecipheriv('aes-256-gcm', tokenKey, iv)
     cipher.setAuthTag(authTag)
     const plainText = cipher.update(tokenContent.slice(12, tokenContent.length - 16))
+    cipher.final()
     return JSON.parse(plainText)
   } catch (e) {
     return null
