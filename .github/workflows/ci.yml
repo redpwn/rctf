@@ -76,7 +76,7 @@ jobs:
       run: |
         cp .env.example .env
         cp -r .rdeploy.example .rdeploy
-        cp config/client.js.example config/client.js
+        cp -r config/yml.example config/yml
 
     - name: Run migrations
       run: |
