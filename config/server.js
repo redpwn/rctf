@@ -2,16 +2,7 @@ const shared = require('./shared')
 const fs = require('fs')
 const path = require('path')
 const yaml = require('yaml')
-
-// Removes undefined values
-const cleanConfig = config => {
-  for (const key of Object.keys(config)) {
-    if (config[key] === undefined) {
-      delete config[key]
-    }
-  }
-  return config
-}
+const { cleanConfig } = require('./util')
 
 const config = yaml.parse(
   fs.readFileSync(path.join(__dirname, '/yml/server.yml'), 'utf-8')
@@ -39,7 +30,8 @@ const envConfig = cleanConfig({
   // enum: all, frontend, leaderboard,
   instanceType: process.env.RCTF_INSTANCE_TYPE || 'all',
   tokenKey: process.env.RCTF_TOKEN_KEY,
-  origin: process.env.RCTF_ORIGIN
+  origin: process.env.RCTF_ORIGIN,
+  ctftimeClientSecret: process.env.RCTF_CTFTIME_CLIENT_SECRET
 })
 
 const finalConfig = {
