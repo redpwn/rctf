@@ -4,7 +4,7 @@ const cleanConfig = config => {
     if (config[key] === undefined) {
       delete config[key]
     } else if (typeof config[key] === 'object') {
-      cleanConfig(config[key])
+      config[key] = cleanConfig(config[key])
     }
   }
   return config
