@@ -18,7 +18,8 @@ const app = fastify({
         version: req.headers['accept-version'],
         hostname: req.hostname,
         remoteAddress: getRealIp(req),
-        remotePort: req.connection.remotePort
+        remotePort: req.connection.remotePort,
+        userAgent: req.headers['user-agent']
       })
     }
   },
