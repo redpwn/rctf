@@ -1,0 +1,19 @@
+meta: 
+  description: 'A description of your CTF'
+  imageUrl: 'https://example.com/logo.png'
+
+homeContent: 'A description of your CTF. Markdown supported.'
+
+sponsors: 
+  - name: 'Big Sponsor'
+    icon: 'https://example.com/logo.png'
+    description: 'Brief description. Markdown supported.'
+
+  - name: 'Smaller Sponsor'
+    description: 'Brief description. Markdown supported.'
+    small: true
+
+apiEndpoint: '/api/v1'
+
+# Not required, will be auto generated
+#ctfTitle: 
