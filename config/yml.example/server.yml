@@ -1,0 +1,37 @@
+# The logo for this CTF
+logoUrl: 'https://example.com'
+
+# CHANGE THIS: Must be a 32 byte base64 encoded secret
+# For example, run `head -c32 </dev/random | base64`
+tokenKey: 
+
+#corsOrigin: 
+#ctftimeClientSecret: 
+
+challengeProvider: 
+  name: 'challenges/rdeploy-blob'
+  options:
+    rDeployDirectory: '.rdeploy'
+    rDeployFiles: 'files'
+    updateInterval: 60000
+
+uploadProvider:
+  name: 'uploads/local'
+  options:
+    uploadDirectory: 'uploads'
+    endpoint: '/uploads'
+
+# uncomment these lines to enable email auth
+#email:
+  #smtpUrl: smtp://user:pass@example.com
+  #from: rctf@example.com
+
+leaderboard:
+  maxLimit: 100
+  maxOffset: 4294967296 # 2**32
+  updateInterval: 10000
+  graphMaxTeams: 10
+  graphSampleTime: 60000
+
+removeDownloadHashes: true
+loginTimeout: 60000
