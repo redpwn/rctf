@@ -18,7 +18,8 @@ const app = fastify({
         version: req.headers['accept-version'],
         hostname: req.hostname,
         remoteAddress: getRealIp(req),
-        remotePort: req.connection.remotePort
+        remotePort: req.connection.remotePort,
+        userAgent: req.headers['user-agent']
       })
     }
   },
@@ -57,7 +58,12 @@ app.register(serveIndex, {
   indexPath: path.join(staticPath, 'index.html')
 })
 app.register(fastifyStatic, {
-  root: staticPath
+  root: staticPath,
+  setHeaders: (res, path) => {
+    if (/\.[0-9a-f]{5}\.((esm\.)?js|css)$/.test(path)) {
+      res.setHeader('Cache-Control', 'public, immutable, max-age=31536000')
+    }
+  }
 })
 
 export default app

@@ -14,8 +14,7 @@ yarn-error.log*
 # Upload provider dir
 /uploads
 
-# Configuration
-/config/client.js
+/config/yml/*.yml
 
 .DS_Store
 Thumbs.db

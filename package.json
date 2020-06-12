@@ -18,10 +18,14 @@
     "test:slim": "ava",
     "test:report": "nyc --skip-full --reporter=lcov ava",
     "commit": "git cz",
-    "copy-static": "cpy \"server/**/*\" \"!**/*.{j,t}s\" \"migrations\" dist/ --parents"
+    "copy-static": "cpy \"server/**/*\" \"!**/*.{j,t}s\" \"migrations\" \"config/yml/*.yml\" dist/ --parents"
   },
   "nodemonConfig": {
-    "watch": ["dist/server", "dist/config", "dist/build/index.html"]
+    "watch": [
+      "dist/server",
+      "dist/config",
+      "dist/build/index.html"
+    ]
   },
   "husky": {
     "hooks": {
@@ -46,7 +50,8 @@
     "nodemailer": "6.4.8",
     "pg": "8.2.1",
     "redis": "3.0.2",
-    "uuid": "8.1.0"
+    "uuid": "8.1.0",
+    "yaml": "1.10.0"
   },
   "devDependencies": {
     "@types/content-disposition": "0.5.3",
