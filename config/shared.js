@@ -13,5 +13,5 @@ const ymlConfig = yaml.parse(
 
 module.exports = {
   ...ymlConfig,
-  envConfig
+  ...envConfig
 }
