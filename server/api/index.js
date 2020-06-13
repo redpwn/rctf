@@ -3,12 +3,9 @@ import * as auth from '../auth'
 import * as db from '../database'
 
 const routes = [
-  require('./leaderboard/now').default,
-  require('./leaderboard/graph').default,
-  require('./submitflag').default,
-  require('./challenges').default,
-  require('./integrations-ctftime/leaderboard').default,
-  require('./integrations-ctftime/callback').default,
+  ...require('./leaderboard').default,
+  ...require('./challs').default,
+  ...require('./integrations-ctftime').default,
   ...require('./users').default,
   ...require('./auth').default,
   ...require('./admin').default

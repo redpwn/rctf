@@ -8,6 +8,9 @@ let provider: Provider
 let challenges: Challenge[] = []
 let cleanedChallenges: CleanedChallenge[] = []
 
+let challengesMap: Map<string, Challenge> = new Map()
+let cleanedChallengesMap: Map<string, CleanedChallenge> = new Map()
+
 const cleanChallenge = (chall: Challenge): CleanedChallenge => {
   const { files, description, author, points, id, name, category } = chall
 
@@ -22,14 +25,11 @@ const cleanChallenge = (chall: Challenge): CleanedChallenge => {
   }
 }
 
-const rebuildCleanedChallenges = (): void => {
-  cleanedChallenges = challenges.map(cleanChallenge)
-}
-
 const onUpdate = (newChallenges: Challenge[]): void => {
   challenges = newChallenges
-
-  rebuildCleanedChallenges()
+  challengesMap = new Map(newChallenges.map(c => [c.id, c]))
+  cleanedChallenges = challenges.map(cleanChallenge)
+  cleanedChallengesMap = new Map(cleanedChallenges.map(c => [c.id, c]))
 }
 
 import(path.join('../providers', config.challengeProvider.name))
@@ -48,13 +48,11 @@ export function getCleanedChallenges (): CleanedChallenge[] {
 }
 
 export function getChallenge (id: string): Challenge {
-  return challenges
-    .filter(chall => chall.id === id)[0]
+  return challengesMap.get(id)
 }
 
 export function getCleanedChallenge (id: string): CleanedChallenge {
-  return cleanedChallenges
-    .filter(chall => chall.id === id)[0]
+  return cleanedChallengesMap.get(id)
 }
 
 export function resetCache (): void {

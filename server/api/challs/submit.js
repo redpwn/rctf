@@ -1,9 +1,9 @@
 import crypto from 'crypto'
-import * as db from '../database'
-import * as challenges from '../challenges'
-import { responses } from '../responses'
-import config from '../../config/server'
-import * as timeouts from '../cache/timeouts'
+import * as db from '../../database'
+import * as challenges from '../../challenges'
+import { responses } from '../../responses'
+import config from '../../../config/server'
+import * as timeouts from '../../cache/timeouts'
 import { v4 as uuidv4 } from 'uuid'
 
 export default {
@@ -33,11 +33,11 @@ export default {
   handler: async ({ req, user }) => {
     const uuid = user.id
 
-    if (Date.now() < config.startTime) {
+    const timeNow = Date.now()
+    if (timeNow < config.startTime) {
       return responses.badNotStarted
     }
-
-    if (Date.now() >= config.endTime) {
+    if (timeNow >= config.endTime) {
       return responses.badEnded
     }
 
