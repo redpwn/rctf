@@ -159,6 +159,10 @@ export const responseList = {
     status: 200,
     message: 'The retrieval of challenges was successful.'
   },
+  goodChallengeSolves: {
+    status: 200,
+    message: 'The challenges solves have been retreived.'
+  },
   goodChallengeUpdate: {
     status: 200,
     message: 'Challenge successfully updated'

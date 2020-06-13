@@ -10,6 +10,11 @@ export const getSolvesByUserId = ({ userid }) => {
     .then(res => res.rows)
 }
 
+export const getSolvesByChallId = ({ challengeid, limit, offset }) => {
+  return db.query('SELECT * FROM solves WHERE challengeid = $1 ORDER BY createdat ASC LIMIT $2 OFFSET $3', [challengeid, limit, offset])
+    .then(res => res.rows)
+}
+
 export const getSolvesByUserIdAndChallId = ({ userid, challengeid }) => {
   return db.query('SELECT * FROM solves WHERE userid = $1 AND challengeid = $2 ORDER BY createdat DESC', [userid, challengeid])
     .then(res => res.rows[0])
