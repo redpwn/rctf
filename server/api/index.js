@@ -81,7 +81,7 @@ export default async (fastify) => {
         user = await db.auth.getUserById({
           id: uuid
         })
-        if (user === null) {
+        if (!user) {
           sendResponse(responses.badToken)
           return
         }
