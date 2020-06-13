@@ -2,6 +2,7 @@ import config from '../../config/server'
 import path from 'path'
 import { Challenge, CleanedChallenge } from './types'
 import { Provider } from './Provider'
+import { challUpdateEmitter, publishChallUpdate } from '../cache/challs'
 
 let provider: Provider
 
@@ -39,6 +40,10 @@ import(path.join('../providers', config.challengeProvider.name))
     provider.on('update', onUpdate)
   })
 
+challUpdateEmitter.on('update', () => {
+  provider.forceUpdate()
+})
+
 export function getAllChallenges (): Challenge[] {
   return challenges
 }
@@ -59,10 +64,12 @@ export function resetCache (): void {
   provider.forceUpdate()
 }
 
-export function updateChallenge (chall: Challenge): void {
-  provider.updateChallenge(chall)
+export async function updateChallenge (chall: Challenge): Promise<void> {
+  await provider.updateChallenge(chall)
+  await publishChallUpdate()
 }
 
-export function deleteChallenge (id: string): void {
-  provider.deleteChallenge(id)
+export async function deleteChallenge (id: string): Promise<void> {
+  await provider.deleteChallenge(id)
+  await publishChallUpdate()
 }

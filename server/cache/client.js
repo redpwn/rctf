@@ -21,4 +21,7 @@ if (typeof creds === 'string') {
   })
 }
 
+const subClient = client.duplicate()
+
+export { subClient }
 export default client

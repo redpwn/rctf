@@ -20,9 +20,9 @@ export default {
     }
   },
   handler: async ({ req }) => {
-    const chall = challenges.deleteChallenge(req.params.id)
+    const chall = await challenges.deleteChallenge(req.params.id)
 
-    cache.leaderboard.setChallsDirty()
+    await cache.leaderboard.setChallsDirty()
 
     return [responses.goodChallengeDelete, chall]
   }
