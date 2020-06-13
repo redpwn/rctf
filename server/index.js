@@ -3,6 +3,7 @@ import 'dotenv/config'
 import config from '../config/server'
 import migrate from './database/migrate'
 import { init as uploadProviderInit } from './uploads'
+import { subscribeChallUpdate } from './cache/challs'
 
 (async () => {
   if (config.database.migrate === 'before') {
@@ -13,6 +14,8 @@ import { init as uploadProviderInit } from './uploads'
   } else if (config.database.migrate !== 'never') {
     throw new Error('migration config not recognized')
   }
+
+  await subscribeChallUpdate()
 
   if (config.instanceType === 'frontend' || config.instanceType === 'all') {
     const port = process.env.PORT || 3000

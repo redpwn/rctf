@@ -1,6 +1,7 @@
 import { responses } from '../../../responses'
 import * as challenges from '../../../challenges'
 import perms from '../../../util/perms'
+import * as cache from '../../../cache'
 
 export default {
   method: 'PUT',
@@ -23,6 +24,33 @@ export default {
         data: {
           type: 'object',
           properties: {
+            author: {
+              type: 'string'
+            },
+            category: {
+              type: 'string'
+            },
+            description: {
+              type: 'string'
+            },
+            flag: {
+              type: 'string'
+            },
+            name: {
+              type: 'string'
+            },
+            points: {
+              type: 'object',
+              properties: {
+                max: {
+                  type: 'integer'
+                },
+                min: {
+                  type: 'integer'
+                }
+              },
+              required: ['max', 'min']
+            },
             files: {
               type: 'array',
               items: {
@@ -49,7 +77,10 @@ export default {
     // Ensure id is consistent
     chall.id = req.params.id
 
-    challenges.updateChallenge(chall)
+    await challenges.updateChallenge(chall)
+    if (chall.points !== undefined) {
+      await cache.leaderboard.setChallsDirty()
+    }
 
     return [responses.goodChallengeUpdate, chall]
   }
