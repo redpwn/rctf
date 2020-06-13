@@ -72,11 +72,12 @@ const runUpdate = async () => {
   })
 }
 
-export const startUpdater = () => {
+export const startUpdater = async () => {
   setInterval(runUpdate, config.leaderboard.updateInterval)
   runUpdate()
+  const { graphUpdate } = await cache.leaderboard.getGraphUpdate()
   runBulkGraphUpdate({
-    start: config.startTime,
+    start: Math.max(graphUpdate, config.startTime),
     end: Math.min(Date.now(), config.endTime)
   })
 }

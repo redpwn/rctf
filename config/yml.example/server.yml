@@ -31,7 +31,7 @@ leaderboard:
   maxOffset: 4294967296 # 2**32
   updateInterval: 10000
   graphMaxTeams: 10
-  graphSampleTime: 60000
+  graphSampleTime: 1800000
 
 removeDownloadHashes: true
 loginTimeout: 60000
