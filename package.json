@@ -25,7 +25,8 @@
       "dist/server",
       "dist/config",
       "dist/build/index.html"
-    ]
+    ],
+    "delay": "1000"
   },
   "husky": {
     "hooks": {
