@@ -299,7 +299,7 @@
       <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="max-width: 680px; width:100%">
         <tr>
           <td style="padding: 20px 30px; text-align: left;" class="sm-px">
-            <a href="{{ origin }}">
+            <a href="{{{ origin }}}" rel="nofollow" target="_blank">
               {{ #logo_url }}
                 <img src="{{ logo_url }}" alt="{{ ctf_name }}" border="0" height="64"
                   style="font-family: arial, sans-serif; font-size: 15px; line-height: 15px; color: #FFFFFF; margin: 0;">
@@ -351,8 +351,7 @@
                   <table align="left" border="0" cellpadding="0" cellspacing="0" role="presentation">
                     <tr>
                       <td class="s-btn s-btn__primary" style="border-radius: 4px; background: #BC2226;">
-                        <a class="s-btn s-btn__primary" href="{{ origin }}/verify?token={{ token }}"
-                          target="_parent"
+                        <a class="s-btn s-btn__primary" href="{{{ origin }}}/verify?token={{ token }}" rel="nofollow" target="_blank"
                           style="background: #BC2226; font-family: arial, sans-serif; font-size: 17px; line-height: 17px; color: #FFFFFF; text-align: center; text-decoration: none; padding: 13px 17px; display: block; border-radius: 4px; white-space: nowrap;">
                           {{ #register }}
                             Register for {{ ctf_name }}
@@ -383,7 +382,9 @@
               <tr>
                 <td style="font-size: 12px; line-height: 15px; font-family: arial, sans-serif; color: #9199A1; text-align: left;">
                   <span style="color: #9EA3A9;">Sent by </span>
-                  <a href="{{ origin }}"
+                  <a href="{{{ origin }}}"
+                  rel="nofollow"
+                  target="_blank"
                   style="color: #9199A1; text-decoration: underline;">{{ ctf_name }}</a>
                 </td>
               </tr>
