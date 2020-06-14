@@ -1,19 +1,14 @@
 import 'dotenv/config'
 
 import config from '../config/server'
-import migrate from './database/migrate'
-import { init as uploadProviderInit } from './uploads'
-import { subscribeChallUpdate } from './cache/challs'
 
-(async () => {
-  if (config.database.migrate === 'before') {
-    await migrate()
-  } else if (config.database.migrate === 'only') {
-    await migrate()
-    process.exit()
-  } else if (config.database.migrate !== 'never') {
-    throw new Error('migration config not recognized')
-  }
+const runMigrations = async () => {
+  const { default: migrate } = await import('./database/migrate')
+  await migrate()
+}
+
+const runMain = async () => {
+  const { subscribeChallUpdate } = await import('./cache/challs')
 
   await subscribeChallUpdate()
 
@@ -27,11 +22,30 @@ import { subscribeChallUpdate } from './cache/challs'
       }
     })
   } else {
+    const { init: uploadProviderInit } = await import('./uploads')
+
     uploadProviderInit(null)
   }
   if (config.instanceType === 'leaderboard' || config.instanceType === 'all') {
     const { startUpdater } = await import('./leaderboard')
     startUpdater()
     console.log('Started leaderboard updater')
+  }
+}
+
+(async () => {
+  switch (config.database.migrate) {
+    case 'before':
+      await runMigrations()
+      await runMain()
+      break
+    case 'only':
+      await runMigrations()
+      break
+    case 'never':
+      await runMain()
+      break
+    default:
+      throw new Error('migration config not recognized')
   }
 })()
