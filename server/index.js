@@ -10,7 +10,7 @@ import { subscribeChallUpdate } from './cache/challs'
     await migrate()
   } else if (config.database.migrate === 'only') {
     await migrate()
-    return
+    process.exit()
   } else if (config.database.migrate !== 'never') {
     throw new Error('migration config not recognized')
   }
