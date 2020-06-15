@@ -33,7 +33,7 @@ app.addHook('onRequest', async (req, reply) => {
 app.register(enableCORS)
 app.register(helmet, {
   dnsPrefetchControl: false,
-  referrerPolicy: { policy: 'same-origin' },
+  referrerPolicy: { policy: 'origin-when-cross-origin' },
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ['\'none\''],
