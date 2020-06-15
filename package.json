@@ -58,7 +58,7 @@
     "@types/content-disposition": "0.5.3",
     "@typescript-eslint/eslint-plugin": "2.34.0",
     "@typescript-eslint/parser": "2.34.0",
-    "ava": "3.8.2",
+    "ava": "3.9.0",
     "babel-eslint": "10.1.0",
     "babel-plugin-transform-export-extensions": "6.22.0",
     "cirrus-ui": "0.5.5",
