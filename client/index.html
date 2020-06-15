@@ -24,12 +24,12 @@
 
 		<meta name="rctf-config" content="{{ jsonConfig }}" />
 
-		{{#config.renderGoogleAnalytics}}
+		{{ #config.renderGoogleAnalytics }}
 			<meta name="analytics-id" content="{{ config.globalSiteTag }}">
 			<script async src="/analytics/index.js"></script>
 			<script async src="/analytics/autotrack.js"></script>
 			<script async src="https://www.google-analytics.com/analytics.js"></script>
-		{{/config.renderGoogleAnalytics}}
+		{{ /config.renderGoogleAnalytics }}
 	</head>
 	<body>
 		<% preact.bodyEnd %>
