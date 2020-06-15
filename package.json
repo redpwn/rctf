@@ -79,7 +79,7 @@
     "get-port": "5.1.1",
     "glob": "7.1.6",
     "husky": "4.2.5",
-    "jss": "10.2.0",
+    "jss": "10.3.0",
     "jss-camel-case": "6.1.0",
     "jss-nested": "6.0.1",
     "jss-vendor-prefixer": "8.0.1",
