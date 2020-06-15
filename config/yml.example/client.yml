@@ -15,5 +15,8 @@ sponsors:
 
 apiEndpoint: '/api/v1'
 
+# Used for Google Analytics
+#globalSiteTag: 
+
 # Not required, will be auto generated
 #ctfTitle: 

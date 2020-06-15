@@ -34,7 +34,10 @@ export const serveIndex = async (fastify, opts) => {
 
   const rendered = mustache.render(indexTemplate, {
     jsonConfig: JSON.stringify(clientConfig),
-    config: clientConfig
+    config: {
+      ...clientConfig,
+      renderGoogleAnalytics: clientConfig.globalSiteTag !== undefined
+    }
   })
 
   const routeHandler = async (req, reply) => {

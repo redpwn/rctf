@@ -38,8 +38,8 @@ app.register(helmet, {
     directives: {
       defaultSrc: ['\'none\''],
       styleSrc: ['\'unsafe-inline\'', '\'self\''],
-      scriptSrc: ['\'self\''],
-      connectSrc: ['\'self\''],
+      scriptSrc: ['\'self\'', 'https://www.google-analytics.com'],
+      connectSrc: ['\'self\'', 'https://www.google-analytics.com'],
       imgSrc: ['*', 'data:']
     }
   }
