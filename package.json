@@ -94,7 +94,7 @@
     "preact-cli": "3.0.0-rc.14",
     "preact-markup": "2.0.0",
     "preact-router": "3.2.1",
-    "purgecss-webpack-plugin": "2.2.0",
+    "purgecss-webpack-plugin": "2.3.0",
     "snarkdown": "1.2.2",
     "supertest": "4.0.2",
     "svg-sprite-loader": "5.0.0",
