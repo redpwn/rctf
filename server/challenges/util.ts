@@ -8,6 +8,7 @@ const ChallengeDefaults: Challenge = {
   category: '',
   author: '',
   files: [],
+  tiebreakEligible: true,
   points: {
     min: 0,
     max: 0

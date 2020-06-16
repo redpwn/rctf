@@ -75,6 +75,9 @@ const Problem = ({ classes, problem, update: updateClient }) => {
   const [maxPoints, setMaxPoints] = useState(problem.points.max)
   const handleMaxPointsChange = useCallback(e => setMaxPoints(Number.parseInt(e.target.value)), [])
 
+  const [tiebreakEligible, setTiebreakEligible] = useState(problem.tiebreakEligible !== false)
+  const handleTiebreakEligibleChange = useCallback(e => setTiebreakEligible(e.target.checked), [])
+
   const handleFileUpload = useCallback(async e => {
     e.preventDefault()
 
@@ -143,6 +146,7 @@ const Problem = ({ classes, problem, update: updateClient }) => {
         category,
         author,
         name,
+        tiebreakEligible,
         points: {
           min: minPoints,
           max: maxPoints
@@ -204,6 +208,16 @@ const Problem = ({ classes, problem, update: updateClient }) => {
                   value={name}
                   onChange={handleNameChange}
                 />
+                <div class='form-ext-control form-ext-checkbox'>
+                  <input
+                    id={`chall-${problem.id}-tiebreak-eligible`}
+                    type='checkbox'
+                    class='form-ext-input'
+                    checked={tiebreakEligible}
+                    onChange={handleTiebreakEligibleChange}
+                  />
+                  <label for={`chall-${problem.id}-tiebreak-eligible`} class='form-ext-label'>Eligible for tiebreaks?</label>
+                </div>
               </div>
               <div class={`col-6 ${classes.header}`}>
                 <input
@@ -326,5 +340,8 @@ export default withStyles({
   controls: {
     display: 'flex',
     justifyContent: 'space-between'
+  },
+  tiebreak: {
+    margin: 'auto'
   }
 }, Problem)

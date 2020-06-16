@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'preact/hooks'
-import Router from 'preact-router'
+import { useState, useCallback, useEffect } from 'preact/hooks'
+import Router, { route } from 'preact-router'
 
 import 'cirrus-ui'
 import withStyles from './components/jss'
@@ -12,7 +12,6 @@ import Login from './routes/login'
 import Profile from './routes/profile'
 import Challenges from './routes/challs'
 import Scoreboard from './routes/scoreboard'
-import Error from './routes/error'
 import Recover from './routes/recover'
 import Verify from './routes/verify'
 import CtftimeCallback from './routes/ctftime-callback'
@@ -26,33 +25,41 @@ function useTriggerRerender () {
   return useCallback(() => setToggle(t => !t), [setToggle])
 }
 
+const makeRedir = to => () => {
+  useEffect(() => route(to, true), [])
+  return null
+}
+const LoggedOutRedir = makeRedir('/')
+const LoggedInRedir = makeRedir('/profile')
+
 function App ({ classes }) {
   const triggerRerender = useTriggerRerender()
 
-  const loggedOut = localStorage.getItem('token') === null
+  const loggedOut = !localStorage.token
 
   const loggedOutPaths = [
     <Register key='register' path='/register' name='Register' />,
-    <Login key='login' path='/login' name='Login' />
+    <Login key='login' path='/login' name='Login' />,
+    <Recover key='recover' path='/recover' />,
+    <LoggedOutRedir key='loggedOutRedir' default />
   ]
 
   const loggedInPaths = [
     <Profile key='profile' path='/profile' name='Profile' />,
-    <Challenges key='challs' path='/challs' name='Challenges' />
+    <Challenges key='challs' path='/challs' name='Challenges' />,
+    <AdminChallenges key='adminChalls' path='/admin/challs' />,
+    <LoggedInRedir key='loggedInRedir' default />
   ]
 
   const allPaths = [
     <Home key='home' path='/' name='Home' />,
     <Scoreboard key='scoreboard' path='/scores' name='Scoreboard' />,
     <Profile key='multiProfile' path='/profile/:uuid' />,
-    <Recover key='recover' path='/recover' />,
     <Verify key='verify' path='/verify' />,
-    <AdminChallenges key='adminChalls' path='/admin/challs' />,
-    <CtftimeCallback key='ctftimeCallback' path='/integrations/ctftime/callback' />,
-    <Error key='error' error='404' default />
+    <CtftimeCallback key='ctftimeCallback' path='/integrations/ctftime/callback' />
   ]
 
-  const currentPaths = loggedOut ? [...allPaths, ...loggedOutPaths] : [...allPaths, ...loggedInPaths]
+  const currentPaths = [...allPaths, ...(loggedOut ? loggedOutPaths : loggedInPaths)]
   const headerPaths = currentPaths.filter(path => path.props.name !== undefined)
 
   return (
@@ -61,7 +68,7 @@ function App ({ classes }) {
         <Header paths={headerPaths} />
         <div class={classes.contentWrapper}>
           <Router onChange={triggerRerender}>
-            {[...allPaths, ...loggedOutPaths, ...loggedInPaths]}
+            {currentPaths}
           </Router>
         </div>
         <Footer />

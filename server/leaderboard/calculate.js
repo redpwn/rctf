@@ -16,9 +16,11 @@ const {
 } = workerData
 
 const solveAmount = new Map()
+const challengeTiebreakEligibles = new Map()
 for (let i = 0; i < allChallenges.length; i++) {
   const challenge = allChallenges[i]
   solveAmount.set(challenge.id, 0)
+  challengeTiebreakEligibles.set(challenge.id, challenge.tiebreakEligible)
 }
 const userSolves = new Map()
 const userLastSolves = new Map()
@@ -39,7 +41,9 @@ const calculateScores = (sample) => {
 
     solveAmount.set(challId, solveAmount.get(challId) + 1)
 
-    userLastSolves.set(userId, createdAt)
+    if (challengeTiebreakEligibles.get(challId) !== false) { // !== false because we default to true
+      userLastSolves.set(userId, createdAt)
+    }
     // Store which challenges each user solved for later
     if (!userSolves.has(userId)) {
       userSolves.set(userId, [challId])
@@ -50,19 +54,15 @@ const calculateScores = (sample) => {
 
   for (let i = 0; i < allChallenges.length; i++) {
     const challenge = allChallenges[i]
-    if (!solveAmount.has(challenge.id)) {
-      // There are currently no solves
-      challengeValues.set(challenge.id, getScore('dynamic', challenge.points.min, challenge.points.max, 0))
-    } else {
-      challengeValues.set(challenge.id, getScore('dynamic', challenge.points.min, challenge.points.max, solveAmount.get(challenge.id)))
-    }
+    challengeValues.set(challenge.id, getScore(challenge.points.min, challenge.points.max, solveAmount.get(challenge.id)))
   }
 
   for (let i = 0; i < users.length; i++) {
     const user = users[i]
     let currScore = 0
+    const lastSolve = userLastSolves.get(user.id)
+    if (lastSolve === undefined) continue // If the user has not solved any challenges, do not add to leaderboard
     const solvedChalls = userSolves.get(user.id)
-    if (solvedChalls === undefined) continue // If the user has not solved any challenges, do not add to leaderboard
     for (let j = 0; j < solvedChalls.length; j++) {
       // Add the score for the specific solve loaded from the challengeValues array using ids
       const value = challengeValues.get(solvedChalls[j])
@@ -70,7 +70,7 @@ const calculateScores = (sample) => {
         currScore += value
       }
     }
-    userScores.push([user.id, user.name, parseInt(user.division), currScore, userLastSolves.get(user.id)])
+    userScores.push([user.id, user.name, parseInt(user.division), currScore, lastSolve])
   }
 
   return {

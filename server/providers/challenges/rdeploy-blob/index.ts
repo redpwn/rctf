@@ -24,6 +24,7 @@ interface RDeployChallenge {
   files: string[];
   points: Points;
   flag: string;
+  tiebreakEligible: boolean;
 }
 
 class RDeployBlobProvider extends EventEmitter implements Provider {
