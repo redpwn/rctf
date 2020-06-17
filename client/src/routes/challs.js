@@ -38,7 +38,7 @@ const Challenges = ({ classes }) => {
   const handleCategoryCheckedChange = useCallback(e => {
     setCategories(categories => ({
       ...categories,
-      [e.target.id]: e.target.checked
+      [e.target.dataset.category]: e.target.checked
     }))
   }, [])
 
@@ -135,7 +135,7 @@ const Challenges = ({ classes }) => {
               Object.entries(categories).map(([category, checked]) => {
                 return (
                   <div key={category} class='form-ext-control form-ext-checkbox'>
-                    <input id={`category-${category}`} class='form-ext-input' type='checkbox' checked={checked} onChange={handleCategoryCheckedChange} />
+                    <input id={`category-${category}`} data-category={category} class='form-ext-input' type='checkbox' checked={checked} onChange={handleCategoryCheckedChange} />
                     <label for={`category-${category}`} class='form-ext-label'>{category}</label>
                   </div>
                 )
