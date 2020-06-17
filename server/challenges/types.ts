@@ -27,4 +27,5 @@ export interface Challenge {
   files: File[];
   points: Points;
   flag: string;
+  tiebreakEligible: boolean;
 }

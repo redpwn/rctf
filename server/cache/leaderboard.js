@@ -6,7 +6,7 @@ import { calcSamples } from '../leaderboard/samples'
 const redisEvalsha = promisify(client.evalsha.bind(client))
 const redisHget = promisify(client.hget.bind(client))
 const redisHmget = promisify(client.hmget.bind(client))
-const redisMget = promisify(client.mget.bind(client))
+const redisGet = promisify(client.get.bind(client))
 const redisSet = promisify(client.set.bind(client))
 const redisLlen = promisify(client.llen.bind(client))
 const redisScript = promisify(client.script.bind(client))
@@ -122,9 +122,6 @@ const setGraphScript = redisScript('load', `
 
   chunkCall("HSET", KEYS[1], cjson.decode(ARGV[1]))
   redis.call("SET", KEYS[2], ARGV[2])
-  if tonumber(ARGV[3]) ~= 0 then
-    redis.call("SET", KEYS[3], ARGV[3])
-  end
 `)
 
 export const setLeaderboard = async ({ challengeValues, solveAmount, leaderboard, leaderboardUpdate }) => {
@@ -224,7 +221,7 @@ export const getChallengeInfo = async ({ ids }) => {
   })
 }
 
-export const setGraph = async ({ leaderboards, challsUpdate = 0 }) => {
+export const setGraph = async ({ leaderboards }) => {
   const values = []
   let lastSample = 0
   leaderboards.forEach(({ sample, scores }) => {
@@ -240,13 +237,11 @@ export const setGraph = async ({ leaderboards, challsUpdate = 0 }) => {
   }
   await redisEvalsha(
     await setGraphScript,
-    3,
+    2,
     'graph',
     'graph-update',
-    'graph-recalc',
     JSON.stringify(values),
-    lastSample,
-    challsUpdate
+    lastSample
   )
 }
 
@@ -309,14 +304,10 @@ export const getGraph = async ({ division, maxTeams }) => {
 }
 
 export const getGraphUpdate = async () => {
-  const redisResult = await redisMget('graph-update', 'graph-recalc', 'challs-update')
-  return {
-    graphUpdate: redisResult[0] === null ? 0 : parseInt(redisResult[0]),
-    graphRecalc: redisResult[1] === null ? 0 : parseInt(redisResult[1]),
-    challsUpdate: redisResult[2] === null ? 0 : parseInt(redisResult[2])
-  }
+  const redisResult = await redisGet('graph-update')
+  return redisResult === null ? 0 : parseInt(redisResult)
 }
 
 export const setChallsDirty = () => {
-  return redisSet('challs-update', Date.now())
+  return redisSet('graph-update', 0)
 }

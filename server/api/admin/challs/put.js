@@ -51,6 +51,9 @@ export default {
               },
               required: ['max', 'min']
             },
+            tiebreakEligible: {
+              type: 'boolean'
+            },
             files: {
               type: 'array',
               items: {

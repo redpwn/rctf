@@ -14,8 +14,7 @@ const formatTime = (time) => {
 const Timer = withStyles({
   card: {
     background: '#222',
-    margin: 'auto',
-    marginTop: '20px'
+    margin: 'auto'
   },
   section: {
     display: 'inline'
