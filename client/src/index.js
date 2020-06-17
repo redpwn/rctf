@@ -6,6 +6,7 @@ import withStyles from './components/jss'
 import Header from './components/header'
 import Footer from './components/footer'
 
+import ErrorRoute from './routes/error'
 import Home from './routes/home'
 import Register from './routes/register'
 import Login from './routes/login'
@@ -40,18 +41,17 @@ function App ({ classes }) {
   const loggedOutPaths = [
     <Register key='register' path='/register' name='Register' />,
     <Login key='login' path='/login' name='Login' />,
-    <Recover key='recover' path='/recover' />,
-    <LoggedOutRedir key='loggedOutRedir' default />
+    <Recover key='recover' path='/recover' />
   ]
 
   const loggedInPaths = [
     <Profile key='profile' path='/profile' name='Profile' />,
     <Challenges key='challs' path='/challs' name='Challenges' />,
-    <AdminChallenges key='adminChalls' path='/admin/challs' />,
-    <LoggedInRedir key='loggedInRedir' default />
+    <AdminChallenges key='adminChalls' path='/admin/challs' />
   ]
 
   const allPaths = [
+    <ErrorRoute key='error' default error='404' />,
     <Home key='home' path='/' name='Home' />,
     <Scoreboard key='scoreboard' path='/scores' name='Scoreboard' />,
     <Profile key='multiProfile' path='/profile/:uuid' />,
@@ -59,8 +59,20 @@ function App ({ classes }) {
     <CtftimeCallback key='ctftimeCallback' path='/integrations/ctftime/callback' />
   ]
 
+  loggedInPaths.forEach(route => loggedOutPaths.push(
+    <LoggedOutRedir
+      key={`loggedOutRedir-${route.props.path}`}
+      path={route.props.path}
+    />
+  ))
+  loggedOutPaths.forEach(route => loggedInPaths.push(
+    <LoggedInRedir
+      key={`loggedInRedir-${route.props.path}`}
+      path={route.props.path}
+    />
+  ))
   const currentPaths = [...allPaths, ...(loggedOut ? loggedOutPaths : loggedInPaths)]
-  const headerPaths = currentPaths.filter(path => path.props.name !== undefined)
+  const headerPaths = currentPaths.filter(route => route.props.name !== undefined)
 
   return (
     <div class={classes.root}>

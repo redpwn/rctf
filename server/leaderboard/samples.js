@@ -12,7 +12,3 @@ export const calcSamples = ({ start, end }) => {
   }
   return samples
 }
-
-export const getPreviousSample = () => {
-  return Math.floor(Math.min(Date.now(), config.endTime) / graphSampleTime) * graphSampleTime
-}

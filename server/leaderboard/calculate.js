@@ -1,16 +1,13 @@
 import { workerData, parentPort } from 'worker_threads'
 import { getScore } from '../util/scores'
-import { calcSamples, getPreviousSample } from './samples'
+import { calcSamples } from './samples'
+import config from '../../config/server'
 
 const {
-  graph,
-  start,
-  end,
-  lastUpdate,
-  challsUpdate,
   data: {
     solves,
     users,
+    graphUpdate,
     allChallenges
   }
 } = workerData
@@ -52,9 +49,22 @@ const calculateScores = (sample) => {
     }
   }
 
+  let maxSolveAmount = 0
+  for (let i = 0; i < allChallenges.length; i++) {
+    const amt = solveAmount.get(allChallenges[i].id)
+    if (amt > maxSolveAmount) {
+      maxSolveAmount = amt
+    }
+  }
+
   for (let i = 0; i < allChallenges.length; i++) {
     const challenge = allChallenges[i]
-    challengeValues.set(challenge.id, getScore(challenge.points.min, challenge.points.max, solveAmount.get(challenge.id)))
+    challengeValues.set(challenge.id, getScore(
+      challenge.points.min,
+      challenge.points.max,
+      maxSolveAmount,
+      solveAmount.get(challenge.id)
+    ))
   }
 
   for (let i = 0; i < users.length; i++) {
@@ -75,7 +85,6 @@ const calculateScores = (sample) => {
 
   return {
     challengeValues,
-    solveAmount,
     userScores
   }
 }
@@ -90,43 +99,28 @@ const userCompare = (a, b) => {
   return a[4] - b[4]
 }
 
-if (graph) {
-  const samples = calcSamples({ start, end })
-  const output = []
+const leaderboardUpdate = Math.min(Date.now(), config.endTime)
+const samples = calcSamples({
+  start: Math.max(graphUpdate + 1, config.startTime),
+  end: leaderboardUpdate
+})
 
-  samples.forEach((sample) => {
-    const { userScores } = calculateScores(sample)
-    output.push({
-      sample,
-      scores: userScores.map((score) => [score[0], score[3]])
-    })
+const graphLeaderboards = []
+samples.forEach((sample) => {
+  const { userScores } = calculateScores(sample)
+  graphLeaderboards.push({
+    sample,
+    scores: userScores.map((score) => [score[0], score[3]])
   })
+})
 
-  parentPort.postMessage({
-    leaderboards: output,
-    challsUpdate
-  })
-} else {
-  const prevSample = getPreviousSample()
-  const isSample = lastUpdate < prevSample
-  let sampleScores
-  if (isSample) {
-    const { userScores } = calculateScores(prevSample)
-    sampleScores = userScores.map((score) => [score[0], score[3]])
-  }
+const { userScores, challengeValues } = calculateScores(leaderboardUpdate)
+const sortedUsers = userScores.sort(userCompare).map((user) => user.slice(0, 4))
 
-  const leaderboardUpdate = Math.min(Date.now(), end)
-
-  const { userScores, challengeValues, solveAmount } = calculateScores(leaderboardUpdate)
-  const sortedUsers = userScores.sort(userCompare).map((user) => user.slice(0, 4))
-
-  parentPort.postMessage({
-    leaderboard: sortedUsers,
-    challengeValues,
-    solveAmount,
-    isSample,
-    sample: prevSample,
-    sampleScores,
-    leaderboardUpdate
-  })
-}
+parentPort.postMessage({
+  leaderboard: sortedUsers,
+  graphLeaderboards,
+  challengeValues,
+  solveAmount,
+  leaderboardUpdate
+})
