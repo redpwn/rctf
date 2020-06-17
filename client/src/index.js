@@ -99,7 +99,7 @@ export default withStyles({
     minHeight: '100%',
     background: '#111',
     color: '#fff',
-    '& *': {
+    '& *:not(code):not(pre)': {
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Noto Sans", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important'
     }
   },
@@ -109,7 +109,8 @@ export default withStyles({
   '@global :root': {
     '--cirrus-link': '#72b4e0',
     '--cirrus-link-dark': '#277edb',
-    '--cirrus-select-bg': 'rgba(0, 161, 255, 0.4)'
+    '--cirrus-select-bg': 'rgba(0, 161, 255, 0.4)',
+    '--cirrus-code-bg': '#333'
   },
   contentWrapper: {
     flex: '1 0 auto'
