@@ -36,7 +36,11 @@ const calculateScores = (sample) => {
       break
     }
 
-    solveAmount.set(challId, solveAmount.get(challId) + 1)
+    const amt = solveAmount.get(challId)
+    if (amt === undefined) {
+      continue
+    }
+    solveAmount.set(challId, amt + 1)
 
     if (challengeTiebreakEligibles.get(challId) !== false) { // !== false because we default to true
       userLastSolves.set(userId, createdAt)
