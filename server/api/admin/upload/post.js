@@ -33,6 +33,7 @@ export default {
       required: ['files']
     }
   },
+  bodyLimit: 2 ** 30, // 1 GiB
   handler: async ({ req }) => {
     const uploadProvider = getUploadProvider()
 

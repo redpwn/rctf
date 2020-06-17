@@ -107,12 +107,16 @@ export default async (fastify) => {
       }
     }
 
-    fastify.route({
-      method: route.method,
+    const fastifyRoute = {
+      ...route,
       url: route.path,
-      schema: route.schema,
       handler
-    })
+    }
+    delete fastifyRoute.path
+    delete fastifyRoute.requireAuth
+    delete fastifyRoute.perms
+
+    fastify.route(fastifyRoute)
   })
 
   fastify.route({
