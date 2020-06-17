@@ -1,7 +1,7 @@
 import withStyles from './jss'
 
 const ActionButton = withStyles({
-  root: {
+  button: {
     padding: '16px !important',
     color: '#fff',
     background: '#222',
@@ -23,8 +23,8 @@ const ActionButton = withStyles({
     }
   }
 }, ({ classes, ...rest }) => (
-  <div class='row'>
-    <a class={classes.root} {...rest} />
+  <div class='row u-center'>
+    <a class={classes.button} {...rest} />
   </div>
 ))
 
