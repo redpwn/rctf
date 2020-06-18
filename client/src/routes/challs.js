@@ -107,19 +107,19 @@ const Challenges = ({ classes }) => {
   }, [problems, categories, showSolved, solveIDs])
 
   const { categoryCounts, solvedCount } = useMemo(() => {
-    const categoryCounts = {}
+    const categoryCounts = new Map()
     let solvedCount = 0
     for (const problem of problems) {
       const solved = solveIDs.includes(problem.id)
-      if (categoryCounts[problem.category] === undefined) {
-        categoryCounts[problem.category] = {
+      if (!categoryCounts.has(problem.category)) {
+        categoryCounts.set(problem.category, {
           total: 1,
           solved: solved ? 1 : 0
-        }
+        })
       } else {
-        categoryCounts[problem.category].total += 1
+        categoryCounts.get(problem.category).total += 1
         if (solved) {
-          categoryCounts[problem.category].solved += 1
+          categoryCounts.get(problem.category).solved += 1
         }
       }
       if (solved) {
@@ -159,7 +159,7 @@ const Challenges = ({ classes }) => {
                 return (
                   <div key={category} class='form-ext-control form-ext-checkbox'>
                     <input id={`category-${category}`} data-category={category} class='form-ext-input' type='checkbox' checked={checked} onChange={handleCategoryCheckedChange} />
-                    <label for={`category-${category}`} class='form-ext-label'>{category} ({categoryCounts[category].solved}/{categoryCounts[category].total} solved)</label>
+                    <label for={`category-${category}`} class='form-ext-label'>{category} ({categoryCounts.get(category).solved}/{categoryCounts.get(category).total} solved)</label>
                   </div>
                 )
               })
