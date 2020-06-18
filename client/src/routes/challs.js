@@ -106,6 +106,29 @@ const Challenges = ({ classes }) => {
     return filtered
   }, [problems, categories, showSolved, solveIDs])
 
+  const { categoryCounts, solvedCount } = useMemo(() => {
+    const categoryCounts = new Map()
+    let solvedCount = 0
+    for (const problem of problems) {
+      const solved = solveIDs.includes(problem.id)
+      if (!categoryCounts.has(problem.category)) {
+        categoryCounts.set(problem.category, {
+          total: 1,
+          solved: solved ? 1 : 0
+        })
+      } else {
+        categoryCounts.get(problem.category).total += 1
+        if (solved) {
+          categoryCounts.get(problem.category).solved += 1
+        }
+      }
+      if (solved) {
+        solvedCount += 1
+      }
+    }
+    return { categoryCounts, solvedCount }
+  }, [problems, solveIDs])
+
   if (loadState === loadStates.pending) {
     return null
   }
@@ -123,7 +146,7 @@ const Challenges = ({ classes }) => {
             <div class={classes.showSolved}>
               <div class='form-ext-control form-ext-checkbox'>
                 <input id='show-solved' class='form-ext-input' type='checkbox' checked={showSolved} onChange={handleShowSolvedChange} />
-                <label for='show-solved' class='form-ext-label'>Show Solved</label>
+                <label for='show-solved' class='form-ext-label'>Show Solved ({solvedCount}/{problems.length} solved)</label>
               </div>
             </div>
           </div>
@@ -136,7 +159,7 @@ const Challenges = ({ classes }) => {
                 return (
                   <div key={category} class='form-ext-control form-ext-checkbox'>
                     <input id={`category-${category}`} data-category={category} class='form-ext-input' type='checkbox' checked={checked} onChange={handleCategoryCheckedChange} />
-                    <label for={`category-${category}`} class='form-ext-label'>{category}</label>
+                    <label for={`category-${category}`} class='form-ext-label'>{category} ({categoryCounts.get(category).solved}/{categoryCounts.get(category).total} solved)</label>
                   </div>
                 )
               })
