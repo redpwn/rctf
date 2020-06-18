@@ -101,6 +101,21 @@ export default withStyles({
     color: '#fff',
     '& *:not(code):not(pre)': {
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Noto Sans", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important'
+    },
+    '& pre.code': {
+      padding: '10px',
+      background: 'var(--cirrus-code-bg)',
+      borderRadius: '5px',
+      margin: '10px 0',
+      color: '#ccc',
+      border: '1px solid #ffffff1a'
+    },
+    '& code': {
+      padding: '.2em .4em',
+      background: 'var(--cirrus-code-bg)',
+      borderRadius: '3px',
+      color: '#ccc',
+      border: '1px solid #ffffff1a'
     }
   },
   '@global select': {
