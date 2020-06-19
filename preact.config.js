@@ -11,9 +11,12 @@ export default (config, env, helpers) => {
     // Disable sourcemaps
     config.devtool = false
   } else {
-    config.devServer.proxy = {
-      '/api': 'http://localhost:3000'
-    }
+    config.devServer.proxy = [{
+      path: '/api/**',
+      target: 'http://localhost:3000',
+      changeOrigin: true,
+      changeHost: true
+    }]
   }
 
   config.resolveLoader.modules.unshift(path.resolve(__dirname, 'client/lib/loaders'))

@@ -25,6 +25,7 @@ interface RDeployChallenge {
   points: Points;
   flag: string;
   tiebreakEligible: boolean;
+  sortWeight?: number;
 }
 
 class RDeployBlobProvider extends EventEmitter implements Provider {
