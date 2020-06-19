@@ -99,6 +99,11 @@ export default withStyles({
     '& a': {
       display: 'inline',
       padding: 0
+    },
+    '& p': {
+      lineHeight: '1.4em',
+      fontSize: '1em',
+      marginTop: 0
     }
   },
   divider: {
