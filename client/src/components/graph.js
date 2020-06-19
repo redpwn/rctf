@@ -1,6 +1,7 @@
 import { Fragment } from 'preact'
 import { useState, useEffect, useLayoutEffect, useMemo, useCallback, useRef } from 'preact/hooks'
 import withStyles from './jss'
+import config from '../config'
 import { memo } from 'preact/compat'
 
 const height = 400
@@ -106,17 +107,11 @@ function Graph ({ graphData, classes }) {
         labels: []
       }
     }
-    let maxX = 0
-    let minX = Infinity
+    const minX = config.startTime
+    const maxX = Math.min(Date.now(), config.endTime)
     let maxY = 0
     graphData.graph.forEach((user) => {
       user.points.forEach((point) => {
-        if (point.time > maxX) {
-          maxX = point.time
-        }
-        if (point.time < minX) {
-          minX = point.time
-        }
         if (point.score > maxY) {
           maxY = point.score
         }

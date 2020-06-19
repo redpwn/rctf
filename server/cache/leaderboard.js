@@ -277,23 +277,16 @@ export const getGraph = async ({ division, maxTeams }) => {
       time: lastUpdate,
       score: parseInt(latest[userIdx * 3 + 2])
     }]
-    let graphComputed = false
     for (let sampleIdx = samples.length - 1; sampleIdx >= 0; sampleIdx--) {
       const score = graphData[userIdx * samples.length + sampleIdx]
-      if (score === false && !graphComputed) {
+      if (score === false) {
         continue
-      } else {
-        graphComputed = true
       }
       points.push({
         time: samples[sampleIdx],
-        score: score === false ? 0 : parseInt(score)
+        score: parseInt(score)
       })
     }
-    points.push({
-      time: config.startTime,
-      score: 0
-    })
     result.push({
       id: latest[userIdx * 3],
       name: latest[userIdx * 3 + 1],
