@@ -16,6 +16,7 @@ export interface CleanedChallenge {
   author: string;
   files: File[];
   points: Points;
+  sortWeight?: number;
 }
 
 export interface Challenge {
@@ -28,4 +29,5 @@ export interface Challenge {
   points: Points;
   flag: string;
   tiebreakEligible: boolean;
+  sortWeight?: number;
 }
