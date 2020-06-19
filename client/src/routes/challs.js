@@ -106,10 +106,13 @@ const Challenges = ({ classes }) => {
 
     filtered.sort((a, b) => {
       if (a.points === b.points) {
-        const aWeight = a.sortWeight || 0
-        const bWeight = b.sortWeight || 0
+        if (a.solves === b.solves) {
+          const aWeight = a.sortWeight || 0
+          const bWeight = b.sortWeight || 0
 
-        return bWeight - aWeight
+          return bWeight - aWeight
+        }
+        return b.solves - a.solves
       }
       return a.points - b.points
     })
