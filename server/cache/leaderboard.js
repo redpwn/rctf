@@ -1,7 +1,6 @@
 import { promisify } from 'util'
 import client from './client'
 import config from '../../config/server'
-import { calcSamples } from '../leaderboard/samples'
 
 const redisEvalsha = promisify(client.evalsha.bind(client))
 const redisHget = promisify(client.hget.bind(client))
@@ -247,18 +246,13 @@ export const setGraph = async ({ leaderboards }) => {
 }
 
 export const getGraph = async ({ division, maxTeams }) => {
-  const samples = calcSamples({
-    start: config.startTime,
-    end: Math.min(Date.now(), config.endTime)
-  })
   const redisResult = await redisEvalsha(
     await getGraphScript,
     3,
     getLeaderboardKey(division),
     'leaderboard-update',
     'graph',
-    maxTeams,
-    JSON.stringify(samples)
+    maxTeams
   )
   if (redisResult === null) {
     return []
