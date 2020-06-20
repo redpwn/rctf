@@ -34,4 +34,4 @@ leaderboard:
   graphSampleTime: 1800000
 
 removeDownloadHashes: true
-loginTimeout: 60000
+loginTimeout: 3600000
