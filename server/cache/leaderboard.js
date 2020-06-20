@@ -19,13 +19,11 @@ const luaChunkCall = `
     local size = 7996
     local len = #args
     local chunks = math.ceil(len / size)
-    local output = {}
-    for i = 1, chunks, 1 do
+    for i = 1, chunks do
       local start = (i - 1) * size + 1
       local stop = math.min(len, i * size)
-      output[i] = redis.call(cmd, key, unpack(args, start, stop))
+      redis.call(cmd, key, unpack(args, start, stop))
     end
-    return output
   end
 `
 
@@ -47,7 +45,7 @@ const setLeaderboardScript = redisScript('load', `
   end
 
   local numUsers = #leaderboard / 4
-  for i = 1, numUsers, 1 do
+  for i = 1, numUsers do
     local division = leaderboard[i * 4 - 1]
     local divisionPosition = divisionCounts[division] + 1
     local divisionBoard = divisionBoards[division]
@@ -88,40 +86,36 @@ const getRangeScript = redisScript('load', `
   return result
 `)
 
+// this script is not compatible with redis cluster as it computes key names at runtime
 const getGraphScript = redisScript('load', `
-  ${luaChunkCall}
-
   local maxUsers = tonumber(ARGV[1])
-  local samples = cjson.decode(ARGV[2])
-  local samplesLen = #samples
   local latest = redis.call("LRANGE", KEYS[1], 0, maxUsers * 3 - 1)
   if #latest == 0 then
     return nil
   end
-  local graphKeys = {}
-  for i = 1, maxUsers, 1 do
+  local users = {}
+  for i = 1, maxUsers do
     local id = latest[i * 3 - 2]
-    if id == nil then
-      break
-    end
-    for s = 1, samplesLen, 1 do
-      graphKeys[(i - 1) * samplesLen + s] = samples[s] .. ":" .. id
+    if id ~= nil then
+      users[i] = redis.call("HGETALL", "graph:"..id)
     end
   end
   local lastUpdate = redis.call("GET", KEYS[2])
-  local graphPoints = chunkCall("HMGET", KEYS[3], graphKeys)
   return cjson.encode({
     lastUpdate,
     latest,
-    graphPoints
+    users
   })
 `)
 
 const setGraphScript = redisScript('load', `
   ${luaChunkCall}
 
-  chunkCall("HSET", KEYS[1], cjson.decode(ARGV[1]))
-  redis.call("SET", KEYS[2], ARGV[2])
+  redis.call("SET", KEYS[1], ARGV[1])
+  local users = cjson.decode(ARGV[2])
+  for i = 1, #users do
+    chunkCall("HSET", KEYS[i + 1], users[i])
+  end
 `)
 
 export const setLeaderboard = async ({ challengeValues, solveAmount, leaderboard, leaderboardUpdate }) => {
@@ -222,27 +216,34 @@ export const getChallengeInfo = async ({ ids }) => {
 }
 
 export const setGraph = async ({ leaderboards }) => {
-  const values = []
   let lastSample = 0
+  const users = new Map()
   leaderboards.forEach(({ sample, scores }) => {
     if (sample > lastSample) {
       lastSample = sample
     }
     scores.forEach((score) => {
-      values.push(sample + ':' + score[0], score[1])
+      const key = `graph:${score[0]}`
+      if (users.has(key)) {
+        users.get(key).push(sample, score[1])
+      } else {
+        users.set(key, [sample, score[1]])
+      }
     })
   })
-  if (values.length === 0) {
+  if (users.size === 0) {
     return
   }
-  await redisEvalsha(
+  const keys = Array.from(users.keys())
+  const values = Array.from(users.values())
+  await redisEvalsha([
     await setGraphScript,
-    2,
-    'graph',
+    1 + keys.length,
     'graph-update',
-    JSON.stringify(values),
-    lastSample
-  )
+    ...keys,
+    lastSample,
+    JSON.stringify(values)
+  ])
 }
 
 export const getGraph = async ({ division, maxTeams }) => {
@@ -265,28 +266,21 @@ export const getGraph = async ({ division, maxTeams }) => {
   const parsed = JSON.parse(redisResult)
   const lastUpdate = parseInt(parsed[0])
   const latest = parsed[1]
-  let graphData
-  if (Array.isArray(parsed[2])) {
-    graphData = parsed[2].flat()
-  } else {
-    graphData = []
-  }
+  const graphData = parsed[2]
   const result = []
   for (let userIdx = 0; userIdx < latest.length / 3; userIdx++) {
     const points = [{
       time: lastUpdate,
       score: parseInt(latest[userIdx * 3 + 2])
     }]
-    for (let sampleIdx = samples.length - 1; sampleIdx >= 0; sampleIdx--) {
-      const score = graphData[userIdx * samples.length + sampleIdx]
-      if (score === false) {
-        continue
-      }
+    const userPoints = graphData[userIdx]
+    for (let pointIdx = 0; pointIdx < userPoints.length; pointIdx += 2) {
       points.push({
-        time: samples[sampleIdx],
-        score: parseInt(score)
+        time: parseInt(userPoints[pointIdx]),
+        score: parseInt(userPoints[pointIdx + 1])
       })
     }
+    points.sort((a, b) => b.time - a.time)
     result.push({
       id: latest[userIdx * 3],
       name: latest[userIdx * 3 + 1],
