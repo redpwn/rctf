@@ -104,6 +104,9 @@ export default withStyles({
       lineHeight: '1.4em',
       fontSize: '1em',
       marginTop: 0
+    },
+    '& pre': {
+      whiteSpace: 'pre-wrap'
     }
   },
   divider: {
