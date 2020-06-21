@@ -17,12 +17,12 @@ const snarkdownEnhanced = (md) => {
   return htmls.join('\n\n')
 }
 
-const Markdown = ({ content }) => (
+const Markdown = ({ content, components }) => (
   <Markup
     type='html'
     trim={false}
     markup={snarkdownEnhanced(content)}
-    components={{ Timer, Sponsors, ActionButton }}
+    components={{ Timer, Sponsors, ActionButton, ...components }}
   />
 )
 

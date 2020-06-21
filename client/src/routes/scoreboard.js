@@ -38,6 +38,13 @@ const Scoreboard = withStyles({
     '&:hover': {
       backgroundColor: 'rgba(0, 0, 0, 0.1) !important'
     }
+  },
+  table: {
+    tableLayout: 'fixed',
+    '& tbody td': {
+      overflow: 'hidden',
+      whiteSpace: 'nowrap'
+    }
   }
 }, ({ classes }) => {
   const loggedIn = useMemo(() => localStorage.getItem('token') !== null, [])
@@ -201,12 +208,12 @@ const Scoreboard = withStyles({
       <div class='col-6'>
         <div class={`frame ${classes.frame} ${classes.tableFrame}`}>
           <div class='frame__body'>
-            <table class='table small'>
+            <table class={`table small ${classes.table}`}>
               <thead>
                 <tr>
-                  <th style='width: 0.625em'>#</th>
+                  <th style='width: 2em'>#</th>
                   <th>Team</th>
-                  <th style='width: 3.125em'>Points</th>
+                  <th style='width: 4em'>Points</th>
                 </tr>
               </thead>
               <tbody>
