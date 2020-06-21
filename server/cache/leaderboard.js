@@ -248,10 +248,9 @@ export const setGraph = async ({ leaderboards }) => {
 export const getGraph = async ({ division, maxTeams }) => {
   const redisResult = await redisEvalsha(
     await getGraphScript,
-    3,
+    2,
     getLeaderboardKey(division),
     'leaderboard-update',
-    'graph',
     maxTeams
   )
   if (redisResult === null) {

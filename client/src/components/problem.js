@@ -19,7 +19,7 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
   const handleSubmit = useCallback(e => {
     e.preventDefault()
 
-    submitFlag(problem.id, value)
+    submitFlag(problem.id, value.trim())
       .then(({ error }) => {
         if (error === undefined) {
           toast({ body: 'Flag successfully submitted!' })
