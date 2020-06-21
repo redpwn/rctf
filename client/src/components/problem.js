@@ -5,6 +5,12 @@ import { submitFlag } from '../api/challenges'
 import { useToast } from '../components/toast'
 import Markdown from '../components/markdown'
 
+const ExternalLink = (props) => <a {...props} target='_blank' />
+
+const markdownComponents = {
+  A: ExternalLink
+}
+
 const Problem = ({ classes, problem, solved, setSolved }) => {
   const { toast } = useToast()
 
@@ -48,7 +54,7 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
         <div class='content-no-padding u-center'><div class={`divider ${classes.divider}`} /></div>
 
         <div class={`${classes.description} frame__subtitle`}>
-          <Markdown content={problem.description} />
+          <Markdown content={problem.description} components={markdownComponents} />
         </div>
         <form class='form-section' onSubmit={handleSubmit}>
           <div class='form-group'>
