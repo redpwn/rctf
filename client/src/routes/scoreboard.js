@@ -211,9 +211,9 @@ const Scoreboard = withStyles({
             <table class={`table small ${classes.table}`}>
               <thead>
                 <tr>
-                  <th style='width: 2em'>#</th>
+                  <th style='width: 3.5em'>#</th>
                   <th>Team</th>
-                  <th style='width: 4em'>Points</th>
+                  <th style='width: 5em'>Points</th>
                 </tr>
               </thead>
               <tbody>
