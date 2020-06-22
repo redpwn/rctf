@@ -169,7 +169,7 @@ const Challenges = ({ classes }) => {
           <div class='frame__body'>
             <div class='frame__title title'>Categories</div>
             {
-              Object.entries(categories).map(([category, checked]) => {
+              Object.entries(categories).sort().map(([category, checked]) => {
                 return (
                   <div key={category} class='form-ext-control form-ext-checkbox'>
                     <input id={`category-${category}`} data-category={category} class='form-ext-input' type='checkbox' checked={checked} onChange={handleCategoryCheckedChange} />
