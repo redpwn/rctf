@@ -77,7 +77,7 @@ const MembersCard = withStyles({
   }, [])
 
   return (
-    <div class='card u-flex u-flex-column'>
+    <div class='card'>
       <div class='content'>
         <p>Team Information</p>
         <p class='font-thin u-no-margin'>There is no limit on team members. Please enter a separate email for each team member. This data is collected for informational purposes only. Ensure that this section is up to date in order to remain prize eligible.</p>

@@ -51,7 +51,8 @@ export default {
       solves: solves.map(solve => ({
         id: solve.id,
         createdAt: solve.createdat.getTime(),
-        userId: solve.userid
+        userId: solve.userid,
+        userName: solve.name
       }))
     }]
   }

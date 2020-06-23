@@ -15,9 +15,10 @@ const loadStates = {
 }
 
 const Challenges = ({ classes }) => {
+  const challPageState = JSON.parse(localStorage.challPageState || '{}')
   const [problems, setProblems] = useState([])
-  const [categories, setCategories] = useState({})
-  const [showSolved, setShowSolved] = useState(false)
+  const [categories, setCategories] = useState(challPageState.categories || {})
+  const [showSolved, setShowSolved] = useState(challPageState.showSolved || false)
   const [solveIDs, setSolveIDs] = useState([])
   const [loadState, setLoadState] = useState(loadStates.pending)
   const { toast } = useToast()
@@ -48,6 +49,9 @@ const Challenges = ({ classes }) => {
 
   useEffect(() => {
     const action = async () => {
+      if (problems.length !== 0) {
+        return
+      }
       const { data, error, notStarted } = await getChallenges()
       if (error) {
         toast({ body: error, type: 'error' })
@@ -59,19 +63,18 @@ const Challenges = ({ classes }) => {
         return
       }
 
-      const problems = data
-      const categories = {}
-      problems.forEach(problem => {
-        if (categories[problem.category] === undefined) {
-          categories[problem.category] = false
+      const newCategories = { ...categories }
+      data.forEach(problem => {
+        if (newCategories[problem.category] === undefined) {
+          newCategories[problem.category] = false
         }
       })
 
-      setProblems(problems)
-      setCategories(categories)
+      setProblems(data)
+      setCategories(newCategories)
     }
     action()
-  }, [toast])
+  }, [toast, categories, problems.length])
 
   useEffect(() => {
     const action = async () => {
@@ -85,6 +88,10 @@ const Challenges = ({ classes }) => {
     }
     action()
   }, [toast])
+
+  useEffect(() => {
+    localStorage.challPageState = JSON.stringify({ categories, showSolved })
+  }, [categories, showSolved])
 
   const problemsToDisplay = useMemo(() => {
     let filtered = problems

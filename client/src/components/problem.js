@@ -1,15 +1,18 @@
 import withStyles from '../components/jss'
-import { useState, useCallback } from 'preact/hooks'
+import { useState, useCallback, useRef } from 'preact/hooks'
 
-import { submitFlag } from '../api/challenges'
-import { useToast } from '../components/toast'
-import Markdown from '../components/markdown'
+import { submitFlag, getSolves } from '../api/challenges'
+import { useToast } from './toast'
+import SolvesDialog from './solves-dialog'
+import Markdown from './markdown'
 
 const ExternalLink = (props) => <a {...props} target='_blank' />
 
 const markdownComponents = {
   A: ExternalLink
 }
+
+const solvesPageSize = 10
 
 const Problem = ({ classes, problem, solved, setSolved }) => {
   const { toast } = useToast()
@@ -38,6 +41,45 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
       })
   }, [toast, setSolved, problem, value])
 
+  const [solves, setSolves] = useState(null)
+  const [solvesPending, setSolvesPending] = useState(false)
+  const [solvesPage, setSolvesPage] = useState(1)
+  const modalBodyRef = useRef(null)
+  const handleSetSolvesPage = useCallback(async (newPage) => {
+    const { kind, message, data } = await getSolves({
+      challId: problem.id,
+      limit: solvesPageSize,
+      offset: (newPage - 1) * solvesPageSize
+    })
+    if (kind !== 'goodChallengeSolves') {
+      toast({ body: message, type: 'error' })
+      return
+    }
+    setSolves(data.solves)
+    setSolvesPage(newPage)
+    modalBodyRef.current.scrollTop = 0
+  }, [problem.id, toast])
+  const onSolvesClick = useCallback(async (e) => {
+    e.preventDefault()
+    if (solvesPending) {
+      return
+    }
+    setSolvesPending(true)
+    const { kind, message, data } = await getSolves({
+      challId: problem.id,
+      limit: solvesPageSize,
+      offset: 0
+    })
+    setSolvesPending(false)
+    if (kind !== 'goodChallengeSolves') {
+      toast({ body: message, type: 'error' })
+      return
+    }
+    setSolves(data.solves)
+    setSolvesPage(1)
+  }, [problem.id, toast, solvesPending])
+  const onSolvesClose = useCallback(() => setSolves(null), [])
+
   return (
     <div class={`frame ${classes.frame}`}>
       <div class='frame__body'>
@@ -47,7 +89,14 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
             <div class='frame__subtitle u-no-margin'>{problem.author}</div>
           </div>
           <div class='col-6 u-no-padding u-text-right'>
-            <div class={classes.points}>{problem.solves} solves / {problem.points} points</div>
+            <a
+              class={`${classes.points} ${solvesPending ? classes.solvesPending : ''}`}
+              onClick={onSolvesClick}>
+              {problem.solves}
+              {problem.solves === 1 ? ' solve / ' : ' solves / '}
+              {problem.points}
+              {problem.points === 1 ? ' point' : ' points'}
+            </a>
           </div>
         </div>
 
@@ -91,6 +140,16 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
             </div>
         }
       </div>
+      <SolvesDialog
+        solves={solves}
+        challName={problem.name}
+        solveCount={problem.solves}
+        pageSize={solvesPageSize}
+        page={solvesPage}
+        setPage={handleSetSolvesPage}
+        onClose={onSolvesClose}
+        modalBodyRef={modalBodyRef}
+      />
     </div>
   )
 }
@@ -121,7 +180,15 @@ export default withStyles({
   },
   points: {
     marginTop: '0.75rem !important',
-    marginBottom: '0 !important'
+    marginBottom: '0 !important',
+    cursor: 'pointer',
+    display: 'inline-block',
+    transition: 'opacity ease-in-out 0.2s'
+  },
+  solvesPending: {
+    opacity: '0.6',
+    pointerEvents: 'none',
+    cursor: 'default'
   },
   tag: {
     background: '#111'

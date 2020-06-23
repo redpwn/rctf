@@ -33,7 +33,7 @@ const CtftimeCard = withStyles({
   }, [toast, onUpdate])
 
   return (
-    <div class='card u-flex u-flex-column'>
+    <div class='card'>
       <div class='content'>
         <p>CTFtime Integration</p>
         {ctftimeId === null ? (

@@ -63,7 +63,8 @@ export default withStyles({
   },
   modal: {
     background: '#222',
-    color: '#fff'
+    color: '#fff',
+    maxWidth: 'initial'
   },
   animated: {
     '&': {

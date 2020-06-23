@@ -1,15 +1,7 @@
 import config from '../config'
 import withStyles from './jss'
 import { useEffect, useState } from 'preact/hooks'
-
-const formatTime = (time) => {
-  const date = new Date(time)
-  const tz = date.getTimezoneOffset()
-  const tzHour = String(Math.floor(Math.abs(tz) / 60)).padStart(2, '0')
-  const tzMinute = String(Math.abs(tz) % 60).padStart(2, '0')
-  const tzSign = tz > 0 ? '-' : '+'
-  return `${date.toLocaleDateString()} ${date.toLocaleTimeString()} UTC${tzSign}${tzHour}:${tzMinute}`
-}
+import { formatAbsoluteTimeWithTz } from '../util/time'
 
 const Timer = withStyles({
   card: {
@@ -80,7 +72,7 @@ const Timer = withStyles({
           <span>Minutes</span>
           <span>Seconds</span>
           <span class={classes.sub}>until {config.ctfName} {targetEnd ? 'ends' : 'starts'}</span>
-          <span class={classes.absolute}>{formatTime(targetTime)}</span>
+          <span class={classes.absolute}>{formatAbsoluteTimeWithTz(targetTime)}</span>
         </div>
       </div>
     </div>
