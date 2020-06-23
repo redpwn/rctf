@@ -15,7 +15,9 @@ const SolvesDialog = withStyles({
     gridTemplateColumns: 'repeat(3, max-content)',
     '& div': {
       margin: 'auto',
-      padding: '10px'
+      padding: '10px',
+      textAlign: 'center',
+      whiteSpace: 'nowrap'
     }
   },
   label: {
