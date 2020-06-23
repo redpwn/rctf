@@ -1,5 +1,5 @@
 import withStyles from '../components/jss'
-import { useState, useCallback } from 'preact/hooks'
+import { useState, useCallback, useRef } from 'preact/hooks'
 
 import { submitFlag, getSolves } from '../api/challenges'
 import { useToast } from './toast'
@@ -44,6 +44,7 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
   const [solves, setSolves] = useState(null)
   const [solvesPending, setSolvesPending] = useState(false)
   const [solvesPage, setSolvesPage] = useState(1)
+  const modalBodyRef = useRef(null)
   const handleSetSolvesPage = useCallback(async (newPage) => {
     const { kind, message, data } = await getSolves({
       challId: problem.id,
@@ -56,6 +57,7 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
     }
     setSolves(data.solves)
     setSolvesPage(newPage)
+    modalBodyRef.current.scrollTop = 0
   }, [problem.id, toast])
   const onSolvesClick = useCallback(async (e) => {
     e.preventDefault()
@@ -146,6 +148,7 @@ const Problem = ({ classes, problem, solved, setSolved }) => {
         page={solvesPage}
         setPage={handleSetSolvesPage}
         onClose={onSolvesClose}
+        modalBodyRef={modalBodyRef}
       />
     </div>
   )

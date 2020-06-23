@@ -27,7 +27,7 @@ const SolvesDialog = withStyles({
   },
   name: {
     overflow: 'hidden',
-    maxWidth: '300px'
+    width: '300px'
   },
   inlineLabel: {
     display: 'none'
@@ -40,7 +40,11 @@ const SolvesDialog = withStyles({
     '& h5': {
       color: '#fff !important'
     },
-    padding: '1rem 3rem'
+    padding: '0 3rem',
+    paddingTop: '3rem'
+  },
+  modalBody: {
+    maxHeight: '60vh'
   },
   '@media (max-width: 768px)': {
     inlineLabel: {
@@ -58,6 +62,10 @@ const SolvesDialog = withStyles({
     },
     number: {
       borderTop: '1px solid #fff'
+    },
+    name: {
+      width: 'initial',
+      maxWidth: '300px'
     }
   }
 }, ({
@@ -69,6 +77,7 @@ const SolvesDialog = withStyles({
   page,
   setPage,
   pageSize,
+  modalBodyRef,
   ...props
 }) => {
   const wrappedOnClose = useCallback(e => {
@@ -92,7 +101,7 @@ const SolvesDialog = withStyles({
               <div class='modal-header'>
                 <div class='modal-title'>Solves for {challName}</div>
               </div>
-              <div class='modal-body'>
+              <div class={`modal-body ${classes.modalBody}`} ref={modalBodyRef}>
                 <div class={classes.table}>
                   <div class={classes.label}>#</div>
                   <div class={classes.label}>Team</div>
