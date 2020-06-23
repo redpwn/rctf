@@ -842,10 +842,10 @@
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-2.0.0.tgz#d69db22c18551ef8217e59430f06a59cdcd5e9db"
 
-"@google-cloud/storage@5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@google-cloud/storage/-/storage-5.1.0.tgz#1750890542139ebeca0c4ea4f37376a293b2a557"
-  integrity sha512-YzvJAqu51No76iXiR1Dg+K7ViuFvIw1YkhmMVnTYrIORp4MwstH7LBW1+TBXlrojpiXeUIornuU3e6QAEYwQCg==
+"@google-cloud/storage@5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@google-cloud/storage/-/storage-5.1.1.tgz#2caaf4a25edbcde850df3931d62f3d0da69b0e99"
+  integrity sha512-w/64V+eJl+vpYUXT15sBcO8pX0KTmb9Ni2ZNuQQ8HmyhAbEA3//G8JFaLPCXGBWO2/b0OQZytUT6q2wII9a9aQ==
   dependencies:
     "@google-cloud/common" "^3.0.0"
     "@google-cloud/paginator" "^3.0.0"
@@ -862,7 +862,7 @@
     mime "^2.2.0"
     mime-types "^2.0.8"
     onetime "^5.1.0"
-    p-limit "^2.2.0"
+    p-limit "^3.0.1"
     pumpify "^2.0.0"
     readable-stream "^3.4.0"
     snakeize "^0.1.0"
@@ -7400,6 +7400,13 @@ p-limit@^1.1.0:
 p-limit@^2.0.0, p-limit@^2.2.0, p-limit@^2.2.1, p-limit@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-2.3.0.tgz#3dd33c647a214fdfffd835933eb086da0dc21db1"
+  dependencies:
+    p-try "^2.0.0"
+
+p-limit@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-3.0.1.tgz#584784ac0722d1aed09f19f90ed2999af6ce2839"
+  integrity sha512-mw/p92EyOzl2MhauKodw54Rx5ZK4624rNfgNaBguFZkHzyUG9WsDzFF5/yQVEJinbJDdP4jEfMN+uBquiGnaLg==
   dependencies:
     p-try "^2.0.0"
 
