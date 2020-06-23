@@ -15,7 +15,7 @@ const loadStates = {
 }
 
 const Challenges = ({ classes }) => {
-  const challPageState = JSON.parse(localStorage.challPageState || '{}')
+  const challPageState = useMemo(() => JSON.parse(localStorage.getItem('challPageState') || '{}'), [])
   const [problems, setProblems] = useState([])
   const [categories, setCategories] = useState(challPageState.categories || {})
   const [showSolved, setShowSolved] = useState(challPageState.showSolved || false)
