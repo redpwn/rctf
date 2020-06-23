@@ -48,12 +48,35 @@ const Scoreboard = withStyles({
   }
 }, ({ classes }) => {
   const loggedIn = useMemo(() => localStorage.getItem('token') !== null, [])
+  const scoreboardPageState = useMemo(() => {
+    const localStorageState = JSON.parse(localStorage.getItem('scoreboardPageState') || '{}')
+
+    const queryParams = new URLSearchParams(location.search)
+    const queryState = {}
+    if (queryParams.has('page')) {
+      const page = parseInt(queryParams.get('page'))
+      if (!isNaN(page)) {
+        queryState.page = page
+      }
+    }
+    if (queryParams.has('pageSize')) {
+      const pageSize = parseInt(queryParams.get('pageSize'))
+      if (!isNaN(pageSize)) {
+        queryState.pageSize = pageSize
+      }
+    }
+    if (queryParams.has('division')) {
+      queryState.division = queryParams.get('division')
+    }
+
+    return { ...localStorageState, ...queryState }
+  }, [])
   const [profile, setProfile] = useState(null)
-  const [pageSize, _setPageSize] = useState(100)
+  const [pageSize, _setPageSize] = useState(scoreboardPageState.pageSize || 100)
   const [scores, setScores] = useState([])
   const [graphData, setGraphData] = useState(null)
-  const [division, _setDivision] = useState('all')
-  const [page, setPage] = useState(1)
+  const [division, _setDivision] = useState(scoreboardPageState.division || 'all')
+  const [page, setPage] = useState(scoreboardPageState.page || 1)
   const [totalItems, setTotalItems] = useState(0)
   const [scoreLoadState, setScoreLoadState] = useState(loadStates.pending)
   const [graphLoadState, setGraphLoadState] = useState(loadStates.pending)
@@ -70,6 +93,15 @@ const Scoreboard = withStyles({
     // at the top of the current page
     setPage(Math.floor((page - 1) * pageSize / newPageSize) + 1)
   }, [pageSize, _setPageSize, page, setPage])
+
+  useEffect(() => {
+    localStorage.setItem('scoreboardPageState', JSON.stringify({ pageSize, division }))
+  }, [pageSize, division])
+  useEffect(() => {
+    if (page !== 1 || location.search !== '') {
+      history.replaceState({}, '', `?page=${page}&division=${encodeURIComponent(division)}&pageSize=${pageSize}`)
+    }
+  }, [pageSize, division, page])
 
   const divisionChangeHandler = useCallback((e) => setDivision(e.target.value), [setDivision])
   const pageSizeChangeHandler = useCallback((e) => setPageSize(e.target.value), [setPageSize])
@@ -119,7 +151,7 @@ const Scoreboard = withStyles({
     })()
   }, [division])
 
-  const isUserOnCurrentScoreboard = loggedIn && (division === 'all' || Number.parseInt(division) === profile.division)
+  const isUserOnCurrentScoreboard = loggedIn && profile !== null && (division === 'all' || Number.parseInt(division) === profile.division)
   const isSelfVisible = useMemo(() => {
     if (profile == null) return false
     let isSelfVisible = false
