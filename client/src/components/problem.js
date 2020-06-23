@@ -12,7 +12,7 @@ const markdownComponents = {
   A: ExternalLink
 }
 
-const solvesPageSize = 1
+const solvesPageSize = 10
 
 const Problem = ({ classes, problem, solved, setSolved }) => {
   const { toast } = useToast()
