@@ -50,7 +50,8 @@ export const getGenericUserData = async ({ id }) => {
       name: chall.name,
       points: challengeInfo[i].score,
       solves: challengeInfo[i].solves,
-      id: chall.id
+      id: chall.id,
+      createdAt: solve.createdat.valueOf()
     })
   })
 

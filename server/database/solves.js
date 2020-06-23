@@ -11,7 +11,7 @@ export const getSolvesByUserId = ({ userid }) => {
 }
 
 export const getSolvesByChallId = ({ challengeid, limit, offset }) => {
-  return db.query('SELECT * FROM solves WHERE challengeid = $1 ORDER BY createdat ASC LIMIT $2 OFFSET $3', [challengeid, limit, offset])
+  return db.query('SELECT solves.id, solves.userid, solves.createdat, users.name FROM solves INNER JOIN users ON solves.userid = users.id WHERE solves.challengeid=$1 ORDER BY solves.createdat ASC LIMIT $2 OFFSET $3', [challengeid, limit, offset])
     .then(res => res.rows)
 }
 
