@@ -34,9 +34,9 @@ const Scoreboard = withStyles({
     paddingTop: '1.5em'
   },
   selected: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    backgroundColor: 'rgba(216,216,216,.07)',
     '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.1) !important'
+      backgroundColor: 'rgba(216,216,216,.20) !important'
     }
   },
   table: {
