@@ -48,7 +48,7 @@
     "jss-plugin-global": "10.3.0",
     "mustache": "4.0.1",
     "node-pg-migrate": "5.1.1",
-    "nodemailer": "6.4.8",
+    "nodemailer": "6.4.10",
     "pg": "8.2.1",
     "redis": "3.0.2",
     "uuid": "8.1.0",
