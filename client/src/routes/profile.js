@@ -370,13 +370,12 @@ export default withStyles({
     }
   },
   col: {
-    maxWidth: '1200px',
     margin: '0 auto',
-    width: 'calc(100% - 30px)',
+    width: 'calc(100% - 20px)',
     marginLeft: '10px'
   },
   privateCol: {
-    width: 'calc(100% - 30px)',
+    width: 'calc(100% - 20px)',
     marginLeft: '10px'
   }
 }, Profile)
