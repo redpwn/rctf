@@ -1,6 +1,6 @@
 import { Fragment } from 'preact'
 import withStyles from '../jss'
-import { formatTime } from '../../util/time'
+import { formatRelativeTime } from '../../util/time'
 import Clock from '../../icons/clock.svg'
 
 const makeSolvesCard = isPrivate => withStyles({
@@ -71,7 +71,7 @@ const makeSolvesCard = isPrivate => withStyles({
               <div class={classes.inlineLabel}>Name</div>
               <div>{solve.name}</div>
               <div class={classes.inlineLabel}>Solve time</div>
-              <div>{formatTime(solve.createdAt)}</div>
+              <div>{formatRelativeTime(solve.createdAt)}</div>
               <div class={classes.inlineLabel}>Points</div>
               <div>{solve.points}</div>
             </Fragment>

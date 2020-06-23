@@ -334,7 +334,7 @@ const Profile = ({ uuid, classes }) => {
   return (
     <div class={classes.root}>
       {isPrivate && (
-        <div>
+        <div class={classes.privateCol}>
           <TeamCodeCard {...{ teamToken }} />
           <UpdateCard {...{ name, email, divisionId, onUpdate: onProfileUpdate }} />
           <CtftimeCard {...{ ctftimeId, onUpdate: onProfileUpdate }} />
@@ -360,7 +360,6 @@ export default withStyles({
     width: '100%',
     maxWidth: '1500px',
     margin: 'auto',
-    gridGap: '20px',
     '& .card': {
       background: '#222',
       marginBottom: '20px'
@@ -372,6 +371,12 @@ export default withStyles({
   },
   col: {
     maxWidth: '1200px',
-    margin: '0 auto'
+    margin: '0 auto',
+    width: 'calc(100% - 30px)',
+    marginLeft: '10px'
+  },
+  privateCol: {
+    width: 'calc(100% - 30px)',
+    marginLeft: '10px'
   }
 }, Profile)

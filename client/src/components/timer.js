@@ -1,7 +1,7 @@
 import config from '../config'
 import withStyles from './jss'
 import { useEffect, useState } from 'preact/hooks'
-import { formatTime } from '../util/time'
+import { formatAbsoluteTimeWithTz } from '../util/time'
 
 const Timer = withStyles({
   card: {
@@ -72,7 +72,7 @@ const Timer = withStyles({
           <span>Minutes</span>
           <span>Seconds</span>
           <span class={classes.sub}>until {config.ctfName} {targetEnd ? 'ends' : 'starts'}</span>
-          <span class={classes.absolute}>{formatTime(targetTime)}</span>
+          <span class={classes.absolute}>{formatAbsoluteTimeWithTz(targetTime)}</span>
         </div>
       </div>
     </div>

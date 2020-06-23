@@ -3,7 +3,7 @@ import { useCallback } from 'preact/hooks'
 import Modal from './modal'
 import Pagination from './pagination'
 import withStyles from './jss'
-import { formatTime } from '../util/time'
+import { formatRelativeTime } from '../util/time'
 import Clock from '../icons/clock.svg'
 
 const SolvesDialog = withStyles({
@@ -15,7 +15,7 @@ const SolvesDialog = withStyles({
     gridTemplateColumns: 'repeat(3, max-content)',
     '& div': {
       margin: 'auto',
-      padding: '10px',
+      padding: '5px 10px',
       textAlign: 'center',
       whiteSpace: 'nowrap'
     }
@@ -27,7 +27,7 @@ const SolvesDialog = withStyles({
   },
   name: {
     overflow: 'hidden',
-    width: '300px'
+    maxWidth: '300px'
   },
   inlineLabel: {
     display: 'none'
@@ -106,7 +106,7 @@ const SolvesDialog = withStyles({
                         <a href={`/profile/${solve.userId}`}>{solve.userName}</a>
                       </div>
                       <div class={classes.inlineLabel}>Solve time</div>
-                      <div>{formatTime(solve.createdAt)}</div>
+                      <div>{formatRelativeTime(solve.createdAt)}</div>
                     </Fragment>
                   ))}
                 </div>
