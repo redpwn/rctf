@@ -84,7 +84,7 @@
     "jss-nested": "6.0.1",
     "jss-vendor-prefixer": "8.0.1",
     "linkstate": "1.1.1",
-    "lint-staged": "10.2.10",
+    "lint-staged": "10.2.11",
     "loader-utils": "2.0.0",
     "nodemon": "2.0.4",
     "nyc": "15.1.0",
