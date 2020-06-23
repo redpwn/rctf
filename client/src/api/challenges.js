@@ -24,6 +24,13 @@ export const getPrivateSolves = async () => {
   }
 }
 
+export const getSolves = ({ challId, limit, offset }) => {
+  return request('GET', `/challs/${encodeURIComponent(challId)}/solves`, {
+    limit,
+    offset
+  })
+}
+
 export const submitFlag = async (id, flag) => {
   if (flag === undefined || flag.length === 0) {
     return Promise.resolve({
