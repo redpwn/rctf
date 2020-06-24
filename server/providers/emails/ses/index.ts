@@ -12,12 +12,12 @@ export default class SesProvider implements Provider {
   private sesSend: Function
   constructor (options: SesProviderOptions) {
     const credentials = new AWS.Credentials({
-      accessKeyId: options.awsKeyId,
-      secretAccessKey: options.awsKeySecret
+      accessKeyId: options.awsKeyId || process.env.RCTF_SES_KEY_ID,
+      secretAccessKey: options.awsKeySecret || process.env.RCTF_SES_KEY_SECRET
     })
     const ses = new AWS.SES({
       credentials,
-      region: options.awsRegion
+      region: options.awsRegion || process.env.RCTF_SES_REGION
     })
     this.sesSend = promisify(ses.sendEmail.bind(ses))
   }
