@@ -151,7 +151,12 @@ const Scoreboard = withStyles({
     })()
   }, [division])
 
-  const isUserOnCurrentScoreboard = loggedIn && profile !== null && (division === 'all' || Number.parseInt(division) === profile.division)
+  const isUserOnCurrentScoreboard = (
+    loggedIn &&
+    profile !== null &&
+    profile.globalPlace !== null &&
+    (division === 'all' || Number.parseInt(division) === profile.division)
+  )
   const isSelfVisible = useMemo(() => {
     if (profile == null) return false
     let isSelfVisible = false
