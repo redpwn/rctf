@@ -9,7 +9,7 @@ interface SmtpProviderOptions {
 export default class SmtpProvider implements Provider {
   private mailer: Mailer
   constructor (options: SmtpProviderOptions) {
-    this.mailer = nodemailer.createTransport(options.smtpUrl)
+    this.mailer = nodemailer.createTransport(options.smtpUrl || process.env.RCTF_SMTP_URL)
   }
 
   send (mail: Mail): Promise<void> {
