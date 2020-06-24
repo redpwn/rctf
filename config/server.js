@@ -31,16 +31,12 @@ const envConfig = cleanConfig({
   instanceType: process.env.RCTF_INSTANCE_TYPE || 'all',
   tokenKey: process.env.RCTF_TOKEN_KEY,
   origin: process.env.RCTF_ORIGIN,
-  ctftimeClientSecret: process.env.RCTF_CTFTIME_CLIENT_SECRET,
-  email: {
-    smtpUrl: process.env.RCTF_SMTP_URL,
-    from: process.env.RCTF_EMAIL_FROM
-  }
+  ctftimeClientSecret: process.env.RCTF_CTFTIME_CLIENT_SECRET
 })
 
 const finalConfig = {
   ...shared,
-  verifyEmail: (config.email !== undefined && config.email.smtpUrl !== undefined),
+  verifyEmail: (config.emailFrom !== undefined),
   ...config,
   ...envConfig
 }

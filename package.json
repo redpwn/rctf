@@ -34,7 +34,8 @@
     }
   },
   "dependencies": {
-    "@google-cloud/storage": "5.1.1",
+    "@google-cloud/storage": "5.1.0",
+    "aws-sdk": "2.703.0",
     "content-disposition": "0.5.3",
     "data-uri-to-buffer": "3.0.1",
     "dotenv": "8.2.0",
@@ -56,6 +57,7 @@
   },
   "devDependencies": {
     "@types/content-disposition": "0.5.3",
+    "@types/nodemailer": "6.4.0",
     "@typescript-eslint/eslint-plugin": "2.34.0",
     "@typescript-eslint/parser": "2.34.0",
     "ava": "3.9.0",

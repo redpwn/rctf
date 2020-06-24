@@ -6,6 +6,7 @@ import * as auth from '../../auth'
 import config from '../../../config/server'
 import { responses } from '../../responses'
 import { getUserByNameOrEmail } from '../../database/auth'
+import { sendVerification } from '../../email'
 
 export default {
   method: 'POST',
@@ -97,7 +98,7 @@ export default {
       division: req.body.division
     })
 
-    await util.email.sendVerification({
+    await sendVerification({
       email,
       kind: 'register',
       token: verifyToken

@@ -44,7 +44,7 @@ const SolvesDialog = withStyles({
     paddingTop: '3rem'
   },
   modalBody: {
-    maxHeight: '60vh'
+    maxHeight: '60vh !important'
   },
   '@media (max-width: 768px)': {
     inlineLabel: {

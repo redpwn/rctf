@@ -1,12 +1,14 @@
 import path from 'path'
 import fs from 'fs'
-import nodemailer from 'nodemailer'
 import mustache from 'mustache'
 import config from '../../config/server'
 
-let transport
+let provider
 if (config.verifyEmail) {
-  transport = nodemailer.createTransport(config.email.smtpUrl)
+  provider = (async () => {
+    const { default: Provider } = await import(path.join('../providers', config.emailProvider.name))
+    return new Provider(config.emailProvider.options)
+  })()
 }
 const verifyHtml = fs.readFileSync(path.join(__dirname, 'emails/verify.html')).toString()
 const verifyText = fs.readFileSync(path.join(__dirname, 'emails/verify.txt')).toString()
@@ -30,8 +32,8 @@ export const sendVerification = async ({ token, kind, email }) => {
     subject = `Update your ${config.ctfName} email`
   }
 
-  await transport.sendMail({
-    from: `${config.ctfName} <${config.email.from}>`,
+  await (await provider).send({
+    from: `${config.ctfName} <${config.emailFrom}>`,
     to: email,
     subject,
     html: mustache.render(verifyHtml, emailView),

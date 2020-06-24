@@ -22,9 +22,17 @@ uploadProvider:
     endpoint: '/uploads'
 
 # uncomment these lines to enable email auth
-#email:
-  #smtpUrl: smtp://user:pass@example.com
-  #from: rctf@example.com
+# emailProvider:
+#   name: 'emails/smtp'
+#   options:
+#     smtpUrl: smtps://a:b@example.com
+# emailProvider:
+#   name: 'emails/ses'
+#   options:
+#     awsKeyId: AAAAAA
+#     awsKeySecret: abcd
+#     awsRegion: aa-bbbb-1
+# emailFrom: no-reply@example.com
 
 leaderboard:
   maxLimit: 100
