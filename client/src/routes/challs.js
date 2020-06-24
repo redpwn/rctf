@@ -15,7 +15,7 @@ const loadStates = {
 }
 
 const Challenges = ({ classes }) => {
-  const challPageState = JSON.parse(localStorage.challPageState || '{}')
+  const challPageState = useMemo(() => JSON.parse(localStorage.getItem('challPageState') || '{}'), [])
   const [problems, setProblems] = useState([])
   const [categories, setCategories] = useState(challPageState.categories || {})
   const [showSolved, setShowSolved] = useState(challPageState.showSolved || false)
@@ -176,7 +176,7 @@ const Challenges = ({ classes }) => {
           <div class='frame__body'>
             <div class='frame__title title'>Categories</div>
             {
-              Object.entries(categories).map(([category, checked]) => {
+              Object.entries(categories).sort((a, b) => a[0].localeCompare(b[0])).map(([category, checked]) => {
                 return (
                   <div key={category} class='form-ext-control form-ext-checkbox'>
                     <input id={`category-${category}`} data-category={category} class='form-ext-input' type='checkbox' checked={checked} onChange={handleCategoryCheckedChange} />
