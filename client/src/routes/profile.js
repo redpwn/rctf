@@ -350,9 +350,9 @@ const Profile = ({ uuid, classes }) => {
 
   if (error !== null) {
     return (
-      <div class={`row u-center ${classes.root}`} style='align-items: initial !important'>
+      <div class='row u-center'>
         <div class='col-4'>
-          <div class='card'>
+          <div class={`card ${classes.errorCard}`}>
             <div class='content'>
               <p class='title'>There was an error</p>
               <p class='font-thin'>{error}</p>
@@ -409,5 +409,8 @@ export default withStyles({
   privateCol: {
     width: 'calc(100% - 20px)',
     marginLeft: '10px'
+  },
+  errorCard: {
+    background: '#222'
   }
 }, Profile)
