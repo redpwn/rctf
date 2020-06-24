@@ -110,13 +110,45 @@ const SummaryCard = memo(withStyles({
   </div>
 ))
 
-const TeamCodeCard = memo(({ teamToken }) => {
+const TeamCodeCard = withStyles({
+  btn: {
+    marginRight: '10px'
+  }
+}, ({ teamToken, classes }) => {
+  const { toast } = useToast()
+
+  const tokenUrl = `${location.origin}/login?token=${encodeURIComponent(teamToken)}`
+
+  const [reveal, setReveal] = useState(false)
+  const toggleReveal = useCallback(
+    () => setReveal(!reveal),
+    [reveal]
+  )
+
+  const onCopyClick = useCallback(() => {
+    if (navigator.clipboard) {
+      try {
+        navigator.clipboard.writeText(tokenUrl).then(() => {
+          toast({ body: 'Copied team invite URL to clipboard' })
+        })
+      } catch {}
+    }
+  }, [toast, tokenUrl])
+
   return (
     <div class='card'>
       <div class='content'>
         <p>Team Invite</p>
         <p class='font-thin'>Send this team invite URL to your teammates so they can login.</p>
-        <TokenPreview token={`${location.origin}/login?token=${encodeURIComponent(teamToken)}`} />
+
+        <button onClick={onCopyClick} class={`${classes.btn} btn-info u-center`} name='btn' value='submit' type='submit'>Copy</button>
+
+        <button onClick={toggleReveal} class='btn-info u-center' name='btn' value='submit' type='submit'>{reveal ? 'Hide' : 'Reveal'}</button>
+
+        {
+          reveal &&
+            <TokenPreview token={tokenUrl} />
+        }
       </div>
     </div>
   )
