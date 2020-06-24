@@ -1,6 +1,4 @@
 import withStyles from './jss'
-import { useToast } from './toast'
-import { useCallback } from 'preact/hooks'
 
 export default withStyles({
   quote: {
@@ -12,20 +10,8 @@ export default withStyles({
     background: '#111'
   }
 }, ({ classes, token, ...props }) => {
-  const { toast } = useToast()
-
-  const onTeamCodeClick = useCallback(() => {
-    if (navigator.clipboard) {
-      try {
-        navigator.clipboard.writeText(token).then(() => {
-          toast({ body: 'Copied team invite URL to clipboard' })
-        })
-      } catch {}
-    }
-  }, [toast, token])
-
   return (
-    <blockquote class={classes.quote} onClick={onTeamCodeClick} {...props}>
+    <blockquote class={classes.quote} {...props}>
       {token}
     </blockquote>
   )
