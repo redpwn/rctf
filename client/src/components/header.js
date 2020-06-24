@@ -2,7 +2,7 @@ import Match from 'preact-router/match'
 import withStyles from './jss'
 import LogoutButton from './logout-button'
 
-function Header ({ classes, paths, currentPath }) {
+function Header ({ classes, paths }) {
   const loggedIn = localStorage.getItem('token') !== null
 
   return (
@@ -37,7 +37,8 @@ export default withStyles({
       borderBottomColor: 'rgba(240,61,77,.6)'
     },
     background: '#0000 !important',
-    color: '#fff !important'
+    color: '#fff !important',
+    padding: '.5rem .7rem !important'
   },
   list: {
     borderBottomColor: '#333 !important',

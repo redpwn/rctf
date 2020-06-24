@@ -6,6 +6,7 @@ import * as auth from '../../auth'
 import * as database from '../../database'
 import config from '../../../config/server'
 import { responses } from '../../responses'
+import { sendVerification } from '../../email'
 
 export default {
   method: 'POST',
@@ -46,7 +47,7 @@ export default {
       email
     })
 
-    await util.email.sendVerification({
+    await sendVerification({
       email,
       kind: 'recover',
       token: verifyToken

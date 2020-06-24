@@ -27,7 +27,8 @@ const makeSolvesCard = isPrivate => withStyles({
     display: 'none'
   },
   icon: {
-    width: '60px'
+    width: '60px',
+    margin: 'auto !important'
   },
   [`@media (max-width: ${isPrivate ? '1500px' : '800px'})`]: {
     inlineLabel: {

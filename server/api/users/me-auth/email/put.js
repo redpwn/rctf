@@ -6,6 +6,7 @@ import * as cache from '../../../../cache'
 import * as util from '../../../../util'
 import * as auth from '../../../../auth'
 import * as database from '../../../../database'
+import { sendVerification } from '../../../../email'
 
 export default {
   method: 'PUT',
@@ -63,11 +64,15 @@ export default {
       email
     })
 
-    await util.email.sendVerification({
-      email,
-      kind: 'update',
-      token: verifyToken
-    })
+    try {
+      await sendVerification({
+        email,
+        kind: 'update',
+        token: verifyToken
+      })
+    } catch (e) {
+      throw new Error(e.message)
+    }
 
     return responses.goodVerifySent
   }

@@ -7,7 +7,6 @@ import fastifyCors from 'fastify-cors'
 export * as normalize from './normalize'
 export * as validate from './validate'
 export * as scores from './scores'
-export * as email from './email'
 
 // This function does not work for non JSON stringifiable objects
 export const deepCopy = data => {
