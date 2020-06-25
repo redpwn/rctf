@@ -374,12 +374,12 @@ const Profile = ({ uuid, classes }) => {
       )}
       <div class={classes.col}>
         <SummaryCard {...{ name, score, division, divisionPlace, globalPlace, ctftimeId, isPrivate }} />
+        { isPrivate && <MembersCard /> }
         {isPrivate ? (
           <PrivateSolvesCard solves={solves} />
         ) : (
           <PublicSolvesCard solves={solves} />
         )}
-        { isPrivate && <MembersCard /> }
       </div>
     </div>
   )

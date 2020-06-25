@@ -30,5 +30,5 @@ export const formatRelativeTime = (time) => {
   if (days < 7) {
     return `${days} day${days === 1 ? '' : 's'} ago`
   }
-  return formatAbsoluteTime(ms)
+  return formatAbsoluteTime(time)
 }
