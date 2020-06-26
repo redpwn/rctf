@@ -23,6 +23,10 @@ export default {
     }
   },
   handler: async ({ user, req }) => {
+    if (Date.now() > config.endTime) {
+      return responses.badEnded
+    }
+
     const uuid = user.id
     const { division } = req.body
     let name

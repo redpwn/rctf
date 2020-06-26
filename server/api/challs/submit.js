@@ -37,7 +37,7 @@ export default {
     if (timeNow < config.startTime) {
       return responses.badNotStarted
     }
-    if (timeNow >= config.endTime) {
+    if (timeNow > config.endTime) {
       return responses.badEnded
     }
 
