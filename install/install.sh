@@ -148,7 +148,7 @@ read -r result </dev/tty
 
 if [ "$result" = "y" ]; then
     info "Running 'docker-compose up -d'..."
-    docker-compose up -d --project-directory $INSTALL_PATH
+    docker-compose up -d --project-directory "$INSTALL_PATH"
     exit 0
 else
     info "Installation to $INSTALL_PATH complete."
