@@ -2,8 +2,9 @@
 
 set -e
 
+echo "RCTF_DATABASE_PASSWORD=$(head -c 32 /dev/urandom | base64 -w0)" >> .env
+echo "RCTF_TOKEN_KEY=$(head -c 32 /dev/urandom | base64 -w0)" >> .env
 
-cp -n .env.example .env
 cp -nR .rdeploy.example .rdeploy
 cp -nR config/yml.example config/yml
 
@@ -13,4 +14,3 @@ chown -R 999 data
 chmod 600 .env
 
 docker-compose build
-docker-compose run --rm rctf node install/docker-migrate.js

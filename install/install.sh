@@ -81,13 +81,13 @@ fi
 if [ -d "$INSTALL_PATH" ]; then
     error "rCTF appears to already be installed in ${INSTALL_PATH}"
 
-    info "... If you're trying to start rCTF, run 'rctf start'."
+    info "... If you're trying to start rCTF, run 'docker-compose up -d --project-directory $INSTALL_PATH'."
     info "... If you're trying to reinstall rCTF, 'rm -rf $INSTALL_PATH' then re-run this script."
 
     exit 1
 fi
 
-REPOSITORY_URL="${REPOSITORY_URL:-"https://github.com/redpwn/rctf.git"}"
+REPOSITORY_URL="${REPOSITORY_URL:-"https://github.com/redpwn/rCTF.git"}"
 REPOSITORY_BRANCH="${REPOSITORY_BRANCH:-"master"}"
 
 
@@ -98,7 +98,7 @@ info "Installing dependencies..."
 
 if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
     apt-get update
-    apt-get install --yes docker.io docker-compose git python3 python3-pip
+    apt-get install --yes docker.io docker-compose git
 elif [ "$PACKAGE_MANAGER" = "yum" ]; then
     info "We are about to install docker via https://get.docker.com/. Please follow along the steps to ensure it is configured properly."
 
@@ -108,13 +108,10 @@ elif [ "$PACKAGE_MANAGER" = "yum" ]; then
         curl -fsSL https://get.docker.com/ | sh
     '
 
-    yum install git python3 python3-pip
+    yum install git
 elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
-    pacman -Sy --noconfirm --needed docker docker-compose git python python-pip
+    pacman -Sy --noconfirm --needed docker docker-compose git
 fi
-
-# XXX: migrate to requirements.txt eventually
-pip3 install --upgrade requests envparse
 
 info "Enabling docker..."
 
@@ -139,23 +136,6 @@ info "Configuring rCTF..."
 
 ./install/config.sh
 
-printf "Enter the CTF name: "
-read -r RCTF_NAME </dev/tty
-
-RCTF_TOKEN_KEY=${RCTF_TOKEN_KEY:-"$(head -c 32 /dev/urandom | base64 -w 0)"}
-
-sed -i.bak "s/RCTF_NAME=.*$/RCTF_NAME=\"$(echo "$RCTF_NAME"  | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')\"/g" .env
-sed -i.bak "s/RCTF_TOKEN_KEY=.*$/RCTF_TOKEN_KEY=$(echo "$RCTF_TOKEN_KEY"  | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')/g" .env
-
-info "Changing permissions of .env (chmod 600 .env)..."
-
-chmod 600 .env .env.example
-
-# copy over cli tool
-
-info "Installing CLI tool from PyPI..."
-
-pip3 install rctf-cli
 
 # start docker
 
@@ -167,9 +147,8 @@ printf "Would you like to start rCTF now (y/N)? "
 read -r result </dev/tty
 
 if [ "$result" = "y" ]; then
-    RCTF_CLI_INSTALL_PATH="/usr/bin/rctf"
-    info "Running '${RCTF_CLI_INSTALL_PATH} start'..."
-    "${RCTF_CLI_INSTALL_PATH}" start
+    info "Running 'docker-compose up -d'..."
+    docker-compose up -d --project-directory $INSTALL_PATH
     exit 0
 else
     info "Installation to $INSTALL_PATH complete."
