@@ -4,7 +4,9 @@ const yaml = require('yaml')
 const { cleanConfig } = require('./util')
 
 const envConfig = cleanConfig({
-  ctftimeClientId: process.env.RCTF_CTFTIME_CLIENT_ID
+  ctftimeClientId: process.env.RCTF_CTFTIME_CLIENT_ID,
+  startTime: process.env.RCTF_START_TIME,
+  endTime: process.env.RCTF_END_TIME
 })
 
 const ymlConfig = yaml.parse(
