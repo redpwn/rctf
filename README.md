@@ -1,9 +1,11 @@
-<img src="https://raw.githubusercontent.com/redpwn/rCTF/master/docs/rCTF.png" width="350px">
+<img src="https://raw.githubusercontent.com/redpwn/rCTF/master/docs/content/assets/rctf-logotype-dark-1024.png" width="350px">
 
 [![Build Status](https://github.com/redpwn/rCTF/workflows/CI/badge.svg?branch=master)](https://github.com/redpwn/rCTF/actions?query=workflow%3ACI+branch%3Amaster)
 [![Code Coverage](https://img.shields.io/codecov/c/github/redpwn/rctf.svg)](https://codecov.io/github/redpwn/rctf/)
+[![Docs](https://img.shields.io/badge/docs-current-brightgreen)](https://rctf.redpwn.net/)
 
-rCTF is RedpwnCTF's CTF platform. It is developed and maintained by the [redpwn](https://redpwn.net) CTF team.
+rCTF is redpwnCTF's CTF platform. It is developed and maintained by the
+[redpwn](https://redpwn.net) CTF team.
 
 ## Design Goals
 
@@ -13,7 +15,8 @@ We have designed rCTF with a focus on these attributes:
 * simplicity
 * customizability
 
-To read more about our motivations for creating this project, see [here](https://github.com/redpwn/rctf/wiki/Purpose-of-rCTF).
+To read more about our motivations for creating this project, see
+[here](https://github.com/redpwn/rctf/wiki/Purpose-of-rCTF).
 
 ## Getting Started
 
@@ -21,7 +24,10 @@ To read more about our motivations for creating this project, see [here](https:/
 
 #### Automatic
 
-The automatic installation script works on Debian-based distributions and Arch Linux. It depends on `curl`. Feel free to [read the script](https://get.rctf.redpwn.net/) before running this command as root (it's fairly short).
+The automatic installation script works on Debian-based distributions and Arch
+Linux. It depends on `curl`. Feel free to [read the
+script](https://get.rctf.redpwn.net/) before running this command as root (it's
+fairly short).
 
 ```
 # curl https://get.rctf.redpwn.net | sh
@@ -40,15 +46,19 @@ $ cd rctf
 
 ### rCTF CLI Management Tool
 
-![screenshot of tool](docs/rctf-cli.png)
+![screenshot of tool](docs/content/assets/rctf-cli.png)
 
-The [rCTF CLI management tool](https://github.com/redpwn/rctf-cli) makes management of your rCTF installation simple. It is installed by default through the [automatic installation script](install/install.sh); however, if you have installed rCTF manually, you may install the tool by running:
+The [rCTF CLI management tool](https://github.com/redpwn/rctf-cli) makes
+management of your rCTF installation simple. It is installed by default through
+the [automatic installation script](install/install.sh); however, if you have
+installed rCTF manually, you may install the tool by running:
 
 ```
 # pip3 install rctf-cli
 ```
 
-To read more about its usage, see the [wiki page](https://github.com/redpwn/rctf/wiki/Managing-rCTF-through-the-CLI) or the [GitHub repository](https://github.com/redpwn/rctf-cli).
+To read more about its usage, see the [wiki page](https://github.com/redpwn/rctf/wiki/Managing-rCTF-through-the-CLI)
+or the [GitHub repository](https://github.com/redpwn/rctf-cli).
 
 #### Starting rCTF
 
@@ -72,7 +82,8 @@ To read more about its usage, see the [wiki page](https://github.com/redpwn/rctf
 
 ##### Using rDeploy
 
-If you use [rDeploy](https://github.com/redpwn/rdeploy), you can automatically import the problem data using the below command:
+If you use [rDeploy](https://github.com/redpwn/rdeploy), you can automatically
+import the problem data using the below command:
 
 ```
 # rctf deploy /path/to/challenge/directory/
