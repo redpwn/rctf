@@ -45,7 +45,7 @@ export default {
         }
       })
     } catch (e) {
-      return responses.badDataURI
+      return responses.badDataUri
     }
 
     try {

@@ -119,7 +119,7 @@ export const responseList = {
     status: 500,
     message: 'The upload of files failed'
   },
-  badDataURI: {
+  badDataUri: {
     status: 400,
     message: 'A data URI provided was malformed'
   },
