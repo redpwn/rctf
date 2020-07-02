@@ -33,6 +33,4 @@ cp .env.example .env
 
 You will need to update three values to get the server running. `RCTF_DATABASE_URL`, `RCTF_REDIS_URL`, and `RCTF_TOKEN_KEY`.
 
-To start the server in development mode, use `yarn dev`. Afterwards, your rCTF installation will be running at `localhost:8080`.
-
 To simulate a full production build, use `yarn build && yarn start`. Afterwards, your rCTF installation will be running at `localhost:3000`. 
