@@ -15,8 +15,11 @@ sponsors:
 
 apiEndpoint: '/api/v1'
 
+showUserMembers: true
+
 # Used for Google Analytics
 #globalSiteTag: 
 
 # Not required, will be auto generated
 #ctfTitle: 
+

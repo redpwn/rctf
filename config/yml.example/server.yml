@@ -6,7 +6,10 @@ logoUrl: 'https://example.com'
 tokenKey: 
 
 #corsOrigin: 
+
+# Uncomment below to enable CTF OAuth
 #ctftimeClientSecret: 
+#ctftimeClientId: 
 
 challengeProvider: 
   name: 'challenges/rdeploy-blob'

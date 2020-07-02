@@ -1,4 +1,4 @@
-import { Component } from 'preact'
+import { Fragment, Component } from 'preact'
 import { Link } from 'preact-router'
 import Form from '../components/form'
 import config from '../config'
@@ -94,10 +94,18 @@ export default withStyles({
             value={teamToken}
             onChange={this.linkState('teamToken')}
           />
-          <Link href='/recover' class={classes.link}>Lost your team token?</Link>
+          {
+            config.verifyEmail &&
+              <Link href='/recover' class={classes.link}>Lost your team token?</Link>
+          }
         </Form>
-        <AuthOr />
-        <CtftimeButton class='col-12' onCtftimeDone={this.handleCtftimeDone} />
+        {
+          config.ctftimeEnabled &&
+            <Fragment>
+              <AuthOr />
+              <CtftimeButton class='col-12' onCtftimeDone={this.handleCtftimeDone} />
+            </Fragment>
+        }
       </div>
     )
   }
