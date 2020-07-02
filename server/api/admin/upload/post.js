@@ -36,11 +36,22 @@ export default {
   bodyLimit: 2 ** 30, // 1 GiB
   handler: async ({ req }) => {
     const uploadProvider = getUploadProvider()
+    let convertedFiles
+    try {
+      convertedFiles = req.body.files.map(({ name, data }) => {
+        return {
+          name,
+          data: toBuffer(data)
+        }
+      })
+    } catch (e) {
+      return responses.badDataURI
+    }
 
     try {
       const files = await Promise.all(
-        req.body.files.map(async ({ name, data }) => {
-          const url = await uploadProvider.upload(toBuffer(data), name)
+        convertedFiles.map(async ({ name, data }) => {
+          const url = await uploadProvider.upload(data, name)
 
           return {
             name,
