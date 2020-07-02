@@ -14,7 +14,5 @@ module.exports = {
   verifyEmail: server.verifyEmail,
   ctftimeClientId: server.ctftimeClientId,
   ctftimeEnabled: server.ctftimeClientId !== undefined,
-  ...config,
-  // Convert to boolean
-  showUserMembers: config.showUserMembers === 'true'
+  ...config
 }
