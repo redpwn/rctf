@@ -369,12 +369,19 @@ const Profile = ({ uuid, classes }) => {
         <div class={classes.privateCol}>
           <TeamCodeCard {...{ teamToken }} />
           <UpdateCard {...{ name, email, divisionId, onUpdate: onProfileUpdate }} />
-          <CtftimeCard {...{ ctftimeId, onUpdate: onProfileUpdate }} />
+          {
+            config.ctftimeEnabled &&
+              <CtftimeCard {...{ ctftimeId, onUpdate: onProfileUpdate }} />
+          }
         </div>
       )}
       <div class={classes.col}>
         <SummaryCard {...{ name, score, division, divisionPlace, globalPlace, ctftimeId, isPrivate }} />
-        { isPrivate && <MembersCard /> }
+        {
+          isPrivate &&
+            config.showUserMembers &&
+            <MembersCard />
+        }
         {isPrivate ? (
           <PrivateSolvesCard solves={solves} />
         ) : (

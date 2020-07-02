@@ -1,4 +1,4 @@
-import { Component } from 'preact'
+import { Fragment, Component } from 'preact'
 import Form from '../components/form'
 import config from '../config'
 import 'linkstate/polyfill'
@@ -90,8 +90,13 @@ export default withStyles({
           />
         </Form>
         <p>Please register one account per team.</p>
-        <AuthOr />
-        <CtftimeButton class='col-6' onCtftimeDone={this.handleCtftimeDone} />
+        {
+          config.ctftimeEnabled &&
+            <Fragment>
+              <AuthOr />
+              <CtftimeButton class='col-6' onCtftimeDone={this.handleCtftimeDone} />
+            </Fragment>
+        }
       </div>
     )
   }
