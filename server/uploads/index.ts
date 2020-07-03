@@ -4,7 +4,7 @@ import { Provider } from './types'
 import fastify from 'fastify'
 import { Server, IncomingMessage, ServerResponse } from 'http'
 
-let provider: Provider = null
+let provider: Provider | null = null
 
 export const init = (app: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> | null): void => {
   const name = app === null ? 'uploads/dummy' : config.uploadProvider.name

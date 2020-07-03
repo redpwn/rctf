@@ -1,7 +1,7 @@
 import config from '../../config/server'
 import path from 'path'
 import { Challenge, CleanedChallenge } from './types'
-import { Provider } from './Provider'
+import { Provider, ProviderConstructor } from './Provider'
 import { challUpdateEmitter, publishChallUpdate } from '../cache/challs'
 
 let provider: Provider
@@ -9,8 +9,8 @@ let provider: Provider
 let challenges: Challenge[] = []
 let cleanedChallenges: CleanedChallenge[] = []
 
-let challengesMap: Map<string, Challenge> = new Map()
-let cleanedChallengesMap: Map<string, CleanedChallenge> = new Map()
+let challengesMap = new Map<string, Challenge>()
+let cleanedChallengesMap = new Map<string, CleanedChallenge>()
 
 const cleanChallenge = (chall: Challenge): CleanedChallenge => {
   const { files, description, author, points, id, name, category, sortWeight } = chall
@@ -34,8 +34,8 @@ const onUpdate = (newChallenges: Challenge[]): void => {
   cleanedChallengesMap = new Map(cleanedChallenges.map(c => [c.id, c]))
 }
 
-import(path.join('../providers', config.challengeProvider.name))
-  .then(({ default: Provider }) => {
+void import(path.join('../providers', config.challengeProvider.name))
+  .then(({ default: Provider }: { default: ProviderConstructor }) => {
     provider = new Provider(config.challengeProvider.options)
 
     provider.on('update', onUpdate)

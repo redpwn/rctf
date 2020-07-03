@@ -3,7 +3,7 @@ import crypto from 'crypto'
 import { Provider } from '../../../uploads/types'
 
 interface GcsProviderOptions {
-  credentials: object;
+  credentials: Record<string, unknown>;
   bucketName: string;
 }
 

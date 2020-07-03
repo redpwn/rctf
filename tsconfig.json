@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "target": "es2019",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es6",
-    "noImplicitAny": true,
-    "moduleResolution": "node",
     "inlineSourceMap": true,
     "inlineSources": true,
-    "allowJs": true,
     "outDir": "dist",
     "baseUrl": "."
   },
