@@ -8,7 +8,11 @@ let provider: Provider | null = null
 
 export const init = (app: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> | null): void => {
   const name = app === null ? 'uploads/dummy' : config.uploadProvider.name
+
+  // FIXME: use async loading
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ProviderClass = require(path.join('../providers', name)).default
+
   provider = new ProviderClass(config.uploadProvider.options, app)
 }
 
