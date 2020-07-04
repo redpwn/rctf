@@ -24,7 +24,7 @@ RCTF_TOKEN_KEY=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 ## Client
 
-There are additional **optional** client specific configuration options, located in `config/yml/client.yml`. 
+There are additional client specific configuration options, located in `config/yml/client.yml`. 
 
 Option|Description
 -|-
@@ -60,9 +60,6 @@ Thank you to our wonderful sponsors for making this event possible!
 </div>
 ```
 
-Option|Description
--|-
-
 The `sponsors` config options represents a list of sponsor elements. Each sponsor element is defined as follows. 
 
 Option|Description
@@ -72,3 +69,15 @@ Option|Description
 `small` | Boolean. Render as sponsor card as small, without image. Can be used to distinguish between different sponsor levels. 
 `icon` | Required if `small` is not specified. A url pointing to an image to use for the sponsor card. 
 
+## Shared Configuration
+
+There are additional shared configuration options, located in `config/yml/shared.yml`. 
+
+Option|Description
+-|-
+`divisions` | Required. A map of `division_name:id` pairs. 
+`defaultDivision` | Required. The number corresponding to the id of the default division.
+`ctfName` | Required. The name of the CTF, should look something like `xxxCTF`. 
+`origin` | Required. The origin of the CTF. This is used for sending emails and is rendered into the HTML. 
+`startTime` | Required. The start time of the CTF in UTC milliseconds. You can generate this by running `+new Date("your date")`.
+`endTime` | Required. The end time of the CTF in UTC milliseconds. 
