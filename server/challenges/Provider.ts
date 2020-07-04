@@ -13,3 +13,7 @@ export interface Provider extends EventEmitter {
   deleteChallenge(id: string): void;
   cleanup (): void;
 }
+
+export interface ProviderConstructor {
+  new (options: unknown): Provider
+}

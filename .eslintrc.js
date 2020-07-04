@@ -20,7 +20,10 @@ module.exports = {
       maxBOF: 0
     }],
     'padding-line-between-statements': ['error',
-      {blankLine: 'always', prev: 'block-like', next: 'export'}
-    ]
+      { blankLine: 'always', prev: 'block-like', next: 'export' }
+    ],
+    'no-void': ['error', {
+      allowAsStatement: true
+    }]
   }
 }
