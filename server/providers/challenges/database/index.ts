@@ -6,29 +6,16 @@ import { EventEmitter } from 'events'
 import * as db from '../../../database'
 import { deepCopy } from '../../../util'
 
-interface DatabaseProviderOptions {
-  updateInterval?: number;
-}
-
 interface DatabaseChallenge {
   id: string;
   data: Omit<Challenge, 'id'>;
 }
 
 class DatabaseProvider extends EventEmitter implements Provider {
-  private updateInterval: number
-  private interval: NodeJS.Timeout
   private challenges: Challenge[] = []
 
-  constructor (_options: DatabaseProviderOptions) {
+  constructor () {
     super()
-    const options: Required<DatabaseProviderOptions> = {
-      updateInterval: 60 * 1000,
-      ..._options
-    }
-
-    this.updateInterval = options.updateInterval
-    this.interval = setInterval(() => { void this.update() }, this.updateInterval)
     void this.update()
   }
 
@@ -95,7 +82,7 @@ class DatabaseProvider extends EventEmitter implements Provider {
   }
 
   cleanup (): void {
-    clearInterval(this.interval)
+    // do nothing
   }
 }
 

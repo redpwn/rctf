@@ -11,7 +11,7 @@ import contentDisposition from 'content-disposition'
 
 interface LocalProviderOptions {
   uploadDirectory?: string;
-  endpoint: string;
+  endpoint?: string;
 }
 
 interface Upload {
@@ -33,7 +33,7 @@ export default class LocalProvider implements Provider {
     fs.mkdirSync(options.uploadDirectory, { recursive: true })
 
     this.uploadDirectory = path.resolve(options.uploadDirectory)
-    this.endpoint = options.endpoint
+    this.endpoint = options.endpoint || '/uploads'
 
     this.uploadMap = new Map()
 
