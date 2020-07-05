@@ -15,7 +15,7 @@ cp -nR config/yml.example config/yml
 cp .env.example .env
 ```
 
-Before you run rCTF for the first time, set the [mandatory configuration options](/configuration/#configuration-options).
+Before you run rCTF for the first time, set the [mandatory configuration options](../configuration.md#configuration-options).
 
 To develop rCTF, run:
 
