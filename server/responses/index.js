@@ -117,7 +117,11 @@ export const responseList = {
   },
   badFilesUpload: {
     status: 500,
-    message: 'The message upload failed'
+    message: 'The upload of files failed'
+  },
+  badDataUri: {
+    status: 400,
+    message: 'A data URI provided was malformed'
   },
   badBody: {
     status: 400,

@@ -9,7 +9,8 @@ interface SesProviderOptions {
 }
 
 export default class SesProvider implements Provider {
-  private sesSend: Function
+  private sesSend: (params: AWS.SES.Types.SendEmailRequest) => Promise<AWS.SES.Types.SendEmailResponse>
+
   constructor (options: SesProviderOptions) {
     const credentials = new AWS.Credentials({
       accessKeyId: options.awsKeyId || process.env.RCTF_SES_KEY_ID,

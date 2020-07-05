@@ -6,35 +6,22 @@ import { EventEmitter } from 'events'
 import * as db from '../../../database'
 import { deepCopy } from '../../../util'
 
-interface DatabaseProviderOptions {
-  updateInterval: number;
-}
-
 interface DatabaseChallenge {
   id: string;
   data: Omit<Challenge, 'id'>;
 }
 
 class DatabaseProvider extends EventEmitter implements Provider {
-  private _updateInterval: number
-  private _interval: NodeJS.Timeout
-  private challenges: Challenge[]
+  private challenges: Challenge[] = []
 
-  constructor (options: DatabaseProviderOptions) {
+  constructor () {
     super()
-    options = {
-      updateInterval: 60 * 1000,
-      ...options
-    }
-
-    this._updateInterval = options.updateInterval
-    this._interval = setInterval(() => this._update(), this._updateInterval)
-    this._update()
+    void this.update()
   }
 
-  async _update (): Promise<void> {
+  private async update (): Promise<void> {
     try {
-      const dbchallenges: DatabaseChallenge[] = await db.challenges.getAllChallenges()
+      const dbchallenges = await db.challenges.getAllChallenges() as DatabaseChallenge[]
 
       this.challenges = dbchallenges.map(({ id, data }) => {
         return {
@@ -51,7 +38,7 @@ class DatabaseProvider extends EventEmitter implements Provider {
   }
 
   forceUpdate (): void {
-    this._update()
+    void this.update()
   }
 
   challengeToRow (chall: Challenge): DatabaseChallenge {
@@ -69,7 +56,7 @@ class DatabaseProvider extends EventEmitter implements Provider {
   async updateChallenge (chall: Challenge): Promise<void> {
     const originalData = await db.challenges.getChallengeById({
       id: chall.id
-    })
+    }) as DatabaseChallenge
 
     // If we're inserting, have sane defaults
     if (originalData === undefined) {
@@ -85,17 +72,17 @@ class DatabaseProvider extends EventEmitter implements Provider {
 
     await db.challenges.upsertChallenge(data)
 
-    this._update()
+    void this.update()
   }
 
   async deleteChallenge (id: string): Promise<void> {
     await db.challenges.removeChallengeById({ id: id })
 
-    this._update()
+    void this.update()
   }
 
   cleanup (): void {
-    clearInterval(this._interval)
+    // do nothing
   }
 }
 

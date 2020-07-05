@@ -29,29 +29,29 @@ interface RDeployChallenge {
 }
 
 class RDeployBlobProvider extends EventEmitter implements Provider {
-  private _updateInterval: number
-  private _rDeployDirectory: string
-  private _interval: NodeJS.Timeout
-  private challenges: Challenge[]
+  private updateInterval: number
+  private rDeployDirectory: string
+  private interval: NodeJS.Timeout
+  private challenges: Challenge[] = []
 
   private ready = false
   private downloadMap: Map<string, string>
 
-  constructor (options: RDeployBlobProviderOptions) {
+  constructor (_options: RDeployBlobProviderOptions) {
     super()
-    options = {
+    const options: Required<RDeployBlobProviderOptions> = {
       updateInterval: 60 * 1000,
-      ...options
+      ..._options
     }
 
-    this._updateInterval = options.updateInterval
-    this._rDeployDirectory = path.join(__dirname, '../../../../../', options.rDeployDirectory)
-    this._interval = setInterval(() => this._update(), this._updateInterval)
+    this.updateInterval = options.updateInterval
+    this.rDeployDirectory = path.join(__dirname, '../../../../../', options.rDeployDirectory)
+    this.interval = setInterval(() => this.update(), this.updateInterval)
 
-    this.downloadMap = new Map()
+    this.downloadMap = new Map<string, string>()
 
-    const fileDir = path.join(this._rDeployDirectory, options.rDeployFiles)
-    fs.readdir(fileDir)
+    const fileDir = path.join(this.rDeployDirectory, options.rDeployFiles)
+    void fs.readdir(fileDir)
       .then(async files => {
         await Promise.all(files.map(async file => {
           const filePath = path.join(fileDir, file)
@@ -68,25 +68,29 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
 
         // When done uploading files, allow updates
         this.ready = true
-        this._update()
+        this.update()
       })
   }
 
-  _update (): void {
+  private update (): void {
     // Prevent updates if downloads not initialized
     if (!this.ready) return
 
-    fs.readFile(path.join(this._rDeployDirectory, 'config.json'), 'utf8')
+    fs.readFile(path.join(this.rDeployDirectory, 'config.json'), 'utf8')
       .then((data: string) => {
         try {
-          const rawChallenges: RDeployChallenge[] = JSON.parse(data)
+          const rawChallenges = JSON.parse(data) as RDeployChallenge[]
 
           this.challenges = rawChallenges.map((chall: RDeployChallenge): Challenge => {
             const downloadUrls: File[] = chall.files.map(file => {
               const basename = path.basename(file)
+              const fileUrl = this.downloadMap.get(basename)
+              if (fileUrl === undefined) {
+                throw new Error(`File not found: ${basename}`)
+              }
               return {
                 name: normalize.normalizeDownload(basename),
-                url: this.downloadMap.get(basename)
+                url: fileUrl
               }
             })
 
@@ -109,7 +113,7 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
   }
 
   forceUpdate (): void {
-    this._update()
+    this.update()
   }
 
   updateChallenge (chall: Challenge): void {
@@ -135,7 +139,7 @@ class RDeployBlobProvider extends EventEmitter implements Provider {
   }
 
   cleanup (): void {
-    clearInterval(this._interval)
+    clearInterval(this.interval)
   }
 }
 
