@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "lint": "sh -c \"tsc --noEmit && eslint .\"",
+    "lint": "sh -c \"tsc --noEmit ; eslint .\"",
     "lint:strict": "sh -c \"tsc --noEmit -p tsconfig.strict.json ; eslint .\"",
     "start": "node --enable-source-maps dist/server/index.js",
     "migrate": "sh -c \"yarn build:ts && RCTF_DATABASE_MIGRATE=only yarn start\"",
