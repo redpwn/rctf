@@ -4980,10 +4980,10 @@ fastify-static@2.7.0:
     readable-stream "^3.4.0"
     send "^0.16.0"
 
-fastify@2.15.0:
-  version "2.15.0"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-2.15.0.tgz#0e1d793f92cdb7e23f8c370c9a1bbd755912c077"
-  integrity sha512-wbLA9Tif2A9m0tkzCUIqGyIqncM9iI8QTd++HRnmkbUk4mEs4/d8k9LaBR0ypytHvQJ1TNQbJ+m1Mt0MmfUhuA==
+fastify@2.15.1:
+  version "2.15.1"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-2.15.1.tgz#195a068bca87c7b57a83fe81f0aa66e86c6a3992"
+  integrity sha512-pEE1pa5j/vtZeZTbPpFgsJgzLbThcYgiLDw2yZIG8qNZ5LkF1Ew2vbv9k3nTXNxGEPYFBbyNTCKRSj3JbX+FhA==
   dependencies:
     abstract-logging "^2.0.0"
     ajv "^6.12.0"
