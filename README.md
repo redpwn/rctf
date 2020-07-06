@@ -7,6 +7,10 @@
 rCTF is redpwnCTF's CTF platform. It is developed and maintained by the
 [redpwn](https://redpwn.net) CTF team.
 
+## Documentation
+
+https://rctf.redpwn.net/en/latest/
+
 ## Design Goals
 
 We have designed rCTF with a focus on these attributes:
