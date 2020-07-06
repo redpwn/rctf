@@ -38,7 +38,7 @@ Option|Description
 
 The `homeContent` config option represents the content of `/`. This supports Markdown, as well as many custom elements. 
 
-```
+```md
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2053 840" style="width: 300px; margin: 20px auto; display: block;"><rect width="840" height="840" rx="195.6"/><path fill="#0e3f4a" d="M199 683l315 84 253-255-84-312zm442-526L326 73 73 328l84 313z"/><path fill="#bc2226" d="M504 294h-33a74 74 0 0022-52c0-41-33-74-73-74s-73 33-73 74a74 74 0 0022 52h-33a20 20 0 00-20 20v3a20 20 0 0020 20h168a20 20 0 0020-20v-3a20 20 0 00-20-20zM319 544h198c9 0 16 7 16 16v18c0 8-7 15-16 15H319c-8 0-15-7-15-15v-18c0-9 7-16 15-16zm-31 65h264c10 0 18 8 18 17v29c0 9-8 17-18 17H288c-10 0-18-8-18-17v-29c0-9 8-17 18-17zm40-80c54-99 35-177 35-177h114s-19 78 35 177z"/><path fill="#ffffff" d="M1275 473a88 88 0 11-1-105l86-65a195 195 0 100 234zm103-248v106h124v285h105V331h123V225h-228zm383 0v391h106V493h121V387h-121v-56h186V225h-187z"/></svg>
 
 ### What is redpwnCTF?
