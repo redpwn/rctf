@@ -19,7 +19,7 @@ theme:
     accent: blue
 
 extra_javascript:
-  - https://cdn.jsdelivr.net/npm/zepto@1.2.0/dist/zepto.min.js
+  - https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js
 extra_css:
   - assets/styles/rtd-override.css
 
