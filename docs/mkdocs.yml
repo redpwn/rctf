@@ -17,6 +17,7 @@ theme:
     scheme: slate
     primary: blue
     accent: blue
+  custom_dir: overrides
 
 plugins:
   - search
