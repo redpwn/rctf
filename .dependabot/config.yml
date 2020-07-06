@@ -4,3 +4,9 @@ update_configs:
     directory: /
     update_schedule: weekly
     version_requirement_updates: increase_versions
+  - package_manager: python
+    directory: /docs
+    update_schedule: weekly
+    commit_message:
+      prefix: build(deps-docs)
+      include_scope: false

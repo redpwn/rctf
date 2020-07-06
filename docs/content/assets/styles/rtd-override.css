@@ -1,0 +1,9 @@
+.rst-versions.rst-badge {
+    bottom: 20px !important;
+    font-size: 0.7rem;
+}
+
+/* Hide RTD search box */
+.rst-versions .rst-other-versions dl:last-of-type {
+    display: none;
+}
