@@ -17,7 +17,9 @@ theme:
     scheme: slate
     primary: blue
     accent: blue
-  custom_dir: overrides
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/zepto@1.2.0/dist/zepto.min.js
 
 plugins:
   - search
