@@ -8,5 +8,5 @@ update_configs:
     directory: /docs
     update_schedule: weekly
     commit_message:
-      prefix: build(deps-docs)
+      prefix: build(deps-doc)
       include_scope: false
