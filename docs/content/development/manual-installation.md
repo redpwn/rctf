@@ -1,4 +1,4 @@
-## Manual Installation
+# Manual Installation
 
 Manual installation of rCTF is useful to develop and modify the project.
 

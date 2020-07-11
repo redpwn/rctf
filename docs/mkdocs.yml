@@ -2,7 +2,6 @@ site_name: rCTF
 site_description: rCTF Documentation
 site_author: redpwn
 site_url: https://rctf.redpwn.net
-dev_addr: 0.0.0.0:8000
 
 repo_name: GitHub
 repo_url: https://github.com/redpwn/rctf
