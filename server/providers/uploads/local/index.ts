@@ -4,7 +4,7 @@ import path from 'path'
 import fs from 'fs'
 import crypto from 'crypto'
 import config from '../../../../config/server'
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
+import { FastifyInstance } from 'fastify'
 import fastifyStatic from 'fastify-static'
 import contentDisposition from 'content-disposition'
 
@@ -16,6 +16,10 @@ interface LocalProviderOptions {
 interface Upload {
   filePath: string;
   name: string;
+}
+
+interface RequestQuerystring {
+  key: string;
 }
 
 export default class LocalProvider implements Provider {
@@ -41,28 +45,42 @@ export default class LocalProvider implements Provider {
         root: this.uploadDirectory,
         serve: false
       })
-      fastify.get('/', this.handleRequest.bind(this))
+
       fastify.setNotFoundHandler(async (req, res) => {
         res.status(404)
         return 'Not found'
       })
+
+      fastify.get<{
+        Querystring: RequestQuerystring
+      }>('/', {
+        schema: {
+          querystring: {
+            type: 'object',
+            properties: {
+              key: {
+                type: 'string'
+              }
+            },
+            required: ['key']
+          }
+        }
+      }, async (request, reply) => {
+        const key = request.query.key.toString()
+
+        if (this.uploadMap.has(key)) {
+          const upload = this.uploadMap.get(key)
+
+          reply.header('Cache-Control', 'public, max-age=31557600, immutable')
+          reply.header('Content-Disposition', contentDisposition(upload.name))
+          reply.sendFile(path.relative(this.uploadDirectory, upload.filePath))
+        } else {
+          reply.callNotFound()
+        }
+      })
     }, {
       prefix: this.endpoint
     })
-  }
-
-  async handleRequest (req: FastifyRequest, res: FastifyReply): Promise<void> {
-    const key = req.query.key.toString()
-
-    if (this.uploadMap.has(key)) {
-      const upload = this.uploadMap.get(key)
-
-      res.header('Cache-Control', 'public, max-age=31557600, immutable')
-      res.header('Content-Disposition', contentDisposition(upload.name))
-      res.sendFile(path.relative(this.uploadDirectory, upload.filePath))
-    } else {
-      res.callNotFound()
-    }
   }
 
   private getKey (hash: string, name: string): string {
