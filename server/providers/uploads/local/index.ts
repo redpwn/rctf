@@ -4,8 +4,7 @@ import path from 'path'
 import fs from 'fs'
 import crypto from 'crypto'
 import config from '../../../../config/server'
-import fastify from 'fastify'
-import { Server, IncomingMessage, ServerResponse } from 'http'
+import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
 import fastifyStatic from 'fastify-static'
 import contentDisposition from 'content-disposition'
 
@@ -25,7 +24,7 @@ export default class LocalProvider implements Provider {
 
   private uploadMap: Map<string, Upload>
 
-  constructor (options: LocalProviderOptions, app: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse>) {
+  constructor (options: LocalProviderOptions, app: FastifyInstance) {
     if (options.uploadDirectory === undefined) {
       options.uploadDirectory = path.join(process.cwd(), 'uploads')
     }
@@ -52,7 +51,7 @@ export default class LocalProvider implements Provider {
     })
   }
 
-  async handleRequest (req: fastify.FastifyRequest, res: fastify.FastifyReply<ServerResponse>): Promise<void> {
+  async handleRequest (req: FastifyRequest, res: FastifyReply): Promise<void> {
     const key = req.query.key.toString()
 
     if (this.uploadMap.has(key)) {
