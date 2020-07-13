@@ -4946,12 +4946,12 @@ fast-text-encoding@^1.0.0:
   resolved "https://registry.yarnpkg.com/fast-text-encoding/-/fast-text-encoding-1.0.3.tgz#ec02ac8e01ab8a319af182dae2681213cfe9ce53"
   integrity sha512-dtm4QZH9nZtcDt8qJiOH9fcQd1NAgi+K1O2DbE6GG1PPCK/BWfOH3idCTRQ4ImXRUOyopDEgDEnVEE7Y/2Wrig==
 
-fastify-cors@3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/fastify-cors/-/fastify-cors-3.0.3.tgz#c1b2227983d7b02feff73fd642d81041adfbe124"
-  integrity sha512-SDMa+GtyTTAU7pWZwY4fukb/VwCZ4c30p0oEaE7/d/+VCvceB1+NzW2udp2dSZZfWR7J1kUookCpw2dLmtAsSw==
+fastify-cors@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/fastify-cors/-/fastify-cors-4.0.0.tgz#26ef5e1dc186743d091abb7557972080482ce4be"
+  integrity sha512-ow3iiiugJEz7aPNQaulgshoJ9PTlslV1aloP1EDoMq2R5LnDX2T12xxMakXu/FDoMp1nJzbAuB813fVtmgKypA==
   dependencies:
-    fastify-plugin "^1.6.0"
+    fastify-plugin "^2.0.0"
     vary "^1.1.2"
 
 fastify-helmet@3.0.2:
@@ -4981,6 +4981,13 @@ fastify-plugin@^1.2.1, fastify-plugin@^1.6.0:
   integrity sha512-APBcb27s+MjaBIerFirYmBLatoPCgmHZM6XP0K+nDL9k0yX8NJPWDY1RAC3bh6z+AB5ULS2j31BUfLMT3uaZ4A==
   dependencies:
     semver "^6.3.0"
+
+fastify-plugin@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-2.0.1.tgz#e9f586bff057cd947175a580273aefdf7bdc62b8"
+  integrity sha512-spYlahs74ZHR/s+cPXukJLwx0B6khgnX05i2rZW5lc9dqoMI0txrNA9mGruulkerqd4FduzkZMTQJywSwkiVOw==
+  dependencies:
+    semver "^7.3.2"
 
 fastify-static@2.7.0:
   version "2.7.0"
