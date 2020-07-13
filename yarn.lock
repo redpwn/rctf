@@ -8843,10 +8843,10 @@ pinkie@^2.0.0:
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
   integrity sha1-clVrgM+g1IqXToDnckjoDtT3+HA=
 
-pino-pretty@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-4.0.0.tgz#afbff81f946342b9d6eabc434942fe490e02faa9"
-  integrity sha512-YLy/n3dMXYWOodSm530gelkSAJGmEp29L9pqiycInlIae5FEJPWAkMRO3JFMbIFtjD2Ve4SH2aBcz2aRreGpBQ==
+pino-pretty@4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-4.0.1.tgz#a816ac530d99581295f3f7a92e238e5152ad04ec"
+  integrity sha512-qGMLBVKX+xSnxkmUiiZfaoEZD7KWdt/wZK6BAQYdGvNrl7DFqrc10Jmng57NhX3hm+3kNCEtvcFIEXMF+IbStg==
   dependencies:
     "@hapi/bourne" "^2.0.0"
     args "^5.0.1"
