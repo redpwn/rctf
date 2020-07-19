@@ -1,12 +1,11 @@
 import config from '../../config/server'
 import path from 'path'
 import { Provider } from './types'
-import fastify from 'fastify'
-import { Server, IncomingMessage, ServerResponse } from 'http'
+import { FastifyInstance } from 'fastify'
 
 let provider: Provider | null = null
 
-export const init = (app: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> | null): void => {
+export const init = (app: FastifyInstance | null): void => {
   const name = app === null ? 'uploads/dummy' : config.uploadProvider.name
 
   // FIXME: use async loading

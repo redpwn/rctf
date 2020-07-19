@@ -7,7 +7,7 @@ export default {
   path: '/leaderboard/graph',
   requireAuth: false,
   schema: {
-    query: {
+    querystring: {
       type: 'object',
       properties: {
         division: {

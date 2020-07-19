@@ -9,7 +9,7 @@ export default {
   path: '/leaderboard/now',
   requireAuth: false,
   schema: {
-    query: {
+    querystring: {
       type: 'object',
       properties: {
         limit: {
