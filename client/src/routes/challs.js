@@ -16,7 +16,7 @@ const loadStates = {
 
 const Challenges = ({ classes }) => {
   const challPageState = useMemo(() => JSON.parse(localStorage.getItem('challPageState') || '{}'), [])
-  const [problems, setProblems] = useState([])
+  const [problems, setProblems] = useState(null)
   const [categories, setCategories] = useState(challPageState.categories || {})
   const [showSolved, setShowSolved] = useState(challPageState.showSolved || false)
   const [solveIDs, setSolveIDs] = useState([])
@@ -49,7 +49,7 @@ const Challenges = ({ classes }) => {
 
   useEffect(() => {
     const action = async () => {
-      if (problems.length !== 0) {
+      if (problems !== null) {
         return
       }
       const { data, error, notStarted } = await getChallenges()
@@ -74,7 +74,7 @@ const Challenges = ({ classes }) => {
       setCategories(newCategories)
     }
     action()
-  }, [toast, categories, problems.length])
+  }, [toast, categories, problems])
 
   useEffect(() => {
     const action = async () => {
@@ -94,6 +94,9 @@ const Challenges = ({ classes }) => {
   }, [categories, showSolved])
 
   const problemsToDisplay = useMemo(() => {
+    if (problems === null) {
+      return []
+    }
     let filtered = problems
     if (!showSolved) {
       filtered = filtered.filter(problem => !solveIDs.includes(problem.id))
@@ -130,21 +133,23 @@ const Challenges = ({ classes }) => {
   const { categoryCounts, solvedCount } = useMemo(() => {
     const categoryCounts = new Map()
     let solvedCount = 0
-    for (const problem of problems) {
-      const solved = solveIDs.includes(problem.id)
-      if (!categoryCounts.has(problem.category)) {
-        categoryCounts.set(problem.category, {
-          total: 1,
-          solved: solved ? 1 : 0
-        })
-      } else {
-        categoryCounts.get(problem.category).total += 1
-        if (solved) {
-          categoryCounts.get(problem.category).solved += 1
+    if (problems !== null) {
+      for (const problem of problems) {
+        const solved = solveIDs.includes(problem.id)
+        if (!categoryCounts.has(problem.category)) {
+          categoryCounts.set(problem.category, {
+            total: 1,
+            solved: solved ? 1 : 0
+          })
+        } else {
+          categoryCounts.get(problem.category).total += 1
+          if (solved) {
+            categoryCounts.get(problem.category).solved += 1
+          }
         }
-      }
-      if (solved) {
-        solvedCount += 1
+        if (solved) {
+          solvedCount += 1
+        }
       }
     }
     return { categoryCounts, solvedCount }
