@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@google-cloud/storage": "5.1.2",
-    "aws-sdk": "2.710.0",
+    "aws-sdk": "2.718.0",
     "content-disposition": "0.5.3",
     "data-uri-to-buffer": "3.0.1",
     "dotenv": "8.2.0",
@@ -59,8 +59,8 @@
   "devDependencies": {
     "@types/content-disposition": "0.5.3",
     "@types/nodemailer": "6.4.0",
-    "@typescript-eslint/eslint-plugin": "3.5.0",
-    "@typescript-eslint/parser": "3.5.0",
+    "@typescript-eslint/eslint-plugin": "3.7.0",
+    "@typescript-eslint/parser": "3.7.0",
     "ava": "3.10.1",
     "babel-eslint": "10.1.0",
     "babel-plugin-transform-export-extensions": "6.22.0",
