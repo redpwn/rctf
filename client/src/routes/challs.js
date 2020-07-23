@@ -135,18 +135,19 @@ const Challenges = ({ classes }) => {
     let solvedCount = 0
     if (problems !== null) {
       for (const problem of problems) {
-        const solved = solveIDs.includes(problem.id)
         if (!categoryCounts.has(problem.category)) {
           categoryCounts.set(problem.category, {
-            total: 1,
-            solved: solved ? 1 : 0
+            total: 0,
+            solved: 0
           })
-        } else {
-          categoryCounts.get(problem.category).total += 1
-          if (solved) {
-            categoryCounts.get(problem.category).solved += 1
-          }
         }
+
+        const solved = solveIDs.includes(problem.id)
+        categoryCounts.get(problem.category).total += 1
+        if (solved) {
+          categoryCounts.get(problem.category).solved += 1
+        }
+
         if (solved) {
           solvedCount += 1
         }
