@@ -58,5 +58,7 @@ export const serveIndex = async (fastify, opts) => {
 
 // Parse Cloudflare CF-Connecting-IP header
 export const getRealIp = (req) => {
-  return req.headers['cf-connecting-ip'] || req.ip
+  // Use `get` on req.__proto__ since getRealIp is used in req's getter
+  return req.headers['cf-connecting-ip'] ||
+    Reflect.get(Object.getPrototypeOf(req), 'ip', req)
 }
