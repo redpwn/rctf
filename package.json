@@ -41,7 +41,7 @@
     "data-uri-to-buffer": "3.0.1",
     "dotenv": "8.2.0",
     "email-validator": "2.0.4",
-    "fastify": "3.0.2",
+    "fastify": "3.1.1",
     "fastify-cors": "4.0.0",
     "fastify-helmet": "4.0.2",
     "fastify-static": "3.1.0",
