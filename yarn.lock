@@ -1229,6 +1229,14 @@
   dependencies:
     "@types/node" "*"
 
+"@types/mailgun-js@0.22.9":
+  version "0.22.9"
+  resolved "https://registry.yarnpkg.com/@types/mailgun-js/-/mailgun-js-0.22.9.tgz#2dfc49d4956fda8058bd9a07d50bc74cb84994fc"
+  integrity sha512-4UnlgPRDfUfU1k63Y2ygKcCPDqRs1mCfY1jOOoam++feJLVA6WS12CeIjKg2fAgaNTbv37H5DrQb+nFEYsdnnA==
+  dependencies:
+    "@types/node" "*"
+    form-data "^2.5.0"
+
 "@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
@@ -1244,14 +1252,7 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.14.tgz#24a0b5959f16ac141aeb0c5b3cd7a15b7c64cbce"
   integrity sha512-syUgf67ZQpaJj01/tRTknkMNoBBLWJOBODF0Zm4NrXmiSuxjymFrxnTu1QVYRubhVkRcZLYZG8STTwJRdVm/WQ==
 
-"@types/nodemailer-mailgun-transport@1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@types/nodemailer-mailgun-transport/-/nodemailer-mailgun-transport-1.4.1.tgz#0dfe462194d1923b86ebedb464b75cfaa02586fb"
-  integrity sha512-2qNiiViuJ+xz9OacxaQjmZWH/FzdfpM5ypeDspQi3E36ozrSIdEY2MbmOod6Jq2BLVvDjD5xrSDTgoyoNAIa/g==
-  dependencies:
-    "@types/nodemailer" "*"
-
-"@types/nodemailer@*", "@types/nodemailer@6.4.0":
+"@types/nodemailer@6.4.0":
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-6.4.0.tgz#d8c039be3ed685c4719a026455555be82c124b74"
   integrity sha512-KY7bFWB0MahRZvVW4CuW83qcCDny59pJJ0MQ5ifvfcjNwPlIT0vW4uARO4u1gtkYnWdhSvURegecY/tzcukJcA==
@@ -2262,7 +2263,7 @@ bindings@^1.5.0:
   dependencies:
     file-uri-to-path "1.0.0"
 
-bluebird@^3.1.1, bluebird@^3.5.0, bluebird@^3.5.5:
+bluebird@^3.5.0, bluebird@^3.5.5:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
@@ -3198,13 +3199,6 @@ console-clear@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/console-clear/-/console-clear-1.1.1.tgz#995e20cbfbf14dd792b672cde387bd128d674bf7"
   integrity sha512-pMD+MVR538ipqkG5JXeOEbKWS5um1H4LUUccUQG68qpeqBYbzYy79Gh55jkd2TtPdRfUaLWdv6LPP//5Zt0aPQ==
-
-consolidate@^0.15.1:
-  version "0.15.1"
-  resolved "https://registry.yarnpkg.com/consolidate/-/consolidate-0.15.1.tgz#21ab043235c71a07d45d9aad98593b0dba56bab7"
-  integrity sha512-DW46nrsMJgy9kqAbPt5rKaCr7uFtpo4mSUvLHIUbJEjm0vo+aY5QLwBUq3FK4tRnJr/X0Psc0C4jf/h+HtXSMw==
-  dependencies:
-    bluebird "^3.1.1"
 
 constants-browserify@^1.0.0:
   version "1.0.0"
@@ -5330,7 +5324,7 @@ fork-ts-checker-webpack-plugin@^4.0.4:
     tapable "^1.0.0"
     worker-rpc "^0.1.0"
 
-form-data@^2.3.1, form-data@^2.3.3:
+form-data@^2.3.1, form-data@^2.3.3, form-data@^2.5.0:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.5.1.tgz#f2cbec57b5e59e23716e128fe44d4e5dd23895f4"
   integrity sha512-m21N3WOmEEURgk6B9GLOE4RuWOFf28Lhh9qGYeNlGq4VDXUlJy2th2slBNU8Gp8EzloYZOibZJ7t5ecIrFSjVA==
@@ -7530,7 +7524,7 @@ magic-string@^0.25.0, magic-string@^0.25.5:
   dependencies:
     sourcemap-codec "^1.4.4"
 
-mailgun-js@^0.22.0:
+mailgun-js@0.22.0:
   version "0.22.0"
   resolved "https://registry.yarnpkg.com/mailgun-js/-/mailgun-js-0.22.0.tgz#128942b5e47a364a470791608852bf68c96b3a05"
   integrity sha512-a2alg5nuTZA9Psa1pSEIEsbxr1Zrmqx4VkgGCQ30xVh0kIH7Bu57AYILo+0v8QLSdXtCyLaS+KVmdCrQo0uWFA==
@@ -8175,14 +8169,6 @@ node-releases@^1.1.53:
   version "1.1.58"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.58.tgz#8ee20eef30fa60e52755fcc0942def5a734fe935"
   integrity sha512-NxBudgVKiRh/2aPWMgPR7bPTX0VPmGx5QBwCtdHitnqFE5/O8DeBXuIMH1nwNnw/aMo6AjOrpsHzfY3UbUJ7yg==
-
-nodemailer-mailgun-transport@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/nodemailer-mailgun-transport/-/nodemailer-mailgun-transport-2.0.0.tgz#2b996dc143387d461325d16c7918f0e64e0fed8e"
-  integrity sha512-TPGi2anyS0w/4jv7TJNS3wX5DbNQ2+j+ssnwY4IYxL4QaYXAXewcw6YUtBgnOsEvQVJvmxQLDuW4f4JaMPgfaA==
-  dependencies:
-    consolidate "^0.15.1"
-    mailgun-js "^0.22.0"
 
 nodemailer@6.4.10:
   version "6.4.10"

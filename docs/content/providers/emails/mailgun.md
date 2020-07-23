@@ -6,11 +6,8 @@ The Mailgun email provider sends email via the Mailgun API. To use it, specify `
 
 Option|Description
 -|-
-`auth.api_key`|Your Mailgun API key. 
-`auth.domain`|One of your Mailgun domains. 
-`proxy`|(optional) Proxy to use, defaults to `false`.
-`host`|(optional) The Mailgun API server host, defaults to `api.mailgun.net`.
-`port`|(optional) The Mailgun API server port, defaults to `443`. 
+`apiKey`|Your Mailgun API key. 
+`domain`|One of your Mailgun domains. 
 
 ## Configuration Example
 
@@ -18,7 +15,6 @@ Option|Description
 emailProvider:
   name: 'emails/mailgun'
   options:
-    auth:
-      api_key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxx-xxxxxxxx'
-      domain: 'sandboxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.mailgun.org'
+    api_key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxx-xxxxxxxx'
+    domain: 'sandboxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.mailgun.org'
 ```
