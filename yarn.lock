@@ -2019,7 +2019,7 @@ ava@3.10.1:
     write-file-atomic "^3.0.3"
     yargs "^15.4.0"
 
-avvio@^7.1.0:
+avvio@^7.1.2:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/avvio/-/avvio-7.1.2.tgz#7627f4b94e807b7140db3629e4922e0319c4dfd5"
   integrity sha512-mzJqhylHN4u5VeUWt4Vol4u8lhOFJMZmdE+GR0vP4Ea6Fg36m5b0e4zy8FCBD+dcagbOxSgfMSJ48jxELduk7w==
@@ -4992,14 +4992,14 @@ fastify-static@3.1.0:
     readable-stream "^3.4.0"
     send "^0.17.1"
 
-fastify@3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.0.2.tgz#07c0e69d26622461b8f28fe12f4e99bb881e156f"
-  integrity sha512-HiQ1rT68AB6ezlpzzrYI1CaH6wXsRcYVc4qN2WC1SKlS9iDlWO6LA6JI95IPP4XjxLC3KoZ8TrG7CF6N0lH0Rw==
+fastify@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.1.1.tgz#0a830f4a929abd7f2b05c08620a609a104300a36"
+  integrity sha512-A7kBZIFAdpE/8MZ9qHpQV9IVPpfX63uWMaPN4p0fetax10C2p56iV/VEB5hOgtlXzayGn+4tf+tNHcZsfrjlnA==
   dependencies:
     abstract-logging "^2.0.0"
     ajv "^6.12.2"
-    avvio "^7.1.0"
+    avvio "^7.1.2"
     fast-json-stringify "^2.2.1"
     fastify-error "^0.1.0"
     find-my-way "^3.0.0"
