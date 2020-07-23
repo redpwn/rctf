@@ -27,7 +27,9 @@ const app = fastify({
 })
 
 app.addHook('onRequest', async (req, reply) => {
-  req.ip = getRealIp(req)
+  Object.defineProperty(req, 'ip', {
+    get () { return getRealIp(this) }
+  })
 })
 
 app.register(enableCORS)
