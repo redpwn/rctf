@@ -84,7 +84,7 @@ const calculateScores = (sample) => {
         currScore += value
       }
     }
-    userScores.push([user.id, user.name, parseInt(user.division), currScore, lastSolve])
+    userScores.push([user.id, user.name, user.division, currScore, lastSolve])
   }
 
   return {

@@ -58,7 +58,7 @@ export const getGenericUserData = async ({ id }) => {
   return {
     name: user.name,
     ctftimeId: user.ctftime_id,
-    division: Number(user.division),
+    division: user.division,
     score: score.score,
     globalPlace: score.globalPlace,
     divisionPlace: score.divisionPlace,

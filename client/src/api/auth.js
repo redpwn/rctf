@@ -58,11 +58,10 @@ export const verify = async ({ verifyToken }) => {
   }
 }
 
-export const register = async ({ email, name, division, ctftimeToken }) => {
+export const register = async ({ email, name, ctftimeToken }) => {
   const resp = await request('POST', '/auth/register', {
     email,
     name,
-    division: Number.parseInt(division),
     ctftimeToken
   })
   switch (resp.kind) {
@@ -76,6 +75,7 @@ export const register = async ({ email, name, division, ctftimeToken }) => {
       }
     case 'badEmail':
     case 'badKnownEmail':
+    case 'badCompetitionNotAllowed':
       return {
         errors: {
           email: resp.message

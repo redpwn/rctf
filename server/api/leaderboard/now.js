@@ -2,7 +2,7 @@ import { responses } from '../../responses'
 import * as cache from '../../cache'
 import config from '../../../config/server'
 
-const stringDivisions = Object.values(config.divisions).map(String)
+const stringDivisions = Object.keys(config.divisions)
 
 export default {
   method: 'GET',

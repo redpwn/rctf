@@ -118,8 +118,8 @@ const setGraphScript = redisScript('load', `
 `)
 
 export const setLeaderboard = async ({ challengeValues, solveAmount, leaderboard, leaderboardUpdate }) => {
-  const divisions = Object.values(config.divisions)
-  const divisionKeys = divisions.map((division) => 'division-leaderboard:' + division)
+  const divisions = Object.keys(config.divisions)
+  const divisionKeys = divisions.map(getLeaderboardKey)
   const keys = [
     'score-positions',
     'challenge-info',
@@ -190,6 +190,7 @@ export const getScore = async ({ id }) => {
     return null
   }
   const split = redisResult.split(',')
+  console.log(split)
   return {
     score: parseInt(split[0]),
     globalPlace: parseInt(split[1]),

@@ -36,6 +36,14 @@ export default {
       if (checkUser !== undefined) {
         return responses.badKnownEmail
       }
+      if (config.assignDivisions) {
+        const oldUser = await database.auth.getUserById({
+          id: user.id
+        })
+        if (!util.restrict.divisionAllowed(email, oldUser.division)) {
+          return responses.badEmailChangeDivision
+        }
+      }
     } else {
       let result
       try {

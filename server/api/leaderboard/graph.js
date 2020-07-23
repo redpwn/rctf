@@ -11,8 +11,8 @@ export default {
       type: 'object',
       properties: {
         division: {
-          type: 'integer',
-          enum: Object.values(config.divisions)
+          type: 'string',
+          enum: Object.keys(config.divisions)
         },
         limit: {
           type: 'integer',

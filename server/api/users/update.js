@@ -16,8 +16,8 @@ export default {
           type: 'string'
         },
         division: {
-          type: 'integer',
-          enum: Object.values(config.divisions)
+          type: 'string',
+          enum: Object.keys(config.divisions)
         }
       }
     }
@@ -52,6 +52,15 @@ export default {
       }
     }
 
+    if (division && config.verifyEmail && config.assignDivisions) {
+      const oldUser = await database.auth.getUserById({
+        id: uuid
+      })
+      if (!util.restrict.divisionAllowed(oldUser.email, division)) {
+        return responses.badDivisionNotAllowed
+      }
+    }
+
     let newUser
     try {
       newUser = await database.auth.updateUser({
@@ -70,7 +79,7 @@ export default {
       user: {
         name: newUser.name,
         email: newUser.email,
-        division: Number.parseInt(newUser.division)
+        division: newUser.division
       }
     }]
   }

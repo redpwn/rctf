@@ -36,7 +36,6 @@ export default withStyles({
   state = {
     name: '',
     email: '',
-    division: config.defaultDivision.toString(),
     ctftimeToken: undefined,
     ctftimeName: undefined,
     disabledButton: false,
