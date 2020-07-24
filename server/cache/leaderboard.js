@@ -190,7 +190,6 @@ export const getScore = async ({ id }) => {
     return null
   }
   const split = redisResult.split(',')
-  console.log(split)
   return {
     score: parseInt(split[0]),
     globalPlace: parseInt(split[1]),
