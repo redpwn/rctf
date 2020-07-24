@@ -3,6 +3,7 @@ import * as database from '../../database'
 import config from '../../../config/server'
 import * as timeouts from '../../cache/timeouts'
 import * as util from '../../util'
+import { DivisionACLError } from '../../errors'
 
 export default {
   method: 'PATCH',
@@ -52,15 +53,6 @@ export default {
       }
     }
 
-    if (division && config.verifyEmail && config.assignDivisions) {
-      const oldUser = await database.auth.getUserById({
-        id: uuid
-      })
-      if (!util.restrict.divisionAllowed(oldUser.email, division)) {
-        return responses.badDivisionNotAllowed
-      }
-    }
-
     let newUser
     try {
       newUser = await database.auth.updateUser({
@@ -69,6 +61,9 @@ export default {
         division
       })
     } catch (e) {
+      if (e instanceof DivisionACLError) {
+        return responses.badDivisionNotAllowed
+      }
       if (e.constraint === 'users_name_key') {
         return responses.badKnownName
       }

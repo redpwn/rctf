@@ -75,10 +75,9 @@ There are additional server specific configuration options, located in `config/y
 
 Option|Description
 -|-
-`defaultDivision`|Optional. The default division (by id) to place a user in, overriding `assignDivision`.
-`assignDivision`|Optional. Defines rules to assign default and allowed divisions.
+`divisionACLs`|Optional. Defines rules to assign default and allowed divisions.
 
-The `assignDivision` object is a list of division assignments. Each one is defined as follows.
+The `divisionACLs` object is a list of division assignments. Each one is defined as follows.
 
 Option|Description
 -|-
@@ -86,7 +85,9 @@ Option|Description
 `value`|Required. The value to match against. 
 `divisions`|Required. A list of divisions (by id) that the user is allowed to be in. The default division is the first in the list. 
 
-If a user is not allowed to be in the `defaultDivision` or they do not match any rules in `assignDivision`, then they are not allowed to register. 
+If a user does not match any rules in `divisionACLs`, then they are not allowed to register. Evaluating entries is done in the order they are configured, and only the first matching entry applies. 
+
+If `divisionACLs` is not specified or email verification is off, then any user is allowed in any division, and the first division is the default. 
 
 ## Shared Configuration
 

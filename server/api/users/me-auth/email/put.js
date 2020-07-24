@@ -36,7 +36,7 @@ export default {
       if (checkUser !== undefined) {
         return responses.badKnownEmail
       }
-      if (config.assignDivisions) {
+      if (config.divisionACLs) {
         const oldUser = await database.auth.getUserById({
           id: user.id
         })

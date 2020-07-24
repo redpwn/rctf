@@ -1,4 +1,7 @@
 import db from './db'
+import * as util from '../util'
+import config from '../../config/server'
+import { DivisionACLError } from '../errors'
 
 export const getUserById = ({ id }) => {
   return db.query('SELECT * FROM users WHERE id = $1', [id])
@@ -41,6 +44,9 @@ export const removeUserById = ({ id }) => {
 }
 
 export const makeUser = ({ id, name, email, division, ctftimeId, perms }) => {
+  if (!util.restrict.divisionAllowed(email, division)) {
+    throw new DivisionACLError()
+  }
   return db.query('INSERT INTO users (id, name, email, division, ctftime_id, perms) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
     [id, name, email, division, ctftimeId, perms]
   )
@@ -57,7 +63,17 @@ export const removeEmail = ({ id }) => {
     .then(res => res.rows[0])
 }
 
-export const updateUser = ({ id, name, email, division, ctftimeId, perms }) => {
+export const updateUser = async ({ id, name, email, division, ctftimeId, perms }) => {
+  if (config.verifyEmail && config.divisionACLs) {
+    if (!email || !division) {
+      const user = await getUserById({ id })
+      email = email || user.email
+      division = division || user.division
+    }
+    if (!util.restrict.divisionAllowed(email, division)) {
+      throw new DivisionACLError()
+    }
+  }
   return db.query(`
       UPDATE users SET
         name = COALESCE($1, name),

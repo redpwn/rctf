@@ -2,8 +2,6 @@ import { responses } from '../../responses'
 import * as cache from '../../cache'
 import config from '../../../config/server'
 
-const stringDivisions = Object.keys(config.divisions)
-
 export default {
   method: 'GET',
   path: '/leaderboard/now',
@@ -24,7 +22,7 @@ export default {
         },
         division: {
           type: 'string',
-          enum: stringDivisions
+          enum: Object.keys(config.divisions)
         }
       },
       required: ['limit', 'offset']

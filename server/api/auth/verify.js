@@ -1,9 +1,8 @@
 import * as auth from '../../auth'
 import * as cache from '../../cache'
 import * as database from '../../database'
-import * as util from '../../util'
-import config from '../../../config/server'
 import { responses } from '../../responses'
+import { DivisionACLError } from '../../errors'
 
 export default {
   method: 'POST',
@@ -46,14 +45,6 @@ export default {
       const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, user.id)
       return [responses.goodVerify, { authToken }]
     } else if (tokenData.kind === 'update') {
-      if (config.assignDivisions) {
-        const oldUser = await database.auth.getUserById({
-          id: tokenData.userId
-        })
-        if (!util.restrict.divisionAllowed(tokenData.email, oldUser.division)) {
-          return responses.badEmailChangeDivision
-        }
-      }
       let result
       try {
         result = await database.auth.updateUser({
@@ -61,6 +52,9 @@ export default {
           email: tokenData.email
         })
       } catch (e) {
+        if (e instanceof DivisionACLError) {
+          return responses.badEmailChangeDivision
+        }
         if (e.constraint === 'users_email_key') {
           return responses.badKnownEmail
         }
