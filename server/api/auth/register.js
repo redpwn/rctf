@@ -60,7 +60,7 @@ export default {
     }
 
     if (!config.verifyEmail) {
-      const division = Object.keys(config.divisions)[0]
+      const division = config.defaultDivision || Object.keys(config.divisions)[0]
       return auth.register.register({
         division,
         email,
@@ -69,7 +69,9 @@ export default {
       })
     }
 
-    const division = util.restrict.allowedDivisions(email)[0]
+    const division = config.divisionACLs
+      ? util.restrict.allowedDivisions(email)[0]
+      : (config.defaultDivision || Object.keys(config.divisions)[0])
     if (division === undefined) {
       return responses.badCompetitionNotAllowed
     }

@@ -2,41 +2,35 @@ import config from '../../config/server'
 
 let acls
 
-const compile = () => {
-  acls = []
-  // allow everything if no ACLs or if no email verify
-  if (!config.divisionACLs || !config.verifyEmail) {
-    acls.push({
-      check: () => true,
-      divisions: Object.keys(config.divisions)
-    })
-  } else {
-    for (const acl of config.divisionACLs) {
-      let check
-      switch (acl.match) {
-        case 'domain':
-          check = (email) => email.endsWith('@' + acl.value)
-          break
-        case 'email':
-          check = (email) => email === acl.value
-          break
-        case 'regex': {
-          const regex = new RegExp(acl.value)
-          check = (email) => regex.test(email)
-          break
-        }
-        case 'any':
-          check = () => true
-          break
-        default:
-          continue
-      }
-      acls.push({ check, divisions: acl.divisions })
-    }
-  }
+const restrictionChecks = {
+  domain: value => email => email.endsWith('@' + value),
+  email: value => email => email === value,
+  regex: value => {
+    const re = new RegExp(value)
+    return email => re.test(email)
+  },
+  any: value => email => true
 }
 
-compile()
+export const compileACLs = () => {
+  let divisionACLs = config.divisionACLs
+  // allow everything if no ACLs or if no email verify
+  if (!divisionACLs || divisionACLs.length === 0 || !config.verifyEmail) {
+    divisionACLs = [{
+      match: 'any',
+      divisions: Object.keys(config.divisions)
+    }]
+  }
+  acls = divisionACLs.map(({ match, value, divisions }) => {
+    const makeCheck = restrictionChecks[match]
+    if (makeCheck === undefined) {
+      throw new Error(`Unrecognized ACL matcher "${match}"`)
+    }
+    return { check: makeCheck(value), divisions }
+  })
+}
+
+compileACLs()
 
 export const allowedDivisions = (email) => {
   for (const acl of acls) {

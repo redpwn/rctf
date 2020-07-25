@@ -18,9 +18,12 @@ export default {
       properties: {
         email: {
           type: 'string'
+        },
+        division: {
+          type: 'string'
         }
       },
-      required: ['email']
+      required: ['email', 'division']
     }
   },
   handler: async ({ req, user }) => {
@@ -36,13 +39,8 @@ export default {
       if (checkUser !== undefined) {
         return responses.badKnownEmail
       }
-      if (config.divisionACLs) {
-        const oldUser = await database.auth.getUserById({
-          id: user.id
-        })
-        if (!util.restrict.divisionAllowed(email, oldUser.division)) {
-          return responses.badEmailChangeDivision
-        }
+      if (config.divisionACLs && !util.restrict.divisionAllowed(email, req.body.division)) {
+        return responses.badEmailChangeDivision
       }
     } else {
       let result
@@ -69,7 +67,8 @@ export default {
       verifyId: verifyUuid,
       kind: 'update',
       userId: user.id,
-      email
+      email,
+      division: req.body.division
     })
 
     try {

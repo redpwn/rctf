@@ -226,7 +226,8 @@ const UpdateCard = withStyles({
           .then(handleResponse)
       } else {
         updateEmail({
-          email
+          email,
+          division
         })
           .then(handleResponse)
       }

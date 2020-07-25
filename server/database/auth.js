@@ -44,7 +44,8 @@ export const removeUserById = ({ id }) => {
 }
 
 export const makeUser = ({ id, name, email, division, ctftimeId, perms }) => {
-  if (!util.restrict.divisionAllowed(email, division)) {
+  if (config.verifyEmail && config.divisionACLs &&
+    !util.restrict.divisionAllowed(email, division)) {
     throw new DivisionACLError()
   }
   return db.query('INSERT INTO users (id, name, email, division, ctftime_id, perms) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',

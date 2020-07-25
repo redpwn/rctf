@@ -49,7 +49,8 @@ export default {
       try {
         result = await database.auth.updateUser({
           id: tokenData.userId,
-          email: tokenData.email
+          email: tokenData.email,
+          division: tokenData.division
         })
       } catch (e) {
         if (e instanceof DivisionACLError) {
