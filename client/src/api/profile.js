@@ -51,7 +51,7 @@ export const updateAccount = async ({ name, division }) => {
 
 export const updateEmail = async ({ email, division }) => {
   const resp = await request('PUT', '/users/me/auth/email', {
-    email, division
+    email
   })
 
   return handleResponse({ resp, valid: ['goodVerifySent', 'goodEmailSet'], resolveDataMessage: true })

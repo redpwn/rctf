@@ -160,7 +160,7 @@ const UpdateCard = withStyles({
   divisionSelect: {
     paddingLeft: '2.75rem'
   }
-}, ({ name: oldName, email: oldEmail, divisionId: oldDivision, onUpdate, classes }) => {
+}, ({ name: oldName, email: oldEmail, divisionId: oldDivision, allowedDivisions, onUpdate, classes }) => {
   const { toast } = useToast()
 
   const [name, setName] = useState(oldName)
@@ -226,8 +226,7 @@ const UpdateCard = withStyles({
           .then(handleResponse)
       } else {
         updateEmail({
-          email,
-          division
+          email
         })
           .then(handleResponse)
       }
@@ -271,8 +270,8 @@ const UpdateCard = withStyles({
             <select icon={<AddressBook />} class={`select ${classes.divisionSelect}`} name='division' value={division} onChange={handleSetDivision}>
               <option value='' disabled>Division</option>
               {
-                Object.entries(config.divisions).map(([code, division]) => {
-                  return <option key={code} value={code}>{division}</option>
+                allowedDivisions.map(division => {
+                  return <option key={division} value={division}>{config.divisions[division]}</option>
                 })
               }
             </select>
@@ -296,7 +295,8 @@ const Profile = ({ uuid, classes }) => {
     score,
     solves,
     teamToken,
-    ctftimeId
+    ctftimeId,
+    allowedDivisions
   } = data
   const division = config.divisions[data.division]
   const divisionPlace = util.strings.placementString(data.divisionPlace)
@@ -363,7 +363,7 @@ const Profile = ({ uuid, classes }) => {
       {isPrivate && (
         <div class={classes.privateCol}>
           <TeamCodeCard {...{ teamToken }} />
-          <UpdateCard {...{ name, email, divisionId, onUpdate: onProfileUpdate }} />
+          <UpdateCard {...{ name, email, divisionId, allowedDivisions, onUpdate: onProfileUpdate }} />
           {
             config.ctftimeEnabled &&
               <CtftimeCard {...{ ctftimeId, onUpdate: onProfileUpdate }} />

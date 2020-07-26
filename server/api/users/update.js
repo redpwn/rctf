@@ -29,7 +29,7 @@ export default {
     }
 
     const uuid = user.id
-    const { division } = req.body
+    const division = req.body.division || user.division
     let name
 
     if (req.body.name !== undefined) {
@@ -58,7 +58,8 @@ export default {
       newUser = await database.auth.updateUser({
         id: uuid,
         name,
-        division
+        division,
+        email: user.email
       })
     } catch (e) {
       if (e instanceof DivisionACLError) {

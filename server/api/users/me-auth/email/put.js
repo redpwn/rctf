@@ -18,12 +18,9 @@ export default {
       properties: {
         email: {
           type: 'string'
-        },
-        division: {
-          type: 'string'
         }
       },
-      required: ['email', 'division']
+      required: ['email']
     }
   },
   handler: async ({ req, user }) => {
@@ -39,7 +36,7 @@ export default {
       if (checkUser !== undefined) {
         return responses.badKnownEmail
       }
-      if (config.divisionACLs && !util.restrict.divisionAllowed(email, req.body.division)) {
+      if (config.divisionACLs && !util.restrict.divisionAllowed(email, user.division)) {
         return responses.badEmailChangeDivision
       }
     } else {
@@ -68,7 +65,7 @@ export default {
       kind: 'update',
       userId: user.id,
       email,
-      division: req.body.division
+      division: user.division
     })
 
     try {
