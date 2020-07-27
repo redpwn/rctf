@@ -5045,10 +5045,10 @@ fastify-plugin@^2.0.0:
   dependencies:
     semver "^7.3.2"
 
-fastify-static@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/fastify-static/-/fastify-static-3.1.0.tgz#c8d389ddf56dff9df59bc2952a219a22ae95045e"
-  integrity sha512-od7CZunrw9xUJLObwPTqqoiC5fLDsjBQkWQ1Ebv/tIUiieZZN8NdUaOHjcMwOl3+sUo01k8uUCuhesFBwXrcHw==
+fastify-static@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/fastify-static/-/fastify-static-3.2.0.tgz#1c5f433274b310b1c82de6870cc8f4206cedb2bc"
+  integrity sha512-gaN4AX1CrlhwC3cApS1uDSZOkQSbhxt32MRCjlJL3dhG7pxAIf69fmSS1nrKtZe69b5HRn/KyEqkh9qzLN8GZw==
   dependencies:
     fastify-plugin "^2.0.0"
     glob "^7.1.4"
