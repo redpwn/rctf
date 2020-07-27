@@ -10,7 +10,7 @@ const ret = {
     return {
       email: uuidv4() + '@test.com',
       name: uuidv4(),
-      division: Object.values(config.divisions)[0],
+      division: Object.keys(config.divisions)[0],
       perms: 0
     }
   },

@@ -1,5 +1,6 @@
 import { responses } from '../../responses'
-import { getGenericUserData } from './util'
+import { getUserData } from './util'
+import * as util from '../../util'
 import * as auth from '../../auth'
 
 export default {
@@ -8,15 +9,16 @@ export default {
   requireAuth: true,
   handler: async ({ user }) => {
     const uuid = user.id
-    const userData = await getGenericUserData({
-      id: uuid
-    })
+    const userData = await getUserData({ user })
 
     const teamToken = await auth.token.getToken(auth.token.tokenKinds.team, uuid)
+
+    const allowedDivisions = util.restrict.allowedDivisions(user.email)
 
     return [responses.goodUserData, {
       ...userData,
       teamToken,
+      allowedDivisions,
       id: uuid,
       email: user.email
     }]

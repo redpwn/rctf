@@ -36,6 +36,9 @@ export default {
       if (checkUser !== undefined) {
         return responses.badKnownEmail
       }
+      if (config.divisionACLs && !util.restrict.divisionAllowed(email, user.division)) {
+        return responses.badEmailChangeDivision
+      }
     } else {
       let result
       try {
@@ -61,7 +64,8 @@ export default {
       verifyId: verifyUuid,
       kind: 'update',
       userId: user.id,
-      email
+      email,
+      division: user.division
     })
 
     try {

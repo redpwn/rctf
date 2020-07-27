@@ -18,12 +18,6 @@ import EnvelopeOpen from '../icons/envelope-open.svg'
 import Rank from '../icons/rank.svg'
 import Ctftime from '../icons/ctftime.svg'
 
-const divisionMap = new Map()
-
-for (const division of Object.entries(config.divisions)) {
-  divisionMap.set(division[1], division[0])
-}
-
 const SummaryCard = memo(withStyles({
   icon: {
     '& svg': {
@@ -166,7 +160,7 @@ const UpdateCard = withStyles({
   divisionSelect: {
     paddingLeft: '2.75rem'
   }
-}, ({ name: oldName, email: oldEmail, divisionId: oldDivision, onUpdate, classes }) => {
+}, ({ name: oldName, email: oldEmail, divisionId: oldDivision, allowedDivisions, onUpdate, classes }) => {
   const { toast } = useToast()
 
   const [name, setName] = useState(oldName)
@@ -205,7 +199,7 @@ const UpdateCard = withStyles({
 
           onUpdate({
             name: data.user.name,
-            divisionId: Number.parseInt(data.user.division)
+            divisionId: data.user.division
           })
         })
     }
@@ -276,8 +270,8 @@ const UpdateCard = withStyles({
             <select icon={<AddressBook />} class={`select ${classes.divisionSelect}`} name='division' value={division} onChange={handleSetDivision}>
               <option value='' disabled>Division</option>
               {
-                Object.entries(config.divisions).map(([name, code]) => {
-                  return <option key={code} value={code}>{name}</option>
+                allowedDivisions.map(code => {
+                  return <option key={code} value={code}>{config.divisions[code]}</option>
                 })
               }
             </select>
@@ -301,9 +295,10 @@ const Profile = ({ uuid, classes }) => {
     score,
     solves,
     teamToken,
-    ctftimeId
+    ctftimeId,
+    allowedDivisions
   } = data
-  const division = divisionMap.get(data.division)
+  const division = config.divisions[data.division]
   const divisionPlace = util.strings.placementString(data.divisionPlace)
   const globalPlace = util.strings.placementString(data.globalPlace)
 
@@ -368,7 +363,7 @@ const Profile = ({ uuid, classes }) => {
       {isPrivate && (
         <div class={classes.privateCol}>
           <TeamCodeCard {...{ teamToken }} />
-          <UpdateCard {...{ name, email, divisionId, onUpdate: onProfileUpdate }} />
+          <UpdateCard {...{ name, email, divisionId, allowedDivisions, onUpdate: onProfileUpdate }} />
           {
             config.ctftimeEnabled &&
               <CtftimeCard {...{ ctftimeId, onUpdate: onProfileUpdate }} />

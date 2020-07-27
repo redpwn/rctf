@@ -19,6 +19,18 @@ export const responseList = {
     status: 400,
     message: 'The email address is malformed.'
   },
+  badCompetitionNotAllowed: {
+    status: 403,
+    message: 'You are not allowed to join this CTF.'
+  },
+  badDivisionNotAllowed: {
+    status: 403,
+    message: 'You are not allowed to join this division.'
+  },
+  badEmailChangeDivision: {
+    status: 403,
+    message: 'You are not allowed to stay in your division with this email.'
+  },
   badUnknownUser: {
     status: 404,
     message: 'The user does not exist.'

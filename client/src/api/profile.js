@@ -26,7 +26,7 @@ export const publicProfile = async (uuid) => {
 export const updateAccount = async ({ name, division }) => {
   const resp = await request('PATCH', '/users/me', {
     name,
-    division: division === undefined ? undefined : Number.parseInt(division)
+    division
   })
 
   if (resp.kind === 'badRateLimit') {

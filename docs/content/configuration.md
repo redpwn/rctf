@@ -22,7 +22,7 @@ RCTF_REDIS_URL=redis://:password@example.com/0
 RCTF_TOKEN_KEY=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 ```
 
-## Client
+## Client Configuration
 
 There are additional client specific configuration options, located in `config/yml/client.yml`. 
 
@@ -69,14 +69,34 @@ Option|Description
 `small` | Boolean. Render as sponsor card as small, without image. Can be used to distinguish between different sponsor levels. 
 `icon` | Required if `small` is not specified. A url pointing to an image to use for the sponsor card. 
 
+## Server Configuration
+
+There are additional server specific configuration options, located in `config/yml/server.yml`. 
+
+Option|Description
+-|-
+`divisionACLs`|Optional. Rules to assign default and allowed divisions.
+`defaultDivision`|Optional. The default division to assign if ACLs are not specified. 
+
+The `divisionACLs` object is a list of division assignments, and only applies if email verification is on. Each one is defined as follows.
+
+Option|Description
+-|-
+`match`|Required. Which part of the email to match; can be `domain`, `email`, `regex`, or `any`.
+`value`|Required. The value to match against. 
+`divisions`|Required. A list of divisions (by id) that the user is allowed to be in. The default division is the first in the list. 
+
+If a user does not match any rules in `divisionACLs`, then they are not allowed to register. Evaluating entries is done in the order they are configured, and only the first matching entry applies. If `divisionACLs` are not specified, then no restrictions are applied. 
+
+The `defaultDivision` option is only used if `divisionACLs` does not exist or if email verification is off. If this is not configured either, a division will be picked to be default (most likely, but not guaranteed to be, the first). 
+
 ## Shared Configuration
 
 There are additional shared configuration options, located in `config/yml/shared.yml`. 
 
 Option|Description
 -|-
-`divisions` | Required. A map of `division_name:id` pairs. 
-`defaultDivision` | Required. The number corresponding to the id of the default division.
+`divisions` | Required. A map of `id:division_name` pairs. 
 `ctfName` | Required. The name of the CTF, should look something like `xxxCTF`. 
 `origin` | Required. The origin of the CTF. This is used for sending emails and is rendered into the HTML. 
 `startTime` | Required. The start time of the CTF in UTC milliseconds. You can generate this by running `+new Date("your date")`.

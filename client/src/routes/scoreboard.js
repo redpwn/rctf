@@ -220,7 +220,7 @@ const Scoreboard = withStyles({
               <select required class='select' name='division' value={division} onChange={divisionChangeHandler}>
                 <option value='all' selected>All</option>
                 {
-                  Object.entries(config.divisions).map(([name, code]) => {
+                  Object.entries(config.divisions).map(([code, name]) => {
                     return <option key={code} value={code}>{name}</option>
                   })
                 }

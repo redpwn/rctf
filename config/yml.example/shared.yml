@@ -1,8 +1,8 @@
 divisions:
-  "High School": 0
-  College: 1
-  Other: 2
-defaultDivision: 2
+  hs: High School
+  college: College
+  other: Other
+  
 ctfName: rCTF
 
 origin: http://127.0.0.1:8000

@@ -22,18 +22,14 @@ export default {
         name: {
           type: 'string'
         },
-        division: {
-          type: 'integer',
-          enum: Object.values(config.divisions)
-        },
         ctftimeToken: {
           type: 'string'
         }
       },
       oneOf: [{
-        required: ['email', 'name', 'division']
+        required: ['email', 'name']
       }, {
-        required: ['ctftimeToken', 'division']
+        required: ['ctftimeToken']
       }]
     }
   },
@@ -64,17 +60,25 @@ export default {
     }
 
     if (!config.verifyEmail) {
+      const division = config.defaultDivision || Object.keys(config.divisions)[0]
       return auth.register.register({
-        division: req.body.division,
+        division,
         email,
         name,
         ctftimeId
       })
     }
 
+    const division = config.divisionACLs
+      ? util.restrict.allowedDivisions(email)[0]
+      : (config.defaultDivision || Object.keys(config.divisions)[0])
+    if (division === undefined) {
+      return responses.badCompetitionNotAllowed
+    }
+
     if (req.body.ctftimeToken !== undefined) {
       return auth.register.register({
-        division: req.body.division,
+        division,
         name,
         ctftimeId
       })
@@ -95,7 +99,7 @@ export default {
       kind: 'register',
       email,
       name,
-      division: req.body.division
+      division
     })
 
     await sendVerification({

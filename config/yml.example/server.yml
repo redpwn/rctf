@@ -37,6 +37,15 @@ uploadProvider:
 #     awsRegion: aa-bbbb-1
 # emailFrom: no-reply@example.com
 
+# uncomment these lines for division ACLs
+# divisionACLs:
+#   - match: any
+#     divisions:
+#       - hs
+#       - college
+#       - other
+defaultDivision: other
+
 leaderboard:
   maxLimit: 100
   maxOffset: 4294967296 # 2**32

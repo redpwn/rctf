@@ -2,32 +2,28 @@ import * as db from '../../database'
 import * as challenges from '../../challenges'
 import * as cache from '../../cache'
 import { getChallengeInfo } from '../../cache/leaderboard'
-import config from '../../../config/server'
-
-const divisionMap = new Map()
-
-for (const division of Object.entries(config.divisions)) {
-  divisionMap.set(division[1], division[0])
-}
 
 export const getGenericUserData = async ({ id }) => {
+  const user = await db.users.getUserByUserId({ userid: id })
+  if (user === undefined) return null
+
+  return getUserData({ user })
+}
+
+export const getUserData = async ({ user }) => {
   let [
-    user,
     { userSolves, challengeInfo },
     score
   ] = await Promise.all([
-    db.users.getUserByUserId({ userid: id }),
     (async () => {
-      const userSolves = await db.solves.getSolvesByUserId({ userid: id })
+      const userSolves = await db.solves.getSolvesByUserId({ userid: user.id })
       const challengeInfo = await getChallengeInfo({
         ids: userSolves.map((solve) => solve.challengeid)
       })
       return { userSolves, challengeInfo }
     })(),
-    cache.leaderboard.getScore({ id })
+    cache.leaderboard.getScore({ id: user.id })
   ])
-
-  if (user === undefined) return null
 
   if (score === null) {
     score = {
@@ -58,7 +54,7 @@ export const getGenericUserData = async ({ id }) => {
   return {
     name: user.name,
     ctftimeId: user.ctftime_id,
-    division: Number(user.division),
+    division: user.division,
     score: score.score,
     globalPlace: score.globalPlace,
     divisionPlace: score.divisionPlace,
