@@ -12,7 +12,7 @@ export default {
     }
     let result
     try {
-      result = await database.auth.removeEmail({ id: user.id })
+      result = await database.users.removeEmail({ id: user.id })
     } catch (e) {
       if (e.constraint === 'require_email_or_ctftime_id') {
         return responses.badZeroAuth

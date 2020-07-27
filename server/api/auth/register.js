@@ -5,7 +5,7 @@ import * as util from '../../util'
 import * as auth from '../../auth'
 import config from '../../../config/server'
 import { responses } from '../../responses'
-import { getUserByNameOrEmail } from '../../database/auth'
+import { getUserByNameOrEmail } from '../../database/users'
 import { sendVerification } from '../../email'
 
 export default {

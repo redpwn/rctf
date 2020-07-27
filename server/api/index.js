@@ -78,7 +78,7 @@ export default async (fastify) => {
           return
         }
 
-        user = await db.auth.getUserById({
+        user = await db.users.getUserById({
           id: uuid
         })
         if (!user) {

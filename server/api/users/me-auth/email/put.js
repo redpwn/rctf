@@ -30,7 +30,7 @@ export default {
     }
 
     if (config.verifyEmail) {
-      const checkUser = await database.auth.getUserByEmail({
+      const checkUser = await database.users.getUserByEmail({
         email
       })
       if (checkUser !== undefined) {
@@ -42,7 +42,7 @@ export default {
     } else {
       let result
       try {
-        result = await database.auth.updateUser({
+        result = await database.users.updateUser({
           id: user.id,
           email
         })

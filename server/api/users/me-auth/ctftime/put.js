@@ -28,7 +28,7 @@ export default {
     }
     let result
     try {
-      result = await database.auth.updateUser({
+      result = await database.users.updateUser({
         id: user.id,
         ctftimeId: ctftimeData.ctftimeId
       })

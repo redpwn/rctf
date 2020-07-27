@@ -55,7 +55,7 @@ export default {
 
     let newUser
     try {
-      newUser = await database.auth.updateUser({
+      newUser = await database.users.updateUser({
         id: uuid,
         name,
         division,

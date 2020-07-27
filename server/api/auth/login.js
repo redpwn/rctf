@@ -31,13 +31,13 @@ export default {
       if (ctftimeData === null) {
         return responses.badCtftimeToken
       }
-      user = await database.auth.getUserByCtftimeId({ ctftimeId: ctftimeData.ctftimeId })
+      user = await database.users.getUserByCtftimeId({ ctftimeId: ctftimeData.ctftimeId })
     } else {
       const uuid = await auth.token.getData(auth.token.tokenKinds.team, req.body.teamToken)
       if (uuid === null) {
         return responses.badTokenVerification
       }
-      user = await database.auth.getUserById({ id: uuid })
+      user = await database.users.getUserById({ id: uuid })
     }
     if (user === undefined) {
       return responses.badUnknownUser

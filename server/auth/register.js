@@ -6,7 +6,7 @@ import { responses } from '../responses'
 export const register = async ({ division, email, name, ctftimeId }) => {
   const userUuid = uuidv4()
   try {
-    await database.auth.makeUser({
+    await database.users.makeUser({
       division,
       email,
       name,
