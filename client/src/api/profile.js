@@ -49,7 +49,7 @@ export const updateAccount = async ({ name, division }) => {
   return handleResponse({ resp, valid: ['goodUserUpdate'] })
 }
 
-export const updateEmail = async ({ email, division }) => {
+export const updateEmail = async ({ email }) => {
   const resp = await request('PUT', '/users/me/auth/email', {
     email
   })

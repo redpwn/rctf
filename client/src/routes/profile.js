@@ -270,8 +270,8 @@ const UpdateCard = withStyles({
             <select icon={<AddressBook />} class={`select ${classes.divisionSelect}`} name='division' value={division} onChange={handleSetDivision}>
               <option value='' disabled>Division</option>
               {
-                allowedDivisions.map(division => {
-                  return <option key={division} value={division}>{config.divisions[division]}</option>
+                allowedDivisions.map(code => {
+                  return <option key={code} value={code}>{config.divisions[code]}</option>
                 })
               }
             </select>
