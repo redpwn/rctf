@@ -26,7 +26,7 @@ const runUpdate = async () => {
     return
   }
   updating = true
-  const worker = new Worker(path.join(__dirname, 'calculate.js'), {
+  const worker = new Worker(path.join(__dirname, 'worker.js'), {
     workerData: {
       data: await fetchData()
     }
@@ -38,7 +38,7 @@ const runUpdate = async () => {
   })
 }
 
-export const startUpdater = () => {
+export const startUpdater = (): void => {
   setInterval(runUpdate, config.leaderboard.updateInterval)
   runUpdate()
 }
