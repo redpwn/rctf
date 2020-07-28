@@ -60,6 +60,7 @@
   "devDependencies": {
     "@types/content-disposition": "0.5.3",
     "@types/mailgun-js": "0.22.9",
+    "@types/mustache": "4.0.1",
     "@types/nodemailer": "6.4.0",
     "@typescript-eslint/eslint-plugin": "3.7.0",
     "@typescript-eslint/parser": "3.7.0",
