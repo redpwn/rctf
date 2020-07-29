@@ -1,6 +1,8 @@
 import { promisify } from 'util'
 import client from './client'
 import config from '../../config/server'
+import { User } from '../database/users'
+import { Challenge } from '../challenges/types'
 
 const redisEvalsha = promisify(client.evalsha.bind(client))
 const redisHget = promisify(client.hget.bind(client))
@@ -117,7 +119,24 @@ const setGraphScript = redisScript('load', `
   end
 `)
 
-export const setLeaderboard = async ({ challengeValues, solveAmount, leaderboard, leaderboardUpdate }) => {
+// This enum exists to create a distinct string type which is not assignable from string; the
+// dummy item in the enum is to make it a string enum and not a number enum (the default).
+const enum LeaderboardKey {_=''}
+
+const getLeaderboardKey = (division?: string): LeaderboardKey => {
+  if (division === undefined) {
+    return 'global-leaderboard' as LeaderboardKey
+  } else {
+    return 'division-leaderboard:' + division as LeaderboardKey
+  }
+}
+
+export const setLeaderboard = async ({ challengeValues, solveAmount, leaderboard, leaderboardUpdate }: {
+  challengeValues: Map<string, string>;
+  solveAmount: Map<string, number>;
+  leaderboard: any[][];
+  leaderboardUpdate: number;
+}): Promise<void> => {
   const divisions = Object.keys(config.divisions)
   const divisionKeys = divisions.map(getLeaderboardKey)
   const keys = [
@@ -127,7 +146,7 @@ export const setLeaderboard = async ({ challengeValues, solveAmount, leaderboard
     'leaderboard-update',
     ...divisionKeys
   ]
-  const challengeInfo = []
+  const challengeInfo: string[] = []
   challengeValues.forEach((value, key) => {
     challengeInfo.push(key, `${value},${solveAmount.get(key)}`)
   })
@@ -142,15 +161,33 @@ export const setLeaderboard = async ({ challengeValues, solveAmount, leaderboard
   )
 }
 
-const getLeaderboardKey = (division) => {
-  if (division === undefined) {
-    return 'global-leaderboard'
-  } else {
-    return 'division-leaderboard:' + division
-  }
+// TODO: use ts-xor?
+type Without<T, U> = { [K in Exclude<keyof T, keyof U>]?: never }
+// eslint-disable-next-line @typescript-eslint/ban-types
+type XOR<A, B> = (A | B) extends object ? (Without<A, B> & B) | (Without<B, A> & A) : (A | B)
+
+export interface LeaderboardEntry {
+  id: User['id'];
+  name: User['name'];
+  score: number;
 }
 
-export const getRange = async ({ start, end, division, all }) => {
+export type Leaderboard = LeaderboardEntry[]
+
+export interface GetRangeArgsBase {
+  division: User['division'];
+}
+export interface GetRangeArgsRange extends GetRangeArgsBase {
+  start: number;
+  end: number;
+}
+export interface GetRangeArgsAll extends GetRangeArgsBase {
+  all: true;
+}
+export const getRange = async ({ start, end, division, all }: XOR<GetRangeArgsRange, GetRangeArgsAll>): Promise<{
+  total: number;
+  leaderboard: Leaderboard;
+}> => {
   if (all && (start !== undefined || end !== undefined)) {
     throw new Error('cannot specify all and either start or end')
   }
@@ -184,7 +221,11 @@ export const getRange = async ({ start, end, division, all }) => {
   }
 }
 
-export const getScore = async ({ id }) => {
+export const getScore = async ({ id }: Pick<User, 'id'>): Promise<{
+  score: number;
+  globalPlace: number;
+  divisionPlace: number;
+}> => {
   const redisResult = await redisHget('score-positions', id)
   if (redisResult === null) {
     return null
@@ -197,11 +238,16 @@ export const getScore = async ({ id }) => {
   }
 }
 
-export const getChallengeInfo = async ({ ids }) => {
+export const getChallengeInfo = async ({ ids }: {
+  ids: Challenge['id'][]
+}): Promise<{
+  score: number | null;
+  solves: number | null;
+}[]> => {
   if (ids.length === 0) {
     return []
   }
-  const redisResult = await redisHmget('challenge-info', ...ids)
+  const redisResult: string[] = await redisHmget('challenge-info', ...ids)
   return redisResult.map((info) => {
     if (info === null) {
       return {
@@ -217,7 +263,12 @@ export const getChallengeInfo = async ({ ids }) => {
   })
 }
 
-export const setGraph = async ({ leaderboards }) => {
+export const setGraph = async ({ leaderboards }: {
+  leaderboards: {
+    sample: number;
+    scores: any[][]
+  }[];
+}): Promise<void> => {
   let lastSample = 0
   const users = new Map()
   leaderboards.forEach(({ sample, scores }) => {
@@ -248,7 +299,15 @@ export const setGraph = async ({ leaderboards }) => {
   ])
 }
 
-export const getGraph = async ({ division, maxTeams }) => {
+export const getGraph = async ({ division, maxTeams }: {
+  division: User['division'];
+  maxTeams: number;
+}): Promise<(Pick<User, 'id' | 'name'> & {
+  points: {
+    time: number;
+    score: number;
+  }[]
+})[]> => {
   const redisResult = await redisEvalsha(
     await getGraphScript,
     2,
@@ -286,11 +345,11 @@ export const getGraph = async ({ division, maxTeams }) => {
   return result
 }
 
-export const getGraphUpdate = async () => {
+export const getGraphUpdate = async (): Promise<number> => {
   const redisResult = await redisGet('graph-update')
   return redisResult === null ? 0 : parseInt(redisResult)
 }
 
-export const setChallsDirty = () => {
+export const setChallsDirty = (): Promise<void> => {
   return redisSet('graph-update', 0)
 }

@@ -9,11 +9,11 @@ const redisClient = promisify(client.client.bind(client))
 const channel = `${client.selected_db || 0}:chall-updates`
 const clientId = redisClient('id')
 
-export const subscribeChallUpdate = async () => {
+export const subscribeChallUpdate = async (): Promise<void> => {
   await redisSubscribe(channel)
 }
 
-export const publishChallUpdate = async () => {
+export const publishChallUpdate = async (): Promise<void> => {
   await redisPublish(channel, await clientId)
 }
 

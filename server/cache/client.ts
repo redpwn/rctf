@@ -1,9 +1,9 @@
-import redis from 'redis'
+import redis, { RedisClient } from 'redis'
 import config from '../../config/server'
 
 const creds = config.database.redis
 
-let client
+let client: RedisClient
 
 // connection string
 if (typeof creds === 'string') {
