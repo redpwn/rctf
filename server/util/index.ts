@@ -3,6 +3,7 @@ import clientConfig from '../../config/client'
 import { promises as fs } from 'fs'
 import mustache from 'mustache'
 import fastifyCors from 'fastify-cors'
+import { FastifyPluginAsync, FastifyRequest, RouteHandlerMethod } from 'fastify'
 
 export * as normalize from './normalize'
 export * as validate from './validate'
@@ -11,21 +12,12 @@ export * as restrict from './restrict'
 
 /**
  * Perform a deep-copy of a JSON-stringifiable object
- *
- * @template T
- * @param {T} data data to copy
- * @returns {T} deep copy of data
  */
-export const deepCopy = data => {
+export const deepCopy = <T>(data: T): T => {
   return JSON.parse(JSON.stringify(data))
 }
 
-export const reloadModule = m => {
-  delete require.cache[require.resolve(m)]
-  return require(m)
-}
-
-export const enableCORS = async (fastify, opts) => {
+export const enableCORS: FastifyPluginAsync = async (fastify) => {
   if (config.corsOrigin !== undefined) {
     fastify.use(fastifyCors, {
       origin: config.corsOrigin,
@@ -35,7 +27,7 @@ export const enableCORS = async (fastify, opts) => {
   }
 }
 
-export const serveIndex = async (fastify, opts) => {
+export const serveIndex: FastifyPluginAsync<{ indexPath: string; }> = async (fastify, opts) => {
   const indexTemplate = (await fs.readFile(opts.indexPath)).toString()
 
   const rendered = mustache.render(indexTemplate, {
@@ -46,19 +38,19 @@ export const serveIndex = async (fastify, opts) => {
     }
   })
 
-  const routeHandler = async (req, reply) => {
+  const routeHandler: RouteHandlerMethod = async (req, reply) => {
     reply.type('text/html; charset=UTF-8')
     reply.send(rendered)
   }
 
   fastify.get('/', routeHandler)
-  fastify.get('/index.html', (req, reply) => reply.redirect(301, '/'))
-  fastify.get('//*', (req, reply) => reply.redirect(302, '/'))
+  fastify.get('/index.html', async (req, reply) => reply.redirect(301, '/'))
+  fastify.get('//*', async (req, reply) => reply.redirect(302, '/'))
   fastify.setNotFoundHandler(routeHandler)
 }
 
 // Parse Cloudflare CF-Connecting-IP header
-export const getRealIp = (req) => {
+export const getRealIp = (req: FastifyRequest): string => {
   // Use `get` on req.__proto__ since getRealIp is used in req's getter
   return req.headers['cf-connecting-ip'] ||
     Reflect.get(Object.getPrototypeOf(req), 'ip', req)
