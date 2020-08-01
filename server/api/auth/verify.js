@@ -35,7 +35,7 @@ export default {
         name: tokenData.name
       })
     } else if (tokenData.kind === 'recover') {
-      const user = await database.auth.getUserByIdAndEmail({
+      const user = await database.users.getUserByIdAndEmail({
         id: tokenData.userId,
         email: tokenData.email
       })
@@ -47,7 +47,7 @@ export default {
     } else if (tokenData.kind === 'update') {
       let result
       try {
-        result = await database.auth.updateUser({
+        result = await database.users.updateUser({
           id: tokenData.userId,
           email: tokenData.email,
           division: tokenData.division

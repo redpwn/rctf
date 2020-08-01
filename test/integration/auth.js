@@ -1,7 +1,7 @@
 const test = require('ava')
 const request = require('supertest')
 const app = require('../../dist/server/app').default
-const { removeUserByEmail } = require('../../dist/server/database').auth
+const { removeUserByEmail } = require('../../dist/server/database').users
 
 const config = require('../../dist/config/server')
 const { responseList } = require('../../dist/server/responses')
@@ -95,7 +95,7 @@ test.serial('duplicate name fails with badKnownName', async t => {
 })
 
 test.serial('succeeds with goodUserUpdate', async t => {
-  const user = await database.auth.getUserByEmail({
+  const user = await database.users.getUserByEmail({
     email: testUser.email
   })
 

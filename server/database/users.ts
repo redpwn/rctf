@@ -3,47 +3,61 @@ import * as util from '../util'
 import config from '../../config/server'
 import { DivisionACLError } from '../errors'
 
-export const getUserById = ({ id }) => {
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  division: string;
+  ctftimeId: string;
+  perms: number;
+}
+
+export const getAllUsers = (): Promise<Pick<User, 'id' | 'name' | 'division'>[]> => {
+  return db.query('SELECT id, name, division FROM users')
+    .then(res => res.rows)
+}
+
+export const getUserById = ({ id }: Pick<User, 'id'>): Promise<User> => {
   return db.query('SELECT * FROM users WHERE id = $1', [id])
     .then(res => res.rows[0])
 }
 
-export const getUserByEmail = ({ email }) => {
+export const getUserByEmail = ({ email }: Pick<User, 'email'>): Promise<User> => {
   return db.query('SELECT * FROM users WHERE email = $1', [email])
     .then(res => res.rows[0])
 }
 
-export const getUserByCtftimeId = ({ ctftimeId }) => {
+export const getUserByCtftimeId = ({ ctftimeId }: Pick<User, 'ctftimeId'>): Promise<User> => {
   return db.query('SELECT * FROM users WHERE ctftime_id = $1', [ctftimeId])
     .then(res => res.rows[0])
 }
 
-export const getUserByIdAndEmail = ({ id, email }) => {
+export const getUserByIdAndEmail = ({ id, email }: Pick<User, 'id' | 'email'>): Promise<User> => {
   return db.query('SELECT * FROM users WHERE id = $1 AND email = $2', [id, email])
     .then(res => res.rows[0])
 }
 
-export const getUserByNameOrEmail = ({ name, email }) => {
+export const getUserByNameOrEmail = ({ name, email }: Pick<User, 'name' | 'email'>): Promise<User> => {
   return db.query('SELECT * FROM users WHERE name = $1 OR email = $2', [name, email])
     .then(res => res.rows[0])
 }
 
-export const getUserByNameOrCtftimeId = ({ name, ctftimeId }) => {
+export const getUserByNameOrCtftimeId = ({ name, ctftimeId }: Pick<User, 'name' | 'ctftimeId'>): Promise<User> => {
   return db.query('SELECT * FROM users WHERE name = $1 OR ctftime_id = $2', [name, ctftimeId])
     .then(res => res.rows[0])
 }
 
-export const removeUserByEmail = ({ email }) => {
+export const removeUserByEmail = ({ email }: Pick<User, 'email'>): Promise<User> => {
   return db.query('DELETE FROM users WHERE email = $1 RETURNING *', [email])
     .then(res => res.rows[0])
 }
 
-export const removeUserById = ({ id }) => {
+export const removeUserById = ({ id }: Pick<User, 'id'>): Promise<User> => {
   return db.query('DELETE FROM users WHERE id = $1 RETURNING *', [id])
     .then(res => res.rows[0])
 }
 
-export const makeUser = ({ id, name, email, division, ctftimeId, perms }) => {
+export const makeUser = ({ id, name, email, division, ctftimeId, perms }: User): Promise<User> => {
   if (config.verifyEmail && config.divisionACLs &&
     !util.restrict.divisionAllowed(email, division)) {
     throw new DivisionACLError()
@@ -54,17 +68,17 @@ export const makeUser = ({ id, name, email, division, ctftimeId, perms }) => {
     .then(res => res.rows[0])
 }
 
-export const removeCtftimeId = ({ id }) => {
+export const removeCtftimeId = ({ id }: Pick<User, 'id'>): Promise<User> => {
   return db.query('UPDATE users SET ctftime_id = NULL WHERE id = $1 AND ctftime_id IS NOT NULL RETURNING *', [id])
     .then(res => res.rows[0])
 }
 
-export const removeEmail = ({ id }) => {
+export const removeEmail = ({ id }: Pick<User, 'id'>): Promise<User> => {
   return db.query('UPDATE users SET email = NULL WHERE id = $1 AND email IS NOT NULL RETURNING *', [id])
     .then(res => res.rows[0])
 }
 
-export const updateUser = async ({ id, name, email, division, ctftimeId, perms }) => {
+export const updateUser = async ({ id, name, email, division, ctftimeId, perms }: Partial<User>): Promise<User> => {
   if (config.verifyEmail && config.divisionACLs) {
     if (!email || !division) {
       const user = await getUserById({ id })

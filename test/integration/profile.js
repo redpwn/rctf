@@ -4,7 +4,7 @@ const app = require('../../dist/server/app').default
 const { v4: uuidv4 } = require('uuid')
 
 const config = require('../../dist/config/server')
-const { removeUserByEmail } = require('../../dist/server/database').auth
+const { removeUserByEmail } = require('../../dist/server/database').users
 const { responseList } = require('../../dist/server/responses')
 
 const testUser = {

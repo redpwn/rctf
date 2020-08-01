@@ -19,14 +19,14 @@ const ret = {
     const id = uuidv4()
 
     const userData = ret.generateTestUser()
-    const user = await db.auth.makeUser({
+    const user = await db.users.makeUser({
       ...userData,
       id
     })
 
     return {
       user,
-      cleanup: () => db.auth.removeUserById({ id })
+      cleanup: () => db.users.removeUserById({ id })
     }
   },
   getFirstLoadedChallenge: () => {

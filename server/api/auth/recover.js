@@ -33,7 +33,7 @@ export default {
       return responses.badEmail
     }
 
-    const user = await database.auth.getUserByEmail({ email })
+    const user = await database.users.getUserByEmail({ email })
     if (user === undefined) {
       return responses.badUnknownEmail
     }

@@ -4,7 +4,7 @@ import * as cache from '../../cache'
 import { getChallengeInfo } from '../../cache/leaderboard'
 
 export const getGenericUserData = async ({ id }) => {
-  const user = await db.users.getUserByUserId({ userid: id })
+  const user = await db.users.getUserById({ id })
   if (user === undefined) return null
 
   return getUserData({ user })

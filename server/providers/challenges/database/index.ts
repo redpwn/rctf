@@ -4,12 +4,8 @@ import { Provider } from '../../../challenges/Provider'
 import { EventEmitter } from 'events'
 
 import * as db from '../../../database'
+import { DatabaseChallenge } from '../../../database/challenges'
 import { deepCopy } from '../../../util'
-
-interface DatabaseChallenge {
-  id: string;
-  data: Omit<Challenge, 'id'>;
-}
 
 class DatabaseProvider extends EventEmitter implements Provider {
   private challenges: Challenge[] = []

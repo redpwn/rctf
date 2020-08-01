@@ -3,7 +3,7 @@ import { Pool } from 'pg'
 
 const creds = config.database.sql
 
-let pool
+let pool: Pool
 
 // connection string
 if (typeof creds === 'string') {
