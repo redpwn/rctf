@@ -6,6 +6,6 @@ export default {
   path: '/integrations/client/config',
   requireAuth: false,
   handler: async () => {
-    return [responses.goodClientConfig, JSON.stringify(clientConfig)]
+    return [responses.goodClientConfig, clientConfig]
   }
 }
