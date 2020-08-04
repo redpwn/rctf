@@ -1,7 +1,7 @@
 require('ava')
 
 const { v4: uuidv4 } = require('uuid')
-const config = require('../config/server')
+const { default: config } = require('../dist/server/config/server')
 const db = require('../dist/server/database')
 
 const ret = {

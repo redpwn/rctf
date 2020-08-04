@@ -6,7 +6,7 @@ import withStyles from '../components/jss'
 export default withStyles({
 }, class Error extends Component {
   componentDidMount () {
-    document.title = `Error${config.ctfTitle}`
+    document.title = `Error | ${config.ctfName}`
   }
 
   render ({ error, message }) {

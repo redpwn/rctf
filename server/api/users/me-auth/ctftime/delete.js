@@ -1,4 +1,4 @@
-import config from '../../../../../config/server'
+import config from '../../../../config/server'
 import { responses } from '../../../../responses'
 import * as database from '../../../../database'
 
@@ -7,7 +7,7 @@ export default {
   path: '/users/me/auth/ctftime',
   requireAuth: true,
   handler: async ({ user }) => {
-    if (!config.ctftimeClientId) {
+    if (!config.ctftime) {
       return responses.badEndpoint
     }
     let result

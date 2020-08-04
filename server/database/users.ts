@@ -1,6 +1,6 @@
 import db from './db'
 import * as util from '../util'
-import config from '../../config/server'
+import config from '../config/server'
 import { DivisionACLError } from '../errors'
 
 export interface User {
@@ -58,8 +58,7 @@ export const removeUserById = ({ id }: Pick<User, 'id'>): Promise<User> => {
 }
 
 export const makeUser = ({ id, name, email, division, ctftimeId, perms }: User): Promise<User> => {
-  if (config.verifyEmail && config.divisionACLs &&
-    !util.restrict.divisionAllowed(email, division)) {
+  if (config.email && config.divisionACLs && !util.restrict.divisionAllowed(email, division)) {
     throw new DivisionACLError()
   }
   return db.query('INSERT INTO users (id, name, email, division, ctftime_id, perms) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
@@ -79,7 +78,7 @@ export const removeEmail = ({ id }: Pick<User, 'id'>): Promise<User> => {
 }
 
 export const updateUser = async ({ id, name, email, division, ctftimeId, perms }: Partial<User>): Promise<User> => {
-  if (config.verifyEmail && config.divisionACLs) {
+  if (config.email && config.divisionACLs) {
     if (!email || !division) {
       const user = await getUserById({ id })
       email = email || user.email

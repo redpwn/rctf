@@ -21,7 +21,7 @@ export default withStyles({
   }
 }, ({ classes, ctftimeToken, ctftimeName }) => {
   const [disabledButton, setDisabledButton] = useState(false)
-  const division = config.defaultDivision.toString()
+  const division = config.defaultDivision || Object.keys(config.divisions)[0]
   const [showName, setShowName] = useState(false)
 
   const [name, setName] = useState(ctftimeName)

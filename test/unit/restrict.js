@@ -1,18 +1,18 @@
 const test = require('ava')
 
-const config = require('../../dist/config/server')
+const { default: config } = require('../../dist/server/config/server')
 const restrict = require('../../dist/server/util/restrict')
 
 let old
 
 test.serial.before('save old ACLs', t => {
-  old = { divisionACLs: config.divisionACLs, verifyEmail: config.verifyEmail }
-  config.verifyEmail = true
+  old = { divisionACLs: config.divisionACLs, email: config.email }
+  config.email = {}
 })
 
 test.serial.after('restore old ACLs', t => {
   config.divisionACLs = old.divisionACLs
-  config.verifyEmail = old.verifyEmail
+  config.email = old.email
   restrict.compileACLs()
 })
 

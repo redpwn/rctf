@@ -1,7 +1,7 @@
 import { workerData, parentPort } from 'worker_threads'
 import { getScore } from '../util/scores'
 import { calcSamples } from './samples'
-import config from '../../config/server'
+import config from '../config/server'
 
 const {
   data: {

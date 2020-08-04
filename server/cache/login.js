@@ -1,5 +1,5 @@
 import { promisify } from 'util'
-import config from '../../config/server'
+import config from '../config/server'
 import client from './client'
 
 const redisSet = promisify(client.set.bind(client))

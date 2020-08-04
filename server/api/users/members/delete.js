@@ -1,5 +1,6 @@
 import * as database from '../../../database'
 import { responses } from '../../../responses'
+import config from '../../../config/server'
 
 export default {
   method: 'DELETE',
@@ -17,10 +18,12 @@ export default {
     }
   },
   handler: async ({ req, user }) => {
-    const { id } = req.params
+    if (!config.userMembers) {
+      return responses.badEndpoint
+    }
 
     await database.members.removeMember({
-      id,
+      id: req.params.id,
       userid: user.id
     })
 

@@ -1,6 +1,6 @@
 import got from 'got'
-import { responses } from '../../responses'
-import * as auth from '../../auth'
+import { responses } from '../../../responses'
+import * as auth from '../../../auth'
 import config from '../../../config/server'
 
 const tokenEndpoint = 'https://oauth.ctftime.org/token'
@@ -22,34 +22,34 @@ export default {
     }
   },
   handler: async ({ req }) => {
-    if (!config.ctftimeClientId) {
+    if (!config.ctftime) {
       return responses.badEndpoint
     }
-    let tokenRes
+    let tokenBody
     try {
-      tokenRes = await got({
+      ({ body: tokenBody } = await got({
         url: tokenEndpoint,
         method: 'POST',
+        responseType: 'json',
         form: {
-          client_id: config.ctftimeClientId,
-          client_secret: config.ctftimeClientSecret,
+          client_id: config.ctftime.clientId,
+          client_secret: config.ctftime.clientSecret,
           code: req.body.ctftimeCode
         }
-      })
+      }))
     } catch (e) {
       if (e instanceof got.HTTPError && e.response.statusCode === 401) {
         return responses.badCtftimeCode
       }
       throw e
     }
-    const tokenBody = JSON.parse(tokenRes.body)
-    const userRes = await got({
+    const { body: userBody } = await got({
       url: userEndpoint,
+      responseType: 'json',
       headers: {
         authorization: `Bearer ${tokenBody.access_token}`
       }
     })
-    const userBody = JSON.parse(userRes.body)
     if (userBody.team === undefined) {
       return responses.badCtftimeCode
     }

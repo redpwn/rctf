@@ -1,4 +1,4 @@
-import config from '../../config/server'
+import config from '../config/server'
 import path from 'path'
 import { Provider } from './types'
 import { FastifyInstance } from 'fastify'

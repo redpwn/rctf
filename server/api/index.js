@@ -5,7 +5,8 @@ import * as db from '../database'
 const routes = [
   ...require('./leaderboard').default,
   ...require('./challs').default,
-  ...require('./integrations-ctftime').default,
+  ...require('./integrations/ctftime').default,
+  ...require('./integrations/client').default,
   ...require('./users').default,
   ...require('./auth').default,
   ...require('./admin').default

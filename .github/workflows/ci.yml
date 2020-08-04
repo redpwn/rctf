@@ -75,13 +75,11 @@ jobs:
 
     - name: Load configuration
       run: |
-        cp .env.example .env
-        cp -r .rdeploy.example .rdeploy
-        cp -r config/yml.example config/yml
+        cp test/conf-test.yaml conf.d
 
     - name: Run migrations
       run: |
-        yarn migrate up
+        yarn migrate
 
     - name: Build
       run: |

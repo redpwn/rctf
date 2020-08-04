@@ -3,7 +3,7 @@ import process from 'process'
 import path from 'path'
 import fs from 'fs'
 import crypto from 'crypto'
-import config from '../../../../config/server'
+import config from '../../../config/server'
 import { FastifyInstance } from 'fastify'
 import fastifyStatic from 'fastify-static'
 import contentDisposition from 'content-disposition'
@@ -29,6 +29,7 @@ export default class LocalProvider implements Provider {
   private uploadMap: Map<string, Upload>
 
   constructor (options: LocalProviderOptions, app: FastifyInstance) {
+    options = options ?? {}
     if (options.uploadDirectory === undefined) {
       options.uploadDirectory = path.join(process.cwd(), 'uploads')
     }

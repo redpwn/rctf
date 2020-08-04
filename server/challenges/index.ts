@@ -1,4 +1,4 @@
-import config from '../../config/server'
+import config from '../config/server'
 import path from 'path'
 import { Challenge, CleanedChallenge } from './types'
 import { Provider, ProviderConstructor } from './Provider'

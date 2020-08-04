@@ -19,7 +19,7 @@
     "test:slim": "ava",
     "test:report": "nyc --skip-full --reporter=lcov ava",
     "commit": "git cz",
-    "copy-static": "cpy \"server/**/*\" \"!**/*.{j,t}s\" \"migrations\" \"config/yml/*.yml\" dist/ --parents"
+    "copy-static": "cpy \"server/**/*\" \"!**/*.{j,t}s\" \"migrations\" \"conf.d\" dist/ --parents"
   },
   "nodemonConfig": {
     "watch": [
@@ -39,6 +39,7 @@
     "aws-sdk": "2.720.0",
     "content-disposition": "0.5.3",
     "data-uri-to-buffer": "3.0.1",
+    "deepmerge": "4.2.2",
     "dotenv": "8.2.0",
     "email-validator": "2.0.4",
     "fastify": "3.1.1",
@@ -104,6 +105,7 @@
     "snarkdown": "1.2.2",
     "supertest": "4.0.2",
     "svg-sprite-loader": "5.0.0",
+    "type-fest": "0.16.0",
     "typescript": "3.9.7"
   },
   "description": "rctf is RedpwnCTF's CTF platform. It is developed and maintained by the [redpwn](https://redpwn.net) CTF team.",

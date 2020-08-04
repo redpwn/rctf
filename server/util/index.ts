@@ -1,8 +1,6 @@
-import config from '../../config/server'
-import clientConfig from '../../config/client'
+import clientConfig from '../config/client'
 import { promises as fs } from 'fs'
 import mustache from 'mustache'
-import fastifyCors from 'fastify-cors'
 import { FastifyPluginAsync, FastifyRequest, RouteHandlerMethod } from 'fastify'
 
 export * as normalize from './normalize'
@@ -15,16 +13,6 @@ export * as restrict from './restrict'
  */
 export const deepCopy = <T>(data: T): T => {
   return JSON.parse(JSON.stringify(data))
-}
-
-export const enableCORS: FastifyPluginAsync = async (fastify) => {
-  if (config.corsOrigin !== undefined) {
-    fastify.use(fastifyCors, {
-      origin: config.corsOrigin,
-      allowedHeaders: ['Authorization', 'Content-Type'],
-      methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE']
-    })
-  }
 }
 
 export const serveIndex: FastifyPluginAsync<{ indexPath: string; }> = async (fastify, opts) => {

@@ -1,6 +1,6 @@
 import path from 'path'
 import pgMigrate from 'node-pg-migrate'
-import config from '../../config/server'
+import config from '../config/server'
 
 const sleep = (time) => new Promise(resolve => setTimeout(resolve, time))
 

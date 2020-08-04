@@ -9,7 +9,7 @@
     "allowSyntheticDefaultImports": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "outDir": "dist",
+    "outDir": "dist/server",
     "baseUrl": "."
   },
   "include": [

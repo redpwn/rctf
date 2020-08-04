@@ -3,7 +3,7 @@ import fastify from 'fastify'
 import fastifyStatic from 'fastify-static'
 import helmet from 'fastify-helmet'
 import hyperid from 'hyperid'
-import { enableCORS, serveIndex, getRealIp } from './util'
+import { serveIndex, getRealIp } from './util'
 import { init as uploadProviderInit } from './uploads'
 import api, { logSerializers as apiLogSerializers } from './api'
 
@@ -32,7 +32,6 @@ app.addHook('onRequest', async (req, reply) => {
   })
 })
 
-app.register(enableCORS)
 app.register(helmet, {
   dnsPrefetchControl: false,
   referrerPolicy: { policy: 'origin-when-cross-origin' },

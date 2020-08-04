@@ -44,7 +44,7 @@ const Challenges = ({ classes }) => {
   }, [])
 
   useEffect(() => {
-    document.title = `Challenges${config.ctfTitle}`
+    document.title = `Challenges | ${config.ctfName}`
   }, [])
 
   useEffect(() => {

@@ -10,7 +10,7 @@ const Verify = () => {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    document.title = `Verify${config.ctfTitle}`
+    document.title = `Verify | ${config.ctfName}`
 
     ;(async () => {
       const qs = new URLSearchParams(location.search)

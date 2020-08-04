@@ -32,7 +32,7 @@ const Challenges = ({ classes }) => {
   })
 
   useEffect(() => {
-    document.title = `Admin Challenges${config.ctfTitle}`
+    document.title = `Admin Challenges | ${config.ctfName}`
   }, [])
 
   useEffect(() => {

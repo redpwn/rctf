@@ -1,8 +1,8 @@
-import config from '../../config/server'
+import config from '../config/server'
 
 type ACLCheck = (email: string) => boolean
 
-interface ACL {
+export interface ACL {
   match: string;
   value: string;
   divisions: string[];
@@ -28,7 +28,7 @@ const restrictionChecks: { [checkType: string]: (value: string) => ACLCheck } = 
 export const compileACLs = (): void => {
   let divisionACLs: ACL[] = config.divisionACLs
   // allow everything if no ACLs or if no email verify
-  if (!divisionACLs || divisionACLs.length === 0 || !config.verifyEmail) {
+  if (!divisionACLs || divisionACLs.length === 0 || !config.email) {
     divisionACLs = [{
       match: 'any',
       value: '',
