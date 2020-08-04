@@ -1229,10 +1229,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/mailgun-js@0.22.9":
-  version "0.22.9"
-  resolved "https://registry.yarnpkg.com/@types/mailgun-js/-/mailgun-js-0.22.9.tgz#2dfc49d4956fda8058bd9a07d50bc74cb84994fc"
-  integrity sha512-4UnlgPRDfUfU1k63Y2ygKcCPDqRs1mCfY1jOOoam++feJLVA6WS12CeIjKg2fAgaNTbv37H5DrQb+nFEYsdnnA==
+"@types/mailgun-js@0.22.10":
+  version "0.22.10"
+  resolved "https://registry.yarnpkg.com/@types/mailgun-js/-/mailgun-js-0.22.10.tgz#e0584fc225f2a41157ed0a00a3bc084880d5a49b"
+  integrity sha512-5P9OPXAW9pOmyl32mcSh77JYR17d6bfMRwoARL9MjzAHPP4G+BDlP6smMYCaX2KWY74Y+Q+gVN6y8MHMBPuD7w==
   dependencies:
     "@types/node" "*"
     form-data "^2.5.0"
