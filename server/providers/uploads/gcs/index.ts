@@ -11,9 +11,12 @@ export default class GcsProvider implements Provider {
   private bucket: Bucket
   private bucketName: string
 
-  constructor (options: GcsProviderOptions) {
-    options.credentials = options.credentials || JSON.parse(process.env.RCTF_GCS_CREDENTIALS)
-    options.bucketName = options.bucketName || process.env.RCTF_GCS_BUCKET
+  constructor (_options: Partial<GcsProviderOptions>) {
+    const options: Required<GcsProviderOptions> = {
+      credentials: _options.credentials || JSON.parse(process.env.RCTF_GCS_CREDENTIALS as string),
+      bucketName: _options.bucketName || process.env.RCTF_GCS_BUCKET as string
+    }
+    // TODO: validate that all options are indeed provided
 
     const storage = new Storage({
       credentials: options.credentials
