@@ -1073,12 +1073,12 @@
   dependencies:
     mkdirp "^1.0.4"
 
-"@preact/async-loader@^3.0.0-rc.11":
-  version "3.0.0-rc.11"
-  resolved "https://registry.yarnpkg.com/@preact/async-loader/-/async-loader-3.0.0-rc.11.tgz#6c524e8b7afcdb205972141d2c41a0e3fb0f03cd"
-  integrity sha512-EgOfVt0uJYAAqZNMFqQ5F3WyztXLRQDd8NkpL+MUyHJrjk6miIQumE66OzOgpQpcHbPTY9xioNYGPifWerAmcw==
+"@preact/async-loader@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@preact/async-loader/-/async-loader-3.0.1.tgz#aeca7b029ad1e3e70eda684191a3cf050b9055a4"
+  integrity sha512-BoUN24hxEfAQYnWjliAmkZLuliv+ONQi7AWn+/+VOJHTIHmbFiXrvmSxITf7PDkKiK0a5xy4OErZtVVLlk96Tg==
   dependencies:
-    kleur "^3.0.3"
+    kleur "^4.0.2"
     loader-utils "^2.0.0"
 
 "@prefresh/core@^0.7.0":
@@ -7251,6 +7251,11 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
+kleur@^4.0.2:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/kleur/-/kleur-4.0.3.tgz#c66f27b804dfb89f804de5f44290c9001979e685"
+  integrity sha512-s84+52u0qkMmOI+eFJSxOCS/2Xt4j2A7Uacg8j+Ja1uFrED2zV3bILKtdAmpJCER4ufTej7p1OwuHbUz5ZVUyg==
+
 last-call-webpack-plugin@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/last-call-webpack-plugin/-/last-call-webpack-plugin-3.0.0.tgz#9742df0e10e3cf46e5c0381c2de90d3a7a2d7555"
@@ -8093,10 +8098,10 @@ nanomatch@^1.2.1, nanomatch@^1.2.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-native-url@0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/native-url/-/native-url-0.3.1.tgz#5045c65d0eb4c3ee548d48e3cb50797eec5a3c54"
-  integrity sha512-VL0XRW8nNBdSpxqZCbLJKrLHmIMn82FZ8pJzriJgyBmErjdEtrUX6eZAJbtHjlkMooEWUV+EtJ0D5tOP3+1Piw==
+native-url@0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/native-url/-/native-url-0.3.4.tgz#29c943172aed86c63cee62c8c04db7f5756661f8"
+  integrity sha512-6iM8R99ze45ivyH8vybJ7X0yekIcPf5GgLV5K0ENCbmRcaRIDoj37BC8iLEmaaBfqqb8enuZ5p0uhY+lVAbAcA==
   dependencies:
     querystring "^0.2.0"
 
@@ -9577,10 +9582,10 @@ posthtml@^0.9.2:
     posthtml-parser "^0.2.0"
     posthtml-render "^1.0.5"
 
-preact-cli@3.0.0-rc.16:
-  version "3.0.0-rc.16"
-  resolved "https://registry.yarnpkg.com/preact-cli/-/preact-cli-3.0.0-rc.16.tgz#1c5ab033e377f3767cf397c7c5d0fcef8c263246"
-  integrity sha512-kYw2FeAxa0vqU9/r8J0Cap46C3OLxpO4/UDHyDRPDaOjH8W8rxAOB0B+LMDjMtpe8Nnb8EO7lVzmTKB4UPywhw==
+preact-cli@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/preact-cli/-/preact-cli-3.0.1.tgz#e8913998df38854e1f1efde21aa1da1e66146b84"
+  integrity sha512-C5fvHo/P9MScpUYp2cwu9w/UBQsVwnOugIbcikY6MS+nEiNX9nE4xpnEghUuZxC+Mr8R2z1WiMAWKQQA4/D78A==
   dependencies:
     "@babel/core" "^7.9.0"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -9591,7 +9596,7 @@ preact-cli@3.0.0-rc.16:
     "@babel/plugin-transform-react-jsx" "^7.9.0"
     "@babel/preset-env" "^7.9.0"
     "@babel/preset-typescript" "^7.9.0"
-    "@preact/async-loader" "^3.0.0-rc.11"
+    "@preact/async-loader" "^3.0.1"
     "@prefresh/webpack" "^0.8.1"
     autoprefixer "^9.6.0"
     babel-esm-plugin "^0.9.0"
@@ -9618,11 +9623,11 @@ preact-cli@3.0.0-rc.16:
     html-webpack-plugin "^3.2.0"
     ip "^1.1.5"
     isomorphic-unfetch "^3.0.0"
-    kleur "^3.0.3"
+    kleur "^4.0.2"
     loader-utils "^2.0.0"
     mini-css-extract-plugin "^0.9.0"
     minimatch "^3.0.3"
-    native-url "0.3.1"
+    native-url "0.3.4"
     optimize-css-assets-webpack-plugin "^5.0.1"
     ora "^4.0.3"
     postcss-load-config "^2.1.0"
@@ -9631,7 +9636,7 @@ preact-cli@3.0.0-rc.16:
     promise-polyfill "^8.1.0"
     prompts "^2.2.1"
     raw-loader "^4.0.0"
-    react-refresh "0.8.2"
+    react-refresh "0.8.3"
     require-relative "^0.8.7"
     rimraf "^3.0.2"
     sade "^1.4.1"
@@ -10047,10 +10052,10 @@ react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-refresh@0.8.2:
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.2.tgz#24bb0858eac92b0d7b0dd561747f0c9fd6c60327"
-  integrity sha512-n8GXxo3DwM2KtFEL69DAVhGc4A1THn2qjmfvSo3nze0NLCoPbywazeJPqdp0RdSGLmyhQzeyA+XPXOobbYlkzg==
+react-refresh@0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
+  integrity sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==
 
 read-pkg-up@^2.0.0:
   version "2.0.0"
