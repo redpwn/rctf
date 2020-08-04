@@ -97,7 +97,7 @@
     "pascal-case": "3.1.1",
     "pino-pretty": "4.1.0",
     "preact": "10.4.6",
-    "preact-cli": "3.0.0-rc.16",
+    "preact-cli": "3.0.1",
     "preact-markup": "2.0.0",
     "preact-router": "3.2.1",
     "purgecss-webpack-plugin": "2.3.0",
