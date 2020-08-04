@@ -54,7 +54,7 @@
     "nodemailer": "6.4.11",
     "pg": "8.3.0",
     "redis": "3.0.2",
-    "uuid": "8.2.0",
+    "uuid": "8.3.0",
     "yaml": "1.10.0"
   },
   "devDependencies": {
