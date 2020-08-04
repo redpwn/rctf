@@ -143,13 +143,13 @@ const envConfig: ServerConfig = {
   startTime: parseInt(process.env.RCTF_START_TIME) || undefined,
   endTime: parseInt(process.env.RCTF_END_TIME) || undefined,
   leaderboard: {
-    maxLimit: undefined,
-    maxOffset: undefined,
-    updateInterval: undefined,
-    graphMaxTeams: undefined,
-    graphSampleTime: undefined
+    maxLimit: parseInt(process.env.RCTF_LEADERBOARD_MAX_LIMIT) || undefined,
+    maxOffset: parseInt(process.env.RCTF_LEADERBOARD_MAX_OFFSET) || undefined,
+    updateInterval: parseInt(process.env.RCTF_LEADERBOARD_UPDATE_INTERVAL) || undefined,
+    graphMaxTeams: parseInt(process.env.RCTF_LEADERBOARD_GRAPH_MAX_TEAMS) || undefined,
+    graphSampleTime: parseInt(process.env.RCTF_LEADERBOARD_GRAPH_SAMPLE_TIME) || undefined
   },
-  loginTimeout: undefined
+  loginTimeout: parseInt(process.env.RCTF_LOGIN_TIMEOUT) || undefined
 }
 
 const defaultConfig: PartialDeep<ServerConfig> = {

@@ -7,5 +7,4 @@ The database challenge provider stores challenge details in the Postgresql datab
 ```yaml
 challengeProvider:
   name: 'challenges/database'
-  options: {}
 ```
