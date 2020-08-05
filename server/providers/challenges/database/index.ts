@@ -17,7 +17,7 @@ class DatabaseProvider extends EventEmitter implements Provider {
 
   private async update (): Promise<void> {
     try {
-      const dbchallenges = await db.challenges.getAllChallenges() as DatabaseChallenge[]
+      const dbchallenges = await db.challenges.getAllChallenges()
 
       this.challenges = dbchallenges.map(({ id, data }) => {
         return {
@@ -52,7 +52,7 @@ class DatabaseProvider extends EventEmitter implements Provider {
   async updateChallenge (chall: Challenge): Promise<void> {
     const originalData = await db.challenges.getChallengeById({
       id: chall.id
-    }) as DatabaseChallenge
+    })
 
     // If we're inserting, have sane defaults
     if (originalData === undefined) {

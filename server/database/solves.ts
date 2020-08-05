@@ -29,7 +29,7 @@ export const getSolveByUserIdAndChallId = ({ userid, challengeid }: Pick<Solve, 
     .then(res => res.rows[0])
 }
 
-export const newSolve = ({ id, userid, challengeid, createdat }: Solve): Promise<Solve | undefined> => {
+export const newSolve = ({ id, userid, challengeid, createdat }: Solve): Promise<Solve> => {
   return db.query('INSERT INTO solves (id, challengeid, userid, createdat) VALUES ($1, $2, $3, $4) RETURNING *', [id, challengeid, userid, createdat])
     .then(res => res.rows[0])
 }
