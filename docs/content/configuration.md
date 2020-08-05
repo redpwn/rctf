@@ -82,4 +82,4 @@ YAML/JSON name|environment name|required|default value|type|description
 
 The `conf.d` directory can be renamed or moved elsewhere.
 
-To do so, set the `RCTF_CONF_PATH` environment variable to the location of a directory of YAML or JSON configuration files. If specified as a relative path, the path is evaluated from the root rCTF directory.
+To do so, set the `RCTF_CONF_PATH` environment variable to the location of a directory of YAML or JSON configuration files. If specified as a relative path, the path is evaluated from the current working directory.
