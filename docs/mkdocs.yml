@@ -8,8 +8,9 @@ nav:
   - Installation: installation.md
   - Configuration: configuration.md
   - Management:
-    - Divisions: management/divisions.md
+    - Admin: management/admin.md
     - Home: management/home.md
+    - Divisions: management/divisions.md
     - Migration: management/migration.md
     - Scaling: management/scaling.md
   - Providers:

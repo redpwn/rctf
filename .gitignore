@@ -9,6 +9,7 @@ yarn-error.log*
 /data
 /conf.d/*
 !/conf.d/.keep
+/docs/site
 
 # Upload provider dir
 /uploads
