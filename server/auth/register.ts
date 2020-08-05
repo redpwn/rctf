@@ -2,10 +2,11 @@ import { v4 as uuidv4 } from 'uuid'
 import { makeUser, User } from '../database/users'
 import { getToken, tokenKinds } from './token'
 import { responses } from '../responses'
+import { ValueOf } from 'type-fest'
 
 export const register = async (
-  { division, email, name, ctftimeId }: User
-): Promise<[typeof responses.goodRegister, { authToken: string }] | (typeof responses)[keyof typeof responses]> => {
+  { division, email, name, ctftimeId }: Pick<User, 'division' | 'email' | 'name' | 'ctftimeId'>
+): Promise<[typeof responses.goodRegister, { authToken: string }] | ValueOf<typeof responses>> => {
   const userUuid = uuidv4()
   try {
     await makeUser({
