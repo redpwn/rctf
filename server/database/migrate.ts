@@ -2,16 +2,17 @@ import path from 'path'
 import pgMigrate from 'node-pg-migrate'
 import config from '../config/server'
 
-const sleep = (time) => new Promise(resolve => setTimeout(resolve, time))
+const sleep = (time: number) => new Promise(resolve => setTimeout(resolve, time))
 
-const migrate = async (attempt) => {
+const migrate = async (attempt: number): Promise<void> => {
   try {
     await pgMigrate({
       databaseUrl: config.database.sql,
       dir: path.join(__dirname, '../../migrations'),
       direction: 'up',
       migrationsTable: 'pgmigrations',
-      verbose: true
+      verbose: true,
+      count: Infinity
     })
   } catch (e) {
     if (attempt > 10) {
@@ -23,4 +24,4 @@ const migrate = async (attempt) => {
   }
 }
 
-export default () => migrate(0)
+export default (): Promise<void> => migrate(0)

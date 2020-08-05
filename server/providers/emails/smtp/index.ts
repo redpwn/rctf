@@ -8,8 +8,13 @@ interface SmtpProviderOptions {
 
 export default class SmtpProvider implements Provider {
   private mailer: Mailer
-  constructor (options: SmtpProviderOptions) {
-    this.mailer = nodemailer.createTransport(options.smtpUrl || process.env.RCTF_SMTP_URL)
+  constructor (_options: Partial<SmtpProviderOptions>) {
+    const options: Required<SmtpProviderOptions> = {
+      smtpUrl: _options.smtpUrl || process.env.RCTF_SMTP_URL
+    } as Required<SmtpProviderOptions>
+    // TODO: validate that all options are indeed provided
+
+    this.mailer = nodemailer.createTransport(options.smtpUrl)
   }
 
   send (mail: Mail): Promise<void> {

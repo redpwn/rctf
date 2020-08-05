@@ -68,9 +68,8 @@ export default class LocalProvider implements Provider {
       }, async (request, reply) => {
         const key = request.query.key.toString()
 
-        if (this.uploadMap.has(key)) {
-          const upload = this.uploadMap.get(key)
-
+        const upload = this.uploadMap.get(key)
+        if (upload != null) {
           reply.header('Cache-Control', 'public, max-age=31557600, immutable')
           reply.header('Content-Disposition', contentDisposition(upload.name))
           reply.sendFile(path.relative(this.uploadDirectory, upload.filePath))

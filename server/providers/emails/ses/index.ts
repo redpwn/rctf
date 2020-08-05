@@ -19,14 +19,21 @@ export class SesError extends Error {
 export default class SesProvider implements Provider {
   private sesSend: (params: AWS.SES.Types.SendEmailRequest) => Promise<AWS.SES.Types.SendEmailResponse>
 
-  constructor (options: SesProviderOptions) {
+  constructor (_options: Partial<SesProviderOptions>) {
+    const options: Required<SesProviderOptions> = {
+      awsKeyId: _options.awsKeyId || process.env.RCTF_SES_KEY_ID,
+      awsKeySecret: _options.awsKeySecret || process.env.RCTF_SES_KEY_SECRET,
+      awsRegion: _options.awsRegion || process.env.RCTF_SES_REGION
+    } as Required<SesProviderOptions>
+    // TODO: validate that all options are indeed provided
+
     const credentials = new AWS.Credentials({
-      accessKeyId: options.awsKeyId || process.env.RCTF_SES_KEY_ID,
-      secretAccessKey: options.awsKeySecret || process.env.RCTF_SES_KEY_SECRET
+      accessKeyId: options.awsKeyId,
+      secretAccessKey: options.awsKeySecret
     })
     const ses = new AWS.SES({
       credentials,
-      region: options.awsRegion || process.env.RCTF_SES_REGION
+      region: options.awsRegion
     })
     this.sesSend = promisify(ses.sendEmail.bind(ses))
   }

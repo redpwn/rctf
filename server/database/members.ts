@@ -18,7 +18,7 @@ export const makeMember = ({ id, userid, email }: UserMember): Promise<UserMembe
     .then(res => res.rows[0])
 }
 
-export const removeMember = ({ id, userid }: Pick<UserMember, 'id' | 'userid'>): Promise<UserMember> => {
+export const removeMember = ({ id, userid }: Pick<UserMember, 'id' | 'userid'>): Promise<UserMember | undefined> => {
   return db.query('DELETE FROM user_members WHERE id = $1 and userid = $2 RETURNING *', [id, userid])
     .then(res => res.rows[0])
 }
