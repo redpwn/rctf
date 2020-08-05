@@ -7,7 +7,7 @@ let provider
 if (config.email) {
   provider = (async () => {
     const { default: Provider } = await import(path.join('../providers', config.email.provider.name))
-    return new Provider(config.email.provider.options)
+    return new Provider(config.email.provider.options ?? {})
   })()
 }
 const verifyHtml = fs.readFileSync(path.join(__dirname, 'emails/verify.html')).toString()

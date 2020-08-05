@@ -79,15 +79,29 @@ export type ServerConfig = {
   loginTimeout: number;
 }
 
-const configPath = path.join(__dirname, '../../conf.d')
-const files = fs.readdirSync(configPath).filter(name => /\.(?:ya?ml|json)$/.test(name)).sort()
-const fileConfigs = files.map(name => yaml.parse(fs.readFileSync(path.join(configPath, name)).toString()))
+const fileConfigLoaders: Map<string, (file: string) => unknown> = new Map([
+  ['json', file => JSON.parse(file)],
+  ['yaml', file => yaml.parse(file)],
+  ['yml', file => yaml.parse(file)]
+])
+
+const configPath = path.resolve(__dirname, '../../..', process.env.RCTF_CONF_PATH ?? 'conf.d')
+const fileConfigs: PartialDeep<ServerConfig>[] = []
+fs.readdirSync(configPath).sort().forEach((name) => {
+  const matched = name.match(/\.(.+)$/)
+  if (matched === null || !fileConfigLoaders.has(matched[1])) {
+    return
+  }
+  const loader = fileConfigLoaders.get(matched[1])
+  const config = loader(fs.readFileSync(path.join(configPath, name)).toString())
+  fileConfigs.push(config)
+})
 
 const parseBoolEnv = (val?: string): boolean | null => {
   if (val == null) {
     return null
   }
-  return ['true', 'yes', 'y'].includes(val.toLowerCase().trim())
+  return ['true', 'yes', 'y', '1'].includes(val.toLowerCase().trim())
 }
 
 const envConfig: ServerConfig = {

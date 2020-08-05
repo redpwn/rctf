@@ -4,7 +4,7 @@ services:
     build: .
     restart: always
     ports:
-      - '127.0.0.1:8000:80'
+      - '127.0.0.1:8080:80'
     networks:
       - rctf
     env_file:

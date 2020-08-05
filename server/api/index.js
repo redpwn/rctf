@@ -38,7 +38,7 @@ export default async (fastify) => {
       return
     }
 
-    const res = reply.res
+    const res = reply.raw
 
     // based on https://github.com/fastify/fastify/blob/2.x/lib/context.js#L29
     if (res.statusCode >= 500) {

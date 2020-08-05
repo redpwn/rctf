@@ -29,7 +29,6 @@ export default class LocalProvider implements Provider {
   private uploadMap: Map<string, Upload>
 
   constructor (options: LocalProviderOptions, app: FastifyInstance) {
-    options = options ?? {}
     if (options.uploadDirectory === undefined) {
       options.uploadDirectory = path.join(process.cwd(), 'uploads')
     }

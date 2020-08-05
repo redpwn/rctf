@@ -18,7 +18,7 @@ test.serial.before('start server', async t => {
   await app.ready()
 })
 
-test.serial.after('cleanup test user', async t => {
+test.serial.after.always('cleanup test user', async t => {
   config.email = oldEmail
   await removeUserByEmail({
     email: testUser.email

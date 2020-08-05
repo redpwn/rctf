@@ -12,7 +12,7 @@ interface RawResponseType extends BaseResponseType {
   rawContentType: string
 }
 
-type ResponseType = MergeExclusive<NormalResponseType, RawResponseType>
+export type ResponseType = MergeExclusive<NormalResponseType, RawResponseType>
 
 export const responseList = {
   goodVerify: {

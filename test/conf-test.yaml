@@ -6,7 +6,7 @@ email:
   from: no-reply@example.com
 
 ctfName: rCTF
-origin: http://127.0.0.1:8000
+origin: http://127.0.0.1:8080
 
 startTime: 1591500500000
 endTime: 1623358000000

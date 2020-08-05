@@ -38,7 +38,7 @@ test.serial('succeeds with goodUserData', async t => {
   t.is(resp.body.data.name, testUser.name)
 })
 
-test.serial.after('cleanup test user', async t => {
+test.serial.after.always('cleanup test user', async t => {
   await removeUserByEmail({
     email: testUser.email
   })

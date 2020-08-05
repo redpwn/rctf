@@ -36,7 +36,7 @@ const onUpdate = (newChallenges: Challenge[]): void => {
 
 void import(path.join('../providers', config.challengeProvider.name))
   .then(({ default: Provider }: { default: ProviderConstructor }) => {
-    provider = new Provider(config.challengeProvider.options)
+    provider = new Provider(config.challengeProvider.options ?? {})
 
     provider.on('update', onUpdate)
   })

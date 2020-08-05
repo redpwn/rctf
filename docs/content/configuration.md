@@ -77,3 +77,9 @@ YAML/JSON name|environment name|required|default value|type|description
 `leaderboard.graphMaxTeams`|`RCTF_LEADERBOARD_GRAPH_MAX_TEAMS`|yes|10|integer|maximum number of users retrievable in a graph request
 `leaderboard.graphSampleTime`|`RCTF_LEADERBOARD_GRAPH_SAMPLE_TIME`|yes|1800000|integer|interval at which the score graph is sampled, in milliseconds
 `loginTimeout`|`RCTF_LOGIN_TIMEOUT`|yes|3600000|integer|lifetime of registration, email update, and recovery links, in milliseconds
+
+## Custom `conf.d` location
+
+The `conf.d` directory can be renamed or moved elsewhere.
+
+To do so, set the `RCTF_CONF_PATH` environment variable to the location of a directory of YAML or JSON configuration files. If specified as a relative path, the path is evaluated from the root rCTF directory.

@@ -12,7 +12,7 @@ export const init = (app: FastifyInstance | null): void => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ProviderClass = require(path.join('../providers', name)).default
 
-  provider = new ProviderClass(config.uploadProvider.options, app)
+  provider = new ProviderClass(config.uploadProvider.options ?? {}, app)
 }
 
 export const get = (): Provider => {
