@@ -86,15 +86,18 @@ const fileConfigLoaders: Map<string, (file: string) => unknown> = new Map([
   ['yml', file => yaml.parse(file)]
 ])
 
-const configPath = path.resolve(__dirname, '../../..', process.env.RCTF_CONF_PATH ?? 'conf.d')
+const configPath = process.env.RCTF_CONF_PATH ?? path.join(__dirname, '../../../conf.d')
 const fileConfigs: PartialDeep<ServerConfig>[] = []
 fs.readdirSync(configPath).sort().forEach((name) => {
   const matched = name.match(/\.(.+)$/)
-  if (matched === null || !fileConfigLoaders.has(matched[1])) {
+  if (matched === null) {
     return
   }
   const loader = fileConfigLoaders.get(matched[1])
-  const config = loader(fs.readFileSync(path.join(configPath, name)).toString())
+  if (loader === undefined) {
+    return
+  }
+  const config = loader(fs.readFileSync(path.join(configPath, name)).toString()) as PartialDeep<ServerConfig>
   fileConfigs.push(config)
 })
 
