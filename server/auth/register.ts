@@ -1,12 +1,14 @@
 import { v4 as uuidv4 } from 'uuid'
-import * as database from '../database'
+import { makeUser, User } from '../database/users'
 import { getToken, tokenKinds } from './token'
 import { responses } from '../responses'
 
-export const register = async ({ division, email, name, ctftimeId }) => {
+export const register = async (
+  { division, email, name, ctftimeId }: User
+): Promise<[typeof responses.goodRegister, { authToken: string }] | (typeof responses)[keyof typeof responses]> => {
   const userUuid = uuidv4()
   try {
-    await database.users.makeUser({
+    await makeUser({
       division,
       email,
       name,
