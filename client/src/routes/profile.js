@@ -339,7 +339,7 @@ const Profile = ({ uuid, classes }) => {
     }))
   }, [])
 
-  useEffect(() => { document.title = `Profile${config.ctfTitle}` }, [])
+  useEffect(() => { document.title = `Profile | ${config.ctfName}` }, [])
 
   if (!loaded) return null
 
@@ -364,19 +364,16 @@ const Profile = ({ uuid, classes }) => {
         <div class={classes.privateCol}>
           <TeamCodeCard {...{ teamToken }} />
           <UpdateCard {...{ name, email, divisionId, allowedDivisions, onUpdate: onProfileUpdate }} />
-          {
-            config.ctftimeEnabled &&
-              <CtftimeCard {...{ ctftimeId, onUpdate: onProfileUpdate }} />
-          }
+          {config.ctftime && (
+            <CtftimeCard {...{ ctftimeId, onUpdate: onProfileUpdate }} />
+          )}
         </div>
       )}
       <div class={classes.col}>
         <SummaryCard {...{ name, score, division, divisionPlace, globalPlace, ctftimeId, isPrivate }} />
-        {
-          isPrivate &&
-            config.showUserMembers &&
-            <MembersCard />
-        }
+        {isPrivate && config.userMembers && (
+          <MembersCard />
+        )}
         {isPrivate ? (
           <PrivateSolvesCard solves={solves} />
         ) : (

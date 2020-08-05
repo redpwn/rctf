@@ -1,4 +1,4 @@
-import config from '../../config/server'
+import config from '../config/server'
 import { Pool } from 'pg'
 
 const creds = config.database.sql

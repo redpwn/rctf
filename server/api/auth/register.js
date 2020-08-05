@@ -3,7 +3,7 @@ import emailValidator from 'email-validator'
 import * as cache from '../../cache'
 import * as util from '../../util'
 import * as auth from '../../auth'
-import config from '../../../config/server'
+import config from '../../config/server'
 import { responses } from '../../responses'
 import { getUserByNameOrEmail } from '../../database/users'
 import { sendVerification } from '../../email'
@@ -59,7 +59,7 @@ export default {
       return responses.badName
     }
 
-    if (!config.verifyEmail) {
+    if (!config.email) {
       const division = config.defaultDivision || Object.keys(config.divisions)[0]
       return auth.register.register({
         division,

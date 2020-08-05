@@ -4,7 +4,7 @@ services:
     build: .
     restart: always
     ports:
-      - '127.0.0.1:8000:80'
+      - '127.0.0.1:8080:80'
     networks:
       - rctf
     env_file:
@@ -18,8 +18,7 @@ services:
       - RCTF_REDIS_URL=redis://redis
       - RCTF_DATABASE_MIGRATE=before
     volumes:
-      - ./config:/app/dist/config
-      - ./.rdeploy:/app/.rdeploy
+      - ./conf.d:/app/dist/conf.d
     depends_on:
       - redis
       - postgres
@@ -40,7 +39,7 @@ services:
     networks:
       - rctf
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+      - ./data/rctf-postgres:/var/lib/postgresql/data
 
 networks:
   rctf: {}

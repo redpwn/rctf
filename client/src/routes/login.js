@@ -46,7 +46,7 @@ export default withStyles({
   }
 
   componentDidMount () {
-    document.title = `Login${config.ctfTitle}`
+    document.title = `Login | ${config.ctfName}`
 
     ;(async () => {
       const qs = new URLSearchParams(location.search)
@@ -94,18 +94,16 @@ export default withStyles({
             value={teamToken}
             onChange={this.linkState('teamToken')}
           />
-          {
-            config.verifyEmail &&
-              <Link href='/recover' class={classes.link}>Lost your team token?</Link>
-          }
+          {config.emailEnabled && (
+            <Link href='/recover' class={classes.link}>Lost your team token?</Link>
+          )}
         </Form>
-        {
-          config.ctftimeEnabled &&
-            <Fragment>
-              <AuthOr />
-              <CtftimeButton class='col-12' onCtftimeDone={this.handleCtftimeDone} />
-            </Fragment>
-        }
+        {config.ctftime && (
+          <Fragment>
+            <AuthOr />
+            <CtftimeButton class='col-12' onCtftimeDone={this.handleCtftimeDone} />
+          </Fragment>
+        )}
       </div>
     )
   }

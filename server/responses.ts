@@ -1,3 +1,19 @@
+import { MergeExclusive } from 'type-fest'
+
+interface BaseResponseType {
+  status: number
+}
+
+interface NormalResponseType extends BaseResponseType {
+  message: string
+}
+
+interface RawResponseType extends BaseResponseType {
+  rawContentType: string
+}
+
+export type ResponseType = MergeExclusive<NormalResponseType, RawResponseType>
+
 export const responseList = {
   goodVerify: {
     status: 200,
@@ -211,15 +227,19 @@ export const responseList = {
     status: 403,
     message: 'The user does not have required permissions.'
   },
+  goodClientConfig: {
+    status: 200,
+    message: 'The client config was retrieved.'
+  },
   errorInternal: {
     status: 500,
     message: 'An internal error occurred.'
   }
 }
 
-const responses = {}
+const responses = <{ [K in keyof typeof responseList]: K }>{}
 Object.keys(responseList).forEach((kind) => {
-  responses[kind] = kind
+  responses[kind as keyof typeof responseList] = kind as never
 })
 
 export { responses }

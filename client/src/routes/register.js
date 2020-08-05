@@ -44,7 +44,7 @@ export default withStyles({
   }
 
   componentDidMount () {
-    document.title = `Registration${config.ctfTitle}`
+    document.title = `Registration | ${config.ctfName}`
   }
 
   render ({ classes }, { name, email, disabledButton, errors, ctftimeToken, ctftimeName, verifySent }) {
@@ -89,13 +89,12 @@ export default withStyles({
           />
         </Form>
         <p>Please register one account per team.</p>
-        {
-          config.ctftimeEnabled &&
-            <Fragment>
-              <AuthOr />
-              <CtftimeButton class='col-6' onCtftimeDone={this.handleCtftimeDone} />
-            </Fragment>
-        }
+        {config.ctftime && (
+          <Fragment>
+            <AuthOr />
+            <CtftimeButton class='col-6' onCtftimeDone={this.handleCtftimeDone} />
+          </Fragment>
+        )}
       </div>
     )
   }

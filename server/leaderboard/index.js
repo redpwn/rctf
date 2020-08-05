@@ -3,7 +3,7 @@ import { Worker } from 'worker_threads'
 import * as database from '../database'
 import { getAllChallenges } from '../challenges'
 import * as cache from '../cache'
-import config from '../../config/server'
+import config from '../config/server'
 
 const fetchData = async () => {
   const [solves, users, graphUpdate] = await Promise.all([

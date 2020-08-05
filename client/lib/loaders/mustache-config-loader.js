@@ -1,5 +1,5 @@
 const mustache = require('mustache')
-const config = require('../../../config/client')
+const { default: config } = require('../../../dist/server/config/client')
 
 module.exports = function (source) {
   // FIXME: refactor this (copy-pasted from server)

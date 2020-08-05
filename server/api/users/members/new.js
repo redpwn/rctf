@@ -3,6 +3,7 @@ import emailValidator from 'email-validator'
 import * as database from '../../../database'
 import { responses } from '../../../responses'
 import * as util from '../../../util'
+import config from '../../../config/server'
 
 export default {
   method: 'POST',
@@ -20,6 +21,10 @@ export default {
     }
   },
   handler: async ({ req, user }) => {
+    if (!config.userMembers) {
+      return responses.badEndpoint
+    }
+
     const email = util.normalize.normalizeEmail(req.body.email)
     if (!emailValidator.validate(email)) {
       return responses.badEmail

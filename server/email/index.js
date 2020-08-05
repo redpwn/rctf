@@ -1,13 +1,13 @@
 import path from 'path'
 import fs from 'fs'
 import mustache from 'mustache'
-import config from '../../config/server'
+import config from '../config/server'
 
 let provider
-if (config.verifyEmail) {
+if (config.email) {
   provider = (async () => {
-    const { default: Provider } = await import(path.join('../providers', config.emailProvider.name))
-    return new Provider(config.emailProvider.options)
+    const { default: Provider } = await import(path.join('../providers', config.email.provider.name))
+    return new Provider(config.email.provider.options ?? {})
   })()
 }
 const verifyHtml = fs.readFileSync(path.join(__dirname, 'emails/verify.html')).toString()
@@ -33,7 +33,7 @@ export const sendVerification = async ({ token, kind, email }) => {
   }
 
   await (await provider).send({
-    from: `${config.ctfName} <${config.emailFrom}>`,
+    from: `${config.ctfName} <${config.email.from}>`,
     to: email,
     subject,
     html: mustache.render(verifyHtml, emailView),

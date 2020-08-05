@@ -3,7 +3,7 @@ const request = require('supertest')
 const app = require('../../dist/server/app').default
 const util = require('../_util')
 const auth = require('../../dist/server/auth')
-const config = require('../../dist/config/server')
+const { default: config } = require('../../dist/server/config/server')
 
 const { responseList } = require('../../dist/server/responses')
 

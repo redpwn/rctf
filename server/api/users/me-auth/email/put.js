@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import emailValidator from 'email-validator'
-import config from '../../../../../config/server'
+import config from '../../../../config/server'
 import { responses } from '../../../../responses'
 import * as cache from '../../../../cache'
 import * as util from '../../../../util'
@@ -29,7 +29,7 @@ export default {
       return responses.badEmail
     }
 
-    if (config.verifyEmail) {
+    if (config.email) {
       const checkUser = await database.users.getUserByEmail({
         email
       })

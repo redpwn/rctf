@@ -1,7 +1,7 @@
 const test = require('ava')
 const request = require('supertest')
 const app = require('../../dist/server/app').default
-const config = require('../../dist/config/server')
+const { default: config } = require('../../dist/server/config/server')
 const util = require('../_util')
 
 const { responseList } = require('../../dist/server/responses')

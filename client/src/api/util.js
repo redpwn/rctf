@@ -1,5 +1,4 @@
 import { route } from 'preact-router'
-import config from '../config'
 
 export const relog = () => {
   localStorage.removeItem('token')
@@ -42,7 +41,7 @@ export const request = (method, endpoint, data) => {
   if (body) {
     headers['Content-Type'] = 'application/json'
   }
-  return fetch(config.apiEndpoint + endpoint + qs, {
+  return fetch(`/api/v1${endpoint}${qs}`, {
     method,
     headers,
     body: body && JSON.stringify(body)

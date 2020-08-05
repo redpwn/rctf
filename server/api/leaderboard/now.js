@@ -1,6 +1,6 @@
 import { responses } from '../../responses'
 import * as cache from '../../cache'
-import config from '../../../config/server'
+import config from '../../config/server'
 
 export default {
   method: 'GET',

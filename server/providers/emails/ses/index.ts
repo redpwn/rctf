@@ -8,6 +8,14 @@ interface SesProviderOptions {
   awsRegion: string;
 }
 
+export class SesError extends Error {
+  sesError: Error
+  constructor (sesError: Error) {
+    super(sesError.message)
+    this.sesError = sesError
+  }
+}
+
 export default class SesProvider implements Provider {
   private sesSend: (params: AWS.SES.Types.SendEmailRequest) => Promise<AWS.SES.Types.SendEmailResponse>
 
@@ -31,27 +39,31 @@ export default class SesProvider implements Provider {
   }
 
   async send (mail: Mail): Promise<void> {
-    await this.sesSend({
-      Destination: {
-        ToAddresses: [mail.to]
-      },
-      Message: {
-        Body: {
-          Html: {
-            Charset: 'UTF-8',
-            Data: mail.html
+    try {
+      await this.sesSend({
+        Destination: {
+          ToAddresses: [mail.to]
+        },
+        Message: {
+          Body: {
+            Html: {
+              Charset: 'UTF-8',
+              Data: mail.html
+            },
+            Text: {
+              Charset: 'UTF-8',
+              Data: mail.text
+            }
           },
-          Text: {
+          Subject: {
             Charset: 'UTF-8',
-            Data: mail.text
+            Data: mail.subject
           }
         },
-        Subject: {
-          Charset: 'UTF-8',
-          Data: mail.subject
-        }
-      },
-      Source: mail.from
-    })
+        Source: mail.from
+      })
+    } catch (e) {
+      throw new SesError(e)
+    }
   }
 }

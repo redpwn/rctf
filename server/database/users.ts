@@ -1,13 +1,13 @@
 import db from './db'
 import * as util from '../util'
-import config from '../../config/server'
+import config, { ServerConfig } from '../config/server'
 import { DivisionACLError } from '../errors'
 
 export interface User {
   id: string;
   name: string;
   email: string;
-  division: string;
+  division: keyof ServerConfig['divisions'];
   ctftimeId: string;
   perms: number;
 }
@@ -58,8 +58,7 @@ export const removeUserById = ({ id }: Pick<User, 'id'>): Promise<User | undefin
 }
 
 export const makeUser = ({ id, name, email, division, ctftimeId, perms }: User): Promise<User> => {
-  if (config.verifyEmail && config.divisionACLs &&
-    !util.restrict.divisionAllowed(email, division)) {
+  if (config.email && config.divisionACLs && !util.restrict.divisionAllowed(email, division)) {
     throw new DivisionACLError()
   }
   return db.query('INSERT INTO users (id, name, email, division, ctftime_id, perms) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
@@ -79,7 +78,7 @@ export const removeEmail = ({ id }: Pick<User, 'id'>): Promise<User | undefined>
 }
 
 export const updateUser = async ({ id, name, email, division, ctftimeId, perms }: Pick<User, 'id'> & Partial<User>): Promise<User | undefined> => {
-  if (config.verifyEmail && config.divisionACLs) {
+  if (config.email && config.divisionACLs) {
     if (!email || !division) {
       const user = await getUserById({ id })
       if (user === undefined) {

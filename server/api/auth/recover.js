@@ -4,7 +4,7 @@ import * as cache from '../../cache'
 import * as util from '../../util'
 import * as auth from '../../auth'
 import * as database from '../../database'
-import config from '../../../config/server'
+import config from '../../config/server'
 import { responses } from '../../responses'
 import { sendVerification } from '../../email'
 
@@ -24,7 +24,7 @@ export default {
     }
   },
   handler: async ({ req }) => {
-    if (!config.verifyEmail) {
+    if (!config.email) {
       return responses.badEndpoint
     }
 

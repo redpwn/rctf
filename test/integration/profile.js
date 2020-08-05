@@ -3,7 +3,7 @@ const request = require('supertest')
 const app = require('../../dist/server/app').default
 const { v4: uuidv4 } = require('uuid')
 
-const config = require('../../dist/config/server')
+const { default: config } = require('../../dist/server/config/server')
 const { removeUserByEmail } = require('../../dist/server/database').users
 const { responseList } = require('../../dist/server/responses')
 
@@ -13,13 +13,15 @@ const testUser = {
   division: Object.values(config.divisions)[0]
 }
 
-test.before('start server', async t => {
+let oldEmail
+
+test.serial.before('start server', async t => {
+  oldEmail = config.email
+  config.email = null
   await app.ready()
 })
 
 test.serial('succeeds with goodUserData', async t => {
-  config.verifyEmail = false
-
   let resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/auth/register')
     .send(testUser)
@@ -36,8 +38,9 @@ test.serial('succeeds with goodUserData', async t => {
   t.is(resp.body.data.name, testUser.name)
 })
 
-test.after.always('cleanup test user', async t => {
+test.serial.after.always('cleanup test user', async t => {
   await removeUserByEmail({
     email: testUser.email
   })
+  config.email = oldEmail
 })

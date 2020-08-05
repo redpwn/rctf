@@ -149,7 +149,7 @@ read -r result </dev/tty
 if [ "$result" = "y" ]; then
     info "Running 'docker-compose up -d'..."
     docker-compose up -d
-    info "rCTF is now running at 127.0.0.1:8000."
+    info "rCTF is now running at 127.0.0.1:8080."
     exit 0
 else
     info "If you would like to start rCTF, run 'docker-compose up -d' in $INSTALL_PATH."

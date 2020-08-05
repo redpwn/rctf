@@ -1,4 +1,4 @@
-import config from '../../../../../config/server'
+import config from '../../../../config/server'
 import { responses } from '../../../../responses'
 import * as database from '../../../../database'
 
@@ -7,7 +7,7 @@ export default {
   path: '/users/me/auth/email',
   requireAuth: true,
   handler: async ({ user }) => {
-    if (!config.verifyEmail) {
+    if (!config.email) {
       return responses.badEndpoint
     }
     let result

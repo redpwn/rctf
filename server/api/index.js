@@ -5,7 +5,8 @@ import * as db from '../database'
 const routes = [
   ...require('./leaderboard').default,
   ...require('./challs').default,
-  ...require('./integrations-ctftime').default,
+  ...require('./integrations/ctftime').default,
+  ...require('./integrations/client').default,
   ...require('./users').default,
   ...require('./auth').default,
   ...require('./admin').default
@@ -37,7 +38,7 @@ export default async (fastify) => {
       return
     }
 
-    const res = reply.res
+    const res = reply.raw
 
     // based on https://github.com/fastify/fastify/blob/2.x/lib/context.js#L29
     if (res.statusCode >= 500) {

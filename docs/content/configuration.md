@@ -1,103 +1,85 @@
 # Configuration
 
-Configuration is split among both env vars, specified in `.env`, and yml configuration files, specified in `config/yml/*.yml`.
+You can specify configuration to rCTF through `conf.d` or environment variables. Most values can be set through either.
 
-Environment variables are given higher precedence, so if an option is specified in both environment and yml, the environment one will override the latter.
+YAML and JSON files in the `conf.d` directory are sorted alphabetically. Files later alphabetically have higher priority when merging config. Environment variables are always given highest priority.
 
-## Configuration Options
+In general, all config should be specified via YAML/JSON when possible as they provide the most flexibility.
 
-There are three required configuration options in order to start rCTF.
+For example, if `00-example.yaml` contained:
+```yaml
+meta:
+  description: abc
+  imageUrl: https://example.com
+```
 
-Option|Description
--|-
-`RCTF_DATABASE_URL`|A [postgreSQL connection URI](https://www.postgresql.org/docs/current/libpq-connect.html) that represents the backing SQL database for rCTF.  
-`RCTF_REDIS_URL`|A [redis connection URI](https://metacpan.org/pod/URI::redis#SYNOPSIS) that represents the backing redis database for rCTF. 
-`RCTF_TOKEN_KEY`|A 32 byte base64 encoded secret. To generate, run `head -c32 < /dev/urandom | base64 -w0`
+and `99-example.yml` contained:
+```yaml
+ctfName: foo
+meta:
+  description: xyz
+```
 
-## Configuration Example
-
+and the environment contained:
 ```shell
-RCTF_DATABASE_URL=postgres://username:password@example.com/database
-RCTF_REDIS_URL=redis://:password@example.com/0
-RCTF_TOKEN_KEY=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+RCTF_NAME=bar
 ```
 
-## Client Configuration
-
-There are additional client specific configuration options, located in `config/yml/client.yml`. 
-
-Option|Description
--|-
-`meta.description` | A description for your ctf. This is rendered into the HTML as the `description`,  `og:description`, and `twitter:description` meta tags. 
-`meta.imageUrl` | A url that points to an image. This is rendered into the HTML as the `og:mage` and `twitter:image` meta tags. 
-`homeContent` | The content displayed on `/` for your CTF. This supports markdown, as well as many custom elements. 
-`showUserMembers` | A boolean representing if the client should render the "Team Information" card on `/profile`. 
-`ctfTitle` | The content for the HTML title. If not specified, will be auto generated as `' | ' + shared.ctfName`.
-`globalSiteTag` | Used to support collecting Google Analytics data. This should look something like `UA-XXXXXX-X`. 
-`apiEndpoint` | The api endpoint that the client should interact with. You should not change this unless you know what you are doing. 
-
-The `homeContent` config option represents the content of `/`. This supports Markdown, as well as many custom elements. 
-
-```md
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2053 840" style="width: 300px; margin: 20px auto; display: block;"><rect width="840" height="840" rx="195.6"/><path fill="#0e3f4a" d="M199 683l315 84 253-255-84-312zm442-526L326 73 73 328l84 313z"/><path fill="#bc2226" d="M504 294h-33a74 74 0 0022-52c0-41-33-74-73-74s-73 33-73 74a74 74 0 0022 52h-33a20 20 0 00-20 20v3a20 20 0 0020 20h168a20 20 0 0020-20v-3a20 20 0 00-20-20zM319 544h198c9 0 16 7 16 16v18c0 8-7 15-16 15H319c-8 0-15-7-15-15v-18c0-9 7-16 15-16zm-31 65h264c10 0 18 8 18 17v29c0 9-8 17-18 17H288c-10 0-18-8-18-17v-29c0-9 8-17 18-17zm40-80c54-99 35-177 35-177h114s-19 78 35 177z"/><path fill="#ffffff" d="M1275 473a88 88 0 11-1-105l86-65a195 195 0 100 234zm103-248v106h124v285h105V331h123V225h-228zm383 0v391h106V493h121V387h-121v-56h186V225h-187z"/></svg>
-
-### What is redpwnCTF?
-redpwnCTF is a cybersecurity competition hosted by the [redpwn CTF team](https://ctftime.org/team/59759). We have over $3000 worth of prizes to distribute to top teams. Please check out our [landing page](https://ctf.redpwn.net/) and join our [Discord](https://discord.gg/25fu2Xd) server for more information!
-
-<action-button href="/register">
-  <span>Register Now</span>
-  <svg viewBox="4 4 16 16"><path fill="#ffffff" d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"></path></svg>
-</action-button>
-<timer></timer>
-
-### Sponsors
-Thank you to our wonderful sponsors for making this event possible!
-
-<sponsors></sponsors>
-
-<div style="text-align: center; opacity: 0.6;">
-  <a href="https://ctf.redpwn.net/privacy.txt" target="_blank">Privacy Policy</a>
-</div>
+The resulting config would be:
+```yaml
+ctfName: bar
+meta:
+  description: xyz
+  imageUrl: https://example.com
 ```
 
-The `sponsors` config options represents a list of sponsor elements. Each sponsor element is defined as follows. 
+## Configuration
 
-Option|Description
--|-
-`name` | Required. The name of the sponsor, rendered as the title. 
-`description` | Required. A description of the sponsor, rendered as the card body.
-`small` | Boolean. Render as sponsor card as small, without image. Can be used to distinguish between different sponsor levels. 
-`icon` | Required if `small` is not specified. A url pointing to an image to use for the sponsor card. 
+YAML/JSON name|environment name|required|default value|type|description
+-|-|-|-|-|-
+`database.sql`|`RCTF_DATABASE_URL`|either `database.sql` or `database.sql.*`|_(none)_|string|`postgres://` connection URI
+`database.sql.host`|`RCTF_DATABASE_HOST`|either `database.sql` or `database.sql.*`|_(none)_|string|hostname of a postgreSQL server
+`database.sql.port`|`RCTF_DATABASE_PORT`|either `database.sql` or `database.sql.*`|_(none)_|string|port number that postgreSQL is running on
+`database.sql.user`|`RCTF_DATABASE_USERNAME`|either `database.sql` or `database.sql.*`|_(none)_|string|postgreSQL username to authenticate with
+`database.sql.password`|`RCTF_DATABASE_PASSWORD`|either `database.sql` or `database.sql.*`|_(none)_|string|postgreSQL password to authenticate with
+`database.sql.database`|`RCTF_DATABASE_DATABASE`|either `database.sql` or `database.sql.*`|_(none)_|string|postgreSQL database to use
+`database.redis`|`RCTF_REDIS_URL`|either `database.redis` or `database.redis.*`|_(none)_|string|`redis://` connection URI
+`database.redis.host`|`RCTF_REDIS_HOST`|either `database.sql` or `database.sql.*`|_(none)_|string|hostname of a redis server
+`database.redis.post`|`RCTF_REDIS_PORT`|either `database.sql` or `database.sql.*`|_(none)_|string|port number that redis is running on
+`database.redis.password`|`RCTF_REDIS_PASSWORD`|either `database.sql` or `database.sql.*`|_(none)_|string|redis password to authenticate with
+`database.redis.database`|`RCTF_REDIS_DATABASE`|either `database.sql` or `database.sql.*`|_(none)_|string|redis numerical database ID to use
+`database.migrate`|`RCTF_DATABASE_MIGRATE`|yes|`never`|`before | only | never`|how to run postgreSQL migrations. [See migration doc for more](../management/migration)
+`instanceType`|`RCTF_INSTANCE_TYPE`|yes|`all`|`all | frontend | leaderboard`|what type of instance to run. [See scaling doc for more](../management/scaling)
+`tokenKey`|`RCTF_TOKEN_KEY`|yes|_(none)_|string|base64 encoded 32 byte key used for encrypting tokens
+`origin`|`RCTF_ORIGIN`|yes|_(none)_|string|public URL of the rCTF instance
+`ctftime.clientId`|`RCTF_CTFTIME_CLIENT_ID`|no|_(none)_|string|CTFtime OAuth client ID. [See CTFtime doc for more](../integrations/ctftime)
+`ctftime.clientSecret`|`RCTF_CTFTIME_CLIENT_SECRET`|no|_(none)_|string|CTFtime OAuth client secret. [See CTFtime doc for more](../integrations/ctftime)
+`userMembers`|`RCTF_USER_MEMBERS`|yes|`true`|boolean|whether to allow a user to set emails for individual members
+`sponsors`|_(none)_|yes|`[]`|array|list of CTF sponsors. [See home doc for more](../management/home)
+`homeContent`|`RCTF_HOME_CONTENT`|yes|`''`|string|markdown content for the homepage of the CTF. [See home doc for more](../management/home)
+`ctfName`|`RCTF_NAME`|yes|_(none)_|string|name of the CTF throughout the UI
+`meta.description`|`RCTF_META_DESCRIPTION`|yes|`''`|string|OpenGraph and Twitter embed description
+`meta.imageUrl`|`RCTF_IMAGE_URL`|yes|`''`|string|OpenGraph and Twitter embed image URL
+`logoUrl`|`RCTF_LOGO_URL`|no|_(none)_|string|URL to raster image of the CTF's logo. used in emails
+`globalSiteTag`|`RCTF_GLOBAL_SITE_TAG`|no|_(none)_|string|Google Analytics site tag
+`challengeProvider`|_(none)_|yes|`database`|provider|provider for challenges. [See challenge provider doc for more](../providers/challenges/index)
+`uploadProvider`|_(none)_|yes|`local`|provider|provider for challenge file uploads. [See upload provider doc for more](../providers/uploads/index)
+`email.provider`|_(none)_|no|_(none)_|provider|provider for email sending. [See email doc for more](../providers/emails/index)
+`email.from`|_(none)_|no|_(none)_|provider|`from:` address when sending email. [See email doc for more](../providers/emails/index)
+`divisions`|_(none)_|yes|_(none)_|object|division IDs and their respective names. [See division doc for more](../management/divisions)
+`defaultDivision`|_(none)_|no|_(none)_|string|default division ID. [See division doc for more](../management/divisions)
+`divisionACLs`|_(none)_|no|_(none)_|array|ACLs for restricting division access. [See division doc for more](../management/divisions)
+`startTime`|`RCTF_START_TIME`|yes|_(none)_|integer|time at which the CTF starts, in milliseconds since the epoch
+`endTime`|`RCTF_END_TIME`|yes|_(none)_|integer|time at which the CTF ends, in milliseconds since the epoch
+`leaderboard.maxLimit`|`RCTF_LEADERBOARD_MAX_LIMIT`|yes|100|integer|maximum number of users retrievable in a single leaderboard request
+`leaderboard.maxOffset`|`RCTF_LEADERBOARD_MAX_OFFSET`|yes|4294967296|integer|maximum offset from the beginning of the leaderboard
+`leaderboard.updateInterval`|`RCTF_LEADERBOARD_UPDATE_INTERVAL`|yes|10000|integer|interval at which the leaderboard is recalculated, in milliseconds
+`leaderboard.graphMaxTeams`|`RCTF_LEADERBOARD_GRAPH_MAX_TEAMS`|yes|10|integer|maximum number of users retrievable in a graph request
+`leaderboard.graphSampleTime`|`RCTF_LEADERBOARD_GRAPH_SAMPLE_TIME`|yes|1800000|integer|interval at which the score graph is sampled, in milliseconds
+`loginTimeout`|`RCTF_LOGIN_TIMEOUT`|yes|3600000|integer|lifetime of registration, email update, and recovery links, in milliseconds
 
-## Server Configuration
+## Custom `conf.d` location
 
-There are additional server specific configuration options, located in `config/yml/server.yml`. 
+The `conf.d` directory can be renamed or moved elsewhere.
 
-Option|Description
--|-
-`divisionACLs`|Optional. Rules to assign default and allowed divisions.
-`defaultDivision`|Optional. The default division to assign if ACLs are not specified. 
-
-The `divisionACLs` object is a list of division assignments, and only applies if email verification is on. Each one is defined as follows.
-
-Option|Description
--|-
-`match`|Required. Which part of the email to match; can be `domain`, `email`, `regex`, or `any`.
-`value`|Required. The value to match against. 
-`divisions`|Required. A list of divisions (by id) that the user is allowed to be in. The default division is the first in the list. 
-
-If a user does not match any rules in `divisionACLs`, then they are not allowed to register. Evaluating entries is done in the order they are configured, and only the first matching entry applies. If `divisionACLs` are not specified, then no restrictions are applied. 
-
-The `defaultDivision` option is only used if `divisionACLs` does not exist or if email verification is off. If this is not configured either, a division will be picked to be default (most likely, but not guaranteed to be, the first). 
-
-## Shared Configuration
-
-There are additional shared configuration options, located in `config/yml/shared.yml`. 
-
-Option|Description
--|-
-`divisions` | Required. A map of `id:division_name` pairs. 
-`ctfName` | Required. The name of the CTF, should look something like `xxxCTF`. 
-`origin` | Required. The origin of the CTF. This is used for sending emails and is rendered into the HTML. 
-`startTime` | Required. The start time of the CTF in UTC milliseconds. You can generate this by running `+new Date("your date")`.
-`endTime` | Required. The end time of the CTF in UTC milliseconds. 
+To do so, set the `RCTF_CONF_PATH` environment variable to the location of a directory of YAML or JSON configuration files. If specified as a relative path, the path is evaluated from the current working directory.

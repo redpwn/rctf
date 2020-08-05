@@ -1,6 +1,6 @@
 import { promisify } from 'util'
 import crypto from 'crypto'
-import config from '../../config/server'
+import config from '../config/server'
 
 const randomBytes = promisify(crypto.randomBytes)
 const tokenKey = Buffer.from(config.tokenKey, 'base64')

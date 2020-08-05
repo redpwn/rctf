@@ -1,6 +1,6 @@
-import { responses } from '../../responses'
-import perms from '../../util/perms'
-import * as cache from '../../cache'
+import { responses } from '../../../responses'
+import perms from '../../../util/perms'
+import * as cache from '../../../cache'
 
 export default {
   method: 'GET',

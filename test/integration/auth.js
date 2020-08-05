@@ -3,7 +3,7 @@ const request = require('supertest')
 const app = require('../../dist/server/app').default
 const { removeUserByEmail } = require('../../dist/server/database').users
 
-const config = require('../../dist/config/server')
+const { default: config } = require('../../dist/server/config/server')
 const { responseList } = require('../../dist/server/responses')
 const database = require('../../dist/server/database')
 const auth = require('../../dist/server/auth')
@@ -11,11 +11,15 @@ const util = require('../_util')
 
 const testUser = util.generateTestUser()
 
-test.before('start server', async t => {
+let oldEmail = config.email
+
+test.serial.before('start server', async t => {
+  oldEmail = config.email
   await app.ready()
 })
 
-test.after.always('cleanup test user', async t => {
+test.serial.after.always('cleanup test user', async t => {
+  config.email = oldEmail
   await removeUserByEmail({
     email: testUser.email
   })
@@ -33,8 +37,8 @@ test('fails with badEmail', async t => {
   t.is(resp.body.kind, 'badEmail')
 })
 
-test('fails with badUnknownEmail', async t => {
-  config.verifyEmail = true
+test.serial('fails with badUnknownEmail', async t => {
+  config.email = oldEmail
 
   const unknownEmail = 'non-existent-email' + Math.random() + '@gmail.com'
   const resp = await request(app.server)
@@ -47,8 +51,8 @@ test('fails with badUnknownEmail', async t => {
   t.is(resp.body.kind, 'badUnknownEmail')
 })
 
-test.serial('when not verifyEmail, succeeds with goodRegister', async t => {
-  config.verifyEmail = false
+test.serial('when not email, succeeds with goodRegister', async t => {
+  config.email = null
 
   let resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/auth/register')
@@ -67,7 +71,7 @@ test.serial('when not verifyEmail, succeeds with goodRegister', async t => {
 })
 
 test.serial('duplicate email fails with badKnownEmail', async t => {
-  config.verifyEmail = false
+  config.email = null
 
   const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/auth/register')
@@ -81,7 +85,7 @@ test.serial('duplicate email fails with badKnownEmail', async t => {
 })
 
 test.serial('duplicate name fails with badKnownName', async t => {
-  config.verifyEmail = false
+  config.email = null
 
   const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/auth/register')
@@ -95,6 +99,8 @@ test.serial('duplicate name fails with badKnownName', async t => {
 })
 
 test.serial('succeeds with goodUserUpdate', async t => {
+  config.email = null
+
   const user = await database.users.getUserByEmail({
     email: testUser.email
   })
