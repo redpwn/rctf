@@ -48,27 +48,27 @@ YAML/JSON name|environment name|required|default value|type|description
 `database.redis.post`|`RCTF_REDIS_PORT`|either `database.sql` or `database.sql.*`|_(none)_|string|port number that redis is running on
 `database.redis.password`|`RCTF_REDIS_PASSWORD`|either `database.sql` or `database.sql.*`|_(none)_|string|redis password to authenticate with
 `database.redis.database`|`RCTF_REDIS_DATABASE`|either `database.sql` or `database.sql.*`|_(none)_|string|redis numerical database ID to use
-`database.migrate`|`RCTF_DATABASE_MIGRATE`|yes|`never`|`before | only | never`|how to run postgreSQL migrations. [See migration doc for more](../management/migration)
-`instanceType`|`RCTF_INSTANCE_TYPE`|yes|`all`|`all | frontend | leaderboard`|what type of instance to run. [See scaling doc for more](../management/scaling)
+`database.migrate`|`RCTF_DATABASE_MIGRATE`|yes|`never`|`before | only | never`|how to run postgreSQL migrations. [See migration doc](management/migration.md)
+`instanceType`|`RCTF_INSTANCE_TYPE`|yes|`all`|`all | frontend | leaderboard`|what type of instance to run. [See scaling doc](management/scaling.md)
 `tokenKey`|`RCTF_TOKEN_KEY`|yes|_(none)_|string|base64 encoded 32 byte key used for encrypting tokens
 `origin`|`RCTF_ORIGIN`|yes|_(none)_|string|public URL of the rCTF instance
-`ctftime.clientId`|`RCTF_CTFTIME_CLIENT_ID`|no|_(none)_|string|CTFtime OAuth client ID. [See CTFtime doc for more](../integrations/ctftime)
-`ctftime.clientSecret`|`RCTF_CTFTIME_CLIENT_SECRET`|no|_(none)_|string|CTFtime OAuth client secret. [See CTFtime doc for more](../integrations/ctftime)
+`ctftime.clientId`|`RCTF_CTFTIME_CLIENT_ID`|no|_(none)_|string|CTFtime OAuth client ID. [See CTFtime doc](integrations/ctftime.md)
+`ctftime.clientSecret`|`RCTF_CTFTIME_CLIENT_SECRET`|no|_(none)_|string|CTFtime OAuth client secret. [See CTFtime doc](integrations/ctftime.md)
 `userMembers`|`RCTF_USER_MEMBERS`|yes|`true`|boolean|whether to allow a user to set emails for individual members
-`sponsors`|_(none)_|yes|`[]`|array|list of CTF sponsors. [See home doc for more](../management/home)
-`homeContent`|`RCTF_HOME_CONTENT`|yes|`''`|string|markdown content for the homepage of the CTF. [See home doc for more](../management/home)
+`sponsors`|_(none)_|yes|`[]`|array|list of CTF sponsors. [See home doc](management/home.md)
+`homeContent`|`RCTF_HOME_CONTENT`|yes|`''`|string|markdown content for the homepage of the CTF. [See home doc](management/home.md)
 `ctfName`|`RCTF_NAME`|yes|_(none)_|string|name of the CTF throughout the UI
 `meta.description`|`RCTF_META_DESCRIPTION`|yes|`''`|string|OpenGraph and Twitter embed description
 `meta.imageUrl`|`RCTF_IMAGE_URL`|yes|`''`|string|OpenGraph and Twitter embed image URL
 `logoUrl`|`RCTF_LOGO_URL`|no|_(none)_|string|URL to raster image of the CTF's logo. used in emails
 `globalSiteTag`|`RCTF_GLOBAL_SITE_TAG`|no|_(none)_|string|Google Analytics site tag
-`challengeProvider`|_(none)_|yes|`database`|provider|provider for challenges. [See challenge provider doc for more](../providers/challenges)
-`uploadProvider`|_(none)_|yes|`local`|provider|provider for challenge file uploads. [See upload provider doc for more](../providers/uploads)
-`email.provider`|_(none)_|no|_(none)_|provider|provider for email sending. [See email doc for more](../providers/emails)
-`email.from`|_(none)_|no|_(none)_|provider|`from:` address when sending email. [See email doc for more](../providers/emails)
-`divisions`|_(none)_|yes|_(none)_|object|division IDs and their respective names. [See division doc for more](../management/divisions)
-`defaultDivision`|_(none)_|no|_(none)_|string|default division ID. [See division doc for more](../management/divisions)
-`divisionACLs`|_(none)_|no|_(none)_|array|ACLs for restricting division access. [See division doc for more](../management/divisions)
+`challengeProvider`|_(none)_|yes|`database`|provider|provider for challenges. [See challenge provider doc](providers/challenges/index.md)
+`uploadProvider`|_(none)_|yes|`local`|provider|provider for challenge file uploads. [See upload provider doc](providers/uploads/index.md)
+`email.provider`|_(none)_|no|_(none)_|provider|provider for email sending. [See email doc](providers/emails/index.md)
+`email.from`|_(none)_|no|_(none)_|provider|`from:` address when sending email. [See email doc](providers/emails/index.md)
+`divisions`|_(none)_|yes|_(none)_|object|division IDs and their respective names. [See division doc](management/divisions.md)
+`defaultDivision`|_(none)_|no|_(none)_|string|default division ID. [See division doc](management/divisions.md)
+`divisionACLs`|_(none)_|no|_(none)_|array|ACLs for restricting division access. [See division doc](management/divisions.md)
 `startTime`|`RCTF_START_TIME`|yes|_(none)_|integer|time at which the CTF starts, in milliseconds since the epoch
 `endTime`|`RCTF_END_TIME`|yes|_(none)_|integer|time at which the CTF ends, in milliseconds since the epoch
 `leaderboard.maxLimit`|`RCTF_LEADERBOARD_MAX_LIMIT`|yes|100|integer|maximum number of users retrievable in a single leaderboard request

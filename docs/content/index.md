@@ -3,4 +3,4 @@
 rCTF is redpwnCTF's CTF platform. It is developed and maintained by the
 [redpwn](https://redpwn.net) CTF team.
 
-To install rCTF, see [the installation doc](installation).
+To install rCTF, see [the installation doc](installation.md).
