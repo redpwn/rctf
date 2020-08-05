@@ -1,6 +1,6 @@
 # Database Challenge Provider
 
-The database challenge provider stores challenge details in the Postgresql database. To use it, specify `challenges/database` for the challenge provider name.
+The database challenge provider stores challenge details in the postgreSQL database. To use it, specify `challenges/database` for the challenge provider name.
 
 ## Configuration Example
 

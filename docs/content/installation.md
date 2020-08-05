@@ -5,3 +5,11 @@ You can install rCTF in one command with [the installer script](https://get.rctf
 ```bash
 curl https://get.rctf.redpwn.net | sh
 ```
+
+## After installation
+
+To configure rCTF, see [the configuration doc](../configuration).
+
+To update the CTF's challenges, see [the admin doc](../management/admin).
+
+To scale up rCTF, see the [migration](../management/migration) and [scaling](../management/scaling) docs.

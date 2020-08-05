@@ -62,10 +62,10 @@ YAML/JSON name|environment name|required|default value|type|description
 `meta.imageUrl`|`RCTF_IMAGE_URL`|yes|`''`|string|OpenGraph and Twitter embed image URL
 `logoUrl`|`RCTF_LOGO_URL`|no|_(none)_|string|URL to raster image of the CTF's logo. used in emails
 `globalSiteTag`|`RCTF_GLOBAL_SITE_TAG`|no|_(none)_|string|Google Analytics site tag
-`challengeProvider`|_(none)_|yes|`database`|provider|provider for challenges. [See challenge provider doc for more](../providers/challenges/index)
-`uploadProvider`|_(none)_|yes|`local`|provider|provider for challenge file uploads. [See upload provider doc for more](../providers/uploads/index)
-`email.provider`|_(none)_|no|_(none)_|provider|provider for email sending. [See email doc for more](../providers/emails/index)
-`email.from`|_(none)_|no|_(none)_|provider|`from:` address when sending email. [See email doc for more](../providers/emails/index)
+`challengeProvider`|_(none)_|yes|`database`|provider|provider for challenges. [See challenge provider doc for more](../providers/challenges)
+`uploadProvider`|_(none)_|yes|`local`|provider|provider for challenge file uploads. [See upload provider doc for more](../providers/uploads)
+`email.provider`|_(none)_|no|_(none)_|provider|provider for email sending. [See email doc for more](../providers/emails)
+`email.from`|_(none)_|no|_(none)_|provider|`from:` address when sending email. [See email doc for more](../providers/emails)
 `divisions`|_(none)_|yes|_(none)_|object|division IDs and their respective names. [See division doc for more](../management/divisions)
 `defaultDivision`|_(none)_|no|_(none)_|string|default division ID. [See division doc for more](../management/divisions)
 `divisionACLs`|_(none)_|no|_(none)_|array|ACLs for restricting division access. [See division doc for more](../management/divisions)
