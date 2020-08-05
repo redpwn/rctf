@@ -14,9 +14,7 @@ export type ClientConfig = Pick<ServerConfig,
   'userMembers'
 > & {
   emailEnabled: boolean;
-  ctftime: {
-    clientId: ServerConfig['ctftime']['clientId']
-  }
+  ctftime?: Pick<NonNullable<ServerConfig['ctftime']>, 'clientId'>
 }
 
 const config: ClientConfig = {
@@ -32,7 +30,7 @@ const config: ClientConfig = {
   endTime: server.endTime,
   emailEnabled: server.email != null,
   userMembers: server.userMembers,
-  ctftime: server.ctftime == null ? null : {
+  ctftime: server.ctftime == null ? undefined : {
     clientId: server.ctftime.clientId
   }
 }

@@ -3,6 +3,7 @@ import fs from 'fs'
 import yaml from 'yaml'
 import deepMerge from 'deepmerge'
 import { PartialDeep } from 'type-fest'
+import { nullsafeParseInt, nullsafeParseBoolEnv, removeUndefined } from './util'
 import { ACL } from '../util/restrict'
 
 export type ProviderConfig = {
@@ -97,27 +98,20 @@ fs.readdirSync(configPath).sort().forEach((name) => {
   fileConfigs.push(config)
 })
 
-const parseBoolEnv = (val?: string): boolean | null => {
-  if (val == null) {
-    return null
-  }
-  return ['true', 'yes', 'y', '1'].includes(val.toLowerCase().trim())
-}
-
-const envConfig: ServerConfig = {
+const envConfig: PartialDeep<ServerConfig> = {
   database: {
     sql: process.env.RCTF_DATABASE_URL ?? {
       host: process.env.RCTF_DATABASE_HOST,
-      port: parseInt(process.env.RCTF_DATABASE_PORT) || undefined,
+      port: nullsafeParseInt(process.env.RCTF_DATABASE_PORT),
       user: process.env.RCTF_DATABASE_USERNAME,
       password: process.env.RCTF_DATABASE_PASSWORD,
       database: process.env.RCTF_DATABASE_DATABASE
     },
     redis: process.env.RCTF_REDIS_URL ?? {
       host: process.env.RCTF_REDIS_HOST,
-      port: parseInt(process.env.RCTF_REDIS_PORT) || undefined,
+      port: nullsafeParseInt(process.env.RCTF_REDIS_PORT),
       password: process.env.RCTF_REDIS_PASSWORD,
-      database: parseInt(process.env.RCTF_REDIS_DATABASE) || undefined
+      database: nullsafeParseInt(process.env.RCTF_REDIS_DATABASE)
     },
     migrate: process.env.RCTF_DATABASE_MIGRATE
   },
@@ -128,8 +122,7 @@ const envConfig: ServerConfig = {
     clientId: process.env.RCTF_CTFTIME_CLIENT_ID,
     clientSecret: process.env.RCTF_CTFTIME_CLIENT_SECRET
   },
-  userMembers: parseBoolEnv(process.env.RCTF_USER_MEMBERS),
-  sponsors: undefined,
+  userMembers: nullsafeParseBoolEnv(process.env.RCTF_USER_MEMBERS),
   homeContent: process.env.RCTF_HOME_CONTENT,
   ctfName: process.env.RCTF_NAME,
   meta: {
@@ -138,32 +131,19 @@ const envConfig: ServerConfig = {
   },
   logoUrl: process.env.RCTF_LOGO_URL,
   globalSiteTag: process.env.RCTF_GLOBAL_SITE_TAG,
-  challengeProvider: {
-    name: undefined,
-    options: undefined
-  },
-  uploadProvider: {
-    name: undefined,
-    options: undefined
-  },
   email: {
-    provider: {
-      name: undefined,
-      options: undefined
-    },
     from: process.env.RCTF_EMAIL_FROM
   },
-  divisions: undefined,
-  startTime: parseInt(process.env.RCTF_START_TIME) || undefined,
-  endTime: parseInt(process.env.RCTF_END_TIME) || undefined,
+  startTime: nullsafeParseInt(process.env.RCTF_START_TIME),
+  endTime: nullsafeParseInt(process.env.RCTF_END_TIME),
   leaderboard: {
-    maxLimit: parseInt(process.env.RCTF_LEADERBOARD_MAX_LIMIT) || undefined,
-    maxOffset: parseInt(process.env.RCTF_LEADERBOARD_MAX_OFFSET) || undefined,
-    updateInterval: parseInt(process.env.RCTF_LEADERBOARD_UPDATE_INTERVAL) || undefined,
-    graphMaxTeams: parseInt(process.env.RCTF_LEADERBOARD_GRAPH_MAX_TEAMS) || undefined,
-    graphSampleTime: parseInt(process.env.RCTF_LEADERBOARD_GRAPH_SAMPLE_TIME) || undefined
+    maxLimit: nullsafeParseInt(process.env.RCTF_LEADERBOARD_MAX_LIMIT),
+    maxOffset: nullsafeParseInt(process.env.RCTF_LEADERBOARD_MAX_OFFSET),
+    updateInterval: nullsafeParseInt(process.env.RCTF_LEADERBOARD_UPDATE_INTERVAL),
+    graphMaxTeams: nullsafeParseInt(process.env.RCTF_LEADERBOARD_GRAPH_MAX_TEAMS),
+    graphSampleTime: nullsafeParseInt(process.env.RCTF_LEADERBOARD_GRAPH_SAMPLE_TIME)
   },
-  loginTimeout: parseInt(process.env.RCTF_LOGIN_TIMEOUT) || undefined
+  loginTimeout: nullsafeParseInt(process.env.RCTF_LOGIN_TIMEOUT)
 }
 
 const defaultConfig: PartialDeep<ServerConfig> = {
@@ -192,27 +172,6 @@ const defaultConfig: PartialDeep<ServerConfig> = {
     graphSampleTime: 1800000
   },
   loginTimeout: 3600000
-}
-
-const _removeUndefined = <T>(o: Record<string, T>): Record<string, T> | undefined => {
-  let hasKeys = false
-  for (const key of Object.keys(o)) {
-    let v = o[key]
-    if (typeof v === 'object' && v != null) {
-      o[key] = v = _removeUndefined(v as Record<string, unknown>) as T
-    }
-    if (v === undefined || v === null) {
-      delete o[key]
-    } else {
-      hasKeys = true
-    }
-  }
-  return hasKeys ? o : undefined
-}
-
-const removeUndefined = <T extends Record<string, unknown>>(o: T & Record<string, unknown>): T => {
-  const cleaned = _removeUndefined(o) as T | undefined
-  return cleaned ?? ({} as T)
 }
 
 const config = deepMerge.all([defaultConfig, ...fileConfigs, removeUndefined(envConfig)]) as ServerConfig
