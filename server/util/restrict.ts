@@ -1,16 +1,16 @@
-import config from '../config/server'
+import config, { ServerConfig } from '../config/server'
 
 type ACLCheck = (email: string) => boolean
 
 export interface ACL {
   match: string;
   value: string;
-  divisions: string[];
+  divisions: (keyof ServerConfig['divisions'])[];
 }
 
 interface CompiledACL {
   check: ACLCheck;
-  divisions: string[];
+  divisions: (keyof ServerConfig['divisions'])[];
 }
 
 let acls: CompiledACL[]

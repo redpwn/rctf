@@ -1,13 +1,13 @@
 import db from './db'
 import * as util from '../util'
-import config from '../config/server'
+import config, { ServerConfig } from '../config/server'
 import { DivisionACLError } from '../errors'
 
 export interface User {
   id: string;
   name: string;
   email: string;
-  division: string;
+  division: keyof ServerConfig['divisions'];
   ctftimeId: string;
   perms: number;
 }
