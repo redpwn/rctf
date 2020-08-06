@@ -117,3 +117,8 @@ jobs:
         # TODO: handle tagging releases correctly
         tags: ${{ github.sha }}
         # TODO: add cache_froms once we have full releases
+    - name: Deploy installer
+      uses: netlify/actions/build@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_INSTALL_SITE_ID }}
