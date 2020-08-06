@@ -67,14 +67,14 @@ do_install() {
 
   info "Configuring rCTF..."
 
-  RCTF_GIT_COMMIT="${RCTF_GIT_COMMIT:-"{{git_commit}}"}"
+  RCTF_GIT_REF="${RCTF_GIT_REF:-"master"}"
 
   mkdir -p conf.d data/rctf-postgres data/rctf-redis
 
   printf "%s\n" \
   "RCTF_DATABASE_PASSWORD=$(get_key)" \
   "RCTF_REDIS_PASSWORD=$(get_key)" \
-  "RCTF_GIT_COMMIT=$RCTF_GIT_COMMIT" \
+  "RCTF_GIT_REF=$RCTF_GIT_REF" \
   > .env
 
   printf "%s\n" \
@@ -94,9 +94,20 @@ do_install() {
   "endTime: $(date -d +1week +%s)000" \
   > conf.d/02-ctf.yaml
 
+  printf "%s\n" \
+  "database:" \
+  "  sql:" \
+  "    host: postgres" \
+  "    user: rctf" \
+  "    database: rctf" \
+  "  redis:" \
+  "    host: redis" \
+  "  migrate: before" \
+  > conf.d/03-db.yaml
+
   info "Downloading rCTF..."
 
-  curl -fsSO "https://raw.githubusercontent.com/redpwn/rctf/$RCTF_GIT_COMMIT/docker-compose.yml"
+  curl -fsSO "https://raw.githubusercontent.com/redpwn/rctf/$RCTF_GIT_REF/docker-compose.yml"
   docker-compose pull
 
   info "Finished installation to ${RCTF_INSTALL_PATH}."

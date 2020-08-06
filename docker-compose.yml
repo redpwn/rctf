@@ -1,7 +1,7 @@
 version: '2.2'
 services:
   rctf:
-    image: redpwn/rctf:${RCTF_GIT_COMMIT}
+    image: redpwn/rctf:${RCTF_GIT_REF}
     restart: always
     ports:
       - '127.0.0.1:8080:80'
@@ -11,11 +11,6 @@ services:
       - .env
     environment:
       - PORT=80
-      - RCTF_DATABASE_HOST=postgres
-      - RCTF_DATABASE_DATABASE=rctf
-      - RCTF_DATABASE_USERNAME=rctf
-      - RCTF_REDIS_HOST=redis
-      - RCTF_DATABASE_MIGRATE=before
     volumes:
       - ./conf.d:/app/conf.d
     depends_on:

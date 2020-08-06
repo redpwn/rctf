@@ -115,10 +115,6 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASS }}
         repository: redpwn/rctf
         # TODO: handle tagging releases correctly
-        tags: ${{ github.sha }}
+        tags: master
+        tag_with_sha: true
         # TODO: add cache_froms once we have full releases
-    - name: Deploy installer
-      uses: netlify/actions/build@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_INSTALL_SITE_ID }}
