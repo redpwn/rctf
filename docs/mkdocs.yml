@@ -3,6 +3,35 @@ site_description: rCTF Documentation
 site_author: redpwn
 site_url: https://rctf.redpwn.net
 
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Configuration: configuration.md
+  - Management:
+    - Admin: management/admin.md
+    - Home: management/home.md
+    - Divisions: management/divisions.md
+    - Migration: management/migration.md
+    - Scaling: management/scaling.md
+  - Providers:
+    - Index: providers/index.md
+    - Challenges:
+      - Index: providers/challenges/index.md
+      - Database: providers/challenges/database.md
+    - Emails:
+      - Index: providers/emails/index.md
+      - Mailgun: providers/emails/mailgun.md
+      - SES: providers/emails/ses.md
+      - SMTP: providers/emails/smtp.md
+    - Uploads:
+      - Index: providers/uploads/index.md
+      - GCS: providers/uploads/gcs.md
+      - Local: providers/uploads/local.md
+  - Integrations:
+    - CTFtime: integrations/ctftime.md
+  - Development:
+    - Manual Installation: development/manual-installation.md
+
 repo_name: GitHub
 repo_url: https://github.com/redpwn/rctf
 edit_uri: blob/master/docs/content/
@@ -12,6 +41,8 @@ docs_dir: content
 theme:
   name: material
   language: en
+  features: 
+    - instant
   palette:
     scheme: slate
     primary: blue

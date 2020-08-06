@@ -2,29 +2,23 @@
 
 Manual installation of rCTF is useful to develop and modify the project.
 
-If you want to install rCTF on your local machine, you will need `yarn` installed. rCTF currently targets node 12, so you should either install that version locally or use nvm, for example with `nvm use --delete-prefix v12.16.1`. 
+To run rCTF locally, you'll need [node](https://nodejs.org/) and [yarn](https://yarnpkg.com/).
 
-```shell
-git clone https://github.com/redpwn/rCTF.git && cd rCTF
+Clone the rCTF repository:
+```bash
+git clone https://github.com/redpwn/rctf
 ```
 
-After cloning, you will need to setup the configuration files.
-
-```shell
-cp -nR config/yml.example config/yml
-cp .env.example .env
-```
-
-Before you run rCTF for the first time, set the [mandatory configuration options](../configuration.md#configuration-options).
+After cloning, you will need to setup the configuration files in the `conf.d` directory. [An example `conf.d`](https://github.com/redpwn/rctf/blob/master/test/conf-test.yaml) is used for testing.
 
 To develop rCTF, run:
 
-```shell
+```bash
 yarn dev
 ```
 
 To simulate a full production build, run:
 
-```shell
+```bash
 yarn build && yarn start
 ``` 

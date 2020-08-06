@@ -8,6 +8,7 @@ Every user must be in exactly one division, although users can change their divi
 * `divisionACLs` is a priority list of ACL elements. Only one element matches an email at a time, and each element contains `match`, `value`, and an allowed `divisions` list. If the `divisions` list contains multiple elements, the first element is used while registering.
 
 Possible `match` values are:
+
 * `domain`: The `value` contains a domain which the user's email must be from.
 * `email`: The `value` contains an exact email which the user's must match.
 * `regex`: The `value` contains a RegEx used to match the user's domain.

@@ -1,6 +1,7 @@
 # Scaling
 
 rCTF can be split into two types of instances.
+
 * Frontend instances are horizontally scalable and handle incoming requests
 * A single leaderboard instance does leaderboard and graph data calculations.
 
