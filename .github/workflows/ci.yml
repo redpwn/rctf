@@ -115,6 +115,5 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASS }}
         repository: redpwn/rctf
         # TODO: handle tagging releases correctly
-        tags: master
-        tag_with_sha: true
+        tags: master,${{ github.sha }}
         # TODO: add cache_froms once we have full releases
