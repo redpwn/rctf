@@ -1,7 +1,7 @@
 version: '2.2'
 services:
   rctf:
-    build: .
+    image: redpwn/rctf:${RCTF_GIT_COMMIT}
     restart: always
     ports:
       - '127.0.0.1:8080:80'
@@ -14,17 +14,17 @@ services:
       - RCTF_DATABASE_HOST=postgres
       - RCTF_DATABASE_DATABASE=rctf
       - RCTF_DATABASE_USERNAME=rctf
-      - RCTF_DATABASE_PASSWORD=${RCTF_DATABASE_PASSWORD}
-      - RCTF_REDIS_URL=redis://redis
+      - RCTF_REDIS_HOST=redis
       - RCTF_DATABASE_MIGRATE=before
     volumes:
-      - ./conf.d:/app/dist/conf.d
+      - ./conf.d:/app/conf.d
     depends_on:
       - redis
       - postgres
   redis:
     image: redis:5.0.9
     restart: always
+    command: ["redis-server", "--requirepass", "${RCTF_REDIS_PASSWORD}"]
     networks:
       - rctf
     volumes:
