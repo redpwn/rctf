@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/redpwn/rCTF/workflows/CI/badge.svg?branch=master)](https://github.com/redpwn/rCTF/actions?query=workflow%3ACI+branch%3Amaster)
 [![Code Coverage](https://img.shields.io/codecov/c/github/redpwn/rctf.svg)](https://codecov.io/github/redpwn/rctf/)
-[![Docs](https://img.shields.io/readthedocs/rctf/latest)](https://rctf.redpwn.net/)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ae459ed6-1a84-43ff-b113-5561f3e4bd82/deploy-status)](https://rctf.redpwn.net)
 
 rCTF is redpwnCTF's CTF platform. It is developed and maintained by the [redpwn](https://redpwn.net) CTF team.
 
