@@ -1,6 +1,5 @@
 #!/bin/sh
 # rCTF installation script
-# Supports Debian-like distros and Arch Linux
 
 set -e
 
@@ -53,7 +52,7 @@ do_install() {
   info "Installing dependencies..."
 
   if [ ! -x "$(command -v docker)" ]; then
-    curl https://get.docker.com | sh
+    curl -fsS https://get.docker.com | sh
   fi
 
   if [ ! -x "$(command -v docker-compose)" ]; then
