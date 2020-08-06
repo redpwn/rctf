@@ -18,14 +18,17 @@ export const register = async (
       perms: 0
     })
   } catch (e) {
-    if (e.constraint === 'users_ctftime_id_key') {
-      return responses.badKnownCtftimeId
-    }
-    if (e.constraint === 'users_email_key') {
-      return responses.badKnownEmail
-    }
-    if (e.constraint === 'users_name_key') {
-      return responses.badKnownName
+    if (e instanceof Object) {
+      const { constraint } = e as { constraint?: string }
+      if (constraint === 'users_ctftime_id_key') {
+        return responses.badKnownCtftimeId
+      }
+      if (constraint === 'users_email_key') {
+        return responses.badKnownEmail
+      }
+      if (constraint === 'users_name_key') {
+        return responses.badKnownName
+      }
     }
     throw e
   }
