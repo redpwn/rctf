@@ -85,3 +85,28 @@ test.serial('throws error on invalid matcher', t => {
   error = t.throws(restrict.compileACLs)
   t.is(error.message, 'Unrecognized ACL matcher "__proto__"')
 })
+
+test.serial('denies no email with all matchers except any', t => {
+  config.divisionACLs = [{
+    match: 'domain',
+    value: 'good-domain.com',
+    divisions: ['domain']
+  }, {
+    match: 'email',
+    value: 'allowed@test.com',
+    divisions: ['email']
+  }, {
+    match: 'regex',
+    value: '^regex-email(-[a-z]+)?@test.com$',
+    divisions: ['regex']
+  }, {
+    match: 'any',
+    value: '',
+    divisions: ['any']
+  }]
+  restrict.compileACLs()
+  t.false(restrict.divisionAllowed(undefined, 'domain'))
+  t.false(restrict.divisionAllowed(undefined, 'email'))
+  t.false(restrict.divisionAllowed(undefined, 'regex'))
+  t.true(restrict.divisionAllowed(undefined, 'any'))
+})
