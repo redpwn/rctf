@@ -22,7 +22,7 @@ services:
       - redis
       - postgres
   redis:
-    image: redis:5.0.9
+    image: redis:6.0.6
     restart: always
     command: ["redis-server", "--requirepass", "${RCTF_REDIS_PASSWORD}"]
     networks:

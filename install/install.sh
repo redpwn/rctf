@@ -26,8 +26,13 @@ do_install() {
   info "Installing rCTF..."
 
   if [ ! "$(id -u)" = 0 ]; then
-      error "You must run this script as root."
-      exit 1
+    error "You must run this script as root."
+    exit 1
+  fi
+
+  if [ ! -x "$(command -v curl)" ]; then
+    error "curl is not available. You must have curl to install rCTF."
+    exit 1
   fi
 
   RCTF_INSTALL_PATH="${RCTF_INSTALL_PATH:-"/opt/rctf"}"
@@ -101,13 +106,13 @@ do_install() {
   read -r result </dev/tty
 
   if [ "$result" = "y" ]; then
-      info "Running 'docker-compose up -d'..."
-      docker-compose up -d
-      info "rCTF is now running at 127.0.0.1:8080."
-      exit 0
+    info "Running 'docker-compose up -d'..."
+    docker-compose up -d
+    info "rCTF is now running at 127.0.0.1:8080."
+    exit 0
   else
-      info "If you would like to start rCTF, run 'docker-compose up -d' in $RCTF_INSTALL_PATH."
-      exit 0
+    info "If you would like to start rCTF, run 'docker-compose up -d' in $RCTF_INSTALL_PATH."
+    exit 0
   fi
 }
 
