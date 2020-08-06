@@ -10,6 +10,7 @@ yarn-error.log*
 /conf.d/*
 !/conf.d/.keep
 /docs/site
+/install/build
 
 # Upload provider dir
 /uploads
