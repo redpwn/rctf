@@ -38,16 +38,18 @@ export default class LocalProvider implements Provider {
     this.uploadDirectory = path.resolve(options.uploadDirectory)
     this.endpoint = options.endpoint || '/uploads'
 
-    this.uploadMap = new Map()
+    this.uploadMap = new Map<string, Upload>()
 
-    app.register(async (fastify) => {
-      fastify.register(fastifyStatic, {
+    void app.register(async (fastify) => {
+      void fastify.register(fastifyStatic, {
         root: this.uploadDirectory,
         serve: false
       })
 
+      // Fastify bug #2466
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       fastify.setNotFoundHandler(async (req, res) => {
-        res.status(404)
+        void res.status(404)
         return 'Not found'
       })
 
@@ -70,9 +72,9 @@ export default class LocalProvider implements Provider {
 
         const upload = this.uploadMap.get(key)
         if (upload != null) {
-          reply.header('Cache-Control', 'public, max-age=31557600, immutable')
-          reply.header('Content-Disposition', contentDisposition(upload.name))
-          reply.sendFile(path.relative(this.uploadDirectory, upload.filePath))
+          void reply.header('Cache-Control', 'public, max-age=31557600, immutable')
+          void reply.header('Content-Disposition', contentDisposition(upload.name))
+          void reply.sendFile(path.relative(this.uploadDirectory, upload.filePath))
         } else {
           reply.callNotFound()
         }

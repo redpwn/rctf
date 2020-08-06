@@ -17,7 +17,7 @@ export default class SmtpProvider implements Provider {
     this.mailer = nodemailer.createTransport(options.smtpUrl)
   }
 
-  send (mail: Mail): Promise<void> {
-    return this.mailer.sendMail(mail)
+  async send (mail: Mail): Promise<void> {
+    await this.mailer.sendMail(mail)
   }
 }

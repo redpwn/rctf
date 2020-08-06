@@ -23,7 +23,8 @@ module.exports = {
       '@typescript-eslint'
     ],
     rules: {
-      '@typescript-eslint/no-unnecessary-condition': 'error'
+      '@typescript-eslint/no-unnecessary-condition': 'error',
+      '@typescript-eslint/require-await': 'off'
     }
   }, {
     files: ['.eslintrc.js'],

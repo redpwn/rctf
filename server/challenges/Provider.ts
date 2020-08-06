@@ -9,8 +9,8 @@ export interface Provider extends EventEmitter {
 
     Challenge equality is determined by chall.id.
   */
-  updateChallenge(chall: Challenge): void;
-  deleteChallenge(id: string): void;
+  updateChallenge(chall: Challenge): Promise<void>;
+  deleteChallenge(id: string): Promise<void>;
   cleanup (): void;
 }
 
