@@ -73,6 +73,8 @@ Configuration for advanced users - sane defaults are automatically set by the in
 YAML/JSON name|environment name|required|default value|type|description
 -|-|-|-|-|-
 `tokenKey`|`RCTF_TOKEN_KEY`|yes|_(none)_|string|base64 encoded 32 byte key used for encrypting tokens
+`proxy.cloudflare`|_(none)_|yes|`false`|boolean|whether or not rCTF is behind Cloudflare; if `true`, do not use `proxy.trust`
+`proxy.trust`|_(none)_|yes|`false`|boolean, string, string array, or integer|X-Forwarded-For trust: the trust parameter to [proxy-addr](https://www.npmjs.com/package/proxy-addr)
 `loginTimeout`|`RCTF_LOGIN_TIMEOUT`|yes|3600000|integer|lifetime of registration, email update, and recovery links, in milliseconds
 `userMembers`|`RCTF_USER_MEMBERS`|yes|`true`|boolean|whether to allow a user to provide emails for individual members 
 `database.migrate`|`RCTF_DATABASE_MIGRATE`|yes|`never`|`before | only | never`|how to run postgreSQL migrations. [documentation](management/migration.md)

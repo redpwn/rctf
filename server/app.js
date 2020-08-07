@@ -3,11 +3,13 @@ import fastify from 'fastify'
 import fastifyStatic from 'fastify-static'
 import helmet from 'fastify-helmet'
 import hyperid from 'hyperid'
+import config from './config/server'
 import { serveIndex, getRealIp } from './util'
 import { init as uploadProviderInit } from './uploads'
 import api, { logSerializers as apiLogSerializers } from './api'
 
 const app = fastify({
+  trustProxy: config.proxy.trust,
   logger: {
     level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
     serializers: {

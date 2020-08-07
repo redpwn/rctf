@@ -1,3 +1,4 @@
+import config from '../config/server'
 import clientConfig from '../config/client'
 import { promises as fs } from 'fs'
 import mustache from 'mustache'
@@ -39,9 +40,19 @@ export const serveIndex: FastifyPluginAsync<{ indexPath: string; }> = async (fas
   fastify.setNotFoundHandler(routeHandler)
 }
 
+const getFastifyIp = (req: FastifyRequest): string =>
+  // Use `get` on req.__proto__ since this function is used in req's getter
+  Reflect.get(Object.getPrototypeOf(req), 'ip', req) as typeof req.ip
+
 // Parse Cloudflare CF-Connecting-IP header
-export const getRealIp = (req: FastifyRequest): string => {
-  // Use `get` on req.__proto__ since getRealIp is used in req's getter
-  return req.headers['cf-connecting-ip'] as string ||
-    Reflect.get(Object.getPrototypeOf(req), 'ip', req) as string
+const getCloudflareIp = (req: FastifyRequest): string | undefined =>
+  req.headers['cf-connecting-ip'] as string | undefined
+
+let getRealIp: (req: FastifyRequest) => string = getFastifyIp
+
+if (config.proxy.cloudflare) {
+  getRealIp = (req: FastifyRequest): string =>
+    getCloudflareIp(req) || getFastifyIp(req)
 }
+
+export { getRealIp }
