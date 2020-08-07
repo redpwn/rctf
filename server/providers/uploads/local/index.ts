@@ -1,4 +1,4 @@
-import { Provider } from '../../../uploads/types'
+import { Provider } from '../../../uploads/provider'
 import process from 'process'
 import path from 'path'
 import fs from 'fs'
