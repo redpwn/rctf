@@ -1,6 +1,6 @@
 import { responses } from '../../../responses'
 import perms from '../../../util/perms'
-import { get as getUploadProvider } from '../../../uploads'
+import { getUrl } from '../../../uploads'
 
 export default {
   method: 'POST',
@@ -31,11 +31,9 @@ export default {
     }
   },
   handler: async ({ req }) => {
-    const uploadProvider = getUploadProvider()
-
     const data = await Promise.all(
       req.body.uploads.map(async ({ sha256, name }) => {
-        const url = await uploadProvider.getUrl(sha256, name)
+        const url = await getUrl(sha256, name)
 
         return {
           sha256,
