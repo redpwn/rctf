@@ -1,5 +1,2 @@
 # Ignore build folders
 /dist
-
-# Ignore bundled analytics
-/client/src/static/analytics/*

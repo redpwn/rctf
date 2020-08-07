@@ -3,21 +3,29 @@ module.exports = {
     browser: true
   },
   extends: [
-    'preact',
-
-    // include standard again since preact sets style options which override
-    // those of standard (see preactjs/eslint-config-preact#6)
-    'standard'
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended'
   ],
   plugins: [
   ],
   rules: {
     radix: 'off',
     'jsx-quotes': ['error', 'prefer-single'],
-    'no-multiple-empty-lines': ['error', { // override again because of reincluding standard
-      max: 1,
-      maxEOF: 0,
-      maxBOF: 0
-    }]
+    'react/react-in-jsx-scope': 'off', // We use ProvidePlugin
+    'react/prop-types': 'off' // We have TypeScript and don't care about JS interop
+  },
+  parserOptions: {
+    tsconfigRootDir: __dirname,
+    project: ['./tsconfig.json']
+  },
+  overrides: [{
+    files: ['lib/**/*', 'webpack.config*.js'],
+    parser: 'espree'
+  }],
+  settings: {
+    react: {
+      // Set a recent React version to satisfy the plugin
+      version: '16.13.1'
+    }
   }
 }

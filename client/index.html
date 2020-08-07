@@ -22,16 +22,11 @@
 		<link rel="canonical" href="{{ config.origin }}" />
 		<meta name="theme-color" content="#111111">
 
-		<meta name="rctf-config" content="{{ jsonConfig }}" />
+		<style>html,body,#app{height: 100%;width: 100%;overflow-x: hidden}</style>
 
-		{{ #config.renderGoogleAnalytics }}
-			<meta name="analytics-id" content="{{ config.globalSiteTag }}">
-			<script async src="/analytics/index.js"></script>
-			<script async src="/analytics/autotrack.js"></script>
-			<script async src="https://www.google-analytics.com/analytics.js"></script>
-		{{ /config.renderGoogleAnalytics }}
+		<meta name="rctf-config" content="{{ jsonConfig }}" />
 	</head>
 	<body>
-		<% preact.bodyEnd %>
+		<div id="app" />
 	</body>
 </html>
