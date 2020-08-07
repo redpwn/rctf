@@ -1,6 +1,6 @@
 import config, { ServerConfig } from '../config/server'
 
-type ACLCheck = (email: string) => boolean
+type ACLCheck = (email: string | undefined) => boolean
 
 export interface ACL {
   match: string;
@@ -16,11 +16,11 @@ interface CompiledACL {
 let acls: CompiledACL[]
 
 const restrictionChecks: { [checkType: string]: (value: string) => ACLCheck } = {
-  domain: value => email => email.endsWith('@' + value),
+  domain: value => email => email?.endsWith('@' + value) ?? false,
   email: value => email => email === value,
   regex: value => {
     const re = new RegExp(value)
-    return email => re.test(email)
+    return email => email === undefined ? false : re.test(email)
   },
   any: value => email => true // eslint-disable-line @typescript-eslint/no-unused-vars
 }
@@ -45,7 +45,7 @@ export const compileACLs = (): void => {
 
 compileACLs()
 
-export const allowedDivisions = (email: string): string[] => {
+export const allowedDivisions = (email: string | undefined): string[] => {
   for (const acl of acls) {
     if (acl.check(email)) {
       return acl.divisions
@@ -54,6 +54,6 @@ export const allowedDivisions = (email: string): string[] => {
   return []
 }
 
-export const divisionAllowed = (email: string, division: string): boolean => {
+export const divisionAllowed = (email: string | undefined, division: string): boolean => {
   return allowedDivisions(email).includes(division)
 }

@@ -6,9 +6,9 @@ import { DivisionACLError } from '../errors'
 export interface User {
   id: string;
   name: string;
-  email: string;
+  email?: string;
   division: keyof ServerConfig['divisions'];
-  ctftimeId: string;
+  ctftimeId?: string;
   perms: number;
 }
 

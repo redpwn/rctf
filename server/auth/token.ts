@@ -14,21 +14,43 @@ export enum tokenKinds {
   ctftimeAuth = 4
 }
 
-export enum VerifyTokenKinds {
-  update = 'update',
-  register = 'register'
-}
+export type VerifyTokenKinds = 'update' | 'register' | 'recover'
 
 export type AuthTokenData = string
+
 export type TeamTokenData = string
-export interface VerifyTokenData {
+
+interface BaseVerifyTokenData {
   verifyId: string
   kind: VerifyTokenKinds
+}
+
+export interface RegisterVerifyTokenData extends BaseVerifyTokenData {
+  kind: 'register'
+  email: User['email']
+  name: User['name']
+  division: User['division']
+}
+
+export interface UpdateVerifyTokenData extends BaseVerifyTokenData {
+  kind: 'update'
   userId: User['id']
   email: User['email']
   division: User['division']
 }
-export type CtftimeAuthTokenData = string
+
+export interface RecoverTokenData extends BaseVerifyTokenData {
+  kind: 'recover'
+  userId: User['id']
+  email: User['email']
+}
+
+export type VerifyTokenData = RegisterVerifyTokenData | UpdateVerifyTokenData | RecoverTokenData
+
+export interface CtftimeAuthTokenData {
+  name: User['name']
+  ctftimeId: User['ctftimeId']
+}
 
 // Internal map of type definitions for typing purposes only -
 // this type does not describe a real data-structure
