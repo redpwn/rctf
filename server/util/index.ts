@@ -12,7 +12,7 @@ export * as restrict from './restrict'
  * Perform a deep-copy of a JSON-stringifiable object
  */
 export const deepCopy = <T>(data: T): T => {
-  return JSON.parse(JSON.stringify(data))
+  return JSON.parse(JSON.stringify(data)) as T
 }
 
 export const serveIndex: FastifyPluginAsync<{ indexPath: string; }> = async (fastify, opts) => {
@@ -27,19 +27,21 @@ export const serveIndex: FastifyPluginAsync<{ indexPath: string; }> = async (fas
   })
 
   const routeHandler: RouteHandlerMethod = async (req, reply) => {
-    reply.type('text/html; charset=UTF-8')
-    reply.send(rendered)
+    void reply.type('text/html; charset=UTF-8')
+    void reply.send(rendered)
   }
 
   fastify.get('/', routeHandler)
   fastify.get('/index.html', async (req, reply) => reply.redirect(301, '/'))
   fastify.get('//*', async (req, reply) => reply.redirect(302, '/'))
+  // Fastify bug #2466
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   fastify.setNotFoundHandler(routeHandler)
 }
 
 // Parse Cloudflare CF-Connecting-IP header
 export const getRealIp = (req: FastifyRequest): string => {
   // Use `get` on req.__proto__ since getRealIp is used in req's getter
-  return req.headers['cf-connecting-ip'] ||
-    Reflect.get(Object.getPrototypeOf(req), 'ip', req)
+  return req.headers['cf-connecting-ip'] as string ||
+    Reflect.get(Object.getPrototypeOf(req), 'ip', req) as string
 }

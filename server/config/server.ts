@@ -80,16 +80,19 @@ export type ServerConfig = {
   loginTimeout: number;
 }
 
-const fileConfigLoaders: Map<string, (file: string) => unknown> = new Map([
-  ['json', file => JSON.parse(file)],
-  ['yaml', file => yaml.parse(file)],
-  ['yml', file => yaml.parse(file)]
+const jsonLoader = (file: string) => JSON.parse(file) as PartialDeep<ServerConfig>
+const yamlLoader = (file: string) => yaml.parse(file) as PartialDeep<ServerConfig>
+
+const fileConfigLoaders: Map<string, (file: string) => PartialDeep<ServerConfig>> = new Map([
+  ['json', jsonLoader],
+  ['yaml', yamlLoader],
+  ['yml', yamlLoader]
 ])
 
 const configPath = process.env.RCTF_CONF_PATH ?? path.join(__dirname, '../../../conf.d')
 const fileConfigs: PartialDeep<ServerConfig>[] = []
 fs.readdirSync(configPath).sort().forEach((name) => {
-  const matched = name.match(/\.(.+)$/)
+  const matched = /\.(.+)$/.exec(name)
   if (matched === null) {
     return
   }
@@ -97,7 +100,7 @@ fs.readdirSync(configPath).sort().forEach((name) => {
   if (loader === undefined) {
     return
   }
-  const config = loader(fs.readFileSync(path.join(configPath, name)).toString()) as PartialDeep<ServerConfig>
+  const config = loader(fs.readFileSync(path.join(configPath, name)).toString())
   fileConfigs.push(config)
 })
 
