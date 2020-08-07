@@ -39,6 +39,12 @@ export type ServerConfig = {
   tokenKey: string;
   origin: string;
 
+  // TODO: enforce `trust` is false when `cloudflare` is true
+  proxy: {
+    cloudflare: boolean
+    trust: boolean | string | string[] | number
+  }
+
   ctftime?: {
     clientId: string;
     clientSecret: string;
@@ -165,6 +171,10 @@ const defaultConfig: PartialDeep<ServerConfig> = {
   },
   uploadProvider: {
     name: 'uploads/local'
+  },
+  proxy: {
+    cloudflare: false,
+    trust: false
   },
   meta: {
     description: '',
