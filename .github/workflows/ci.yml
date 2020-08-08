@@ -75,7 +75,7 @@ jobs:
 
     - name: Load configuration
       run: |
-        cp test/conf-test.yaml conf.d
+        cp server/test/conf-test.yaml conf.d
 
     - name: Run migrations
       run: |
