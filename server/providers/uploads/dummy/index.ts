@@ -1,4 +1,4 @@
-import { Provider } from '../../../uploads/types'
+import { Provider } from '../../../uploads/provider'
 
 export default class DummyProvider implements Provider {
   upload = async (): Promise<string> => ''

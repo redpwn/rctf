@@ -1,6 +1,6 @@
 import { responses } from '../../../responses'
 import perms from '../../../util/perms'
-import { get as getUploadProvider } from '../../../uploads'
+import { upload } from '../../../uploads'
 import toBuffer from 'data-uri-to-buffer'
 
 const itemSchema = {
@@ -35,7 +35,6 @@ export default {
   },
   bodyLimit: 2 ** 30, // 1 GiB
   handler: async ({ req }) => {
-    const uploadProvider = getUploadProvider()
     let convertedFiles
     try {
       convertedFiles = req.body.files.map(({ name, data }) => {
@@ -51,7 +50,7 @@ export default {
     try {
       const files = await Promise.all(
         convertedFiles.map(async ({ name, data }) => {
-          const url = await uploadProvider.upload(data, name)
+          const url = await upload(data, name)
 
           return {
             name,

@@ -1,6 +1,6 @@
 import { Storage, Bucket, File } from '@google-cloud/storage'
 import crypto from 'crypto'
-import { Provider } from '../../../uploads/types'
+import { Provider } from '../../../uploads/provider'
 
 interface GcsProviderOptions {
   credentials: Record<string, unknown>;
