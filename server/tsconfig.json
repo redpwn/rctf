@@ -10,10 +10,10 @@
     "allowSyntheticDefaultImports": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "outDir": "dist/server",
-    "baseUrl": "."
+    "outDir": "../dist/server",
+    "rootDir": "src"
   },
   "include": [
-    "server/**/*"
+    "src/**/*"
   ]
 }

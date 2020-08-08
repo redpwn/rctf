@@ -1,27 +1,33 @@
 const test = require('ava')
 const request = require('supertest')
-const app = require('../../dist/server/app').default
-const { default: config } = require('../../dist/server/config/server')
+const app = require('../../../dist/server/app').default
 const util = require('../_util')
+const auth = require('../../../dist/server/auth')
+const { default: config } = require('../../../dist/server/config/server')
 
-const { responseList } = require('../../dist/server/responses')
-const auth = require('../../dist/server/auth')
-const { getFirstLoadedChallenge } = require('../_util.js')
+const { responseList } = require('../../../dist/server/responses')
 
-let chall, uuid, testUserData
+let uuid, testUserData
 
 test.before('start server', async t => {
   await app.ready()
 })
 
 test.before(async () => {
-  chall = await getFirstLoadedChallenge()
   testUserData = await util.generateRealTestUser()
   uuid = testUserData.user.id
 })
 
 test.after.always('cleanup test user', async t => {
   await testUserData.cleanup()
+})
+
+test('fails with unauthorized', async t => {
+  const resp = await request(app.server)
+    .get(process.env.API_ENDPOINT + '/challs')
+    .expect(responseList.badToken.status)
+
+  t.is(resp.body.kind, 'badToken')
 })
 
 test.serial('fails with badNotStarted', async t => {
@@ -31,9 +37,8 @@ test.serial('fails with badNotStarted', async t => {
 
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app.server)
-    .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
+    .get(process.env.API_ENDPOINT + '/challs')
     .set('Authorization', ' Bearer ' + authToken)
-    .send({ flag: chall.flag })
     .expect(responseList.badNotStarted.status)
 
   t.is(resp.body.kind, 'badNotStarted')
@@ -41,18 +46,13 @@ test.serial('fails with badNotStarted', async t => {
   config.startTime = oldTime
 })
 
-test.serial('fails with badEnded', async t => {
-  const oldTime = config.endTime
-  config.endTime = Date.now() - 1
-
+test.serial('succeeds with goodChallenges', async t => {
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app.server)
-    .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
+    .get(process.env.API_ENDPOINT + '/challs')
     .set('Authorization', ' Bearer ' + authToken)
-    .send({ flag: chall.flag })
-    .expect(responseList.badEnded.status)
+    .expect(responseList.goodChallenges.status)
 
-  t.is(resp.body.kind, 'badEnded')
-
-  config.endTime = oldTime
+  t.is(resp.body.kind, 'goodChallenges')
+  t.true(Array.isArray(resp.body.data))
 })

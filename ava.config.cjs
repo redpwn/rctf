@@ -1,3 +1,4 @@
+// Server tests - placed at root because AVA requires it
 require('dotenv').config()
 
 module.exports = {
@@ -5,7 +6,7 @@ module.exports = {
     API_ENDPOINT: '/api/v1'
   },
   files: [
-    'test/**/*.js'
+    'server/test/**/*.js'
   ],
   timeout: '30000'
 }

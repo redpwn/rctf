@@ -1,8 +1,8 @@
 const test = require('ava')
 const request = require('supertest')
-const app = require('../../dist/server/app').default
+const app = require('../../../dist/server/app').default
 
-const { responseList } = require('../../dist/server/responses')
+const { responseList } = require('../../../dist/server/responses')
 
 test.before('start server', async t => {
   await app.ready()

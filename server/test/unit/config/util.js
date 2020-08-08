@@ -1,6 +1,6 @@
 const test = require('ava')
 
-const util = require('../../../dist/server/config/util')
+const util = require('../../../../dist/server/config/util')
 
 test('removeUndefined passes through properties', t => {
   const obj = {

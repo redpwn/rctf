@@ -1,11 +1,11 @@
 const test = require('ava')
 const request = require('supertest')
-const app = require('../../dist/server/app').default
+const app = require('../../../dist/server/app').default
 const { v4: uuidv4 } = require('uuid')
 
-const { default: config } = require('../../dist/server/config/server')
-const { removeUserByEmail } = require('../../dist/server/database').users
-const { responseList } = require('../../dist/server/responses')
+const { default: config } = require('../../../dist/server/config/server')
+const { removeUserByEmail } = require('../../../dist/server/database').users
+const { responseList } = require('../../../dist/server/responses')
 
 const testUser = {
   email: uuidv4() + '@test.com',

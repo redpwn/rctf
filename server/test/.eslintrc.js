@@ -5,5 +5,6 @@ module.exports = {
   plugins: [
   ],
   rules: {
-  }
+  },
+  parser: 'espree'
 }

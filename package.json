@@ -4,22 +4,20 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "lint": "sh -c \"tsc --noEmit ; eslint .\"",
-    "lint:strict": "sh -c \"tsc --noEmit -p tsconfig.strict.json ; eslint .\"",
+    "lint": "sh -c \"tsc --noEmit -p server ; eslint .\"",
     "start": "node --enable-source-maps --unhandled-rejections=strict dist/server/index.js",
     "migrate": "yarn build:ts && cross-env RCTF_DATABASE_MIGRATE=only yarn start",
     "build:client": "preact build --src client/src --template client/index.html --dest dist/build --no-prerender --no-inline-css",
-    "build:ts": "tsc && yarn copy-static",
+    "build:ts": "tsc -p server && yarn copy-static",
     "build": "yarn build:ts && yarn build:client",
     "watch:client": "cross-env NODE_ENV=development preact watch --src client/src --template client/index.html",
     "watch:server": "nodemon --enable-source-maps dist/server/index.js | pino-pretty -c -t",
-    "watch:ts": "tsc -w",
+    "watch:ts": "tsc -w -p server",
     "dev": "yarn build:ts && concurrently -k -t \"HH:mm:ss.SSS\" -p \"[{time}]\" -c \"cyan,green,red\" \"yarn:watch:*\"",
-    "test": "yarn build && nyc --skip-full ava",
+    "test": "yarn build && nyc --nycrc-path server/.nycrc.json --skip-full ava",
     "test:slim": "ava",
-    "test:report": "nyc --skip-full --reporter=lcov ava",
-    "commit": "git cz",
-    "copy-static": "cpy \"server/**/*\" \"!**/*.{j,t}s\" \"migrations\" dist/ --parents"
+    "test:report": "nyc --nycrc-path server/.nycrc.json --skip-full --reporter=lcov ava",
+    "copy-static": "cpy --cwd=server/src \"**/*\" \"!**/*.{j,t}s\" ../../dist/server --parents && cpy migrations dist/ --parents"
   },
   "nodemonConfig": {
     "watch": [

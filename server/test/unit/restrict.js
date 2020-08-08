@@ -1,7 +1,7 @@
 const test = require('ava')
 
-const { default: config } = require('../../dist/server/config/server')
-const restrict = require('../../dist/server/util/restrict')
+const { default: config } = require('../../../dist/server/config/server')
+const restrict = require('../../../dist/server/util/restrict')
 
 let old
 

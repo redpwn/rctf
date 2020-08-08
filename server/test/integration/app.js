@@ -9,7 +9,7 @@ test.serial('PORT env flag', async t => {
   const old = process.env.PORT
   process.env.PORT = PORT
 
-  require(path.join(__dirname, '/../../dist/server/index'))
+  require(path.join(__dirname, '/../../../dist/server/index'))
 
   const resp = await got(`http://localhost:${PORT}`)
   t.true(resp.body !== undefined)

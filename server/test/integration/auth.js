@@ -1,12 +1,12 @@
 const test = require('ava')
 const request = require('supertest')
-const app = require('../../dist/server/app').default
-const { removeUserByEmail } = require('../../dist/server/database').users
+const app = require('../../../dist/server/app').default
+const { removeUserByEmail } = require('../../../dist/server/database').users
 
-const { default: config } = require('../../dist/server/config/server')
-const { responseList } = require('../../dist/server/responses')
-const database = require('../../dist/server/database')
-const auth = require('../../dist/server/auth')
+const { default: config } = require('../../../dist/server/config/server')
+const { responseList } = require('../../../dist/server/responses')
+const database = require('../../../dist/server/database')
+const auth = require('../../../dist/server/auth')
 const util = require('../_util')
 
 const testUser = util.generateTestUser()
