@@ -2,6 +2,7 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "es5",
+    "lib": ["es6", "dom"],
     "noImplicitAny": true,
     "strict": true,
     "allowJs": true,
@@ -11,7 +12,8 @@
     "inlineSources": true,
     "jsx": "preserve",
     "moduleResolution": "node",
-    "noEmit": true
+    "noEmit": true,
+    "types": ["react"]
   },
   "include": [
     "src/**/*"

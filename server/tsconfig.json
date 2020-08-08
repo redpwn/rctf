@@ -11,7 +11,8 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "outDir": "../dist/server",
-    "rootDir": "src"
+    "rootDir": "src",
+    "types": ["node"]
   },
   "include": [
     "src/**/*"
