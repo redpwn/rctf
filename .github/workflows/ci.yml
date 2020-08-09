@@ -92,7 +92,7 @@ jobs:
     - name: Run tests
       id: testrun
       run: |
-        yarn test:report --ci --forceExit
+        yarn test:report --ci --forceExit --color
 
     - name: Upload coverage reports
       if: always() && ((steps.testrun.outcome == 'success') || (steps.testrun.outcome == 'failure'))
