@@ -1,21 +1,20 @@
-const test = require('ava')
 const { v4: uuid } = require('uuid')
-const timeouts = require('../../../dist/server/cache/timeouts')
+const timeouts = require('../../src/cache/timeouts')
 
-test('allows request if under ratelimit', async t => {
+test('allows request if under ratelimit', async () => {
   const result = await timeouts.checkRateLimit({
     type: timeouts.types.UPDATE_PROFILE,
     duration: 1000 * 10,
     limit: 1,
     userid: uuid()
   })
-  t.deepEqual(result, {
+  expect(result).toEqual({
     ok: true,
     timeLeft: null
   })
 })
 
-test('denies request if over ratelimit', async t => {
+test('denies request if over ratelimit', async () => {
   const userid = uuid()
   await timeouts.checkRateLimit({
     type: timeouts.types.UPDATE_PROFILE,
@@ -29,6 +28,6 @@ test('denies request if over ratelimit', async t => {
     limit: 1,
     userid
   })
-  t.false(result.ok)
-  t.is(typeof result.timeLeft, 'number')
+  expect(result.ok).toBe(false)
+  expect(typeof result.timeLeft).toBe('number')
 })

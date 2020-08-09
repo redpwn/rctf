@@ -1,6 +1,6 @@
 module.exports = {
   extends: [
-    'plugin:ava/recommended'
+    'plugin:jest/recommended'
   ],
   plugins: [
   ],

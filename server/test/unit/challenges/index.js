@@ -1,13 +1,11 @@
-const test = require('ava')
-
 const app = require('fastify')()
-const { init } = require('../../../../dist/server/uploads')
+const { init } = require('../../../src/uploads')
 init(app)
 
-const challenges = require('../../../../dist/server/challenges')
+const challenges = require('../../../src/challenges')
 
-test('get all challenges', t => {
+test('get all challenges', () => {
   const data = challenges.getAllChallenges()
 
-  t.true(Array.isArray(data))
+  expect(Array.isArray(data)).toBe(true)
 })

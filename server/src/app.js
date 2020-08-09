@@ -55,7 +55,7 @@ app.register(api, {
   logSerializers: apiLogSerializers
 })
 
-const staticPath = path.join(__dirname, '../client')
+const staticPath = process.env.RCTF_STATIC_PATH || path.join(__dirname, '../client')
 
 app.register(serveIndex, {
   indexPath: path.join(staticPath, 'index.html')

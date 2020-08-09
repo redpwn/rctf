@@ -1,11 +1,10 @@
-const test = require('ava')
 const request = require('supertest')
-const app = require('../../../dist/server/app').default
+const app = require('../../src/app').default
 const { v4: uuidv4 } = require('uuid')
 
-const { default: config } = require('../../../dist/server/config/server')
-const { removeUserByEmail } = require('../../../dist/server/database').users
-const { responseList } = require('../../../dist/server/responses')
+const { default: config } = require('../../src/config/server')
+const { removeUserByEmail } = require('../../src/database').users
+const { responseList } = require('../../src/responses')
 
 const testUser = {
   email: uuidv4() + '@test.com',
@@ -15,13 +14,13 @@ const testUser = {
 
 let oldEmail
 
-test.serial.before('start server', async t => {
+beforeAll(async () => {
   oldEmail = config.email
   config.email = null
   await app.ready()
 })
 
-test.serial('succeeds with goodUserData', async t => {
+test('succeeds with goodUserData', async () => {
   let resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/auth/register')
     .send(testUser)
@@ -34,11 +33,11 @@ test.serial('succeeds with goodUserData', async t => {
     .set('Authorization', ' Bearer ' + authToken)
     .expect(responseList.goodUserData.status)
 
-  t.is(resp.body.kind, 'goodUserData')
-  t.is(resp.body.data.name, testUser.name)
+  expect(resp.body.kind).toBe('goodUserData')
+  expect(resp.body.data.name).toBe(testUser.name)
 })
 
-test.serial.after.always('cleanup test user', async t => {
+test('cleanup test user', async () => {
   await removeUserByEmail({
     email: testUser.email
   })

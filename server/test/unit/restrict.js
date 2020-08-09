@@ -1,92 +1,88 @@
-const test = require('ava')
-
-const { default: config } = require('../../../dist/server/config/server')
-const restrict = require('../../../dist/server/util/restrict')
+const { default: config } = require('../../src/config/server')
+const restrict = require('../../src/util/restrict')
 
 let old
 
-test.serial.before('save old ACLs', t => {
+beforeAll(() => {
   old = { divisionACLs: config.divisionACLs, email: config.email }
   config.email = {}
 })
 
-test.serial.after('restore old ACLs', t => {
+afterAll(() => {
   config.divisionACLs = old.divisionACLs
   config.email = old.email
   restrict.compileACLs()
 })
 
-test.serial('matches domains', t => {
+test('matches domains', () => {
   config.divisionACLs = [{
     match: 'domain',
     value: 'good-domain.com',
     divisions: ['allowed']
   }]
   restrict.compileACLs()
-  t.true(restrict.divisionAllowed('anything@good-domain.com', 'allowed'))
-  t.false(restrict.divisionAllowed('anything@bad-domain.com', 'allowed'))
+  expect(restrict.divisionAllowed('anything@good-domain.com', 'allowed')).toBe(true)
+  expect(restrict.divisionAllowed('anything@bad-domain.com', 'allowed')).toBe(false)
 })
 
-test.serial('matches emails', t => {
+test('matches emails', () => {
   config.divisionACLs = [{
     match: 'email',
     value: 'good-email@test.com',
     divisions: ['allowed']
   }]
   restrict.compileACLs()
-  t.true(restrict.divisionAllowed('good-email@test.com', 'allowed'))
-  t.false(restrict.divisionAllowed('bad-email@test.com', 'allowed'))
+  expect(restrict.divisionAllowed('good-email@test.com', 'allowed')).toBe(true)
+  expect(restrict.divisionAllowed('bad-email@test.com', 'allowed')).toBe(false)
 })
 
-test.serial('matches regex', t => {
+test('matches regex', () => {
   config.divisionACLs = [{
     match: 'regex',
     value: '^regex-email(-[a-z]+)?@test.com$',
     divisions: ['allowed']
   }]
   restrict.compileACLs()
-  t.true(restrict.divisionAllowed('regex-email@test.com', 'allowed'))
-  t.true(restrict.divisionAllowed('regex-email-abcd@test.com', 'allowed'))
-  t.false(restrict.divisionAllowed('regex-email@bad.com', 'allowed'))
-  t.false(restrict.divisionAllowed('regex-emailaaa@test.com', 'allowed'))
-  t.false(restrict.divisionAllowed('regex-email-1234@test.com', 'allowed'))
+  expect(restrict.divisionAllowed('regex-email@test.com', 'allowed')).toBe(true)
+  expect(restrict.divisionAllowed('regex-email-abcd@test.com', 'allowed')).toBe(true)
+  expect(restrict.divisionAllowed('regex-email@bad.com', 'allowed')).toBe(false)
+  expect(restrict.divisionAllowed('regex-emailaaa@test.com', 'allowed')).toBe(false)
+  expect(restrict.divisionAllowed('regex-email-1234@test.com', 'allowed')).toBe(false)
 })
 
-test.serial('allows any', t => {
+test('allows any', () => {
   config.divisionACLs = [{
     match: 'any',
     value: '',
     divisions: ['allowed']
   }]
   restrict.compileACLs()
-  t.true(restrict.divisionAllowed('anything@test.com', 'allowed'))
+  expect(restrict.divisionAllowed('anything@test.com', 'allowed')).toBe(true)
 })
 
-test.serial('allows no divisions if no ACL matches', t => {
+test('allows no divisions if no ACL matches', () => {
   config.divisionACLs = [{
     match: 'email',
     value: 'allowed@test.com',
     divisions: ['allowed']
   }]
   restrict.compileACLs()
-  t.deepEqual(restrict.allowedDivisions('not-allowed@test.com'), [])
+  expect(restrict.allowedDivisions('not-allowed@test.com')).toEqual([])
 })
 
-test.serial('throws error on invalid matcher', t => {
+test('throws error on invalid matcher', () => {
   config.divisionACLs = [{
     match: 'bad'
   }]
-  let error = t.throws(restrict.compileACLs)
-  t.is(error.message, 'Unrecognized ACL matcher "bad"')
+  expect(restrict.compileACLs).toThrowErrorMatchingSnapshot('"bad"')
 
   config.divisionACLs = [{
     match: '__proto__'
   }]
-  error = t.throws(restrict.compileACLs)
-  t.is(error.message, 'Unrecognized ACL matcher "__proto__"')
+  expect(restrict.compileACLs).toThrowErrorMatchingSnapshot('"__proto__"')
 })
 
-test.serial('denies no email with all matchers except any', t => {
+test('denies no email with all matchers except any', () => {
   config.divisionACLs = [{
     match: 'domain',
     value: 'good-domain.com',
@@ -105,8 +101,8 @@ test.serial('denies no email with all matchers except any', t => {
     divisions: ['any']
   }]
   restrict.compileACLs()
-  t.false(restrict.divisionAllowed(undefined, 'domain'))
-  t.false(restrict.divisionAllowed(undefined, 'email'))
-  t.false(restrict.divisionAllowed(undefined, 'regex'))
-  t.true(restrict.divisionAllowed(undefined, 'any'))
+  expect(restrict.divisionAllowed(undefined, 'domain')).toBe(false)
+  expect(restrict.divisionAllowed(undefined, 'email')).toBe(false)
+  expect(restrict.divisionAllowed(undefined, 'regex')).toBe(false)
+  expect(restrict.divisionAllowed(undefined, 'any')).toBe(true)
 })

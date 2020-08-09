@@ -26,3 +26,4 @@ $RECYCLE.BIN
 # nyc test runner
 /.nyc_output
 /coverage
+/server/coverage

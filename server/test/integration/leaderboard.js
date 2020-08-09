@@ -1,20 +1,19 @@
-const test = require('ava')
 const request = require('supertest')
-const app = require('../../../dist/server/app').default
+const app = require('../../src/app').default
 
-const { responseList } = require('../../../dist/server/responses')
+const { responseList } = require('../../src/responses')
 
-test.before('start server', async t => {
+beforeAll(async () => {
   await app.ready()
 })
 
-test('succeeds with goodLeaderboard', async t => {
+test('succeeds with goodLeaderboard', async () => {
   const resp = await request(app.server)
     .get(process.env.API_ENDPOINT + '/leaderboard/now')
     .query({ limit: 1, offset: 0 })
     .expect('Content-Type', /json/)
     .expect(responseList.goodLeaderboard.status)
 
-  t.is(resp.body.kind, 'goodLeaderboard')
-  t.true(Array.isArray(resp.body.data.leaderboard))
+  expect(resp.body.kind).toBe('goodLeaderboard')
+  expect(Array.isArray(resp.body.data.leaderboard)).toBe(true)
 })

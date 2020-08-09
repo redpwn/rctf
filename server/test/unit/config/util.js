@@ -1,8 +1,6 @@
-const test = require('ava')
+const util = require('../../../src/config/util')
 
-const util = require('../../../../dist/server/config/util')
-
-test('removeUndefined passes through properties', t => {
+test('removeUndefined passes through properties', () => {
   const obj = {
     a: 'hello',
     b: 1,
@@ -11,10 +9,10 @@ test('removeUndefined passes through properties', t => {
       e: 'world'
     }
   }
-  t.deepEqual(util.removeUndefined(obj), obj)
+  expect(util.removeUndefined(obj)).toEqual(obj)
 })
 
-test('removeUndefined removes all undefined properties', t => {
+test('removeUndefined removes all undefined properties', () => {
   const obj = {
     a: 'hello',
     b: undefined,
@@ -24,7 +22,7 @@ test('removeUndefined removes all undefined properties', t => {
       f: 'world'
     }
   }
-  t.deepEqual(util.removeUndefined(obj), {
+  expect(util.removeUndefined(obj)).toEqual({
     a: 'hello',
     d: {
       f: 'world'
@@ -32,7 +30,7 @@ test('removeUndefined removes all undefined properties', t => {
   })
 })
 
-test('removeUndefined does not return undefined', t => {
+test('removeUndefined does not return undefined', () => {
   const obj = {
     b: undefined,
     c: undefined,
@@ -43,5 +41,5 @@ test('removeUndefined does not return undefined', t => {
       }
     }
   }
-  t.deepEqual(util.removeUndefined(obj), {})
+  expect(util.removeUndefined(obj)).toEqual({})
 })

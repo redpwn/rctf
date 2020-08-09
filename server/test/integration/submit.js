@@ -1,51 +1,50 @@
-const test = require('ava')
 const request = require('supertest')
-const app = require('../../../dist/server/app').default
+const app = require('../../src/app').default
 const { v4: uuidv4 } = require('uuid')
 
-const db = require('../../../dist/server/database')
-const { responseList } = require('../../../dist/server/responses')
-const auth = require('../../../dist/server/auth')
+const db = require('../../src/database')
+const { responseList } = require('../../src/responses')
+const auth = require('../../src/auth')
 const util = require('../_util')
 
 let chall, uuid, testUserData
 
-test.before('start server', async t => {
+beforeAll(async () => {
   await app.ready()
 })
 
-test.before('wait for challenges to load', async () => {
+beforeAll(async () => {
   chall = await util.getFirstLoadedChallenge()
 
   testUserData = await util.generateRealTestUser()
   uuid = testUserData.user.id
 })
 
-test.after.always('cleanup test user', async t => {
+test('cleanup test user', async () => {
   await db.solves.removeSolvesByUserId({ userid: uuid })
   await testUserData.cleanup()
 })
 
-test('fails with unauthorized', async t => {
+test('fails with unauthorized', async () => {
   const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/challs/1/submit')
     .send({ flag: 'wrong_flag' })
     .expect(responseList.badToken.status)
 
-  t.is(resp.body.kind, 'badToken')
+  expect(resp.body.kind).toBe('badToken')
 })
 
-test('fails with badBody', async t => {
+test('fails with badBody', async () => {
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
     .set('Authorization', ' Bearer ' + authToken)
     .expect(responseList.badBody.status)
 
-  t.is(resp.body.kind, 'badBody')
+  expect(resp.body.kind).toBe('badBody')
 })
 
-test('fails with badChallenge', async t => {
+test('fails with badChallenge', async () => {
   const badChallenge = uuidv4()
 
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
@@ -55,10 +54,10 @@ test('fails with badChallenge', async t => {
     .send({ flag: 'wrong_flag' })
     .expect(responseList.badChallenge.status)
 
-  t.is(resp.body.kind, 'badChallenge')
+  expect(resp.body.kind).toBe('badChallenge')
 })
 
-test.serial('fails with badFlag', async t => {
+test('fails with badFlag', async () => {
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
@@ -66,10 +65,10 @@ test.serial('fails with badFlag', async t => {
     .send({ flag: 'wrong_flag' })
     .expect(responseList.badFlag.status)
 
-  t.is(resp.body.kind, 'badFlag')
+  expect(resp.body.kind).toBe('badFlag')
 })
 
-test.serial('succeeds with goodFlag', async t => {
+test('succeeds with goodFlag', async () => {
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
@@ -77,10 +76,10 @@ test.serial('succeeds with goodFlag', async t => {
     .send({ flag: chall.flag })
     .expect(responseList.goodFlag.status)
 
-  t.is(resp.body.kind, 'goodFlag')
+  expect(resp.body.kind).toBe('goodFlag')
 })
 
-test.serial('fails with badAlreadySolvedChallenge', async t => {
+test('fails with badAlreadySolvedChallenge', async () => {
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
@@ -88,5 +87,5 @@ test.serial('fails with badAlreadySolvedChallenge', async t => {
     .send({ flag: chall.flag })
     .expect(responseList.badAlreadySolvedChallenge.status)
 
-  t.is(resp.body.kind, 'badAlreadySolvedChallenge')
+  expect(resp.body.kind).toBe('badAlreadySolvedChallenge')
 })

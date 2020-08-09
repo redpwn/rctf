@@ -1,8 +1,6 @@
-require('ava')
-
 const { v4: uuidv4 } = require('uuid')
-const { default: config } = require('../../dist/server/config/server')
-const db = require('../../dist/server/database')
+const { default: config } = require('../src/config/server')
+const db = require('../src/database')
 
 const ret = {
   // Generate only valid parameters
@@ -31,7 +29,7 @@ const ret = {
   },
   getFirstLoadedChallenge: () => {
     // Load on-demand
-    const challenges = require('../../dist/server/challenges')
+    const challenges = require('../src/challenges')
     return new Promise((resolve, reject) => {
       const check = () => {
         try {

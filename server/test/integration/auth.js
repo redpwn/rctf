@@ -1,31 +1,30 @@
-const test = require('ava')
 const request = require('supertest')
-const app = require('../../../dist/server/app').default
-const { removeUserByEmail } = require('../../../dist/server/database').users
+const app = require('../../src/app').default
+const { removeUserByEmail } = require('../../src/database').users
 
-const { default: config } = require('../../../dist/server/config/server')
-const { responseList } = require('../../../dist/server/responses')
-const database = require('../../../dist/server/database')
-const auth = require('../../../dist/server/auth')
+const { default: config } = require('../../src/config/server')
+const { responseList } = require('../../src/responses')
+const database = require('../../src/database')
+const auth = require('../../src/auth')
 const util = require('../_util')
 
 const testUser = util.generateTestUser()
 
 let oldEmail = config.email
 
-test.serial.before('start server', async t => {
+beforeAll(async () => {
   oldEmail = config.email
   await app.ready()
 })
 
-test.serial.after.always('cleanup test user', async t => {
+test('cleanup test user', async () => {
   config.email = oldEmail
   await removeUserByEmail({
     email: testUser.email
   })
 })
 
-test('fails with badEmail', async t => {
+test('fails with badEmail', async () => {
   const resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/auth/register')
     .send({
@@ -34,10 +33,10 @@ test('fails with badEmail', async t => {
     })
     .expect(responseList.badEmail.status)
 
-  t.is(resp.body.kind, 'badEmail')
+  expect(resp.body.kind).toBe('badEmail')
 })
 
-test.serial('fails with badUnknownEmail', async t => {
+test('fails with badUnknownEmail', async () => {
   config.email = oldEmail
 
   const unknownEmail = 'non-existent-email' + Math.random() + '@gmail.com'
@@ -48,10 +47,10 @@ test.serial('fails with badUnknownEmail', async t => {
     })
     .expect(responseList.badUnknownEmail.status)
 
-  t.is(resp.body.kind, 'badUnknownEmail')
+  expect(resp.body.kind).toBe('badUnknownEmail')
 })
 
-test.serial('when not email, succeeds with goodRegister', async t => {
+test('when not email, succeeds with goodRegister', async () => {
   config.email = null
 
   let resp = await request(app.server)
@@ -59,18 +58,18 @@ test.serial('when not email, succeeds with goodRegister', async t => {
     .send(testUser)
     .expect(responseList.goodRegister.status)
 
-  t.is(resp.body.kind, 'goodRegister')
-  t.true(typeof resp.body.data.authToken === 'string')
+  expect(resp.body.kind).toBe('goodRegister')
+  expect(typeof resp.body.data.authToken === 'string').toBe(true)
 
   resp = await request(app.server)
     .get(process.env.API_ENDPOINT + '/auth/test')
     .set('Authorization', ' Bearer ' + resp.body.data.authToken)
     .expect(responseList.goodToken.status)
 
-  t.is(resp.body.kind, 'goodToken')
+  expect(resp.body.kind).toBe('goodToken')
 })
 
-test.serial('duplicate email fails with badKnownEmail', async t => {
+test('duplicate email fails with badKnownEmail', async () => {
   config.email = null
 
   const resp = await request(app.server)
@@ -81,10 +80,10 @@ test.serial('duplicate email fails with badKnownEmail', async t => {
     })
     .expect(responseList.badKnownEmail.status)
 
-  t.is(resp.body.kind, 'badKnownEmail')
+  expect(resp.body.kind).toBe('badKnownEmail')
 })
 
-test.serial('duplicate name fails with badKnownName', async t => {
+test('duplicate name fails with badKnownName', async () => {
   config.email = null
 
   const resp = await request(app.server)
@@ -95,10 +94,10 @@ test.serial('duplicate name fails with badKnownName', async t => {
     })
     .expect(responseList.badKnownName.status)
 
-  t.is(resp.body.kind, 'badKnownName')
+  expect(resp.body.kind).toBe('badKnownName')
 })
 
-test.serial('succeeds with goodUserUpdate', async t => {
+test('succeeds with goodUserUpdate', async () => {
   config.email = null
 
   const user = await database.users.getUserByEmail({
@@ -123,9 +122,9 @@ test.serial('succeeds with goodUserUpdate', async t => {
   testUser.email = respUser.email
   testUser.division = respUser.division
 
-  t.is(resp.body.kind, 'goodUserUpdate')
+  expect(resp.body.kind).toBe('goodUserUpdate')
 
-  t.is(respUser.name, nextUser.name)
-  t.is(respUser.email, testUser.email)
-  t.is(respUser.division, nextUser.division)
+  expect(respUser.name).toBe(nextUser.name)
+  expect(respUser.email).toBe(testUser.email)
+  expect(respUser.division).toBe(nextUser.division)
 })
