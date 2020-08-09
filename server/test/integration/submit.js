@@ -20,7 +20,7 @@ beforeAll(async () => {
   uuid = testUserData.user.id
 })
 
-afterAll('cleanup test user', async () => {
+afterAll(async () => {
   await db.solves.removeSolvesByUserId({ userid: uuid })
   await testUserData.cleanup()
 })
