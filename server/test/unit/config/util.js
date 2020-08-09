@@ -1,4 +1,4 @@
-const util = require('../../../src/config/util')
+import { removeUndefined } from '../../../src/config/util'
 
 test('removeUndefined passes through properties', () => {
   const obj = {
@@ -9,7 +9,7 @@ test('removeUndefined passes through properties', () => {
       e: 'world'
     }
   }
-  expect(util.removeUndefined(obj)).toEqual(obj)
+  expect(removeUndefined(obj)).toEqual(obj)
 })
 
 test('removeUndefined removes all undefined properties', () => {
@@ -22,7 +22,7 @@ test('removeUndefined removes all undefined properties', () => {
       f: 'world'
     }
   }
-  expect(util.removeUndefined(obj)).toEqual({
+  expect(removeUndefined(obj)).toEqual({
     a: 'hello',
     d: {
       f: 'world'
@@ -41,5 +41,5 @@ test('removeUndefined does not return undefined', () => {
       }
     }
   }
-  expect(util.removeUndefined(obj)).toEqual({})
+  expect(removeUndefined(obj)).toEqual({})
 })

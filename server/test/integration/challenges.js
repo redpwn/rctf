@@ -1,10 +1,9 @@
-const request = require('supertest')
-const app = require('../../src/app').default
-const util = require('../_util')
-const auth = require('../../src/auth')
-const { default: config } = require('../../src/config/server')
-
-const { responseList } = require('../../src/responses')
+import request from 'supertest'
+import app from '../../src/app'
+import * as util from '../_util'
+import * as auth from '../../src/auth'
+import config from '../../src/config/server'
+import { responseList } from '../../src/responses'
 
 let uuid, testUserData
 

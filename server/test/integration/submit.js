@@ -1,11 +1,10 @@
-const request = require('supertest')
-const app = require('../../src/app').default
-const { v4: uuidv4 } = require('uuid')
-
-const db = require('../../src/database')
-const { responseList } = require('../../src/responses')
-const auth = require('../../src/auth')
-const util = require('../_util')
+import request from 'supertest'
+import app from '../../src/app'
+import { v4 as uuidv4 } from 'uuid'
+import * as db from '../../src/database'
+import { responseList } from '../../src/responses'
+import * as auth from '../../src/auth'
+import { getFirstLoadedChallenge, generateRealTestUser } from '../_util'
 
 let chall, uuid, testUserData
 
@@ -14,9 +13,9 @@ beforeAll(async () => {
 })
 
 beforeAll(async () => {
-  chall = await util.getFirstLoadedChallenge()
+  chall = await getFirstLoadedChallenge()
 
-  testUserData = await util.generateRealTestUser()
+  testUserData = await generateRealTestUser()
   uuid = testUserData.user.id
 })
 

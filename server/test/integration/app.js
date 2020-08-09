@@ -1,6 +1,6 @@
-const getPort = require('get-port')
-const got = require('got')
-const path = require('path')
+import getPort from 'get-port'
+import got from 'got'
+import path from 'path'
 
 test('PORT env flag', async () => {
   const PORT = await getPort()

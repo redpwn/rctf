@@ -1,14 +1,14 @@
-const request = require('supertest')
-const app = require('../../src/app').default
-const { removeUserByEmail } = require('../../src/database').users
+import request from 'supertest'
+import app from '../../src/app'
+import * as database from '../../src/database'
+import config from '../../src/config/server'
+import { responseList } from '../../src/responses'
 
-const { default: config } = require('../../src/config/server')
-const { responseList } = require('../../src/responses')
-const database = require('../../src/database')
-const auth = require('../../src/auth')
-const util = require('../_util')
+import * as auth from '../../src/auth'
+import { removeUserByEmail } from '../../src/database/users'
+import { generateTestUser } from '../_util'
 
-const testUser = util.generateTestUser()
+const testUser = generateTestUser()
 
 let oldEmail = config.email
 
@@ -104,7 +104,7 @@ test('succeeds with goodUserUpdate', async () => {
     email: testUser.email
   })
 
-  const nextUser = util.generateTestUser()
+  const nextUser = generateTestUser()
 
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, user.id)
 

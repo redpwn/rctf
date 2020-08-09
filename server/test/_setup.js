@@ -1,10 +1,12 @@
+// CONFIGURATION
 require('dotenv').config()
 process.env.API_ENDPOINT = '/api/v1'
-process.env.RCTF_STATIC_PATH = require('path').join(__dirname, '../dist/client')
+process.env.RCTF_STATIC_PATH = require('path').join(__dirname, 'data/static')
 
-/* global jest */
+// MOCKS
+
 // FIXME: deal with this better
-jest.mock('./src/leaderboard')
+jest.mock('../src/leaderboard')
 
 jest.mock('pino')
 const pino = require('pino')

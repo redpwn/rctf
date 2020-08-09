@@ -1,5 +1,5 @@
-const { v4: uuid } = require('uuid')
-const timeouts = require('../../src/cache/timeouts')
+import { v4 as uuid } from 'uuid'
+import * as timeouts from '../../src/cache/timeouts'
 
 test('allows request if under ratelimit', async () => {
   const result = await timeouts.checkRateLimit({

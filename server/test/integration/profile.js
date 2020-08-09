@@ -1,10 +1,9 @@
-const request = require('supertest')
-const app = require('../../src/app').default
-const { v4: uuidv4 } = require('uuid')
-
-const { default: config } = require('../../src/config/server')
-const { removeUserByEmail } = require('../../src/database').users
-const { responseList } = require('../../src/responses')
+import request from 'supertest'
+import app from '../../src/app'
+import { v4 as uuidv4 } from 'uuid'
+import config from '../../src/config/server'
+import { removeUserByEmail } from '../../src/database/users'
+import { responseList } from '../../src/responses'
 
 const testUser = {
   email: uuidv4() + '@test.com',

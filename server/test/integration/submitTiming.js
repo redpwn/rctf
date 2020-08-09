@@ -1,11 +1,10 @@
-const request = require('supertest')
-const app = require('../../src/app').default
-const { default: config } = require('../../src/config/server')
-const util = require('../_util')
+import request from 'supertest'
+import app from '../../src/app'
+import config from '../../src/config/server'
+import { getFirstLoadedChallenge, generateRealTestUser } from '../_util'
 
-const { responseList } = require('../../src/responses')
-const auth = require('../../src/auth')
-const { getFirstLoadedChallenge } = require('../_util.js')
+import { responseList } from '../../src/responses'
+import * as auth from '../../src/auth'
 
 let chall, uuid, testUserData
 
@@ -15,7 +14,7 @@ beforeAll(async () => {
 
 beforeAll(async () => {
   chall = await getFirstLoadedChallenge()
-  testUserData = await util.generateRealTestUser()
+  testUserData = await generateRealTestUser()
   uuid = testUserData.user.id
 })
 

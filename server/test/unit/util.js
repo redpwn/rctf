@@ -1,5 +1,5 @@
-const util = require('../../src/util')
+import { getScore } from '../../src/util/scores'
 
 test('get score dynamic', () => {
-  expect(typeof util.scores.getScore(100, 500, 0)).toBe('number')
+  expect(typeof getScore(100, 500, 0)).toBe('number')
 })

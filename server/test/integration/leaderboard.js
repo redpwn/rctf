@@ -1,7 +1,6 @@
-const request = require('supertest')
-const app = require('../../src/app').default
-
-const { responseList } = require('../../src/responses')
+import request from 'supertest'
+import app from '../../src/app'
+import { responseList } from '../../src/responses'
 
 beforeAll(async () => {
   await app.ready()

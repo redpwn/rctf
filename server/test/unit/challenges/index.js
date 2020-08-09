@@ -1,11 +1,12 @@
-const app = require('fastify')()
-const { init } = require('../../../src/uploads')
+import appFactory from 'fastify'
+import { init } from '../../../src/uploads'
+
+import { getAllChallenges } from '../../../src/challenges'
+const app = appFactory()
 init(app)
 
-const challenges = require('../../../src/challenges')
-
 test('get all challenges', () => {
-  const data = challenges.getAllChallenges()
+  const data = getAllChallenges()
 
   expect(Array.isArray(data)).toBe(true)
 })
