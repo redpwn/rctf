@@ -26,8 +26,9 @@ export default {
           type: 'string'
         }
       },
+      required: ['name'],
       oneOf: [{
-        required: ['email', 'name']
+        required: ['email']
       }, {
         required: ['ctftimeToken']
       }]
@@ -35,14 +36,12 @@ export default {
   },
   handler: async ({ req }) => {
     let email
-    let reqName
     let ctftimeId
     if (req.body.ctftimeToken !== undefined) {
       const ctftimeData = await auth.token.getData(auth.token.tokenKinds.ctftimeAuth, req.body.ctftimeToken)
       if (ctftimeData === null) {
         return responses.badCtftimeToken
       }
-      reqName = ctftimeData.name
       ctftimeId = ctftimeData.ctftimeId
     } else {
       email = util.normalize.normalizeEmail(req.body.email)
@@ -51,10 +50,7 @@ export default {
       }
     }
 
-    if (req.body.name !== undefined) {
-      reqName = req.body.name
-    }
-    const name = util.normalize.normalizeName(reqName)
+    const name = util.normalize.normalizeName(req.body.name)
     if (!util.validate.validateName(name)) {
       return responses.badName
     }

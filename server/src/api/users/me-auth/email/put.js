@@ -68,15 +68,11 @@ export default {
       division: user.division
     })
 
-    try {
-      await sendVerification({
-        email,
-        kind: 'update',
-        token: verifyToken
-      })
-    } catch (e) {
-      throw new Error(e.message)
-    }
+    await sendVerification({
+      email,
+      kind: 'update',
+      token: verifyToken
+    })
 
     return responses.goodVerifySent
   }

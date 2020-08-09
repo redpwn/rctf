@@ -7,7 +7,8 @@ export const theme = {
   colors: {
     text: '#fff',
     background: '#111',
-    primary: '#1e88e5'
+    primary: '#1e88e5',
+    accent: '#f44336'
   },
   styles: {
     root: {
