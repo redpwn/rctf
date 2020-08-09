@@ -90,10 +90,12 @@ jobs:
         psql "$RCTF_DATABASE_URL" -c $'INSERT INTO challenges (id, data) VALUES (\'id\', \'{"flag": "flag{good_flag}", "name": "name", "files": [], "author": "author", "points": {"max": 500, "min": 100}, "category": "category", "description": "description", "tiebreakEligible": true}\')'
 
     - name: Run tests
+      id: testrun
       run: |
         yarn test:report --ci --forceExit
 
     - name: Upload coverage reports
+      if: ${{ (steps.testrun.outcome == 'success') || (steps.testrun.outcome == 'failure') }}
       uses: codecov/codecov-action@v1
 
   docker-build:
