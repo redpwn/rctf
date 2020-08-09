@@ -1,4 +1,4 @@
-export default {
+export const theme = {
   fonts: {
     body: 'system-ui, sans-serif',
     heading: '"Avenir Next", sans-serif',
@@ -15,3 +15,5 @@ export default {
     }
   }
 }
+
+export default theme

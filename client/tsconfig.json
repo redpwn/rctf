@@ -13,7 +13,7 @@
     "jsx": "preserve",
     "moduleResolution": "node",
     "noEmit": true,
-    "types": ["react"]
+    "types": ["react", "webpack-env"]
   },
   "include": [
     "src/**/*"

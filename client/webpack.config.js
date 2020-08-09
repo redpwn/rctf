@@ -6,27 +6,8 @@ const TerserWebpackPlugin = require('terser-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const PrefreshWebpackPlugin = require('@prefresh/webpack')
 
-module.exports = (env) => {
-  const babelConfig = {
-    presets: [
-      ['@babel/preset-typescript', {
-        isTSX: true,
-        allExtensions: true
-      }],
-      ['@babel/preset-react', {
-        pragma: 'jsx',
-        pragmaFrag: 'Fragment'
-      }],
-      ['@babel/preset-env', {
-        targets: { esmodules: true }
-      }]
-    ],
-    plugins: [
-      ...(env === 'development' ? [
-        'react-refresh/babel'
-      ] : [])
-    ]
-  }
+module.exports = () => {
+  const env = process.env.NODE_ENV
 
   return {
     mode: env,
@@ -81,10 +62,9 @@ module.exports = (env) => {
       }, {
         test: /\.[jt]sx?$/,
         exclude: /node_modules/,
-        use: [{
-          loader: 'babel-loader',
-          options: babelConfig
-        }]
+        use: [
+          'babel-loader'
+        ]
       }]
     },
     resolve: {

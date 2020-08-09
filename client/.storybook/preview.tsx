@@ -4,10 +4,12 @@ import { withKnobs } from '@storybook/addon-knobs'
 import { ThemeProvider } from 'theme-ui'
 import theme from '../src/util/theme'
 
-addDecorator(withKnobs)
-addDecorator(story =>
-  <ThemeProvider theme={theme}>
-    {story()}
-  </ThemeProvider>
-)
-addDecorator(centered)
+if (process.env.NODE_ENV !== 'test') {
+  addDecorator(withKnobs)
+  addDecorator(story =>
+    <ThemeProvider theme={theme}>
+      {story()}
+    </ThemeProvider>
+  )
+  addDecorator(centered)
+}

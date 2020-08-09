@@ -19,7 +19,7 @@ module.exports = {
     project: ['./tsconfig.json']
   },
   overrides: [{
-    files: ['lib/**/*', 'webpack.config*.js'],
+    files: ['lib/**/*', '*.config*.js'],
     parser: 'espree'
   }],
   settings: {
