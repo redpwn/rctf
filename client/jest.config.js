@@ -8,5 +8,9 @@ module.exports = {
   },
   setupFiles: [
     '<rootDir>/lib/jest.setup.js'
+  ],
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.[jt]s?(x)',
+    '!**/*.stories.[jt]s?(x)'
   ]
 }

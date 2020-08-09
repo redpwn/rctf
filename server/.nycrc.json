@@ -1,5 +1,0 @@
-{
-  "all": true,
-  "include": ["dist/server/**/*.js"],
-  "excludeAfterRemap": false
-}

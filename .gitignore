@@ -23,7 +23,5 @@ $RECYCLE.BIN
 
 *.swp
 
-# nyc test runner
-/.nyc_output
-/coverage
-/server/coverage
+# coverage
+/*/coverage
