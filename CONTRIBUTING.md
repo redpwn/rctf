@@ -21,7 +21,7 @@ These will automatically watch the filesystem for changes, and restart when need
 
 There are also two development settings you have to change to develop the frontend.
 
-Before commiting your changes, you should run `yarn lint` to fix any linting errors.
+Before commiting your changes, you should run `yarn lint` and `yarn lint --fix` to fix any linting errors.
 
 You should also use `yarn test` to ensure there are no regressions.
 

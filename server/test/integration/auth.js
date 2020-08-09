@@ -17,7 +17,7 @@ beforeAll(async () => {
   await app.ready()
 })
 
-test('cleanup test user', async () => {
+afterAll('cleanup test user', async () => {
   config.email = oldEmail
   await removeUserByEmail({
     email: testUser.email

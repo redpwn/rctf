@@ -17,7 +17,7 @@ beforeAll(async () => {
   uuid = testUserData.user.id
 })
 
-test('cleanup test user', async () => {
+afterAll('cleanup test user', async () => {
   await testUserData.cleanup()
 })
 

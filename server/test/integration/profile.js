@@ -37,7 +37,7 @@ test('succeeds with goodUserData', async () => {
   expect(resp.body.data.name).toBe(testUser.name)
 })
 
-test('cleanup test user', async () => {
+afterAll('cleanup test user', async () => {
   await removeUserByEmail({
     email: testUser.email
   })
