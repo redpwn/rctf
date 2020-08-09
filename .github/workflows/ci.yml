@@ -91,7 +91,7 @@ jobs:
 
     - name: Run tests
       run: |
-        yarn test:report
+        yarn test:report --ci --forceExit
 
     - name: Upload coverage reports
       uses: codecov/codecov-action@v1
