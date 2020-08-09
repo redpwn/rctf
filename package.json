@@ -9,7 +9,7 @@
     "lint:client": "yarn _lint client",
     "lint": "sh -c 'yarn lint:client \"$@\"; yarn lint:server \"$@\"' lint",
     "start": "node --enable-source-maps --unhandled-rejections=strict dist/server/index.js",
-    "migrate": "yarn build:ts && cross-env RCTF_DATABASE_MIGRATE=only yarn start",
+    "migrate": "cross-env RCTF_DATABASE_MIGRATE=only yarn start",
     "build:client": "cd client && cross-env NODE_ENV=production webpack-cli",
     "build:ts": "tsc -p server && yarn copy-static",
     "build": "yarn build:ts && yarn build:client",
@@ -27,8 +27,8 @@
   "nodemonConfig": {
     "watch": [
       "dist/server",
-      "dist/config",
-      "dist/build/index.html"
+      "conf.d",
+      "dist/client/index.html"
     ],
     "delay": "1000"
   },
