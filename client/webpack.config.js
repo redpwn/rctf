@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-// const PrefreshWebpackPlugin = require('@prefresh/webpack')
+const PrefreshWebpackPlugin = require('@prefresh/webpack')
 
 module.exports = (env) => {
   const babelConfig = {
@@ -23,7 +23,7 @@ module.exports = (env) => {
     ],
     plugins: [
       ...(env === 'development' ? [
-        // 'react-refresh/babel'
+        'react-refresh/babel'
       ] : [])
     ]
   }
@@ -60,8 +60,8 @@ module.exports = (env) => {
       }),
       new ForkTsCheckerWebpackPlugin(),
       ...(env === 'development' ? [
+        new PrefreshWebpackPlugin(),
         new webpack.HotModuleReplacementPlugin()
-        // new PrefreshWebpackPlugin()
       ] : [])
     ],
     optimization: {
@@ -80,6 +80,7 @@ module.exports = (env) => {
         loader: 'eslint-loader'
       }, {
         test: /\.[jt]sx?$/,
+        exclude: /node_modules/,
         use: [{
           loader: 'babel-loader',
           options: babelConfig
@@ -96,8 +97,8 @@ module.exports = (env) => {
       host: '0.0.0.0',
       disableHostCheck: true,
       overlay: {
-        errors: true
-        // warnings: true
+        errors: true,
+        warnings: true
       },
       hot: true,
       historyApiFallback: true,
