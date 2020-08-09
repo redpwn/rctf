@@ -1,17 +1,10 @@
 {
+  "extends": "../tsconfig-base.json",
   "compilerOptions": {
     "module": "esnext",
     "target": "es5",
     "lib": ["es6", "dom"],
-    "noImplicitAny": true,
-    "strict": true,
-    "allowJs": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "inlineSourceMap": true,
-    "inlineSources": true,
     "jsx": "preserve",
-    "moduleResolution": "node",
     "noEmit": true,
     "types": ["react", "webpack-env"]
   },

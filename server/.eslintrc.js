@@ -6,10 +6,6 @@ module.exports = {
   ],
   rules: {
   },
-  parserOptions: {
-    tsconfigRootDir: __dirname,
-    project: ['./tsconfig.json']
-  },
   overrides: [{
     files: ['jest.*.js'],
     parser: 'espree'

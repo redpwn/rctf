@@ -1,20 +1,8 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2019",
-    "moduleResolution": "node",
-    "noImplicitAny": true,
-    "strict": true,
-    "allowJs": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "inlineSourceMap": true,
-    "inlineSources": true,
-    "outDir": "../dist/server",
-    "rootDir": "src",
-    "types": ["node", "jest"]
-  },
-  "include": [
-    "src/**/*"
+  "files": [],
+  "include": [],
+  "references": [
+    { "path": "./src" },
+    { "path": "./test" }
   ]
 }
