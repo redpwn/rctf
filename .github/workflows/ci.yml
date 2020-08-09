@@ -95,7 +95,7 @@ jobs:
         yarn test:report --ci --forceExit
 
     - name: Upload coverage reports
-      if: ${{ (steps.testrun.outcome == 'success') || (steps.testrun.outcome == 'failure') }}
+      if: always() && ((steps.testrun.outcome == 'success') || (steps.testrun.outcome == 'failure'))
       uses: codecov/codecov-action@v1
 
   docker-build:
