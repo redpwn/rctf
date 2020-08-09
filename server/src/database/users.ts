@@ -1,6 +1,7 @@
 import db from './db'
 import * as util from '../util'
-import config, { ServerConfig } from '../config/server'
+import { ServerConfig } from '../config/types'
+import config from '../config/server'
 import { DivisionACLError } from '../errors'
 import { ExtractQueryType } from './util'
 

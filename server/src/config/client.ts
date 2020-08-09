@@ -1,21 +1,5 @@
-import server, { ServerConfig } from './server'
-
-export type ClientConfig = Pick<ServerConfig,
-  'meta' |
-  'homeContent' |
-  'sponsors' |
-  'globalSiteTag' |
-  'ctfName' |
-  'divisions' |
-  'defaultDivision' |
-  'origin' |
-  'startTime' |
-  'endTime' |
-  'userMembers'
-> & {
-  emailEnabled: boolean;
-  ctftime?: Pick<NonNullable<ServerConfig['ctftime']>, 'clientId'>
-}
+import { ClientConfig } from './types'
+import server from './server'
 
 const config: ClientConfig = {
   meta: server.meta,
