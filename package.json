@@ -21,7 +21,7 @@
     "test:client": "cd client && jest",
     "test:server": "jest -c server/jest.config.js",
     "test": "sh -c 'yarn test:client \"$@\" ; yarn test:server \"$@\"' test",
-    "test:report": "yarn test:server --coverage",
+    "test:report": "yarn test --coverage",
     "copy-static": "cpy --cwd=server/src \"**/*\" \"!**/*.{j,t}s\" ../../dist/server --parents && cpy migrations dist/ --parents"
   },
   "nodemonConfig": {
