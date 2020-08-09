@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Button Button 1`] = `
+<ForwardRef
+  disabled={false}
+  onClick={[Function]}
+  variant="primary"
+>
+  Hello World!
+</ForwardRef>
+`;
+
+exports[`Storyshots Button Danger Button 1`] = `
+<ForwardRef
+  variant="danger"
+>
+  Danger!
+</ForwardRef>
+`;
+
+exports[`Storyshots Button Disabled Button 1`] = `
+<ForwardRef
+  disabled={true}
+>
+  Disabled
+</ForwardRef>
+`;
