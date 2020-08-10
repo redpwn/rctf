@@ -15,7 +15,7 @@
     "build": "yarn build:ts && yarn build:client",
     "watch:client": "cd client && cross-env NODE_ENV=development webpack-dev-server",
     "watch:server": "nodemon --enable-source-maps dist/server/index.js | pino-pretty -c -t",
-    "watch:ts": "tsc -w -b server/src",
+    "watch:ts": "tsc -b -w server/src",
     "dev": "yarn build:ts && concurrently -k -t \"HH:mm:ss.SSS\" -p \"[{time}]\" -c \"cyan,green,red\" \"yarn:watch:*\"",
     "storybook": "start-storybook -c client/.storybook",
     "test:client": "jest --projects client",
