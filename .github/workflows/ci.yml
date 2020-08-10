@@ -77,10 +77,6 @@ jobs:
       run: |
         psql postgres://postgres:password@localhost -c 'CREATE DATABASE rctf;'
 
-    - name: Load configuration
-      run: |
-        cp server/test/conf-test.yaml conf.d
-
     - name: Run migrations
       run: |
         yarn migrate
