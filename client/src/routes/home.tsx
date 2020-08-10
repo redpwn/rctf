@@ -22,10 +22,10 @@ const Home: FunctionComponent = () => {
   const handleRemoveCtftime = async () => {
     setErrorMessage(null)
     setPending(true)
-    const { error } = await usersMeAuthCtftimeDelete()
+    const deleteResponse = await usersMeAuthCtftimeDelete()
     setPending(false)
-    if (error !== undefined) {
-      setErrorMessage(error.responseMessage)
+    if ('error' in deleteResponse) {
+      setErrorMessage(deleteResponse.error.responseMessage)
       return
     }
     setDone(true)

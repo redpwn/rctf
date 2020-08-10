@@ -14,7 +14,7 @@ export class ResponseError extends Error {
   }
 }
 
-type ApiMutation<Params, Response> = (params: Params) => Promise<{ data?: Response, error?: ResponseError }>
+type ApiMutation<Params, Response> = (params: Params) => Promise<{ data: Response } | { error: ResponseError }>
 
 export type AuthLoginTeamTokenRequest = { teamToken: string }
 export type AuthLoginCtftimeTokenRequest = { ctftimeToken: string }
