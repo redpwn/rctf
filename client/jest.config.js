@@ -1,7 +1,9 @@
 module.exports = {
   testMatch: ['**/*.test.[jt]s?(x)'],
   transform: {
-    '^.+\\.[jt]sx?$': 'babel-jest'
+    '^.+\\.[jt]sx?$': ['babel-jest', {
+      cwd: __dirname
+    }]
   },
   moduleNameMapper: {
     '^react$': 'preact/compat',

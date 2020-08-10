@@ -18,9 +18,9 @@
     "watch:ts": "tsc -w -b server/src",
     "dev": "yarn build:ts && concurrently -k -t \"HH:mm:ss.SSS\" -p \"[{time}]\" -c \"cyan,green,red\" \"yarn:watch:*\"",
     "storybook": "start-storybook -c client/.storybook",
-    "test:client": "cd client && jest",
-    "test:server": "jest -c server/jest.config.js",
-    "test": "sh -c 'yarn test:client \"$@\" ; yarn test:server \"$@\"' test",
+    "test:client": "jest --projects client",
+    "test:server": "jest --projects server",
+    "test": "jest --projects client server",
     "test:report": "yarn test --coverage",
     "copy-static": "cpy --cwd=server/src \"**/*\" \"!**/*.{j,t}s\" ../../dist/server --parents && cpy migrations dist/ --parents"
   },
