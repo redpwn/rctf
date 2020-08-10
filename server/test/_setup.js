@@ -1,5 +1,4 @@
 import path from 'path'
-import deepMerge from 'deepmerge'
 
 // CONFIGURATION
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
@@ -11,23 +10,27 @@ process.env.RCTF_STATIC_PATH = path.resolve(__dirname, 'data/static')
 // FIXME: deal with this better
 jest.mock('../src/leaderboard')
 
-jest.mock('../src/config/load')
-const configLoad = require('../src/config/load')
-const realConfigLoad = jest.requireActual('../src/config/load')
-const testConfigDir = path.resolve(__dirname, 'data/conf.d')
-Object.assign(configLoad, realConfigLoad, {
-  loadFullServerConfig: () => {
-    const realCfg = realConfigLoad.loadFullServerConfig()
-    const extractedHostCfg = {
-      database: realCfg.database,
-      tokenKey: realCfg.tokenKey
+// Patch config loading to load test config, but pick critical keys out of
+// current environment
+const mockTestConfigDir = path.resolve(__dirname, 'data/conf.d')
+jest.mock('../src/config/load', () => {
+  const deepMerge = jest.requireActual('deepmerge')
+  const realConfigLoad = jest.requireActual('../src/config/load')
+  return {
+    ...realConfigLoad,
+    loadFullServerConfig: () => {
+      const realCfg = realConfigLoad.loadFullServerConfig()
+      const extractedHostCfg = {
+        database: realCfg.database,
+        tokenKey: realCfg.tokenKey
+      }
+      const cfg = deepMerge.all([
+        realConfigLoad.defaultConfig,
+        extractedHostCfg,
+        ...realConfigLoad.loadFileConfigs(mockTestConfigDir)
+      ])
+      return cfg
     }
-    const cfg = deepMerge.all([
-      realConfigLoad.defaultConfig,
-      extractedHostCfg,
-      ...realConfigLoad.loadFileConfigs(testConfigDir)
-    ])
-    return cfg
   }
 })
 
