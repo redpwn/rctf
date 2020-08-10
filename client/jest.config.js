@@ -4,8 +4,11 @@ module.exports = {
     '^.+\\.[jt]sx?$': 'babel-jest'
   },
   moduleNameMapper: {
-    '@storybook/preact': '@storybook/react'
+    '^react$': 'preact/compat',
+    '^react-dom$': 'preact/compat',
+    '^@storybook/preact$': '@storybook/react'
   },
+  snapshotSerializers: ['jest-serializer-html'],
   setupFiles: [
     '<rootDir>/lib/jest.setup.js'
   ],

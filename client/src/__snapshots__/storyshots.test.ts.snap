@@ -1,27 +1,63 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Button Button 1`] = `
-<ForwardRef
-  disabled={false}
-  onClick={[Function]}
-  variant="primary"
+<Styled(div) as="button"
+             variant="primary"
+             __themekey="buttons"
+             __css="[object Object]"
 >
   Hello World!
-</ForwardRef>
+</Styled(div)>
 `;
 
 exports[`Storyshots Button Danger Button 1`] = `
-<ForwardRef
-  variant="danger"
+<Styled(div) as="button"
+             variant="danger"
+             __themekey="buttons"
+             __css="[object Object]"
 >
   Danger!
-</ForwardRef>
+</Styled(div)>
 `;
 
 exports[`Storyshots Button Disabled Button 1`] = `
-<ForwardRef
-  disabled={true}
+<Styled(div) as="button"
+             variant="primary"
+             disabled
+             __themekey="buttons"
+             __css="[object Object]"
 >
   Disabled
-</ForwardRef>
+</Styled(div)>
+`;
+
+exports[`Storyshots Navbar Navbar 1`] = `
+<EmotionCssPropInternal as="nav">
+  <NavElement as="a"
+              href="#"
+  >
+    Nav1
+  </NavElement>
+  <NavElement as="a"
+              href="#"
+  >
+    Nav2
+  </NavElement>
+</EmotionCssPropInternal>
+`;
+
+exports[`Storyshots Navbar Selected Nav Element 1`] = `
+<EmotionCssPropInternal as="nav">
+  <NavElement active
+              as="a"
+              href="#"
+  >
+    Nav1
+  </NavElement>
+  <NavElement as="a"
+              href="#"
+  >
+    Nav2
+  </NavElement>
+</EmotionCssPropInternal>
 `;
