@@ -4,7 +4,9 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended',
-    'plugin:react-hooks/recommended'
+    'plugin:react-hooks/recommended',
+    'plugin:testing-library/react',
+    'plugin:jest-dom/recommended'
   ],
   plugins: [
   ],

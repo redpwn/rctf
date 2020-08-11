@@ -6,7 +6,7 @@
     "lib": ["es6", "dom"],
     "jsx": "preserve",
     "noEmit": true,
-    "types": ["react", "webpack-env"]
+    "types": ["react", "webpack-env", "jest", "@testing-library/jest-dom"]
   },
   "include": [
     "src/**/*"
