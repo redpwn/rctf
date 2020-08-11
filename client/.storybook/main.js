@@ -3,8 +3,10 @@ const webpack = require('webpack')
 module.exports = {
   stories: ['../src/**/*.stories.tsx'],
   addons: [
-    '@storybook/addon-knobs/register',
-    '@storybook/addon-actions/register',
+    '@storybook/addon-docs',
+    '@storybook/addon-controls',
+    '@storybook/addon-knobs',
+    '@storybook/addon-actions',
     '@storybook/addon-a11y'
   ],
   webpackFinal: config => {
@@ -16,5 +18,17 @@ module.exports = {
     )
 
     return config
+  },
+  typescript: {
+    check: false,
+    checkOptions: {},
+    reactDocgen: 'react-docgen-typescript',
+    reactDocgenOptions: {
+      shouldExtractLiteralValuesFromEnum: true,
+      propFilter: {
+        skipPropsWithName: ['as', 'id']
+      }
+      //propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true)
+    }
   }
 }
