@@ -9,9 +9,9 @@ export default class PostmarkProvider implements Provider {
   private serverToken: string
 
   constructor (_options: Partial<PostmarkProviderOptions>) {
-    const options: Required<PostmarkProviderOptions> = {
-      serverToken: _options.serverToken || process.env.RCTF_POSTMARK_SERVER_TOKEN
-    } as Required<PostmarkProviderOptions>
+    const options = {
+      serverToken: process.env.RCTF_POSTMARK_SERVER_TOKEN ?? _options.serverToken
+    } as PostmarkProviderOptions
     // TODO: validate that all options are indeed provided
 
     this.serverToken = options.serverToken
