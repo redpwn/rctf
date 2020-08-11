@@ -5,10 +5,6 @@ interface PostmarkProviderOptions {
   serverToken: string
 }
 
-type PostmarkResponse = {
-  Message: string
-}
-
 export default class PostmarkProvider implements Provider {
   private serverToken: string
 
