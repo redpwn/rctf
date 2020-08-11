@@ -8,11 +8,12 @@ import TextInput from './textinput'
 
 test('attributes should propagate', () => {
   const { queryByTestId } = render(
-    <TextInput data-testid='test-input' />
+    <TextInput data-testid='test-input' autoFocus />
   )
 
   expect(queryByTestId('test-input')).toBeVisible()
   expect(queryByTestId('test-input')?.tagName).toBe('INPUT')
+  expect(queryByTestId('test-input')).toHaveAttribute('autofocus')
 })
 
 test('forwards ref', () => {
@@ -73,6 +74,25 @@ test('native error message is visible', async () => {
 
     ref.current.setCustomValidity(errorMessage)
     fireEvent.input(ref.current)
+  })
+
+  expect(queryByText(errorMessage)).toBeVisible()
+})
+
+test('reacts to "invalid" event', async () => {
+  const errorMessage = 'error message!'
+  const ref = createRef<HTMLInputElement>()
+
+  const { queryByText } = render(
+    <TextInput ref={ref} showError />
+  )
+
+  await act(() => {
+    expect(ref.current).not.toBeNull()
+    if (ref.current === null) throw new Error()
+
+    ref.current.setCustomValidity(errorMessage)
+    fireEvent.invalid(ref.current)
   })
 
   expect(queryByText(errorMessage)).toBeVisible()

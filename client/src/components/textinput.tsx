@@ -45,23 +45,25 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
   const propErrorMessage: string = error === true ? 'Validation error' : (error || '')
   const errorMessage: string = propErrorMessage || nativeErrorMessage
 
-  const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setUncontrolledHasValue(!!e.target.value)
-
+  const updateNativeErrorMessage = useCallback(() => {
     if (ref.current) {
       setNativeErrorMessage(ref.current.validationMessage)
     }
+  }, [ref])
+
+  const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setUncontrolledHasValue(!!e.target.value)
+
+    updateNativeErrorMessage()
 
     if (_onChange) {
       _onChange(e)
     }
-  }, [ref, _onChange])
+  }, [_onChange, updateNativeErrorMessage])
 
   useLayoutEffect(() => {
-    if (ref.current) {
-      setNativeErrorMessage(ref.current.validationMessage)
-    }
-  }, [type, ref])
+    updateNativeErrorMessage()
+  }, [type, updateNativeErrorMessage])
 
   useLayoutEffect(() => {
     if (ref.current) {
@@ -88,6 +90,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
           type={type ?? 'text'}
           value={value}
           ref={ref}
+          onInvalid={updateNativeErrorMessage}
           onChange={onChange} onInput={onChange}
           sx={{
             transition: 'all 300ms',
@@ -97,6 +100,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
               borderColor: 'primary'
             },
             ':invalid': {
+              boxShadow: 'none',
               borderColor: 'danger'
             }
           }}
@@ -114,13 +118,16 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
             transform: 'translateY(50%)',
             transformOrigin: '0 50%',
             transition: 'all 300ms ease',
+            cursor: 'text',
             willChange: 'transform color',
             'input:focus + &': {
               color: 'primary',
+              cursor: 'default',
               transform: labelAsideTransform
             },
             ...(hasValue ? {
               color: 'text',
+              cursor: 'default',
               transform: labelAsideTransform
             } : {}),
             'input:invalid + &&': {
