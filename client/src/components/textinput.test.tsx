@@ -12,6 +12,20 @@ test('attributes should propagate', () => {
   )
 
   expect(queryByTestId('test-input')).toBeVisible()
+  expect(queryByTestId('test-input')?.tagName).toBe('INPUT')
+})
+
+test('forwards ref', () => {
+  const ref = createRef<HTMLInputElement>()
+
+  render(
+    <TextInput ref={ref} />
+  )
+
+  expect(ref.current).not.toBeNull()
+  if (ref.current === null) throw new Error()
+
+  expect(ref.current.tagName).toBe('INPUT')
 })
 
 test('label should be visible', () => {

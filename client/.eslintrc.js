@@ -4,9 +4,7 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:testing-library/react',
-    'plugin:jest-dom/recommended'
+    'plugin:react-hooks/recommended'
   ],
   plugins: [
   ],
@@ -21,8 +19,15 @@ module.exports = {
     project: ['./tsconfig.json']
   },
   overrides: [{
-    files: ['lib/**/*', '*.config*.js'],
+    files: ['lib/**/*', '*.config*.[jt]s?(x)'],
     parser: 'espree'
+  }, {
+    files: ['*.test.[jt]s?(x)'],
+    extends: [
+      'plugin:jest/recommended',
+      'plugin:testing-library/react',
+      'plugin:jest-dom/recommended'
+    ]
   }],
   settings: {
     react: {
