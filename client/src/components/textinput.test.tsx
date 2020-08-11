@@ -98,6 +98,27 @@ test('reacts to "invalid" event', async () => {
   expect(queryByText(errorMessage)).toBeVisible()
 })
 
+test('custom error message has precedence', async () => {
+  const propErrorMessage = 'message from prop'
+  const validationMessage = 'validation message'
+  const ref = createRef<HTMLInputElement>()
+
+  const { queryByText } = render(
+    <TextInput ref={ref} showError error={propErrorMessage} />
+  )
+
+  await act(() => {
+    expect(ref.current).not.toBeNull()
+    if (ref.current === null) throw new Error()
+
+    ref.current.setCustomValidity(validationMessage)
+    fireEvent.input(ref.current)
+  })
+
+  expect(queryByText(validationMessage)).not.toBeInTheDocument()
+  expect(queryByText(propErrorMessage)).toBeVisible()
+})
+
 test('updated error message is visible', async () => {
   const origErrorMessage = 'this is an error!'
   const newErrorMessage = 'oh noes!'

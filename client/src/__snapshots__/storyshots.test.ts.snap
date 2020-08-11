@@ -74,13 +74,32 @@ exports[`Storyshots TextInput Controlled Input 1`] = `
 </ForwardRef()>
 `;
 
+exports[`Storyshots TextInput Disabled Input 1`] = `
+<h>
+  <EmotionCssPropInternal>
+    <EmotionCssPropInternal type="text"
+                            value
+                            disabled
+    >
+    </EmotionCssPropInternal>
+    <EmotionCssPropInternal>
+      <EmotionCssPropInternal as="span">
+        Label
+      </EmotionCssPropInternal>
+    </EmotionCssPropInternal>
+  </EmotionCssPropInternal>
+</h>
+`;
+
 exports[`Storyshots TextInput Input 1`] = `
 <h>
   <EmotionCssPropInternal>
     <EmotionCssPropInternal type="text">
     </EmotionCssPropInternal>
     <EmotionCssPropInternal>
-      Label
+      <EmotionCssPropInternal as="span">
+        Label
+      </EmotionCssPropInternal>
     </EmotionCssPropInternal>
   </EmotionCssPropInternal>
 </h>
@@ -94,7 +113,9 @@ exports[`Storyshots TextInput Input Showing Native Validation Error 1`] = `
     >
     </EmotionCssPropInternal>
     <EmotionCssPropInternal>
-      Label
+      <EmotionCssPropInternal as="span">
+        Label
+      </EmotionCssPropInternal>
     </EmotionCssPropInternal>
   </EmotionCssPropInternal>
 </h>
@@ -106,7 +127,9 @@ exports[`Storyshots TextInput Input With Error 1`] = `
     <EmotionCssPropInternal type="text">
     </EmotionCssPropInternal>
     <EmotionCssPropInternal>
-      Label
+      <EmotionCssPropInternal as="span">
+        Label
+      </EmotionCssPropInternal>
     </EmotionCssPropInternal>
   </EmotionCssPropInternal>
 </h>
@@ -120,7 +143,9 @@ exports[`Storyshots TextInput Input With Prop Passthrough 1`] = `
     >
     </EmotionCssPropInternal>
     <EmotionCssPropInternal>
-      Label
+      <EmotionCssPropInternal as="span">
+        Label
+      </EmotionCssPropInternal>
     </EmotionCssPropInternal>
   </EmotionCssPropInternal>
 </h>
@@ -132,7 +157,9 @@ exports[`Storyshots TextInput Input With Ref 1`] = `
     <EmotionCssPropInternal type="email">
     </EmotionCssPropInternal>
     <EmotionCssPropInternal>
-      Email
+      <EmotionCssPropInternal as="span">
+        Email
+      </EmotionCssPropInternal>
     </EmotionCssPropInternal>
   </EmotionCssPropInternal>
 </h>

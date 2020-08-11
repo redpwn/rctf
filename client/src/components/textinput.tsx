@@ -18,15 +18,15 @@ interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   showError?: boolean
   id?: string
   value?: string
+  disabled?: boolean
   onChange?: JSX.IntrinsicElements['input']['onChange']
 }
-
-const labelAsideTransform = 'translateY(-55%) scale(0.9)'
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
   type,
   label,
   value,
+  disabled,
   error,
   showError,
   id: _id,
@@ -89,10 +89,12 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
           id={id}
           type={type ?? 'text'}
           value={value}
+          disabled={disabled}
           ref={ref}
           onInvalid={updateNativeErrorMessage}
           onChange={onChange} onInput={onChange}
           sx={{
+            color: disabled ? 'muted' : 'text',
             transition: 'all 300ms',
             willChange: 'borderColor',
             ':focus': {
@@ -108,33 +110,40 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
         {label &&
           <Label htmlFor={id} sx={{
             position: 'absolute',
-            width: 'auto',
-            ml: 1,
-            px: 1,
-            py: 0,
-            bg: 'background',
+            height: '50%',
+            top: 0,
+            left: 0,
             color: 'muted',
-            bottom: '50%',
-            transform: 'translateY(50%)',
-            transformOrigin: '0 50%',
+            cursor: disabled ? 'default' : 'text',
             transition: 'all 300ms ease',
-            cursor: 'text',
             willChange: 'transform color',
+            transform: 'translateY(100%)',
+            transformOrigin: '0 0',
             'input:focus + &': {
               color: 'primary',
               cursor: 'default',
-              transform: labelAsideTransform
+              transform: 'translateY(0) scale(0.9)'
             },
             ...(hasValue ? {
               color: 'text',
               cursor: 'default',
-              transform: labelAsideTransform
+              transform: 'translateY(0) scale(0.9)'
             } : {}),
             'input:invalid + &&': {
               color: 'danger'
             }
           }}>
-            {label}
+            <Box as='span' sx={{
+              position: 'absolute',
+              ml: 1,
+              px: 1,
+              py: 0,
+              bg: 'background',
+              top: 0,
+              transform: 'translateY(-50%)'
+            }}>
+              {label}
+            </Box>
           </Label>
         }
       </Box>

@@ -11,9 +11,16 @@ export default {
 export const Input: FunctionComponent = () =>
   <TextInput
     label={text('Label', 'Label')}
+    disabled={boolean('Disabled', false)}
     error={text('Error', '')}
     showError={boolean('Show error', false)}
     type={select('Type', ['text', 'search', 'email', 'password', 'number', 'url'], 'text')}
+  />
+
+export const DisabledInput: FunctionComponent = () =>
+  <TextInput disabled
+    label={text('Label', 'Label')}
+    value={text('Value', '')}
   />
 
 export const InputWithError: FunctionComponent = () =>
