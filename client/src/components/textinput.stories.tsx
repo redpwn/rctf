@@ -1,6 +1,8 @@
-import { FunctionComponent, useState, useCallback, useRef, useEffect, ChangeEvent } from 'react'
-import TextInput from './textinput'
-import { text, boolean, select } from '@storybook/addon-knobs'
+import { Story } from '@storybook/react'
+import { OmitArgs } from '../sb-util'
+import { FunctionComponent, useState, useCallback, ChangeEvent } from 'react'
+import TextInput, { TextInputProps } from './textinput'
+import { text } from '@storybook/addon-knobs'
 import { Text } from 'theme-ui'
 
 export default {
@@ -8,48 +10,62 @@ export default {
   component: TextInput
 }
 
-export const Input: FunctionComponent = () =>
-  <TextInput
-    label={text('Label', 'Label')}
-    disabled={boolean('Disabled', false)}
-    error={text('Error', '')}
-    showError={boolean('Show error', false)}
-    type={select('Type', ['text', 'search', 'email', 'password', 'number', 'url'], 'text')}
-    placeholder={text('Placeholder', '')}
-  />
+const Template: Story<TextInputProps> = props => <TextInput {...props} />
 
-export const InputWithPlaceholder: FunctionComponent = () =>
-  <TextInput
-    label={text('Label', 'Label')}
-    disabled={boolean('Disabled', false)}
-    error={text('Error', '')}
-    showError={boolean('Show error', false)}
-    type={select('Type', ['text', 'search', 'email', 'password', 'number', 'url'], 'text')}
-    placeholder={text('Placeholder', 'Placeholder text')}
-  />
+export const Default = Template.bind({})
+Default.args = {
+  label: 'Label',
+  error: ''
+}
 
-export const DisabledInput: FunctionComponent = () =>
-  <TextInput disabled
-    label={text('Label', 'Label')}
-    value={text('Value', '')}
-  />
+export const Focused: typeof Template = props => <Template {...props} autoFocus />
+Focused.args = { ...Default.args }
 
-export const InputWithError: FunctionComponent = () =>
-  <TextInput label='Label' error />
+export const WithPlaceholder: typeof Template = props => <Template {...props} autoFocus />
+WithPlaceholder.args = {
+  ...Default.args,
+  placeholder: 'Placeholder text'
+}
 
-export const InputShowingNativeValidationError: FunctionComponent = () =>
-  <TextInput label='Label' type='email' showError value='notanemail' />
+export const Disabled = Template.bind({})
+Disabled.args = {
+  ...Default.args,
+  disabled: true
+}
 
-export const InputWithoutLabel: FunctionComponent = () =>
-  <TextInput error={boolean('Error', false)} />
+export const DisabledWithValue = Disabled.bind({})
+DisabledWithValue.args = {
+  ...Disabled.args,
+  value: 'Value'
+}
 
-export const InputsStackedNoPadding: FunctionComponent = () =>
+export const WithError = Template.bind({})
+WithError.args = {
+  ...Default.args,
+  error: true
+}
+
+export const ShowingNativeValidationError = Template.bind({})
+ShowingNativeValidationError.args = {
+  ...Default.args,
+  type: 'email',
+  value: 'notanemail',
+  showError: true
+}
+
+export const WithoutLabel = Template.bind({})
+WithoutLabel.args = {
+  ...Default.args,
+  label: ''
+}
+
+export const StackedNoPadding: FunctionComponent = () =>
   <>
     <TextInput label={text('Label 1', 'Label 1')}/>
     <TextInput label={text('Label 2', 'Label 2')}/>
   </>
 
-export const ControlledInput: FunctionComponent = () => {
+export const ControlledInput: OmitArgs<typeof Template, 'value' | 'onChange'> = (props) => {
   const [value, setValue] = useState('')
   const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
@@ -57,32 +73,9 @@ export const ControlledInput: FunctionComponent = () => {
 
   return (
     <>
-      <TextInput label='Label' value={value} onChange={onChange}
-        error={text('Error', '')}
-        showError={boolean('Show error', false)}
-        type={select('Type', ['text', 'search', 'email', 'password', 'number', 'url'], 'text')}
-      />
+      <Template {...props} value={value} onChange={onChange} />
       <Text pt={3}>You typed: {value}</Text>
     </>
   )
 }
-
-export const InputWithRef: FunctionComponent = () => {
-  const ref = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    const el = ref.current
-    if (el) {
-      const func = () => el.focus()
-      const t = setTimeout(func, 100)
-      return () => clearTimeout(t)
-    }
-  }, [ref])
-
-  return (
-    <TextInput label='Email' ref={ref} type='email' showError />
-  )
-}
-
-export const InputWithPropPassthrough: FunctionComponent = () =>
-  <TextInput label='Label' autoFocus />
+ControlledInput.args = { ...Default.args }

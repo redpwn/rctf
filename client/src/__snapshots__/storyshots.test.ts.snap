@@ -1,40 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots Button Button 1`] = `
-<EmotionCssPropInternal>
-  Hello World!
-</EmotionCssPropInternal>
-`;
-
 exports[`Storyshots Button Buttons 1`] = `
 <Styled(div) __themekey="grids"
              __css="[object Object]"
 >
-  <Button variant="primary">
-    Button 1
-  </Button>
-  <Button variant="primary">
-    Button 2
-  </Button>
-  <Button variant="primary">
-    Button 3
-  </Button>
+  <Template content="Button">
+  </Template>
+  <Template content="Button">
+  </Template>
+  <Template content="Button">
+  </Template>
 </Styled(div)>
 `;
 
-exports[`Storyshots Button Disabled Button 1`] = `
+exports[`Storyshots Button Default 1`] = `
+<EmotionCssPropInternal>
+  Button
+</EmotionCssPropInternal>
+`;
+
+exports[`Storyshots Button Disabled 1`] = `
 <EmotionCssPropInternal disabled>
   Button
 </EmotionCssPropInternal>
 `;
 
-exports[`Storyshots Button Focused Button 1`] = `
-<EmotionCssPropInternal autofocus>
+exports[`Storyshots Button Focused 1`] = `
+<Button autofocus>
   Button
-</EmotionCssPropInternal>
+</Button>
 `;
 
-exports[`Storyshots Button Outline Button 1`] = `
+exports[`Storyshots Button Outline 1`] = `
 <EmotionCssPropInternal>
   Button
 </EmotionCssPropInternal>
@@ -72,22 +69,34 @@ exports[`Storyshots Navbar Selected Nav Element 1`] = `
 `;
 
 exports[`Storyshots TextInput Controlled Input 1`] = `
-<TextInput label="Label"
-           value
-           error
-           type="text"
+<Template label="Label"
+          error
+          value
 >
-</TextInput>
+</Template>
 <ForwardRef() pt="3">
   You typed:
 </ForwardRef()>
 `;
 
-exports[`Storyshots TextInput Disabled Input 1`] = `
+exports[`Storyshots TextInput Default 1`] = `
+<h>
+  <EmotionCssPropInternal>
+    <EmotionCssPropInternal type="text">
+    </EmotionCssPropInternal>
+    <EmotionCssPropInternal>
+      <EmotionCssPropInternal as="span">
+        Label
+      </EmotionCssPropInternal>
+    </EmotionCssPropInternal>
+  </EmotionCssPropInternal>
+</h>
+`;
+
+exports[`Storyshots TextInput Disabled 1`] = `
 <h>
   <EmotionCssPropInternal>
     <EmotionCssPropInternal type="text"
-                            value
                             disabled
     >
     </EmotionCssPropInternal>
@@ -100,11 +109,12 @@ exports[`Storyshots TextInput Disabled Input 1`] = `
 </h>
 `;
 
-exports[`Storyshots TextInput Input 1`] = `
+exports[`Storyshots TextInput Disabled With Value 1`] = `
 <h>
   <EmotionCssPropInternal>
-    <EmotionCssPropInternal placeholder
-                            type="text"
+    <EmotionCssPropInternal type="text"
+                            value="Value"
+                            disabled
     >
     </EmotionCssPropInternal>
     <EmotionCssPropInternal>
@@ -116,7 +126,15 @@ exports[`Storyshots TextInput Input 1`] = `
 </h>
 `;
 
-exports[`Storyshots TextInput Input Showing Native Validation Error 1`] = `
+exports[`Storyshots TextInput Focused 1`] = `
+<TextInput label="Label"
+           error
+           autofocus
+>
+</TextInput>
+`;
+
+exports[`Storyshots TextInput Showing Native Validation Error 1`] = `
 <h>
   <EmotionCssPropInternal>
     <EmotionCssPropInternal type="email"
@@ -132,78 +150,41 @@ exports[`Storyshots TextInput Input Showing Native Validation Error 1`] = `
 </h>
 `;
 
-exports[`Storyshots TextInput Input With Error 1`] = `
-<h>
-  <EmotionCssPropInternal>
-    <EmotionCssPropInternal type="text">
-    </EmotionCssPropInternal>
-    <EmotionCssPropInternal>
-      <EmotionCssPropInternal as="span">
-        Label
-      </EmotionCssPropInternal>
-    </EmotionCssPropInternal>
-  </EmotionCssPropInternal>
-</h>
-`;
-
-exports[`Storyshots TextInput Input With Placeholder 1`] = `
-<h>
-  <EmotionCssPropInternal>
-    <EmotionCssPropInternal placeholder="Placeholder text"
-                            type="text"
-    >
-    </EmotionCssPropInternal>
-    <EmotionCssPropInternal>
-      <EmotionCssPropInternal as="span">
-        Label
-      </EmotionCssPropInternal>
-    </EmotionCssPropInternal>
-  </EmotionCssPropInternal>
-</h>
-`;
-
-exports[`Storyshots TextInput Input With Prop Passthrough 1`] = `
-<h>
-  <EmotionCssPropInternal>
-    <EmotionCssPropInternal autofocus
-                            type="text"
-    >
-    </EmotionCssPropInternal>
-    <EmotionCssPropInternal>
-      <EmotionCssPropInternal as="span">
-        Label
-      </EmotionCssPropInternal>
-    </EmotionCssPropInternal>
-  </EmotionCssPropInternal>
-</h>
-`;
-
-exports[`Storyshots TextInput Input With Ref 1`] = `
-<h>
-  <EmotionCssPropInternal>
-    <EmotionCssPropInternal type="email">
-    </EmotionCssPropInternal>
-    <EmotionCssPropInternal>
-      <EmotionCssPropInternal as="span">
-        Email
-      </EmotionCssPropInternal>
-    </EmotionCssPropInternal>
-  </EmotionCssPropInternal>
-</h>
-`;
-
-exports[`Storyshots TextInput Input Without Label 1`] = `
-<h>
-  <EmotionCssPropInternal>
-    <EmotionCssPropInternal type="text">
-    </EmotionCssPropInternal>
-  </EmotionCssPropInternal>
-</h>
-`;
-
-exports[`Storyshots TextInput Inputs Stacked No Padding 1`] = `
+exports[`Storyshots TextInput Stacked No Padding 1`] = `
 <TextInput label="Label 1">
 </TextInput>
 <TextInput label="Label 2">
 </TextInput>
+`;
+
+exports[`Storyshots TextInput With Error 1`] = `
+<h>
+  <EmotionCssPropInternal>
+    <EmotionCssPropInternal type="text">
+    </EmotionCssPropInternal>
+    <EmotionCssPropInternal>
+      <EmotionCssPropInternal as="span">
+        Label
+      </EmotionCssPropInternal>
+    </EmotionCssPropInternal>
+  </EmotionCssPropInternal>
+</h>
+`;
+
+exports[`Storyshots TextInput With Placeholder 1`] = `
+<TextInput label="Label"
+           error
+           placeholder="Placeholder text"
+           autofocus
+>
+</TextInput>
+`;
+
+exports[`Storyshots TextInput Without Label 1`] = `
+<h>
+  <EmotionCssPropInternal>
+    <EmotionCssPropInternal type="text">
+    </EmotionCssPropInternal>
+  </EmotionCssPropInternal>
+</h>
 `;
