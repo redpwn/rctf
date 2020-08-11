@@ -1,34 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Button Button 1`] = `
-<Styled(div) as="button"
-             variant="primary"
-             __themekey="buttons"
-             __css="[object Object]"
->
+<EmotionCssPropInternal>
   Hello World!
-</Styled(div)>
+</EmotionCssPropInternal>
 `;
 
-exports[`Storyshots Button Danger Button 1`] = `
-<Styled(div) as="button"
-             variant="danger"
-             __themekey="buttons"
+exports[`Storyshots Button Buttons 1`] = `
+<Styled(div) __themekey="grids"
              __css="[object Object]"
 >
-  Danger!
+  <Button>
+    Button 1
+  </Button>
+  <Button>
+    Button 2
+  </Button>
+  <Button>
+    Button 3
+  </Button>
 </Styled(div)>
 `;
 
 exports[`Storyshots Button Disabled Button 1`] = `
-<Styled(div) as="button"
-             variant="primary"
-             disabled
-             __themekey="buttons"
-             __css="[object Object]"
->
-  Disabled
-</Styled(div)>
+<EmotionCssPropInternal disabled>
+  Button
+</EmotionCssPropInternal>
+`;
+
+exports[`Storyshots Button Focused Button 1`] = `
+<EmotionCssPropInternal autofocus>
+  Button
+</EmotionCssPropInternal>
 `;
 
 exports[`Storyshots Navbar Navbar 1`] = `
