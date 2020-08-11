@@ -1,8 +1,17 @@
-import { forwardRef, useState, useCallback, useLayoutEffect, useRef, RefObject, ChangeEvent } from 'react'
+import {
+  forwardRef,
+  useState,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  RefObject,
+  ChangeEvent,
+  InputHTMLAttributes
+} from 'react'
 import { Box, Input, Label, Text } from 'theme-ui'
 import { useId } from '@reach/auto-id'
 
-interface TextInputProps {
+interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   type?: 'text' | 'url' | 'search' | 'password' | 'number' | 'email'
   label?: string
   error?: boolean | string

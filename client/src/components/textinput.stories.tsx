@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useCallback, ChangeEvent } from 'react'
+import { FunctionComponent, useState, useCallback, useRef, useEffect, ChangeEvent } from 'react'
 import TextInput from './textinput'
 import { text, boolean, select } from '@storybook/addon-knobs'
 import { Text } from 'theme-ui'
@@ -48,3 +48,23 @@ export const ControlledInput: FunctionComponent = () => {
     </>
   )
 }
+
+export const InputWithRef: FunctionComponent = () => {
+  const ref = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (el) {
+      const func = () => el.focus()
+      const t = setTimeout(func, 100)
+      return () => clearTimeout(t)
+    }
+  }, [ref])
+
+  return (
+    <TextInput label='Email' ref={ref} type='email' showError />
+  )
+}
+
+export const InputWithPropPassthrough: FunctionComponent = () =>
+  <TextInput label='Label' autoFocus />

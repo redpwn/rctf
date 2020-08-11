@@ -112,6 +112,32 @@ exports[`Storyshots TextInput Input With Error 1`] = `
 </h>
 `;
 
+exports[`Storyshots TextInput Input With Prop Passthrough 1`] = `
+<h>
+  <EmotionCssPropInternal>
+    <EmotionCssPropInternal autofocus
+                            type="text"
+    >
+    </EmotionCssPropInternal>
+    <EmotionCssPropInternal>
+      Label
+    </EmotionCssPropInternal>
+  </EmotionCssPropInternal>
+</h>
+`;
+
+exports[`Storyshots TextInput Input With Ref 1`] = `
+<h>
+  <EmotionCssPropInternal>
+    <EmotionCssPropInternal type="email">
+    </EmotionCssPropInternal>
+    <EmotionCssPropInternal>
+      Email
+    </EmotionCssPropInternal>
+  </EmotionCssPropInternal>
+</h>
+`;
+
 exports[`Storyshots TextInput Input Without Label 1`] = `
 <h>
   <EmotionCssPropInternal>
