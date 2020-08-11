@@ -11,7 +11,7 @@ import {
 import { Box, Input, Label, Text } from 'theme-ui'
 import { useId } from '@reach/auto-id'
 
-interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   type?: 'text' | 'url' | 'search' | 'password' | 'number' | 'email'
   label?: string
   error?: boolean | string
@@ -95,7 +95,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
           onChange={onChange} onInput={onChange}
           sx={{
             color: disabled ? 'muted' : 'text',
-            transition: 'all 300ms',
+            transition: 'all 150ms',
             ':focus': {
               outline: 'none',
               borderColor: 'primary'
@@ -114,7 +114,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
             left: 0,
             color: 'muted',
             cursor: disabled ? 'default' : 'text',
-            transition: 'all 300ms ease',
+            transition: 'all 150ms ease',
             transform: 'translateY(100%)',
             transformOrigin: '0 0',
             'input:focus + &': {
