@@ -96,7 +96,6 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
           sx={{
             color: disabled ? 'muted' : 'text',
             transition: 'all 300ms',
-            willChange: 'borderColor',
             ':focus': {
               outline: 'none',
               borderColor: 'primary'
@@ -116,7 +115,6 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
             color: 'muted',
             cursor: disabled ? 'default' : 'text',
             transition: 'all 300ms ease',
-            willChange: 'transform color',
             transform: 'translateY(100%)',
             transformOrigin: '0 0',
             'input:focus + &': {
