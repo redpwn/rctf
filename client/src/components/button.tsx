@@ -4,11 +4,13 @@ import { Button as ThemeUIButton } from 'theme-ui'
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: string
   disabled?: boolean
+  outline?: boolean
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   variant: _variant,
   disabled,
+  outline,
   ...props
 }, forwardedRef) => {
   const variant = _variant ?? 'primary'
@@ -18,7 +20,25 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
       {...props}
       disabled={disabled}
       ref={forwardedRef}
-      sx={{
+      sx={outline ? {
+        bg: 'transparent',
+        borderColor: variant,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        color: variant,
+        transition: 'all 300ms',
+        ':not(:disabled):hover, :not(:disabled):focus': {
+          outline: 'none',
+          bg: variant,
+          color: 'text'
+        },
+        ':active': {
+          filter: 'brightness(0.8)'
+        },
+        ':disabled': {
+          filter: 'saturate(0.5) brightness(1.4)'
+        }
+      } : {
         bg: variant,
         transition: 'all 300ms',
         ':hover, :focus': {
@@ -29,7 +49,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
           filter: 'brightness(0.6)'
         },
         ':disabled': {
-          filter: 'saturate(0.5) brightness(1.4)'
+          filter: 'saturate(0.5) brightness(1.2)'
         }
       }}
     />

@@ -10,13 +10,13 @@ exports[`Storyshots Button Buttons 1`] = `
 <Styled(div) __themekey="grids"
              __css="[object Object]"
 >
-  <Button>
+  <Button variant="primary">
     Button 1
   </Button>
-  <Button>
+  <Button variant="primary">
     Button 2
   </Button>
-  <Button>
+  <Button variant="primary">
     Button 3
   </Button>
 </Styled(div)>
@@ -30,6 +30,12 @@ exports[`Storyshots Button Disabled Button 1`] = `
 
 exports[`Storyshots Button Focused Button 1`] = `
 <EmotionCssPropInternal autofocus>
+  Button
+</EmotionCssPropInternal>
+`;
+
+exports[`Storyshots Button Outline Button 1`] = `
+<EmotionCssPropInternal>
   Button
 </EmotionCssPropInternal>
 `;
