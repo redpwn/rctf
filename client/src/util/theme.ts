@@ -5,10 +5,12 @@ export const theme = {
     monospace: 'Menlo, monospace'
   },
   colors: {
-    text: '#fff',
+    text: '#eee',
+    muted: '#888',
     background: '#111',
     primary: '#1e88e5',
-    accent: '#f44336'
+    accent: '#f44336',
+    danger: '#f44336'
   },
   styles: {
     root: {

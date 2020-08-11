@@ -3,8 +3,9 @@ const webpack = require('webpack')
 module.exports = {
   stories: ['../src/**/*.stories.tsx'],
   addons: [
+    '@storybook/addon-knobs/register',
     '@storybook/addon-actions/register',
-    '@storybook/addon-knobs/register'
+    '@storybook/addon-a11y'
   ],
   webpackFinal: config => {
     config.plugins.push(

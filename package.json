@@ -66,6 +66,8 @@
     "@babel/preset-react": "7.10.4",
     "@babel/preset-typescript": "7.10.4",
     "@prefresh/webpack": "0.8.2",
+    "@reach/auto-id": "0.10.5",
+    "@storybook/addon-a11y": "6.0.0-rc.30",
     "@storybook/addon-actions": "6.0.0-rc.29",
     "@storybook/addon-centered": "6.0.0-alpha.30",
     "@storybook/addon-knobs": "6.0.0-rc.29",
