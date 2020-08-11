@@ -94,7 +94,9 @@ exports[`Storyshots TextInput Disabled Input 1`] = `
 exports[`Storyshots TextInput Input 1`] = `
 <h>
   <EmotionCssPropInternal>
-    <EmotionCssPropInternal type="text">
+    <EmotionCssPropInternal placeholder
+                            type="text"
+    >
     </EmotionCssPropInternal>
     <EmotionCssPropInternal>
       <EmotionCssPropInternal as="span">
@@ -125,6 +127,22 @@ exports[`Storyshots TextInput Input With Error 1`] = `
 <h>
   <EmotionCssPropInternal>
     <EmotionCssPropInternal type="text">
+    </EmotionCssPropInternal>
+    <EmotionCssPropInternal>
+      <EmotionCssPropInternal as="span">
+        Label
+      </EmotionCssPropInternal>
+    </EmotionCssPropInternal>
+  </EmotionCssPropInternal>
+</h>
+`;
+
+exports[`Storyshots TextInput Input With Placeholder 1`] = `
+<h>
+  <EmotionCssPropInternal>
+    <EmotionCssPropInternal placeholder="Placeholder text"
+                            type="text"
+    >
     </EmotionCssPropInternal>
     <EmotionCssPropInternal>
       <EmotionCssPropInternal as="span">

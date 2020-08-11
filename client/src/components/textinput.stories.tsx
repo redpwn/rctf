@@ -15,6 +15,17 @@ export const Input: FunctionComponent = () =>
     error={text('Error', '')}
     showError={boolean('Show error', false)}
     type={select('Type', ['text', 'search', 'email', 'password', 'number', 'url'], 'text')}
+    placeholder={text('Placeholder', '')}
+  />
+
+export const InputWithPlaceholder: FunctionComponent = () =>
+  <TextInput
+    label={text('Label', 'Label')}
+    disabled={boolean('Disabled', false)}
+    error={text('Error', '')}
+    showError={boolean('Show error', false)}
+    type={select('Type', ['text', 'search', 'email', 'password', 'number', 'url'], 'text')}
+    placeholder={text('Placeholder', 'Placeholder text')}
   />
 
 export const DisabledInput: FunctionComponent = () =>
