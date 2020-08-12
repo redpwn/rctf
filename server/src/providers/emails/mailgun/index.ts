@@ -1,4 +1,4 @@
-import mg from 'mailgun-js'
+import got from 'got'
 import { Provider, Mail } from '../../../email/provider'
 
 interface MailgunProviderOptions {
@@ -7,21 +7,26 @@ interface MailgunProviderOptions {
 }
 
 export default class MailgunProvider implements Provider {
-  private mailer: mg.Messages
+  private apiKey: string
+  private domain: string
   constructor (_options: Partial<MailgunProviderOptions>) {
-    const options: Required<MailgunProviderOptions> = {
-      apiKey: _options.apiKey || process.env.RCTF_MAILGUN_API_KEY,
-      domain: _options.domain || process.env.RCTF_MAILGUN_DOMAIN
-    } as Required<MailgunProviderOptions>
+    const options = {
+      apiKey: process.env.RCTF_MAILGUN_API_KEY ?? _options.apiKey,
+      domain: process.env.RCTF_MAILGUN_DOMAIN ?? _options.domain
+    } as MailgunProviderOptions
     // TODO: validate that all options are indeed provided
 
-    this.mailer = mg({
-      apiKey: options.apiKey,
-      domain: options.domain
-    }).messages()
+    this.apiKey = options.apiKey
+    this.domain = options.domain
   }
 
   async send (mail: Mail): Promise<void> {
-    await this.mailer.send(mail)
+    await got({
+      url: `https://api.mailgun.net/v3/${this.domain}/messages`,
+      method: 'POST',
+      username: 'api',
+      password: this.apiKey,
+      form: mail
+    })
   }
 }

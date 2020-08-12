@@ -20,11 +20,11 @@ export default class SesProvider implements Provider {
   private sesSend: (params: AWS.SES.Types.SendEmailRequest) => Promise<AWS.SES.Types.SendEmailResponse>
 
   constructor (_options: Partial<SesProviderOptions>) {
-    const options: Required<SesProviderOptions> = {
-      awsKeyId: _options.awsKeyId || process.env.RCTF_SES_KEY_ID,
-      awsKeySecret: _options.awsKeySecret || process.env.RCTF_SES_KEY_SECRET,
-      awsRegion: _options.awsRegion || process.env.RCTF_SES_REGION
-    } as Required<SesProviderOptions>
+    const options = {
+      awsKeyId: process.env.RCTF_SES_KEY_ID ?? _options.awsKeyId,
+      awsKeySecret: process.env.RCTF_SES_KEY_SECRET ?? _options.awsKeySecret,
+      awsRegion: process.env.RCTF_SES_REGION ?? _options.awsRegion
+    } as SesProviderOptions
     // TODO: validate that all options are indeed provided
 
     const credentials = new AWS.Credentials({
