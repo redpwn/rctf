@@ -1,7 +1,7 @@
 {
   "name": "rctf",
   "version": "0.0.0",
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "private": true,
   "scripts": {
     "_lint": "sh -c 'tsc -b $0 ; eslint $0 \"$@\"'",
@@ -137,7 +137,7 @@
     "type": "git",
     "url": "git+https://github.com/redpwn/rctf.git"
   },
-  "author": "",
+  "author": "redpwn <contact@redpwn.net>",
   "bugs": {
     "url": "https://github.com/redpwn/rctf/issues"
   },
