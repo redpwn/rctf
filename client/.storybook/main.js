@@ -28,7 +28,6 @@ module.exports = {
       propFilter: {
         skipPropsWithName: ['as', 'id']
       }
-      //propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true)
     }
   }
 }
