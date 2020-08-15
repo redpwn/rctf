@@ -1279,18 +1279,10 @@
   resolved "https://registry.yarnpkg.com/@types/pg-types/-/pg-types-1.11.5.tgz#1eebbe62b6772fcc75c18957a90f933d155e005b"
   integrity sha512-L8ogeT6vDzT1vxlW3KITTCt+BVXXVkLXfZ/XNm6UqbcJgxf+KPO7yjWx7dQQE8RW07KopL10x2gNMs41+IkMGQ==
 
-"@types/pg@7.14.4":
+"@types/pg@7.14.4", "@types/pg@^7.4.0":
   version "7.14.4"
   resolved "https://registry.yarnpkg.com/@types/pg/-/pg-7.14.4.tgz#15cfcfd9300f94fd44e6191a1b0ba18d2de209f6"
   integrity sha512-yCKVMCcFPZSFHGg+8qjY368uf3ruyDBPjxvOU2ZcGa/vRFo5Ti5Y6z6vl+2hxtwm9VMWUGb6TWkIk3cIV8C0Cw==
-  dependencies:
-    "@types/node" "*"
-    "@types/pg-types" "*"
-
-"@types/pg@^7.4.0":
-  version "7.14.3"
-  resolved "https://registry.yarnpkg.com/@types/pg/-/pg-7.14.3.tgz#eb166e4f4287923890b10ed20371f937938cb995"
-  integrity sha512-go5zddQ1FrUQHeBvqPzQ1svKo4KKucSwvqLsvwc/EIuQ9sxDA21b68xc/RwhzAK5pPCnez8NrkYatFIGdJBVvA==
   dependencies:
     "@types/node" "*"
     "@types/pg-types" "*"
@@ -8108,10 +8100,10 @@ node-libs-browser@^2.2.1:
     util "^0.11.0"
     vm-browserify "^1.0.1"
 
-node-pg-migrate@5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/node-pg-migrate/-/node-pg-migrate-5.3.0.tgz#baa2311f4008e0d81d451965e7fd475393f0f5ed"
-  integrity sha512-fGuTkoBo+u+aTd9OJaRansSJcZIpm4Rm/gqlBhu9ThXvPFivmHDIMv7Hj+rh6ApB3MnoneW5zmaB94L/gbzsLA==
+node-pg-migrate@5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/node-pg-migrate/-/node-pg-migrate-5.5.0.tgz#2dbc9d01d329b8728418b8f5254d408628ca025d"
+  integrity sha512-3traJNXEMNA6TVzegn35G7uVzziQNKsFSPsG5WdLCMCkVlQ3AURJ6xqhp3Yqvrd7CawO4oHwVrT5R4bVQ7Svqw==
   dependencies:
     "@types/pg" "^7.4.0"
     decamelize "^4.0.0"
