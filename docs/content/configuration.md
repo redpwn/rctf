@@ -60,9 +60,9 @@ YAML/JSON name|environment name|required|default value|type|description
 -|-|-|-|-|-
 `sponsors`|_(none)_|yes|`[]`|array|list of CTF sponsors. [documentation](management/home.md)
 `globalSiteTag`|`RCTF_GLOBAL_SITE_TAG`|no|_(none)_|string|Google Analytics site tag
-`logoUrl`|`RCTF_LOGO_URL`|no|_(none)_|string|URL to raster image of the CTF's logo. used in emails
 `email.provider`|_(none)_|no|_(none)_|provider|provider for email sending. [documentation](providers/emails/index.md)
 `email.from`|_(none)_|no|_(none)_|provider|`from:` address when sending email. [documentation](providers/emails/index.md)
+`email.logoUrl`|`RCTF_EMAIL_LOGO_URL`|no|_(none)_|string|URL to raster image of the CTF's logo
 `ctftime.clientId`|`RCTF_CTFTIME_CLIENT_ID`|no|_(none)_|string|CTFtime OAuth client ID. [documentation](integrations/ctftime.md)
 `ctftime.clientSecret`|`RCTF_CTFTIME_CLIENT_SECRET`|no|_(none)_|string|CTFtime OAuth client secret. [documentation](integrations/ctftime.md)
 
