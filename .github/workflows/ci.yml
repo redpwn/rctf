@@ -79,7 +79,7 @@ jobs:
 
     - name: Run migrations
       run: |
-        yarn migrate
+        yarn workspace @rctf/server migrate
 
     - name: Run tests
       id: testrun
