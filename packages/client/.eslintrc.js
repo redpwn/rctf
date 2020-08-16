@@ -34,5 +34,6 @@ module.exports = {
       // Set a recent React version to satisfy the plugin
       version: '16.13.1'
     }
-  }
+  },
+  ignorePatterns: ['index.js', 'index.d.ts']
 }

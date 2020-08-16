@@ -7,6 +7,7 @@ import config from './config/server'
 import { serveIndex, getRealIp } from './util'
 import { init as uploadProviderInit } from './uploads'
 import api, { logSerializers as apiLogSerializers } from './api'
+import { distDir as clientDistDir } from '@rctf/client'
 
 const app = fastify({
   trustProxy: config.proxy.trust,
@@ -55,7 +56,7 @@ app.register(api, {
   logSerializers: apiLogSerializers
 })
 
-const staticPath = process.env.RCTF_STATIC_PATH || path.join(__dirname, '../client')
+const staticPath = process.env.RCTF_STATIC_PATH || clientDistDir
 
 app.register(serveIndex, {
   indexPath: path.join(staticPath, 'index.html')

@@ -13,7 +13,7 @@ module.exports = () => {
     mode: env,
     entry: './src/index',
     output: {
-      path: path.resolve(__dirname, '../dist/client'),
+      path: path.resolve(__dirname, 'dist'),
       filename: env === 'development'
         ? 'assets/bundle.js'
         : 'assets/[contenthash].js',

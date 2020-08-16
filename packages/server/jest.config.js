@@ -1,4 +1,7 @@
+const base = require('../../jest.base.config.js')
+
 module.exports = {
+  ...base,
   testMatch: ['<rootDir>/test/**/*.[tj]s', '!**/[_.]*.*'],
   testEnvironment: 'node',
   transform: {
@@ -15,8 +18,5 @@ module.exports = {
   },
   setupFiles: [
     '<rootDir>/test/_setup.js'
-  ],
-  collectCoverageFrom: [
-    '<rootDir>/src/**/*.[jt]s'
   ]
 }

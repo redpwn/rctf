@@ -1,5 +1,5 @@
 # Ignore build folders
-/dist
+dist
 
 # Ignore coverage reports
 coverage/

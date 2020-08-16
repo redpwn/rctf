@@ -1,7 +1,7 @@
 import path from 'path'
 
 // CONFIGURATION
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
+require('dotenv').config({ path: path.resolve(__dirname, '../../../.env') })
 process.env.API_ENDPOINT = '/api/v1'
 process.env.RCTF_STATIC_PATH = path.resolve(__dirname, 'data/static')
 

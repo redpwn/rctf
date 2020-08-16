@@ -1,5 +1,8 @@
+const base = require('../../jest.base.config.js')
+
 module.exports = {
-  testMatch: ['**/*.test.[jt]s?(x)'],
+  ...base,
+  testMatch: ['<rootDir>/src/**/*.test.[jt]s?(x)'],
   transform: {
     '^.+\\.[jt]sx?$': ['babel-jest', {
       cwd: __dirname
@@ -13,9 +16,5 @@ module.exports = {
   snapshotSerializers: ['jest-serializer-html'],
   setupFiles: [
     '<rootDir>/lib/jest.setup.js'
-  ],
-  collectCoverageFrom: [
-    '<rootDir>/src/**/*.[jt]s?(x)',
-    '!**/*.stories.[jt]s?(x)'
   ]
 }
