@@ -23,6 +23,7 @@ const packageToTarball = (package) => {
 }
 
 const packageJson = {
+  private: true,
   resolutions: Object.fromEntries(packages.map(p => [p.name, 'file:' + packageToTarball(p)]))
 }
 
@@ -30,4 +31,4 @@ packageJson.dependencies = {
   '@rctf/server': packageJson.resolutions['@rctf/server']
 }
 
-fs.writeFileSync(process.argv[3], JSON.stringify(packageJson))
+fs.writeFileSync(process.argv[3], JSON.stringify(packageJson, null, 2))

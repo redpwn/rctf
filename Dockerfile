@@ -1,4 +1,4 @@
-FROM node:12 AS prepare
+FROM alpine AS prepare
 WORKDIR /app
 
 COPY packages ./packages
@@ -7,7 +7,7 @@ COPY package.json yarn.lock lerna.json /prepared/
 RUN find packages -maxdepth 2 -mindepth 2 -name package.json -exec dirname /prepared/'{}' ';' | xargs mkdir -p
 RUN find packages -maxdepth 2 -mindepth 2 -name package.json -exec cp '{}' /prepared/'{}' ';'
 
-FROM node:12.16.3-buster-slim AS build
+FROM node:12.18.3-buster-slim AS build
 WORKDIR /app
 
 COPY --from=prepare /prepared ./
@@ -21,7 +21,7 @@ RUN cp packages/*/*.tgz /packages
 
 RUN yarn node scripts/makeDockerPackageJson.js /packages /package.json
 
-FROM node:12.16.3-buster-slim AS run
+FROM node:12.18.3-buster-slim AS run
 WORKDIR /app
 
 COPY --from=build /package.json /app/yarn.lock ./
