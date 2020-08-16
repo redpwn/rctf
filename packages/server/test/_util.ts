@@ -30,29 +30,29 @@ export const generateRealTestUser = async (): Promise<{
   }
 }
 
-export const getFirstLoadedChallenge = async (): Promise<Challenge> => {
+export const generateChallenge = async (): Promise<{
+  chall: Challenge,
+  cleanup: () => Promise<void>
+}> => {
   // Load on-demand
   const challenges = await import('../src/challenges')
-  return new Promise((resolve, reject) => {
-    const check = () => {
-      try {
-        const chall = challenges.getAllChallenges()[0] as Challenge | undefined
-        if (chall !== undefined) {
-          resolve(chall)
-          return true
-        }
-      } catch (e) {
-        reject(e)
-        return false
-      }
+  const chall: Challenge = {
+    id: uuidv4(),
+    name: uuidv4(),
+    description: uuidv4(),
+    category: uuidv4(),
+    author: uuidv4(),
+    files: [],
+    flag: uuidv4(),
+    tiebreakEligible: true,
+    points: {
+      min: 100,
+      max: 500
     }
-    if (!check()) {
-      // Poll
-      const interval = setInterval(() => {
-        if (check()) {
-          clearInterval(interval)
-        }
-      }, 100)
-    }
-  })
+  }
+  await challenges.updateChallenge(chall)
+  return {
+    chall,
+    cleanup: () => challenges.deleteChallenge(chall.id)
+  }
 }

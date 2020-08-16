@@ -52,7 +52,7 @@ export type ServerConfig = {
     description: string;
     imageUrl: string;
   }
-  logoUrl?: string;
+  faviconUrl?: string;
   globalSiteTag?: string;
 
   challengeProvider: ProviderConfig;
@@ -61,6 +61,7 @@ export type ServerConfig = {
   email?: {
     provider: ProviderConfig;
     from: string;
+    logoUrl?: string;
   }
 
   divisions: Record<string, string>;
@@ -91,7 +92,8 @@ export type ClientConfig = Pick<ServerConfig,
   'origin' |
   'startTime' |
   'endTime' |
-  'userMembers'
+  'userMembers' |
+  'faviconUrl'
 > & {
   emailEnabled: boolean;
   ctftime?: Pick<NonNullable<ServerConfig['ctftime']>, 'clientId'>

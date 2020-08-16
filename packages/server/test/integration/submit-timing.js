@@ -1,25 +1,27 @@
 import request from 'supertest'
 import app from '../../src/app'
 import config from '../../src/config/server'
-import { getFirstLoadedChallenge, generateRealTestUser } from '../_util'
+import { generateChallenge, generateRealTestUser } from '../_util'
 
 import { responseList } from '../../src/responses'
 import * as auth from '../../src/auth'
 
-let chall, uuid, testUserData
+let chall, challData, uuid, userData
 
 beforeAll(async () => {
   await app.ready()
 })
 
 beforeAll(async () => {
-  chall = await getFirstLoadedChallenge()
-  testUserData = await generateRealTestUser()
-  uuid = testUserData.user.id
+  challData = await generateChallenge()
+  userData = await generateRealTestUser()
+  uuid = userData.user.id
+  chall = challData.chall
 })
 
 afterAll(async () => {
-  await testUserData.cleanup()
+  await userData.cleanup()
+  await challData.cleanup()
 })
 
 test('fails with badNotStarted', async () => {

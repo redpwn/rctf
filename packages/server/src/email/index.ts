@@ -29,7 +29,7 @@ if (emailConfig) {
   sendVerification = async ({ token, kind, email }) => {
     const emailView = {
       ctf_name: config.ctfName,
-      logo_url: config.logoUrl,
+      logo_url: emailConfig.logoUrl,
       origin: config.origin,
       token: encodeURIComponent(token),
       register: kind === 'register',

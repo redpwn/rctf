@@ -12,6 +12,7 @@ const config: ClientConfig = {
   origin: server.origin,
   startTime: server.startTime,
   endTime: server.endTime,
+  faviconUrl: server.faviconUrl,
   emailEnabled: server.email != null,
   userMembers: server.userMembers,
   ctftime: server.ctftime == null ? undefined : {

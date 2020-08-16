@@ -90,10 +90,11 @@ export const loadEnvConfig = (): PartialDeep<ServerConfig> => removeUndefined({
     description: process.env.RCTF_META_DESCRIPTION,
     imageUrl: process.env.RCTF_IMAGE_URL
   },
-  logoUrl: process.env.RCTF_LOGO_URL,
+  faviconUrl: process.env.RCTF_FAVICON_URL,
   globalSiteTag: process.env.RCTF_GLOBAL_SITE_TAG,
   email: {
-    from: process.env.RCTF_EMAIL_FROM
+    from: process.env.RCTF_EMAIL_FROM,
+    logoUrl: process.env.RCTF_EMAIL_LOGO_URL
   },
   startTime: nullsafeParseInt(process.env.RCTF_START_TIME),
   endTime: nullsafeParseInt(process.env.RCTF_END_TIME),
@@ -115,6 +116,7 @@ export const defaultConfig: PartialDeep<ServerConfig> = {
   userMembers: true,
   sponsors: [],
   homeContent: '',
+  faviconUrl: 'https://redpwn.storage.googleapis.com/branding/rctf-favicon.ico',
   challengeProvider: {
     name: 'challenges/database'
   },

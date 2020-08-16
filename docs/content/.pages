@@ -1,0 +1,8 @@
+arrange:
+  - index.md
+  - installation.md
+  - configuration.md
+  - management
+  - providers
+  - integrations
+  - development
