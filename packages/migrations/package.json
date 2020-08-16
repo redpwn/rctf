@@ -1,8 +1,14 @@
 {
   "name": "@rctf/migrations",
+  "license": "BSD-3-Clause",
   "version": "3.0.0-alpha.0",
   "main": "index.js",
   "types": "index.d.ts",
+  "files": [
+    "migrations",
+    "index.js",
+    "index.d.ts"
+  ],
   "peerDependencies": {
     "node-pg-migrate": "^5.3.0"
   },

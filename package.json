@@ -11,7 +11,8 @@
     "build": "lerna run build",
     "dev": "concurrently -k -t \"HH:mm:ss.SSS\" -p \"[{time}]\" -c \"cyan,green,blue\" \"yarn workspace @rctf/client dev\" \"yarn workspace @rctf/server watch-server\" \"yarn workspace @rctf/server watch-ts --preserveWatchOutput\"",
     "test": "jest",
-    "test:report": "yarn test --coverage"
+    "test:report": "yarn test --coverage",
+    "packall": "lerna exec yarn pack"
   },
   "husky": {
     "hooks": {

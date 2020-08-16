@@ -2,6 +2,12 @@
   "name": "@rctf/server",
   "license": "BSD-3-Clause",
   "version": "3.0.0-alpha.0",
+  "bin": {
+    "rctf": "dist/index.js"
+  },
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc -b",
@@ -12,7 +18,8 @@
     "watch-ts": "tsc -b -w src",
     "dev": "concurrently -k -t \"HH:mm:ss.SSS\" -p \"[{time}]\" -c \"green,red\" \"yarn:watch-*\"",
     "test": "jest",
-    "copy-static": "cpy --cwd=src/ \"**/*\" \"!**/*.{j,t}s\" ../dist --parents"
+    "copy-static": "cpy --cwd=src/ \"**/*\" \"!**/*.{j,t}s\" ../dist --parents",
+    "prepack": "yarn build"
   },
   "nodemonConfig": {
     "watch": [

@@ -4,13 +4,19 @@
   "version": "3.0.0-alpha.0",
   "main": "index.js",
   "types": "index.d.ts",
+  "files": [
+    "dist/",
+    "index.js",
+    "index.d.ts"
+  ],
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc -b",
     "build": "cross-env NODE_ENV=production webpack-cli",
     "dev": "cross-env NODE_ENV=development webpack-dev-server",
     "storybook": "start-storybook",
-    "test": "jest"
+    "test": "jest",
+    "prepack": "yarn build"
   },
   "devDependencies": {
     "@babel/core": "7.11.1",
