@@ -12,7 +12,7 @@ jest.mock('../src/leaderboard')
 
 // Patch config loading to load test config, but pick critical keys out of
 // current environment
-const mockTestConfigDir = path.resolve(__dirname, 'data/conf.d')
+const mockTestConfigDir = path.resolve(__dirname, 'data/rctf.d')
 jest.mock('../src/config/load', () => {
   const deepMerge = jest.requireActual('deepmerge')
   const realConfigLoad = jest.requireActual('../src/config/load')

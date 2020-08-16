@@ -12,7 +12,7 @@ services:
     environment:
       - PORT=80
     volumes:
-      - ./conf.d:/app/conf.d
+      - ./rctf.d:/app/rctf.d
     depends_on:
       - redis
       - postgres

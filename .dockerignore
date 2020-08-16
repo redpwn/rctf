@@ -8,8 +8,8 @@ node_modules
 dist
 /.env
 /data
-/conf.d/*
-!/conf.d/.keep
+/rctf.d/*
+!/rctf.d/.keep
 /docs/site
 
 # Upload provider dir

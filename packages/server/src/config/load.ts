@@ -17,7 +17,7 @@ export const findConfigDir = (): string => {
     !isRoot(dir);
     dir = path.resolve(dir, '../')
   ) {
-    const confDir = path.resolve(dir, 'conf.d')
+    const confDir = path.resolve(dir, 'rctf.d')
     if (fs.existsSync(confDir)) {
       return confDir
     }
