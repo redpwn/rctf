@@ -4,24 +4,25 @@ import { v4 as uuidv4 } from 'uuid'
 import * as db from '../../src/database'
 import { responseList } from '../../src/responses'
 import * as auth from '../../src/auth'
-import { getFirstLoadedChallenge, generateRealTestUser } from '../_util'
+import { generateChallenge, generateRealTestUser } from '../_util'
 
-let chall, uuid, testUserData
+let chall, challData, uuid, userData
 
 beforeAll(async () => {
   await app.ready()
 })
 
 beforeAll(async () => {
-  chall = await getFirstLoadedChallenge()
-
-  testUserData = await generateRealTestUser()
-  uuid = testUserData.user.id
+  challData = await generateChallenge()
+  userData = await generateRealTestUser()
+  chall = challData.chall
+  uuid = userData.user.id
 })
 
 afterAll(async () => {
   await db.solves.removeSolvesByUserId({ userid: uuid })
-  await testUserData.cleanup()
+  await userData.cleanup()
+  await challData.cleanup()
 })
 
 test('fails with unauthorized', async () => {
