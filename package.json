@@ -9,20 +9,9 @@
     "lint": "eslint .",
     "typecheck": "tsc -b packages",
     "build": "lerna run build",
-    "watch:client": "cd client && cross-env NODE_ENV=development webpack-dev-server",
-    "watch:server": "nodemon --enable-source-maps dist/server/index.js | pino-pretty -c -t",
-    "watch:ts": "tsc -b -w server/src",
-    "dev": "yarn build:ts && concurrently -k -t \"HH:mm:ss.SSS\" -p \"[{time}]\" -c \"cyan,green,red\" \"yarn:watch:*\"",
+    "dev": "concurrently -k -t \"HH:mm:ss.SSS\" -p \"[{time}]\" -c \"cyan,green,blue\" \"yarn workspace @rctf/client dev\" \"yarn workspace @rctf/server watch-server\" \"yarn workspace @rctf/server watch-ts --preserveWatchOutput\"",
     "test": "jest",
     "test:report": "yarn test --coverage"
-  },
-  "nodemonConfig": {
-    "watch": [
-      "dist/server",
-      "conf.d",
-      "dist/client/index.html"
-    ],
-    "delay": "1000"
   },
   "husky": {
     "hooks": {

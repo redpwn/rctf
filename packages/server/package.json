@@ -8,8 +8,17 @@
     "start": "node --enable-source-maps --unhandled-rejections=strict dist/index.js",
     "migrate": "cross-env RCTF_DATABASE_MIGRATE=only yarn start",
     "build": "tsc -b src && yarn copy-static",
+    "watch-server": "nodemon --enable-source-maps --unhandled-rejections=strict dist/index.js | pino-pretty -c -t",
+    "watch-ts": "tsc -b -w src",
+    "dev": "concurrently -k -t \"HH:mm:ss.SSS\" -p \"[{time}]\" -c \"green,red\" \"yarn:watch-*\"",
     "test": "jest",
     "copy-static": "cpy --cwd=src/ \"**/*\" \"!**/*.{j,t}s\" ../dist --parents"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "dist/"
+    ],
+    "delay": "1000"
   },
   "dependencies": {
     "@google-cloud/storage": "5.1.2",
