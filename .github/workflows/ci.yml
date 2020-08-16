@@ -92,8 +92,6 @@ jobs:
 
   docker-build:
     runs-on: ubuntu-latest
-    # TODO: handle tagging releases correctly
-    if: github.ref == 'refs/heads/master'
     needs:
       - shellcheck
       - lint
@@ -102,12 +100,28 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Build & push
-      uses: docker/build-push-action@v1
+    - name: Build
+      uses: docker://docker/github-actions:v1
       with:
+        args: build
+        path: .
+        repository: redpwn/rctf
+        tags: ${{ github.sha }}
+        cache_froms: redpwn/rctf:master
+
+    - name: Login
+      # TODO: handle tagging releases correctly
+      if: github.ref == 'refs/heads/master'
+      uses: docker://docker/github-actions:v1
+      with:
+        args: build
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASS }}
-        repository: redpwn/rctf
-        # TODO: handle tagging releases correctly
-        tags: master,${{ github.sha }}
-        # TODO: add cache_froms once we have full releases
+
+    - name: Push
+      # TODO: handle tagging releases correctly
+      if: github.ref == 'refs/heads/master'
+      run: |
+        docker tag redpwn/rctf:${{ github.sha }} redpwn/rctf:master
+        docker push redpwn/rctf:${{ github.sha }}
+        docker push redpwn/rctf:master
