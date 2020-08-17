@@ -5,6 +5,10 @@ import userEvent from '@testing-library/user-event'
 
 import LoginCard from './loginCard'
 
+const defaultProps = {
+  ctfName: 'testCTF'
+}
+
 describe('onTokenLogin', () => {
   const setup = async () => {
     const onTokenLogin = jest.fn()
@@ -13,7 +17,7 @@ describe('onTokenLogin', () => {
     const token = 'tokendata'
 
     const queries = render(
-      <LoginCard {...{ onTokenLogin, onCtftimeLogin }} />
+      <LoginCard {...defaultProps} {...{ onTokenLogin, onCtftimeLogin }} />
     )
 
     const inputNode = queries.queryByLabelText('Team Code or Link', {
@@ -69,7 +73,7 @@ describe('onCtftimeLogin', () => {
     const onCtftimeLogin = jest.fn()
 
     const { queryByRole } = render(
-      <LoginCard {...{ onTokenLogin, onCtftimeLogin }} />
+      <LoginCard {...defaultProps} {...{ onTokenLogin, onCtftimeLogin }} />
     )
 
     const buttonNode = queryByRole('button', { name: 'Log In with CTFtime' })

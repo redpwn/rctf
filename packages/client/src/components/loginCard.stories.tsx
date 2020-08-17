@@ -18,6 +18,7 @@ export const Default: Story<LoginCardProps> = props =>
   />
 
 Default.args = {
+  ctfName: 'redpwnCTF',
   onTokenLogin: action('onTokenLogin'),
   onCtftimeLogin: action('onCtftimeLogin')
 }
