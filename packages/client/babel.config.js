@@ -1,5 +1,5 @@
 module.exports = api => {
-  const env = api.cache(() => process.env.NODE_ENV)
+  api.cache.forever()
 
   return {
     presets: [
@@ -12,13 +12,9 @@ module.exports = api => {
         pragmaFrag: 'Fragment'
       }],
       ['@babel/preset-env', {
-        targets: { esmodules: true }
+        targets: { esmodules: true },
+        bugfixes: true
       }]
-    ],
-    plugins: [
-      ...(env === 'development' ? [
-        'react-refresh/babel'
-      ] : [])
     ]
   }
 }

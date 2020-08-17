@@ -62,9 +62,14 @@ module.exports = () => {
       }, {
         test: /\.[jt]sx?$/,
         exclude: /node_modules/,
-        use: [
-          'babel-loader'
-        ]
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            plugins: env === 'development' ? [
+              'react-refresh/babel'
+            ] : []
+          }
+        }]
       }]
     },
     resolve: {
