@@ -69,7 +69,7 @@ do_install() {
 
   RCTF_GIT_REF="${RCTF_GIT_REF:-"master"}"
 
-  mkdir -p conf.d data/rctf-postgres data/rctf-redis
+  mkdir -p rctf.d data/rctf-postgres data/rctf-redis
 
   printf "%s\n" \
   "RCTF_DATABASE_PASSWORD=$(get_key)" \
@@ -83,7 +83,7 @@ do_install() {
   "  description: 'A description of your CTF'" \
   "  imageUrl: 'https://example.com'" \
   "homeContent: 'A description of your CTF. Markdown supported.'" \
-  > conf.d/01-ui.yaml
+  > rctf.d/01-ui.yaml
 
   printf "%s\n" \
   "origin: http://127.0.0.1:8080" \
@@ -92,7 +92,7 @@ do_install() {
   "tokenKey: '$(get_key)'" \
   "startTime: $(date +%s)000" \
   "endTime: $(date -d +1week +%s)000" \
-  > conf.d/02-ctf.yaml
+  > rctf.d/02-ctf.yaml
 
   printf "%s\n" \
   "database:" \
@@ -103,7 +103,7 @@ do_install() {
   "  redis:" \
   "    host: redis" \
   "  migrate: before" \
-  > conf.d/03-db.yaml
+  > rctf.d/03-db.yaml
 
   info "Downloading rCTF..."
 

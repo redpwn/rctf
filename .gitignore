@@ -1,14 +1,18 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+lerna-debug.log*
 
-/node_modules
+node_modules
 
-/dist
+# Packed packages
+/packages/*/rctf-*.tgz
+
+dist
 /.env
 /data
-/conf.d/*
-!/conf.d/.keep
+/rctf.d/*
+!/rctf.d/.keep
 /docs/site
 
 # Upload provider dir
@@ -24,4 +28,4 @@ $RECYCLE.BIN
 *.swp
 
 # coverage
-/*/coverage
+coverage

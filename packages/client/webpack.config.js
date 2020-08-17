@@ -13,7 +13,7 @@ module.exports = () => {
     mode: env,
     entry: './src/index',
     output: {
-      path: path.resolve(__dirname, '../dist/client'),
+      path: path.resolve(__dirname, 'dist'),
       filename: env === 'development'
         ? 'assets/bundle.js'
         : 'assets/[contenthash].js',
@@ -62,15 +62,21 @@ module.exports = () => {
       }, {
         test: /\.[jt]sx?$/,
         exclude: /node_modules/,
-        use: [
-          'babel-loader'
-        ]
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            plugins: env === 'development' ? [
+              'react-refresh/babel'
+            ] : []
+          }
+        }]
       }]
     },
     resolve: {
       extensions: ['.wasm', '.ts', '.tsx', '.mjs', '.js', '.jsx', '.json'],
       alias: {
-        react: 'preact/compat'
+        react: 'preact/compat',
+        'react-dom': 'preact/compat'
       }
     },
     devServer: {

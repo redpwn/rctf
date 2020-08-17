@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import 'dotenv/config'
 
 import config from './config/server'
@@ -29,7 +31,6 @@ const runMain = async () => {
   if (config.instanceType === 'leaderboard' || config.instanceType === 'all') {
     const { startUpdater } = await import('./leaderboard')
     startUpdater()
-    console.log('Started leaderboard updater')
   }
 }
 

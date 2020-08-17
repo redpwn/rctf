@@ -1,5 +1,8 @@
 # Ignore build folders
-/dist
+dist
 
 # Ignore coverage reports
 coverage/
+
+# Ignore built docs
+/docs/site

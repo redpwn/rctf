@@ -1,8 +1,8 @@
 # Configuration
 
-You can specify configuration to rCTF through `conf.d` or environment variables. Most values can be set through either.
+You can specify configuration to rCTF through `rctf.d` or environment variables. Most values can be set through either.
 
-YAML and JSON files in the `conf.d` directory are sorted alphabetically. Files later alphabetically have higher priority when merging config. Environment variables are always given highest priority.
+YAML and JSON files in the `rctf.d` directory are sorted alphabetically. Files later alphabetically have higher priority when merging config. Environment variables are always given highest priority.
 
 In general, all config should be specified via YAML/JSON when possible as they provide the most flexibility.
 
@@ -98,6 +98,6 @@ YAML/JSON name|environment name|required|default value|type|description
 `leaderboard.graphMaxTeams`|`RCTF_LEADERBOARD_GRAPH_MAX_TEAMS`|yes|10|integer|maximum number of users retrievable in a graph request
 `leaderboard.graphSampleTime`|`RCTF_LEADERBOARD_GRAPH_SAMPLE_TIME`|yes|1800000|integer|interval at which the score graph is sampled, in milliseconds
 
-## Custom `conf.d` location
+## Custom `rctf.d` location
 
-The `conf.d` directory can be renamed or moved elsewhere. To do so, set the `RCTF_CONF_PATH` environment variable to the location of a directory of YAML or JSON configuration files. If specified as a relative path, the path is evaluated from the current working directory.
+The `rctf.d` directory can be renamed or moved elsewhere. To do so, set the `RCTF_CONF_PATH` environment variable to the location of a directory of YAML or JSON configuration files. If specified as a relative path, the path is evaluated from the current working directory.

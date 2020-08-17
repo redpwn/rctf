@@ -6,6 +6,25 @@ import path from 'path'
 import fs from 'fs'
 import yaml from 'yaml'
 
+const isRoot = (p: string): boolean => {
+  const parsed = path.parse(p)
+  return parsed.root === parsed.dir
+}
+
+export const findConfigDir = (): string => {
+  for (
+    let dir = path.resolve(__dirname, '../../');
+    !isRoot(dir);
+    dir = path.resolve(dir, '../')
+  ) {
+    const confDir = path.resolve(dir, 'rctf.d')
+    if (fs.existsSync(confDir)) {
+      return confDir
+    }
+  }
+  throw new Error('Could not infer a config directory')
+}
+
 const jsonLoader = (file: string) => JSON.parse(file) as PartialDeep<ServerConfig>
 const yamlLoader = (file: string) => yaml.parse(file) as PartialDeep<ServerConfig>
 
@@ -31,7 +50,7 @@ export const loadFile = (file: string): PartialDeep<ServerConfig> | undefined =>
 export const loadFileConfigs = (configPath?: string): PartialDeep<ServerConfig>[] => {
   const resolvedConfigPath = configPath ??
     process.env.RCTF_CONF_PATH ??
-    path.resolve(__dirname, '../../../conf.d')
+    findConfigDir()
 
   return fs.readdirSync(resolvedConfigPath)
     .sort()

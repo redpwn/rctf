@@ -9,10 +9,9 @@ services:
       - rctf
     env_file:
       - .env
-    environment:
-      - PORT=80
     volumes:
-      - ./conf.d:/app/conf.d
+      - ./rctf.d:/app/rctf.d
+      - ./data/uploads:/app/uploads
     depends_on:
       - redis
       - postgres

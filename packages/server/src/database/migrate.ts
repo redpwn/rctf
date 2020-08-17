@@ -1,5 +1,5 @@
-import path from 'path'
 import pgMigrate from 'node-pg-migrate'
+import { migrationsDir } from '@rctf/migrations'
 import config from '../config/server'
 
 const sleep = (time: number) => new Promise(resolve => setTimeout(resolve, time))
@@ -8,7 +8,7 @@ const migrate = async (attempt: number): Promise<void> => {
   try {
     await pgMigrate({
       databaseUrl: config.database.sql,
-      dir: path.join(__dirname, '../../migrations'),
+      dir: migrationsDir,
       direction: 'up',
       migrationsTable: 'pgmigrations',
       verbose: true,

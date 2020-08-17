@@ -1,7 +1,7 @@
 import path from 'path'
 
 // CONFIGURATION
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
+require('dotenv').config({ path: path.resolve(__dirname, '../../../.env') })
 process.env.API_ENDPOINT = '/api/v1'
 process.env.RCTF_STATIC_PATH = path.resolve(__dirname, 'data/static')
 
@@ -12,7 +12,7 @@ jest.mock('../src/leaderboard')
 
 // Patch config loading to load test config, but pick critical keys out of
 // current environment
-const mockTestConfigDir = path.resolve(__dirname, 'data/conf.d')
+const mockTestConfigDir = path.resolve(__dirname, 'data/rctf.d')
 jest.mock('../src/config/load', () => {
   const deepMerge = jest.requireActual('deepmerge')
   const realConfigLoad = jest.requireActual('../src/config/load')

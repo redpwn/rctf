@@ -9,7 +9,7 @@ Clone the rCTF repository:
 git clone https://github.com/redpwn/rctf
 ```
 
-After cloning, you will need to setup the configuration files in the `conf.d` directory. [An example `conf.d`](https://github.com/redpwn/rctf/blob/master/test/conf-test.yaml) is used for testing.
+After cloning, you will need to setup the configuration files in the `rctf.d` directory. [An example `rctf.d`](https://github.com/redpwn/rctf/blob/next/server/test/data/rctf.d/conf-test.yaml) is used for testing.
 
 To develop rCTF, run:
 
