@@ -14,9 +14,7 @@ dist
 /rctf.d/*
 !/rctf.d/.keep
 /docs/site
-
-# Upload provider dir
-/uploads
+/packages/server/uploads
 
 .DS_Store
 Thumbs.db

@@ -22,7 +22,7 @@ services:
     networks:
       - rctf
     volumes:
-      - ./data/rctf-redis:/data
+      - ./data/redis:/data
   postgres:
     image: postgres:12.3
     restart: always
@@ -33,7 +33,7 @@ services:
     networks:
       - rctf
     volumes:
-      - ./data/rctf-postgres:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql/data
 
 networks:
   rctf: {}
