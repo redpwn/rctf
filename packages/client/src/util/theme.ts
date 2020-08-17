@@ -8,6 +8,7 @@ export const theme = {
     text: '#eee',
     muted: '#888',
     background: '#111',
+    cardBackground: '#222',
     primary: '#1e88e5',
     accent: '#f44336',
     danger: '#f44336'
@@ -15,6 +16,12 @@ export const theme = {
   styles: {
     root: {
       fontFamily: 'body'
+    }
+  },
+  cards: {
+    primary: {
+      p: 3,
+      borderRadius: 4
     }
   }
 }

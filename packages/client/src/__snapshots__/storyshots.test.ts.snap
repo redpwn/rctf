@@ -37,6 +37,18 @@ exports[`Storyshots Button Outline 1`] = `
 </EmotionCssPropInternal>
 `;
 
+exports[`Storyshots Card Default 1`] = `
+<ThemeProvider>
+  <ForwardRef() bg="background">
+    <Styled(div) bg="red">
+      <Styled(div) bg="background">
+        Test content
+      </Styled(div)>
+    </Styled(div)>
+  </ForwardRef()>
+</ThemeProvider>
+`;
+
 exports[`Storyshots Navbar Navbar 1`] = `
 <EmotionCssPropInternal as="nav">
   <NavElement as="a"
