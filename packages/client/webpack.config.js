@@ -75,7 +75,8 @@ module.exports = () => {
     resolve: {
       extensions: ['.wasm', '.ts', '.tsx', '.mjs', '.js', '.jsx', '.json'],
       alias: {
-        react: 'preact/compat'
+        react: 'preact/compat',
+        'react-dom': 'preact/compat'
       }
     },
     devServer: {
