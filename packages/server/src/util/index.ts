@@ -21,10 +21,7 @@ export const serveIndex: FastifyPluginAsync<{ indexPath: string; }> = async (fas
 
   const rendered = mustache.render(indexTemplate, {
     jsonConfig: JSON.stringify(clientConfig),
-    config: {
-      ...clientConfig,
-      renderGoogleAnalytics: clientConfig.globalSiteTag !== undefined
-    }
+    config: clientConfig
   })
 
   const routeHandler: RouteHandlerMethod = async (req, reply) => {

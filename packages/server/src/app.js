@@ -1,7 +1,6 @@
 import path from 'path'
 import fastify from 'fastify'
 import fastifyStatic from 'fastify-static'
-import helmet from 'fastify-helmet'
 import hyperid from 'hyperid'
 import config from './config/server'
 import { serveIndex, getRealIp } from './util'
@@ -18,7 +17,6 @@ const app = fastify({
       req: (req) => ({
         method: req.method,
         url: req.url,
-        version: req.headers['accept-version'],
         hostname: req.hostname,
         remoteAddress: getRealIp(req),
         remotePort: req.connection.remotePort,
@@ -33,20 +31,12 @@ app.addHook('onRequest', async (req, reply) => {
   Object.defineProperty(req, 'ip', {
     get () { return getRealIp(this) }
   })
-})
-
-app.register(helmet, {
-  dnsPrefetchControl: false,
-  referrerPolicy: { policy: 'origin-when-cross-origin' },
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ['\'none\''],
-      styleSrc: ['\'unsafe-inline\'', '\'self\''],
-      scriptSrc: ['\'self\'', 'https://www.google-analytics.com'],
-      connectSrc: ['\'self\'', 'https://www.google-analytics.com'],
-      imgSrc: ['*', 'data:']
-    }
-  }
+  reply.headers({
+    'referrer-policy': 'no-referrer',
+    'content-security-policy': 'default-src \'none\';style-src \'unsafe-inline\';script-src \'self\';connect-src \'self\';img-src *',
+    'x-frame-options': 'DENY',
+    'x-content-type-options': 'nosniff'
+  })
 })
 
 uploadProviderInit(app)
@@ -64,8 +54,8 @@ app.register(serveIndex, {
 app.register(fastifyStatic, {
   root: staticPath,
   setHeaders: (res, path) => {
-    if (/\.[0-9a-f]{5}\.((esm\.)?js|css)$/.test(path)) {
-      res.setHeader('Cache-Control', 'public, immutable, max-age=31536000')
+    if (path.startsWith('/assets/')) {
+      res.setHeader('cache-control', 'public, immutable, max-age=31536000')
     }
   }
 })
