@@ -1,11 +1,6 @@
-import { FunctionComponent, ComponentType, ElementType } from 'react'
+import { FunctionComponent, ElementType, ComponentProps } from 'react'
 import { Flex, Box } from 'theme-ui'
 import { NavLink as RouterNavLink, Link } from 'react-router-dom'
-
-type ExtractProps<Component> =
-  Component extends ComponentType<infer PropType>
-    ? PropType
-    : Component
 
 export const NavElement: FunctionComponent<{
   as: ElementType
@@ -44,7 +39,7 @@ export const NavElement: FunctionComponent<{
     {children}
   </Box>
 
-export const NavLink: FunctionComponent<ExtractProps<typeof Link>> = ({ ...props }) =>
+export const NavLink: FunctionComponent<ComponentProps<typeof Link>> = ({ ...props }) =>
   <NavElement {...props} as={RouterNavLink} activeClassName='active' />
 
 export const NavBar: FunctionComponent = ({ children }) =>
