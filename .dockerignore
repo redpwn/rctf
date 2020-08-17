@@ -24,6 +24,7 @@
 **/Desktop.ini
 **/$RECYCLE.BIN
 /package-lock.json
+/.git
 
 **/*.swp
 
