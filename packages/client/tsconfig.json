@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig-base.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es5",
+    "lib": ["es6", "dom"],
+    "jsx": "preserve",
+    "noEmit": true,
+    "types": ["react", "webpack-env", "jest", "@testing-library/jest-dom"]
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

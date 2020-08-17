@@ -1,0 +1,11 @@
+{
+  "extends": "../tsconfig-base.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2019",
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "types": ["node"]
+  }
+}

@@ -1,5 +1,8 @@
 # Ignore build folders
-/dist
+dist
 
-# Ignore bundled analytics
-/client/src/static/analytics/*
+# Ignore coverage reports
+coverage/
+
+# Ignore built docs
+/docs/site

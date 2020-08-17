@@ -1,18 +1,20 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+lerna-debug.log*
 
-/node_modules
+node_modules
 
-/dist
+# Packed packages
+/packages/*/rctf-*.tgz
+
+dist
 /.env
 /data
-/conf.d/*
-!/conf.d/.keep
+/rctf.d/*
+!/rctf.d/.keep
 /docs/site
-
-# Upload provider dir
-/uploads
+/packages/server/uploads
 
 .DS_Store
 Thumbs.db
@@ -23,9 +25,5 @@ $RECYCLE.BIN
 
 *.swp
 
-# nyc test runner
-/.nyc_output
-/coverage
-
-# preact-cli build size plugin
-size-plugin.json
+# coverage
+coverage

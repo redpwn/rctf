@@ -4,17 +4,19 @@ The Mailgun email provider sends email via the Mailgun API. To use it, specify `
 
 ## Configuration Options
 
-Option|Description
--|-
-`apiKey`|Your Mailgun API key. 
-`domain`|One of your Mailgun domains. 
+YAML/JSON name|environment name|required|default value|type|description
+-|-|-|-|-|-
+`apiKey`|`RCTF_MAILGUN_API_KEY`|yes|_(none)_|string|Mailgun API key
+`domain`|`RCTF_MAILGUN_DOMAIN`|yes|_(none)_|string|A registered Mailgun domain
 
 ## Configuration Example
 
 ```yaml
-emailProvider:
-  name: 'emails/mailgun'
-  options:
-    api_key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxx-xxxxxxxx'
-    domain: 'sandboxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.mailgun.org'
+email:
+  from: no-reply@sandboxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.mailgun.org
+  provider:
+    name: 'emails/mailgun'
+    options:
+      apiKey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxx-xxxxxxxx'
+      domain: 'sandboxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.mailgun.org'
 ```

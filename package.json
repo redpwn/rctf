@@ -1,116 +1,56 @@
 {
   "name": "rctf",
-  "version": "0.0.0",
   "license": "BSD-3-Clause",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "lint": "sh -c \"tsc --noEmit ; eslint .\"",
-    "lint:strict": "sh -c \"tsc --noEmit -p tsconfig.strict.json ; eslint .\"",
-    "start": "node --enable-source-maps --unhandled-rejections=strict dist/server/index.js",
-    "migrate": "yarn build:ts && cross-env RCTF_DATABASE_MIGRATE=only yarn start",
-    "build:client": "preact build --src client/src --template client/index.html --dest dist/build --no-prerender --no-inline-css",
-    "build:ts": "tsc && yarn copy-static",
-    "build": "yarn build:ts && yarn build:client",
-    "watch:client": "cross-env NODE_ENV=development preact watch --src client/src --template client/index.html",
-    "watch:server": "nodemon --enable-source-maps dist/server/index.js | pino-pretty -c -t",
-    "watch:ts": "tsc -w",
-    "dev": "yarn build:ts && concurrently -k -t \"HH:mm:ss.SSS\" -p \"[{time}]\" -c \"cyan,green,red\" \"yarn:watch:*\"",
-    "test": "yarn build && nyc --skip-full ava",
-    "test:slim": "ava",
-    "test:report": "nyc --skip-full --reporter=lcov ava",
-    "commit": "git cz",
-    "copy-static": "cpy \"server/**/*\" \"!**/*.{j,t}s\" \"migrations\" dist/ --parents"
-  },
-  "nodemonConfig": {
-    "watch": [
-      "dist/server",
-      "dist/config",
-      "dist/build/index.html"
-    ],
-    "delay": "1000"
+    "lint": "eslint .",
+    "typecheck": "tsc -b packages",
+    "build": "lerna run build",
+    "dev": "concurrently -k -t \"HH:mm:ss.SSS\" -p \"[{time}]\" -c \"cyan,green,blue\" \"yarn workspace @rctf/client dev\" \"yarn workspace @rctf/server watch-server\" \"yarn workspace @rctf/server watch-ts --preserveWatchOutput\"",
+    "test": "jest",
+    "test:report": "yarn test --coverage",
+    "packall": "lerna exec yarn pack"
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
   },
-  "dependencies": {
-    "@google-cloud/storage": "5.1.2",
-    "aws-sdk": "2.726.0",
-    "content-disposition": "0.5.3",
-    "data-uri-to-buffer": "3.0.1",
-    "deepmerge": "4.2.2",
-    "dotenv": "8.2.0",
-    "email-validator": "2.0.4",
-    "fastify": "3.2.0",
-    "fastify-cors": "4.1.0",
-    "fastify-helmet": "5.0.0",
-    "fastify-static": "3.2.0",
-    "got": "11.5.2",
-    "hyperid": "2.0.5",
-    "jss-plugin-global": "10.3.0",
-    "mailgun-js": "0.22.0",
-    "mustache": "4.0.1",
-    "node-pg-migrate": "5.3.0",
-    "nodemailer": "6.4.11",
-    "pg": "8.3.0",
-    "redis": "3.0.2",
-    "uuid": "8.3.0",
-    "yaml": "1.10.0"
-  },
   "devDependencies": {
-    "@types/content-disposition": "0.5.3",
-    "@types/mailgun-js": "0.22.10",
-    "@types/mustache": "4.0.1",
-    "@types/nodemailer": "6.4.0",
-    "@types/pg": "7.14.4",
-    "@types/uuid": "8.0.1",
-    "@typescript-eslint/eslint-plugin": "3.9.0",
-    "@typescript-eslint/parser": "3.8.0",
-    "ava": "3.11.1",
-    "babel-eslint": "10.1.0",
-    "babel-plugin-transform-export-extensions": "6.22.0",
-    "cirrus-ui": "0.5.5",
-    "commitizen": "4.1.2",
+    "@babel/core": "7.11.1",
+    "@babel/preset-env": "7.11.0",
+    "@babel/preset-typescript": "7.10.4",
+    "@types/jest": "26.0.10",
+    "@typescript-eslint/eslint-plugin": "3.9.1",
+    "@typescript-eslint/parser": "3.9.1",
     "concurrently": "5.3.0",
-    "cpy-cli": "3.1.1",
     "cross-env": "7.0.2",
-    "cz-conventional-changelog": "3.2.0",
-    "eslint": "7.6.0",
-    "eslint-config-preact": "1.1.1",
+    "eslint": "7.7.0",
     "eslint-config-standard": "14.1.1",
-    "eslint-plugin-ava": "10.5.0",
     "eslint-plugin-import": "2.22.0",
+    "eslint-plugin-jest": "23.20.0",
+    "eslint-plugin-jest-dom": "3.1.7",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.2.1",
+    "eslint-plugin-react": "7.20.6",
+    "eslint-plugin-react-hooks": "4.1.0",
     "eslint-plugin-standard": "4.0.1",
+    "eslint-plugin-testing-library": "3.6.0",
     "faker": "4.1.0",
-    "get-port": "5.1.1",
+    "fork-ts-checker-webpack-plugin": "5.0.14",
     "glob": "7.1.6",
     "husky": "4.2.5",
-    "jss": "10.3.0",
-    "jss-camel-case": "6.1.0",
-    "jss-nested": "6.0.1",
-    "jss-vendor-prefixer": "8.0.1",
-    "linkstate": "1.1.1",
+    "jest": "26.4.0",
+    "jest-serializer-html": "7.0.0",
+    "lerna": "^3.22.1",
     "lint-staged": "10.2.11",
-    "loader-utils": "2.0.0",
     "nodemon": "2.0.4",
-    "nyc": "15.1.0",
-    "pascal-case": "3.1.1",
-    "pino-pretty": "4.1.0",
-    "preact": "10.4.7",
-    "preact-cli": "3.0.1",
-    "preact-markup": "2.0.0",
-    "preact-router": "3.2.1",
-    "purgecss-webpack-plugin": "2.3.0",
-    "snarkdown": "1.2.2",
-    "supertest": "4.0.2",
-    "svg-sprite-loader": "5.0.0",
-    "type-fest": "0.16.0",
     "typescript": "3.9.7"
   },
-  "description": "rctf is RedpwnCTF's CTF platform. It is developed and maintained by the [redpwn](https://redpwn.net) CTF team.",
+  "description": "rCTF is redpwnCTF's CTF platform. It is developed and maintained by the [redpwn](https://redpwn.net) CTF team.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/redpwn/rctf.git"
@@ -119,10 +59,5 @@
   "bugs": {
     "url": "https://github.com/redpwn/rctf/issues"
   },
-  "homepage": "https://github.com/redpwn/rctf#readme",
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  }
+  "homepage": "https://rctf.redpwn.net"
 }

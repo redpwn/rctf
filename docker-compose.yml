@@ -9,10 +9,9 @@ services:
       - rctf
     env_file:
       - .env
-    environment:
-      - PORT=80
     volumes:
-      - ./conf.d:/app/conf.d
+      - ./rctf.d:/app/rctf.d
+      - ./data/uploads:/app/uploads
     depends_on:
       - redis
       - postgres
@@ -23,7 +22,7 @@ services:
     networks:
       - rctf
     volumes:
-      - ./data/rctf-redis:/data
+      - ./data/redis:/data
   postgres:
     image: postgres:12.3
     restart: always
@@ -34,7 +33,7 @@ services:
     networks:
       - rctf
     volumes:
-      - ./data/rctf-postgres:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql/data
 
 networks:
   rctf: {}

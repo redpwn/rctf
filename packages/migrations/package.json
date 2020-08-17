@@ -1,0 +1,30 @@
+{
+  "name": "@rctf/migrations",
+  "license": "BSD-3-Clause",
+  "version": "3.0.0-alpha.0",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "migrations",
+    "index.js",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "create-migration": "node-pg-migrate create"
+  },
+  "peerDependencies": {
+    "node-pg-migrate": "^5.3.0"
+  },
+  "devDependencies": {
+    "node-pg-migrate": "5.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redpwn/rctf.git"
+  },
+  "author": "redpwn <contact@redpwn.net>",
+  "bugs": {
+    "url": "https://github.com/redpwn/rctf/issues"
+  },
+  "homepage": "https://rctf.redpwn.net"
+}

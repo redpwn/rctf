@@ -1,0 +1,76 @@
+{
+  "name": "@rctf/server",
+  "license": "BSD-3-Clause",
+  "version": "3.0.0-alpha.0",
+  "bin": {
+    "rctf": "dist/index.js"
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc -b",
+    "start": "node --enable-source-maps --unhandled-rejections=strict dist/index.js",
+    "migrate": "cross-env RCTF_DATABASE_MIGRATE=only yarn start",
+    "build": "tsc -b src && yarn copy-static",
+    "watch-server": "nodemon --enable-source-maps --unhandled-rejections=strict dist/index.js | pino-pretty -c -t",
+    "watch-ts": "tsc -b -w src",
+    "dev": "concurrently -k -t \"HH:mm:ss.SSS\" -p \"[{time}]\" -c \"green,red\" \"yarn:watch-*\"",
+    "test": "jest",
+    "copy-static": "cpy --cwd=src/ \"**/*\" \"!**/*.{j,t}s\" ../dist --parents",
+    "prepack": "yarn build"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "dist/"
+    ],
+    "delay": "1000"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "5.2.0",
+    "@rctf/client": "3.0.0-alpha.0",
+    "@rctf/migrations": "3.0.0-alpha.0",
+    "aws-sdk": "2.734.0",
+    "data-uri-to-buffer": "3.0.1",
+    "deepmerge": "4.2.2",
+    "dotenv": "8.2.0",
+    "email-validator": "2.0.4",
+    "fastify": "3.2.1",
+    "fastify-static": "3.2.0",
+    "got": "11.5.2",
+    "hyperid": "2.0.5",
+    "mustache": "4.0.1",
+    "node-pg-migrate": "5.5.0",
+    "nodemailer": "6.4.11",
+    "pg": "8.3.0",
+    "redis": "3.0.2",
+    "uuid": "8.3.0",
+    "yaml": "1.10.0"
+  },
+  "devDependencies": {
+    "@types/content-disposition": "0.5.3",
+    "@types/mustache": "4.0.1",
+    "@types/node": "14.6.0",
+    "@types/nodemailer": "6.4.0",
+    "@types/pg": "7.14.4",
+    "@types/uuid": "8.3.0",
+    "cpy-cli": "3.1.1",
+    "eslint": "7.7.0",
+    "get-port": "5.1.1",
+    "jest": "26.4.0",
+    "pino-pretty": "4.1.0",
+    "supertest": "4.0.2",
+    "type-fest": "0.16.0",
+    "typescript": "3.9.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redpwn/rctf.git"
+  },
+  "author": "redpwn <contact@redpwn.net>",
+  "bugs": {
+    "url": "https://github.com/redpwn/rctf/issues"
+  },
+  "homepage": "https://rctf.redpwn.net"
+}

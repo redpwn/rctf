@@ -6,19 +6,21 @@ The key specified in `awsKeyId` and `awsKeySecret` must have the `ses:SendEmail`
 
 ## Configuration Options
 
-Option|Description
--|-
-`awsKeyId`|The AWS IAM key ID used to send emails.
-`awsKeySecret`|The AWS IAM key secret used to send emails.
-`awsRegion`|The AWS region used to send emails.
+YAML/JSON name|environment name|required|default value|type|description
+-|-|-|-|-|-
+`awsKeyId`|`RCTF_SES_KEY_ID`|yes|_(none)_|string|AWS IAM key ID
+`awsKeySecret`|`RCTF_SES_KEY_SECRET`|yes|_(none)_|string|AWS IAM key secret
+`awsRegion`|`RCTF_SES_REGION`|yes|_(none)_|string|AWS region ID
 
 ## Configuration Example
 
 ```yaml
-emailProvider:
-  name: 'emails/ses'
-  options:
-    awsKeyId: 'ABCDABCD'
-    awsKeySecret: 'abcdabcd'
-    awsRegion: 'us-east-1'
+email:
+  from: no-reply@example.com
+  provider:
+    name: emails/ses
+    options:
+      awsKeyId: ABCDABCD
+      awsKeySecret: abcdabcd
+      awsRegion: us-east-1
 ```
