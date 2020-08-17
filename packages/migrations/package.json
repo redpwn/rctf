@@ -9,8 +9,14 @@
     "index.js",
     "index.d.ts"
   ],
+  "scripts": {
+    "create-migration": "node-pg-migrate create"
+  },
   "peerDependencies": {
     "node-pg-migrate": "^5.3.0"
+  },
+  "devDependencies": {
+    "node-pg-migrate": "5.3.0"
   },
   "repository": {
     "type": "git",
