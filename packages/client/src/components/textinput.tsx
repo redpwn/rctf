@@ -20,6 +20,7 @@ export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   value?: string
   disabled?: boolean
   placeholder?: string
+  bg?: string
   onChange?: JSX.IntrinsicElements['input']['onChange']
 }
 
@@ -31,6 +32,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
   error = false,
   showError = false,
   id: _id,
+  bg = 'background',
   onChange: _onChange,
   ...props
 }, forwardedRef) => {
@@ -96,6 +98,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
           onChange={onChange} onInput={onChange}
           sx={{
             color: disabled ? 'muted' : 'text',
+            bg,
             transition: 'all 150ms',
             '::placeholder': {
               color: 'muted',
@@ -145,7 +148,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
               ml: 1,
               px: 1,
               py: 0,
-              bg: 'background',
+              bg,
               top: 0,
               transform: 'translateY(-50%)'
             }}>
