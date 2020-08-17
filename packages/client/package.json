@@ -35,6 +35,7 @@
     "@storybook/react": "6.0.12",
     "@testing-library/jest-dom": "5.11.3",
     "@testing-library/preact": "2.0.0",
+    "@testing-library/user-event": "12.1.1",
     "@types/history": "2.0.50",
     "@types/react": "16.9.46",
     "@types/theme-ui": "0.3.6",
