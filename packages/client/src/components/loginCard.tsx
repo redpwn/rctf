@@ -43,11 +43,13 @@ export const LoginCard: FunctionComponent<LoginCardProps> = ({
           } as SxStyleProp}
           onSubmit={onTokenLogin}
         >
-          <Grid gap={1}>
+          <Box>
             <TextInput value={teamToken} onChange={handleTeamTokenChange} label='Team Code or Link'/>
-            <Link href='/recover'>Lost your team token?</Link>
-          </Grid>
-          <Button sx={{ width: '100%' }} type='submit'>Log In</Button>
+            <Box mt={1}>
+              <Link href='/recover'>Lost your team token?</Link>
+            </Box>
+          </Box>
+          <Button sx={{ width: '100%' }} type='submit' disabled={!teamToken}>Log In</Button>
         </form>
         <Box sx={{
           fontFamily: 'heading',
