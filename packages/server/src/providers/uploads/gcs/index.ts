@@ -3,13 +3,13 @@ import crypto from 'crypto'
 import { Provider } from '../../../uploads/provider'
 
 interface GcsProviderOptions {
-  credentials: Record<string, unknown>;
-  bucketName: string;
+  credentials: Record<string, unknown>
+  bucketName: string
 }
 
 export default class GcsProvider implements Provider {
-  private bucket: Bucket
-  private bucketName: string
+  private readonly bucket: Bucket
+  private readonly bucketName: string
 
   constructor (_options: Partial<GcsProviderOptions>) {
     const options = {
@@ -27,7 +27,7 @@ export default class GcsProvider implements Provider {
     this.bucketName = options.bucketName
   }
 
-  private getGcsFile = (sha256: string, name: string): File => {
+  private readonly getGcsFile = (sha256: string, name: string): File => {
     const key = `uploads/${sha256}/${name}`
     const file = this.bucket.file(key)
     return file

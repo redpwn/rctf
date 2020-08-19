@@ -54,11 +54,11 @@ export interface CtftimeAuthTokenData {
 
 // Internal map of type definitions for typing purposes only -
 // this type does not describe a real data-structure
-type TokenDataTypes = {
-  [tokenKinds.auth]: AuthTokenData;
-  [tokenKinds.team]: TeamTokenData;
-  [tokenKinds.verify]: VerifyTokenData;
-  [tokenKinds.ctftimeAuth]: CtftimeAuthTokenData;
+interface TokenDataTypes {
+  [tokenKinds.auth]: AuthTokenData
+  [tokenKinds.team]: TeamTokenData
+  [tokenKinds.verify]: VerifyTokenData
+  [tokenKinds.ctftimeAuth]: CtftimeAuthTokenData
 }
 
 export type Token = string

@@ -6,7 +6,7 @@ interface PostmarkProviderOptions {
 }
 
 export default class PostmarkProvider implements Provider {
-  private serverToken: string
+  private readonly serverToken: string
 
   constructor (_options: Partial<PostmarkProviderOptions>) {
     const options = {

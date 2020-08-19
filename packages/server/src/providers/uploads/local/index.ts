@@ -8,11 +8,11 @@ import { FastifyInstance } from 'fastify'
 import fastifyStatic, { FastifyStaticOptions } from 'fastify-static'
 
 interface LocalProviderOptions {
-  uploadDirectory?: string;
+  uploadDirectory?: string
 }
 
 export default class LocalProvider implements Provider {
-  private uploadDirectory: string
+  private readonly uploadDirectory: string
 
   constructor (options: LocalProviderOptions, app: FastifyInstance) {
     this.uploadDirectory = path.resolve(options.uploadDirectory ?? path.join(process.cwd(), 'uploads'))

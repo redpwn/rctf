@@ -17,7 +17,7 @@ export const init = (app: FastifyInstance | null): void => {
 
 const getSafeName = (name: string) => name.replace(/[^a-zA-Z0-9-_.]/g, '_').replace(/^\.\.?$/, '_')
 
-export const upload = (data: Buffer, name: string): Promise<string> => {
+export const upload = async (data: Buffer, name: string): Promise<string> => {
   if (provider === null) {
     throw new Error('upload provider called before initialization')
   }
@@ -25,7 +25,7 @@ export const upload = (data: Buffer, name: string): Promise<string> => {
   return provider.upload(data, getSafeName(name))
 }
 
-export const getUrl = (sha256: string, name: string): Promise<string|null> => {
+export const getUrl = async (sha256: string, name: string): Promise<string|null> => {
   if (provider === null) {
     throw new Error('upload provider called before initialization')
   }

@@ -237,7 +237,7 @@ export const responseList = {
   }
 }
 
-const responses = <{ [K in keyof typeof responseList]: K }>{}
+const responses = {} as { [K in keyof typeof responseList]: K }
 Object.keys(responseList).forEach((kind) => {
   responses[kind as keyof typeof responseList] = kind as never
 })

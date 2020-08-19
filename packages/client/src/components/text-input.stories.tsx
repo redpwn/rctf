@@ -61,8 +61,8 @@ WithoutLabel.args = {
 
 export const StackedNoPadding: FunctionComponent = () =>
   <>
-    <TextInput label={text('Label 1', 'Label 1')}/>
-    <TextInput label={text('Label 2', 'Label 2')}/>
+    <TextInput label={text('Label 1', 'Label 1')} />
+    <TextInput label={text('Label 2', 'Label 2')} />
   </>
 
 export const ControlledInput: OmitArgs<typeof Template, 'value' | 'onChange'> = (props) => {

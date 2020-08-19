@@ -1,13 +1,13 @@
-type FetcherRequest = {
-  path: string,
-  method: string,
-  authToken?: string | null,
+interface FetcherRequest {
+  path: string
+  method: string
+  authToken?: string | null
   body?: unknown
 }
 
-type FetcherResponse = {
-  kind: string,
-  message: string,
+interface FetcherResponse {
+  kind: string
+  message: string
   data: unknown
 }
 

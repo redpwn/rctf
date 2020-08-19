@@ -4,13 +4,13 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended',
-    'plugin:react-hooks/recommended'
+    'plugin:react-hooks/recommended',
+    'standard-jsx'
   ],
   plugins: [
   ],
   rules: {
     radix: 'off',
-    'jsx-quotes': ['error', 'prefer-single'],
     'react/react-in-jsx-scope': 'off', // We use ProvidePlugin
     'react/prop-types': 'off' // We have TypeScript and don't care about JS interop
   },

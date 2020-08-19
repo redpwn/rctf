@@ -13,7 +13,7 @@ export const generateTestUser = (): Omit<db.users.User, 'id'> => ({
 
 // Generate a real user, adding to database
 export const generateRealTestUser = async (): Promise<{
-  user: db.users.User,
+  user: db.users.User
   cleanup: () => Promise<void>
 }> => {
   const id = uuidv4()
@@ -31,7 +31,7 @@ export const generateRealTestUser = async (): Promise<{
 }
 
 export const generateChallenge = async (): Promise<{
-  chall: Challenge,
+  chall: Challenge
   cleanup: () => Promise<void>
 }> => {
   // Load on-demand
@@ -53,6 +53,6 @@ export const generateChallenge = async (): Promise<{
   await challenges.updateChallenge(chall)
   return {
     chall,
-    cleanup: () => challenges.deleteChallenge(chall.id)
+    cleanup: async () => challenges.deleteChallenge(chall.id)
   }
 }

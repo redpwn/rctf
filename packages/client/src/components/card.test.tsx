@@ -28,7 +28,8 @@ test('default background color is cardBackground', () => {
         background: 'badcolor',
         cardBackground: 'testcolor1'
       }
-    }}>
+    }}
+    >
       <Card>
         <ThemeColorDisplayer color='background' data-testid='colordisplayer' />
       </Card>
@@ -46,7 +47,8 @@ test('background color respects theme', () => {
         background: 'badcolor',
         custom: 'testcolor2'
       }
-    }}>
+    }}
+    >
       <Card bg='custom'>
         <ThemeColorDisplayer color='background' data-testid='colordisplayer' />
       </Card>
@@ -63,7 +65,8 @@ test('background color not in theme should be passed through', () => {
       colors: {
         background: 'badcolor'
       }
-    }}>
+    }}
+    >
       <Card bg='testcolor3'>
         <ThemeColorDisplayer color='background' data-testid='colordisplayer' />
       </Card>

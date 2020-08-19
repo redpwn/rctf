@@ -1,8 +1,8 @@
 import { createContext, useState, useCallback, FunctionComponent, useContext } from 'react'
 
 interface AuthContextValue {
-  authToken: string | null,
-  setAuthToken: (token: string | null) => void;
+  authToken: string | null
+  setAuthToken: (token: string | null) => void
 }
 
 // Using the context without a provider mounted should be an error

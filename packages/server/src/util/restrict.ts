@@ -4,14 +4,14 @@ import config from '../config/server'
 type ACLCheck = (email: string | undefined) => boolean
 
 export interface ACL {
-  match: string;
-  value: string;
-  divisions: (keyof ServerConfig['divisions'])[];
+  match: string
+  value: string
+  divisions: (keyof ServerConfig['divisions'])[]
 }
 
 interface CompiledACL {
-  check: ACLCheck;
-  divisions: (keyof ServerConfig['divisions'])[];
+  check: ACLCheck
+  divisions: (keyof ServerConfig['divisions'])[]
 }
 
 let acls: CompiledACL[]

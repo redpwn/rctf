@@ -86,7 +86,8 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
       <Box sx={{
         position: 'relative',
         mt: 2
-      }}>
+      }}
+      >
         <Input
           {...props}
           id={id}
@@ -119,51 +120,54 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
           }}
         />
         {label &&
-          <Label htmlFor={id} sx={{
-            position: 'absolute',
-            height: '50%',
-            top: 0,
-            left: 0,
-            color: 'muted',
-            cursor: disabled ? 'default' : 'text',
-            transition: 'all 150ms ease',
-            transform: 'translateY(100%)',
-            transformOrigin: '0 0',
-            'input:focus + &': {
-              color: 'primary',
-              cursor: 'default',
-              transform: 'translateY(0) scale(0.9)'
-            },
-            ...(hasValue ? {
-              color: 'text',
-              cursor: 'default',
-              transform: 'translateY(0) scale(0.9)'
-            } : {}),
-            'input:invalid + &&': {
-              color: 'danger'
-            }
-          }}>
-            <Box as='span' sx={{
+          <Label
+            htmlFor={id} sx={{
               position: 'absolute',
-              ml: 1,
-              px: 1,
-              py: 0,
-              bg,
+              height: '50%',
               top: 0,
-              transform: 'translateY(-50%)'
-            }}>
+              left: 0,
+              color: 'muted',
+              cursor: disabled ? 'default' : 'text',
+              transition: 'all 150ms ease',
+              transform: 'translateY(100%)',
+              transformOrigin: '0 0',
+              'input:focus + &': {
+                color: 'primary',
+                cursor: 'default',
+                transform: 'translateY(0) scale(0.9)'
+              },
+              ...(hasValue ? {
+                color: 'text',
+                cursor: 'default',
+                transform: 'translateY(0) scale(0.9)'
+              } : {}),
+              'input:invalid + &&': {
+                color: 'danger'
+              }
+            }}
+          >
+            <Box
+              as='span' sx={{
+                position: 'absolute',
+                ml: 1,
+                px: 1,
+                py: 0,
+                bg,
+                top: 0,
+                transform: 'translateY(-50%)'
+              }}
+            >
               {label}
             </Box>
-          </Label>
-        }
+          </Label>}
       </Box>
       {showError &&
         <Text sx={{
           color: 'danger'
-        }}>
-          {errorMessage || <br/>}
-        </Text>
-      }
+        }}
+        >
+          {errorMessage || <br />}
+        </Text>}
     </>
   )
 })

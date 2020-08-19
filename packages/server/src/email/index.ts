@@ -7,8 +7,8 @@ import { ProviderConstructor } from './provider'
 export type VerificationEmailKind = 'register' | 'recover' | 'update'
 
 let sendVerification: (data: {
-  token: string,
-  kind: VerificationEmailKind,
+  token: string
+  kind: VerificationEmailKind
   email: string
 }) => Promise<void> = async () => {
   throw new Error('email verification requested when email provider is not configured')

@@ -2,7 +2,7 @@ import pgMigrate from 'node-pg-migrate'
 import { migrationsDir } from '@rctf/migrations'
 import config from '../config/server'
 
-const sleep = (time: number) => new Promise(resolve => setTimeout(resolve, time))
+const sleep = async (time: number) => new Promise(resolve => setTimeout(resolve, time))
 
 const migrate = async (attempt: number): Promise<void> => {
   try {
@@ -20,8 +20,8 @@ const migrate = async (attempt: number): Promise<void> => {
     }
     console.error(e)
     await sleep(2000 + attempt * 1000)
-    return migrate(attempt + 1)
+    return await migrate(attempt + 1)
   }
 }
 
-export default (): Promise<void> => migrate(0)
+export default async (): Promise<void> => migrate(0)

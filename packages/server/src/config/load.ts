@@ -53,7 +53,7 @@ export const loadFileConfigs = (configPath?: string): PartialDeep<ServerConfig>[
     findConfigDir()
 
   return fs.readdirSync(resolvedConfigPath)
-    .sort()
+    .sort((a, b) => a.localeCompare(b))
     .map(file => path.resolve(resolvedConfigPath, file))
     .map(loadFile)
     .filter((x): x is PartialDeep<ServerConfig> => x !== undefined)

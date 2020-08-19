@@ -8,10 +8,10 @@ import { scriptSetLeaderboard, scriptGetRange, scriptSetGraph, scriptGetGraph } 
 const creds = config.database.redis
 
 type RedisClient = IORedis & {
-  rctfRateLimit: scriptRateLimit,
-  rctfSetLeaderboard: scriptSetLeaderboard,
-  rctfGetRange: scriptGetRange,
-  rctfSetGraph: scriptSetGraph,
+  rctfRateLimit: scriptRateLimit
+  rctfSetLeaderboard: scriptSetLeaderboard
+  rctfGetRange: scriptGetRange
+  rctfSetGraph: scriptSetGraph
   rctfGetGraph: scriptGetGraph
 }
 

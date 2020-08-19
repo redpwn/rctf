@@ -17,6 +17,7 @@ const _removeUndefined = <T>(o: Record<string, T>): Record<string, T> | undefine
       o[key] = v = _removeUndefined(v as Record<string, unknown>) as T
     }
     if (v === undefined || v === null) {
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete o[key]
     } else {
       hasKeys = true

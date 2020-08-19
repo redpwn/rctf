@@ -31,7 +31,8 @@ module.exports = {
     files: ['*.ts', '*.tsx'],
     extends: [
       'plugin:@typescript-eslint/recommended',
-      'plugin:@typescript-eslint/recommended-requiring-type-checking'
+      'plugin:@typescript-eslint/recommended-requiring-type-checking',
+      'standard-with-typescript'
     ],
     plugins: [
       '@typescript-eslint'
@@ -39,7 +40,15 @@ module.exports = {
     rules: {
       '@typescript-eslint/no-unnecessary-condition': 'error',
       '@typescript-eslint/require-await': 'off',
-      '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: false }]
+      '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: false }],
+      '@typescript-eslint/strict-boolean-expressions': 'off',
+      '@typescript-eslint/consistent-type-assertions': ['error', {
+        assertionStyle: 'as',
+        objectLiteralTypeAssertions: 'allow'
+      }],
+      '@typescript-eslint/array-type': ['error', { default: 'array' }],
+      '@typescript-eslint/return-await': ['error', 'in-try-catch'],
+      '@typescript-eslint/explicit-function-return-type': 'off'
     }
   }, {
     files: ['**/.eslintrc.js'],

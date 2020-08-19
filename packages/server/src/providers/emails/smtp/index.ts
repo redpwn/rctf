@@ -3,11 +3,11 @@ import Mailer from 'nodemailer/lib/mailer'
 import { Provider, Mail } from '../../../email/provider'
 
 interface SmtpProviderOptions {
-  smtpUrl: string;
+  smtpUrl: string
 }
 
 export default class SmtpProvider implements Provider {
-  private mailer: Mailer
+  private readonly mailer: Mailer
   constructor (_options: Partial<SmtpProviderOptions>) {
     const options = {
       smtpUrl: process.env.RCTF_SMTP_URL ?? _options.smtpUrl

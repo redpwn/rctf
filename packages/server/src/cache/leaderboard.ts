@@ -55,7 +55,7 @@ client.defineCommand('rctfGetRange', {
 export type scriptGetRange = (leaderboardKey: string, start: number, end: number) => Promise<string[]>
 
 export type GetRangeRequest = { division: string } & MergeExclusive<{ start: number, end: number}, { all: boolean }>
-export type GetRangeResponse = { total: number, leaderboard: UserInfo[] }
+export interface GetRangeResponse { total: number, leaderboard: UserInfo[] }
 export const getRange = async ({ start, end, division, all }: GetRangeRequest): Promise<GetRangeResponse> => {
   if (!all && start === end) {
     // zero-length query - get total only
@@ -98,7 +98,7 @@ export const getScore = async ({ id }: GetScoreRequest): Promise<GetScoreRespons
   }
 }
 
-export type GetChallengeInfoRequest = { ids: Challenge['id'][] }
+export interface GetChallengeInfoRequest { ids: Challenge['id'][] }
 export type GetChallengeInfoResponse = ChallengeInfo[]
 export const getChallengeInfo = async ({ ids }: GetChallengeInfoRequest): Promise<GetChallengeInfoResponse> => {
   if (ids.length === 0) {
@@ -164,7 +164,7 @@ client.defineCommand('rctfGetGraph', {
 })
 export type scriptGetGraph = (leaderboardKey: string, leaderboardUpdateKey: string, maxTeams: string) => Promise<string | null>
 
-export type GetGraphRequest = { division: string, maxTeams: number }
+export interface GetGraphRequest { division: string, maxTeams: number }
 export type GetGraphResponse = GraphEntry[]
 export const getGraph = async ({ division, maxTeams }: GetGraphRequest): Promise<GetGraphResponse> => {
   const redisResult = await client.rctfGetGraph(

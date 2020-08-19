@@ -16,36 +16,36 @@ export class ResponseError extends Error {
 
 type ApiMutation<Params, Response> = (params: Params) => Promise<{ data: Response } | { error: ResponseError }>
 
-export type AuthLoginTeamTokenRequest = { teamToken: string }
-export type AuthLoginCtftimeTokenRequest = { ctftimeToken: string }
+export interface AuthLoginTeamTokenRequest { teamToken: string }
+export interface AuthLoginCtftimeTokenRequest { ctftimeToken: string }
 export type AuthLoginRequest = MergeExclusive<AuthLoginTeamTokenRequest, AuthLoginCtftimeTokenRequest>
-export type AuthLoginResponse = { authToken: string }
+export interface AuthLoginResponse { authToken: string }
 
-export type AuthRecoverRequest = { email: string }
+export interface AuthRecoverRequest { email: string }
 
 interface AuthRegisterBaseRequest { name: string }
 export interface AuthRegisterEmailRequest extends AuthRegisterBaseRequest { email: string }
 export interface AuthRegisterCtftimeTokenRequest extends AuthRegisterBaseRequest { ctftimeToken: string }
 export type AuthRegisterRequest = MergeExclusive<AuthRegisterEmailRequest, AuthRegisterCtftimeTokenRequest>
-export type AuthRegisterRegisterResponse = { kind: 'goodRegister', authToken: string }
-export type AuthRegisterSentResponse = { kind: 'goodVerifySent' }
+export interface AuthRegisterRegisterResponse { kind: 'goodRegister', authToken: string }
+export interface AuthRegisterSentResponse { kind: 'goodVerifySent' }
 export type AuthRegisterResponse = AuthRegisterRegisterResponse | AuthRegisterSentResponse
 
-export type AuthVerifyRequest = { verifyToken: string }
-export type AuthVerifyRegisterResponse = { kind: 'goodRegister', authToken: string }
-export type AuthVerifyRecoverResponse = { kind: 'goodVerify', authToken: string }
-export type AuthVerifyUpdateResponse = { kind: 'goodEmailSet' }
+export interface AuthVerifyRequest { verifyToken: string }
+export interface AuthVerifyRegisterResponse { kind: 'goodRegister', authToken: string }
+export interface AuthVerifyRecoverResponse { kind: 'goodVerify', authToken: string }
+export interface AuthVerifyUpdateResponse { kind: 'goodEmailSet' }
 export type AuthVerifyResponse = AuthVerifyRegisterResponse | AuthVerifyRecoverResponse | AuthVerifyUpdateResponse
 
-export type ChallsSubmitRequest = { challId: string, flag: string }
+export interface ChallsSubmitRequest { challId: string, flag: string }
 
-export type CtftimeCallbackRequest = { ctftimeCode: string }
-export type CtftimeCallbackResponse = { ctftimeToken: string, ctftimeName: string, ctftimeId: string }
+export interface CtftimeCallbackRequest { ctftimeCode: string }
+export interface CtftimeCallbackResponse { ctftimeToken: string, ctftimeName: string, ctftimeId: string }
 
-export type UsersMeAuthCtftimePutRequest = { ctftimeToken: string }
+export interface UsersMeAuthCtftimePutRequest { ctftimeToken: string }
 
-export type UsersMeAuthEmailPutRequest = { email: string }
-export type UsersMeAuthEmailPutResponse = { kind: 'goodEmailSet' | 'goodVerifySent' }
+export interface UsersMeAuthEmailPutRequest { email: string }
+export interface UsersMeAuthEmailPutResponse { kind: 'goodEmailSet' | 'goodVerifySent' }
 
 export const useAuthLogin = (): ApiMutation<AuthLoginRequest, AuthLoginResponse> => useCallback(async (body) => {
   const { kind, message, data } = await fetcher({

@@ -33,10 +33,10 @@ export const getChallengeType = (name: string): PrefixType => {
 * to the number of milliseconds left until the bucket expires and new requests can be sent.
 * Otherwise, the method will resolve to an object with the `ok` key set to true.
 */
-export type CheckRateLimitRequest = {
-  type: RateLimitType,
-  userid: User['id'],
-  duration: number,
+export interface CheckRateLimitRequest {
+  type: RateLimitType
+  userid: User['id']
+  duration: number
   limit: number
 }
 export type CheckRateLimitResponse = MergeExclusive<{ ok: true }, { ok: false, timeLeft: number }>

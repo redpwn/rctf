@@ -29,7 +29,7 @@ export const Buttons: AugmentArgs<typeof Template, { no2Disabled: boolean }> = (
 }) =>
   <Grid gap={2} columns={3}>
     {[1, 2, 3].map(n =>
-      <Template {...props} key={n} disabled={disabled || (n === 2 && no2Disabled)} />
+      <Template {...props} key={n} disabled={!!disabled || (n === 2 && no2Disabled)} />
     )}
   </Grid>
 

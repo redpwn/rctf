@@ -2,13 +2,13 @@ import got from 'got'
 import { Provider, Mail } from '../../../email/provider'
 
 interface MailgunProviderOptions {
-  apiKey: string;
-  domain: string;
+  apiKey: string
+  domain: string
 }
 
 export default class MailgunProvider implements Provider {
-  private apiKey: string
-  private domain: string
+  private readonly apiKey: string
+  private readonly domain: string
   constructor (_options: Partial<MailgunProviderOptions>) {
     const options = {
       apiKey: process.env.RCTF_MAILGUN_API_KEY ?? _options.apiKey,

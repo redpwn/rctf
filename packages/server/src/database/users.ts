@@ -6,60 +6,60 @@ import { DivisionACLError } from '../errors'
 import { ExtractQueryType } from './util'
 
 export interface User {
-  id: string;
-  name: string;
-  email?: string;
-  division: keyof ServerConfig['divisions'];
-  ctftimeId?: string;
-  perms: number;
+  id: string
+  name: string
+  email?: string
+  division: keyof ServerConfig['divisions']
+  ctftimeId?: string
+  perms: number
 }
 
-export const getAllUsers = (): Promise<Pick<User, 'id' | 'name' | 'division'>[]> => {
+export const getAllUsers = async (): Promise<Pick<User, 'id' | 'name' | 'division'>[]> => {
   return db.query<ExtractQueryType<typeof getAllUsers>>('SELECT id, name, division FROM users')
     .then(res => res.rows)
 }
 
-export const getUserById = ({ id }: Pick<User, 'id'>): Promise<User | undefined> => {
+export const getUserById = async ({ id }: Pick<User, 'id'>): Promise<User | undefined> => {
   return db.query<User>('SELECT * FROM users WHERE id = $1', [id])
     .then(res => res.rows[0])
 }
 
-export const getUserByEmail = ({ email }: Pick<User, 'email'>): Promise<User | undefined> => {
+export const getUserByEmail = async ({ email }: Pick<User, 'email'>): Promise<User | undefined> => {
   return db.query<User>('SELECT * FROM users WHERE email = $1', [email])
     .then(res => res.rows[0])
 }
 
-export const getUserByCtftimeId = ({ ctftimeId }: Pick<User, 'ctftimeId'>): Promise<User | undefined> => {
+export const getUserByCtftimeId = async ({ ctftimeId }: Pick<User, 'ctftimeId'>): Promise<User | undefined> => {
   return db.query<User>('SELECT * FROM users WHERE ctftime_id = $1', [ctftimeId])
     .then(res => res.rows[0])
 }
 
-export const getUserByIdAndEmail = ({ id, email }: Pick<User, 'id' | 'email'>): Promise<User | undefined> => {
+export const getUserByIdAndEmail = async ({ id, email }: Pick<User, 'id' | 'email'>): Promise<User | undefined> => {
   return db.query<User>('SELECT * FROM users WHERE id = $1 AND email = $2', [id, email])
     .then(res => res.rows[0])
 }
 
-export const getUserByNameOrEmail = ({ name, email }: Pick<User, 'name' | 'email'>): Promise<User | undefined> => {
+export const getUserByNameOrEmail = async ({ name, email }: Pick<User, 'name' | 'email'>): Promise<User | undefined> => {
   return db.query<User>('SELECT * FROM users WHERE name = $1 OR email = $2', [name, email])
     .then(res => res.rows[0])
 }
 
-export const getUserByNameOrCtftimeId = ({ name, ctftimeId }: Pick<User, 'name' | 'ctftimeId'>): Promise<User | undefined> => {
+export const getUserByNameOrCtftimeId = async ({ name, ctftimeId }: Pick<User, 'name' | 'ctftimeId'>): Promise<User | undefined> => {
   return db.query<User>('SELECT * FROM users WHERE name = $1 OR ctftime_id = $2', [name, ctftimeId])
     .then(res => res.rows[0])
 }
 
-export const removeUserByEmail = ({ email }: Pick<User, 'email'>): Promise<User | undefined> => {
+export const removeUserByEmail = async ({ email }: Pick<User, 'email'>): Promise<User | undefined> => {
   return db.query<User>('DELETE FROM users WHERE email = $1 RETURNING *', [email])
     .then(res => res.rows[0])
 }
 
-export const removeUserById = ({ id }: Pick<User, 'id'>): Promise<User | undefined> => {
+export const removeUserById = async ({ id }: Pick<User, 'id'>): Promise<User | undefined> => {
   return db.query<User>('DELETE FROM users WHERE id = $1 RETURNING *', [id])
     .then(res => res.rows[0])
 }
 
-export const makeUser = ({ id, name, email, division, ctftimeId, perms }: User): Promise<User> => {
+export const makeUser = async ({ id, name, email, division, ctftimeId, perms }: User): Promise<User> => {
   if (config.email && config.divisionACLs && !util.restrict.divisionAllowed(email, division)) {
     throw new DivisionACLError()
   }
@@ -69,12 +69,12 @@ export const makeUser = ({ id, name, email, division, ctftimeId, perms }: User):
     .then(res => res.rows[0])
 }
 
-export const removeCtftimeId = ({ id }: Pick<User, 'id'>): Promise<User | undefined> => {
+export const removeCtftimeId = async ({ id }: Pick<User, 'id'>): Promise<User | undefined> => {
   return db.query<User>('UPDATE users SET ctftime_id = NULL WHERE id = $1 AND ctftime_id IS NOT NULL RETURNING *', [id])
     .then(res => res.rows[0])
 }
 
-export const removeEmail = ({ id }: Pick<User, 'id'>): Promise<User | undefined> => {
+export const removeEmail = async ({ id }: Pick<User, 'id'>): Promise<User | undefined> => {
   return db.query<User>('UPDATE users SET email = NULL WHERE id = $1 AND email IS NOT NULL RETURNING *', [id])
     .then(res => res.rows[0])
 }
@@ -87,8 +87,8 @@ export const updateUser = async ({ id, name, email, division, ctftimeId, perms }
         // User does not exist, bail
         return undefined
       }
-      email = email || user.email
-      division = division || user.division
+      email = email ?? user.email
+      division = division ?? user.division
     }
     if (!util.restrict.divisionAllowed(email, division)) {
       throw new DivisionACLError()

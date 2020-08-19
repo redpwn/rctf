@@ -44,7 +44,7 @@ export const LoginCard: FunctionComponent<LoginCardProps> = ({
           onSubmit={onTokenLogin}
         >
           <Box>
-            <TextInput value={teamToken} onChange={handleTeamTokenChange} label='Team Code or Link'/>
+            <TextInput value={teamToken} onChange={handleTeamTokenChange} label='Team Code or Link' />
             <Box mt={1}>
               <Link href='/recover'>Lost your team token?</Link>
             </Box>
@@ -55,7 +55,8 @@ export const LoginCard: FunctionComponent<LoginCardProps> = ({
           fontFamily: 'heading',
           fontWeight: 'heading',
           textAlign: 'center'
-        }}>
+        }}
+        >
           or
         </Box>
         <Button

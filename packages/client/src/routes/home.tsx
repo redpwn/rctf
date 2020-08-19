@@ -37,27 +37,30 @@ const Home: FunctionComponent = () => {
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: 'column'
-    }}>
+    }}
+    >
       <h3>Your token is</h3>
       <code>{authToken ?? 'none'}</code>
-      {authToken !== null && <>
-        <Button onClick={handleLogout}>Log out</Button>
-        <h3>Remove CTFtime</h3>
-        {errorMessage !== null && (
-          <h3 sx={{ color: 'accent' }}>{errorMessage}</h3>
-        )}
-        {done ? (
-          <h3>done</h3>
-        ) : (
-          pending ? (
-            <Spinner />
+      {authToken !== null && (
+        <>
+          <Button onClick={handleLogout}>Log out</Button>
+          <h3>Remove CTFtime</h3>
+          {errorMessage !== null && (
+            <h3 sx={{ color: 'accent' }}>{errorMessage}</h3>
+          )}
+          {done ? (
+            <h3>done</h3>
           ) : (
-            <Button onClick={handleRemoveCtftime}>dewit</Button>
-          )
-        )}
-      </>}
+            pending ? (
+              <Spinner />
+            ) : (
+              <Button onClick={handleRemoveCtftime}>dewit</Button>
+            )
+          )}
+        </>
+      )}
       <h3 sx={{ color: 'primary' }}>graphic design is my passion</h3>
-      <div>Count: { count }</div>
+      <div>Count: {count}</div>
       <Button onClick={incCount}>Increment</Button>
     </Flex>
   )

@@ -3,9 +3,9 @@ import AWS from 'aws-sdk'
 import { Provider, Mail } from '../../../email/provider'
 
 interface SesProviderOptions {
-  awsKeyId: string;
-  awsKeySecret: string;
-  awsRegion: string;
+  awsKeyId: string
+  awsKeySecret: string
+  awsRegion: string
 }
 
 export class SesError extends Error {
@@ -17,7 +17,7 @@ export class SesError extends Error {
 }
 
 export default class SesProvider implements Provider {
-  private sesSend: (params: AWS.SES.Types.SendEmailRequest) => Promise<AWS.SES.Types.SendEmailResponse>
+  private readonly sesSend: (params: AWS.SES.Types.SendEmailRequest) => Promise<AWS.SES.Types.SendEmailResponse>
 
   constructor (_options: Partial<SesProviderOptions>) {
     const options = {
