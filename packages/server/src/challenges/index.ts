@@ -3,7 +3,6 @@ import path from 'path'
 import { Challenge, CleanedChallenge } from './types'
 import { Provider, ProviderConstructor } from './Provider'
 import { challUpdateEmitter, publishChallUpdate } from '../cache/challs'
-import { EventEmitter } from 'events'
 
 let provider: Provider
 
