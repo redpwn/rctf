@@ -159,6 +159,9 @@ exports[`Storyshots TextInput Showing Native Validation Error 1`] = `
       </EmotionCssPropInternal>
     </EmotionCssPropInternal>
   </EmotionCssPropInternal>
+  <EmotionCssPropInternal>
+    <br>
+  </EmotionCssPropInternal>
 </h>
 `;
 
