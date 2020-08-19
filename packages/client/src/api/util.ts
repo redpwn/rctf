@@ -11,7 +11,9 @@ interface FetcherResponse {
   data: unknown
 }
 
-export const fetcher: (request: FetcherRequest) => Promise<FetcherResponse> = async ({ path, method, authToken, body }) => {
+export const fetcher: (
+  request: FetcherRequest
+) => Promise<FetcherResponse> = async ({ path, method, authToken, body }) => {
   let responseBody: FetcherResponse
   if (authToken === null) {
     throw new Error('attempted to request authenticated route without token')
@@ -27,19 +29,22 @@ export const fetcher: (request: FetcherRequest) => Promise<FetcherResponse> = as
     const res = await fetch(`/api/v1/${path}`, {
       method,
       headers,
-      body: body === undefined ? undefined : JSON.stringify(body)
+      body: body === undefined ? undefined : JSON.stringify(body),
     })
-    responseBody = await res.json() as FetcherResponse
+    responseBody = (await res.json()) as FetcherResponse
   } catch {
     responseBody = {
       kind: 'errorNetwork',
       message: 'A network error occurred.',
-      data: null
+      data: null,
     }
   }
   return responseBody
 }
 
-export const uri = (parts: TemplateStringsArray, ...rest: string[]): string => parts
-  .map((part, i) => part + (i < rest.length ? encodeURIComponent(rest[i]) : ''))
-  .join('')
+export const uri = (parts: TemplateStringsArray, ...rest: string[]): string =>
+  parts
+    .map(
+      (part, i) => part + (i < rest.length ? encodeURIComponent(rest[i]) : '')
+    )
+    .join('')

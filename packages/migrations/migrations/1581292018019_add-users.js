@@ -4,7 +4,7 @@ exports.up = function (pgm) {
     name: { type: 'string', unique: true, notNull: true },
     email: { type: 'string', unique: true, notNull: true },
     password: { type: 'string', notNull: true },
-    division: { type: 'string', notNull: true }
+    division: { type: 'string', notNull: true },
   })
 }
 

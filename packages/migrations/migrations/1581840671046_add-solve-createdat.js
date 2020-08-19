@@ -1,6 +1,6 @@
 exports.up = function (pgm) {
   pgm.addColumns('solves', {
-    createdat: { type: 'timestamp', notNull: true }
+    createdat: { type: 'timestamp', notNull: true },
   })
 }
 

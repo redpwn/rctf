@@ -10,12 +10,16 @@ export const init = (app: FastifyInstance | null): void => {
 
   // FIXME: use async loading
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { default: ProviderClass } = require(path.join('../providers', name)) as { default: ProviderConstructor }
+  const { default: ProviderClass } = require(path.join(
+    '../providers',
+    name
+  )) as { default: ProviderConstructor }
 
   provider = new ProviderClass(config.uploadProvider.options ?? {}, app)
 }
 
-const getSafeName = (name: string) => name.replace(/[^a-zA-Z0-9-_.]/g, '_').replace(/^\.\.?$/, '_')
+const getSafeName = (name: string) =>
+  name.replace(/[^a-zA-Z0-9-_.]/g, '_').replace(/^\.\.?$/, '_')
 
 export const upload = async (data: Buffer, name: string): Promise<string> => {
   if (provider === null) {
@@ -25,7 +29,10 @@ export const upload = async (data: Buffer, name: string): Promise<string> => {
   return provider.upload(data, getSafeName(name))
 }
 
-export const getUrl = async (sha256: string, name: string): Promise<string|null> => {
+export const getUrl = async (
+  sha256: string,
+  name: string
+): Promise<string | null> => {
   if (provider === null) {
     throw new Error('upload provider called before initialization')
   }

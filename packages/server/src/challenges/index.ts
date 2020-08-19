@@ -13,7 +13,16 @@ let challengesMap = new Map<string, Challenge>()
 let cleanedChallengesMap = new Map<string, CleanedChallenge>()
 
 const cleanChallenge = (chall: Challenge): CleanedChallenge => {
-  const { files, description, author, points, id, name, category, sortWeight } = chall
+  const {
+    files,
+    description,
+    author,
+    points,
+    id,
+    name,
+    category,
+    sortWeight,
+  } = chall
 
   return {
     files,
@@ -23,7 +32,7 @@ const cleanChallenge = (chall: Challenge): CleanedChallenge => {
     id,
     name,
     category,
-    sortWeight
+    sortWeight,
   }
 }
 
@@ -34,43 +43,44 @@ const onUpdate = (newChallenges: Challenge[]): void => {
   cleanedChallengesMap = new Map(cleanedChallenges.map(c => [c.id, c]))
 }
 
-void import(path.join('../providers', config.challengeProvider.name))
-  .then(({ default: Provider }: { default: ProviderConstructor }): void => {
+void import(path.join('../providers', config.challengeProvider.name)).then(
+  ({ default: Provider }: { default: ProviderConstructor }): void => {
     provider = new Provider(config.challengeProvider.options ?? {})
 
     provider.on('update', onUpdate)
-  })
+  }
+)
 
 challUpdateEmitter.on('update', () => {
   provider.forceUpdate()
 })
 
-export function getAllChallenges (): Challenge[] {
+export function getAllChallenges(): Challenge[] {
   return challenges
 }
 
-export function getCleanedChallenges (): CleanedChallenge[] {
+export function getCleanedChallenges(): CleanedChallenge[] {
   return cleanedChallenges
 }
 
-export function getChallenge (id: string): Challenge | undefined {
+export function getChallenge(id: string): Challenge | undefined {
   return challengesMap.get(id)
 }
 
-export function getCleanedChallenge (id: string): CleanedChallenge | undefined {
+export function getCleanedChallenge(id: string): CleanedChallenge | undefined {
   return cleanedChallengesMap.get(id)
 }
 
-export function resetCache (): void {
+export function resetCache(): void {
   provider.forceUpdate()
 }
 
-export async function updateChallenge (chall: Challenge): Promise<void> {
+export async function updateChallenge(chall: Challenge): Promise<void> {
   await provider.updateChallenge(chall)
   await publishChallUpdate()
 }
 
-export async function deleteChallenge (id: string): Promise<void> {
+export async function deleteChallenge(id: string): Promise<void> {
   await provider.deleteChallenge(id)
   await publishChallUpdate()
 }

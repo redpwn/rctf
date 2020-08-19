@@ -4,7 +4,7 @@ exports.up = pgm => {
     userid: { type: 'string', notNull: true },
     name: { type: 'string', notNull: true },
     email: { type: 'string', unique: true, notNull: true },
-    grade: { type: 'string', notNull: true }
+    grade: { type: 'string', notNull: true },
   })
 
   pgm.addConstraint('user_members', 'uuid_fkey', {
@@ -12,8 +12,8 @@ exports.up = pgm => {
       columns: 'userid',
       references: 'users("id")',
       onDelete: 'cascade',
-      onUpdate: 'cascade'
-    }
+      onUpdate: 'cascade',
+    },
   })
 }
 

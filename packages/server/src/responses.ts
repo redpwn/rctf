@@ -17,228 +17,228 @@ export type ResponseType = MergeExclusive<NormalResponseType, RawResponseType>
 export const responseList = {
   goodVerify: {
     status: 200,
-    message: 'The email was verified.'
+    message: 'The email was verified.',
   },
   goodRegister: {
     status: 200,
-    message: 'The user was created.'
+    message: 'The user was created.',
   },
   goodLogin: {
     status: 200,
-    message: 'The login was successful.'
+    message: 'The login was successful.',
   },
   goodVerifySent: {
     status: 200,
-    message: 'The account verification email was sent.'
+    message: 'The account verification email was sent.',
   },
   badEmail: {
     status: 400,
-    message: 'The email address is malformed.'
+    message: 'The email address is malformed.',
   },
   badCompetitionNotAllowed: {
     status: 403,
-    message: 'You are not allowed to join this CTF.'
+    message: 'You are not allowed to join this CTF.',
   },
   badDivisionNotAllowed: {
     status: 403,
-    message: 'You are not allowed to join this division.'
+    message: 'You are not allowed to join this division.',
   },
   badEmailChangeDivision: {
     status: 403,
-    message: 'You are not allowed to stay in your division with this email.'
+    message: 'You are not allowed to stay in your division with this email.',
   },
   badUnknownUser: {
     status: 404,
-    message: 'The user does not exist.'
+    message: 'The user does not exist.',
   },
   badUnknownEmail: {
     status: 404,
-    message: 'The account does not exist.'
+    message: 'The account does not exist.',
   },
   badKnownEmail: {
     status: 409,
-    message: 'An account with this email already exists.'
+    message: 'An account with this email already exists.',
   },
   badKnownName: {
     status: 409,
-    message: 'An account with this name already exists.'
+    message: 'An account with this name already exists.',
   },
   badName: {
     status: 400,
-    message: 'The name should only use english letters, numbers, and symbols.'
+    message: 'The name should only use english letters, numbers, and symbols.',
   },
   badKnownCtftimeId: {
     status: 409,
-    message: 'An account with this CTFtime ID already exists.'
+    message: 'An account with this CTFtime ID already exists.',
   },
   goodLeaderboard: {
     status: 200,
-    message: 'The leaderboard was retrieved.'
+    message: 'The leaderboard was retrieved.',
   },
   goodCtftimeLeaderboard: {
     status: 200,
-    rawContentType: 'application/json'
+    rawContentType: 'application/json',
   },
   goodCtftimeToken: {
     status: 200,
-    message: 'The CTFtime token was created.'
+    message: 'The CTFtime token was created.',
   },
   goodCtftimeAuthSet: {
     status: 200,
-    message: 'The CTFtime team was successfully updated.'
+    message: 'The CTFtime team was successfully updated.',
   },
   goodCtftimeRemoved: {
     status: 200,
-    message: 'The CTFtime team was removed from the user.'
+    message: 'The CTFtime team was removed from the user.',
   },
   goodEmailSet: {
     status: 200,
-    message: 'The email was successfully updated.'
+    message: 'The email was successfully updated.',
   },
   goodEmailRemoved: {
     status: 200,
-    message: 'The email address was removed from the user.'
+    message: 'The email address was removed from the user.',
   },
   badCtftimeNoExists: {
     status: 404,
-    message: 'There is no CTFtime team associated with the user.'
+    message: 'There is no CTFtime team associated with the user.',
   },
   badZeroAuth: {
     status: 409,
-    message: 'At least one authentication method is required.'
+    message: 'At least one authentication method is required.',
   },
   badEmailNoExists: {
     status: 404,
-    message: 'There is no email address associated with the user.'
+    message: 'There is no email address associated with the user.',
   },
   badCtftimeCode: {
     status: 401,
-    message: 'The CTFtime code is invalid.'
+    message: 'The CTFtime code is invalid.',
   },
   goodFlag: {
     status: 200,
-    message: 'The flag is correct.'
+    message: 'The flag is correct.',
   },
   badFlag: {
     status: 400,
-    message: 'The flag was incorrect.'
+    message: 'The flag was incorrect.',
   },
   badChallenge: {
     status: 404,
-    message: 'The challenge could not be not found.'
+    message: 'The challenge could not be not found.',
   },
   badAlreadySolvedChallenge: {
     status: 409,
-    message: 'The flag was already submitted'
+    message: 'The flag was already submitted',
   },
   goodToken: {
     status: 200,
-    message: 'The authorization token is valid'
+    message: 'The authorization token is valid',
   },
   goodFilesUpload: {
     status: 200,
-    message: 'The files were successfully uploaded'
+    message: 'The files were successfully uploaded',
   },
   goodUploadsQuery: {
     status: 200,
-    message: 'The status of uploads was successfully queried'
+    message: 'The status of uploads was successfully queried',
   },
   badFilesUpload: {
     status: 500,
-    message: 'The upload of files failed'
+    message: 'The upload of files failed',
   },
   badDataUri: {
     status: 400,
-    message: 'A data URI provided was malformed'
+    message: 'A data URI provided was malformed',
   },
   badBody: {
     status: 400,
-    message: 'The request body does not meet requirements.'
+    message: 'The request body does not meet requirements.',
   },
   badToken: {
     status: 401,
-    message: 'The token provided is invalid.'
+    message: 'The token provided is invalid.',
   },
   badTokenVerification: {
     status: 401,
-    message: 'The token provided is invalid.'
+    message: 'The token provided is invalid.',
   },
   badCtftimeToken: {
     status: 401,
-    message: 'The CTFtime token provided is invalid.'
+    message: 'The CTFtime token provided is invalid.',
   },
   badJson: {
     status: 400,
-    message: 'The request JSON body is malformed.'
+    message: 'The request JSON body is malformed.',
   },
   badEndpoint: {
     status: 404,
-    message: 'The request endpoint could not be found.'
+    message: 'The request endpoint could not be found.',
   },
   badNotStarted: {
     status: 401,
-    message: 'The CTF has not started yet.'
+    message: 'The CTF has not started yet.',
   },
   badEnded: {
     status: 401,
-    message: 'The CTF has ended.'
+    message: 'The CTF has ended.',
   },
   badRateLimit: {
     status: 429,
-    message: 'You are trying this too fast'
+    message: 'You are trying this too fast',
   },
   goodChallenges: {
     status: 200,
-    message: 'The retrieval of challenges was successful.'
+    message: 'The retrieval of challenges was successful.',
   },
   goodChallengeSolves: {
     status: 200,
-    message: 'The challenges solves have been retreived.'
+    message: 'The challenges solves have been retreived.',
   },
   goodChallengeUpdate: {
     status: 200,
-    message: 'Challenge successfully updated'
+    message: 'Challenge successfully updated',
   },
   goodChallengeDelete: {
     status: 200,
-    message: 'Challenge successfully deleted'
+    message: 'Challenge successfully deleted',
   },
   goodUserData: {
     status: 200,
-    message: 'The user data was successfully retrieved.'
+    message: 'The user data was successfully retrieved.',
   },
   goodUserUpdate: {
     status: 200,
-    message: 'Your account was successfully updated'
+    message: 'Your account was successfully updated',
   },
   goodMemberCreate: {
     status: 200,
-    message: 'Team member successfully created'
+    message: 'Team member successfully created',
   },
   goodMemberDelete: {
     status: 200,
-    message: 'Team member successfully deleted'
+    message: 'Team member successfully deleted',
   },
   goodMemberData: {
     status: 200,
-    message: 'The team member data was successfully retrieved'
+    message: 'The team member data was successfully retrieved',
   },
   badPerms: {
     status: 403,
-    message: 'The user does not have required permissions.'
+    message: 'The user does not have required permissions.',
   },
   goodClientConfig: {
     status: 200,
-    message: 'The client config was retrieved.'
+    message: 'The client config was retrieved.',
   },
   errorInternal: {
     status: 500,
-    message: 'An internal error occurred.'
-  }
+    message: 'An internal error occurred.',
+  },
 }
 
 const responses = {} as { [K in keyof typeof responseList]: K }
-Object.keys(responseList).forEach((kind) => {
+Object.keys(responseList).forEach(kind => {
   responses[kind as keyof typeof responseList] = kind as never
 })
 

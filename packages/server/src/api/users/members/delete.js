@@ -11,11 +11,11 @@ export default {
       type: 'object',
       properties: {
         id: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['id']
-    }
+      required: ['id'],
+    },
   },
   handler: async ({ req, user }) => {
     if (Date.now() > config.endTime) {
@@ -28,9 +28,9 @@ export default {
 
     await database.members.removeMember({
       id: req.params.id,
-      userid: user.id
+      userid: user.id,
     })
 
     return responses.goodMemberDelete
-  }
+  },
 }

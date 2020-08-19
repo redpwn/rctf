@@ -23,5 +23,5 @@ export default {
       return responses.badCtftimeNoExists
     }
     return responses.goodCtftimeRemoved
-  }
+  },
 }

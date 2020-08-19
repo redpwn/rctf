@@ -6,10 +6,10 @@ test('allows request if under ratelimit', async () => {
     type: timeouts.types.UPDATE_PROFILE,
     duration: 1000 * 10,
     limit: 1,
-    userid: uuid()
+    userid: uuid(),
   })
   expect(result).toEqual({
-    ok: true
+    ok: true,
   })
 })
 
@@ -19,13 +19,13 @@ test('denies request if over ratelimit', async () => {
     type: timeouts.types.UPDATE_PROFILE,
     duration: 1000 * 10,
     limit: 1,
-    userid
+    userid,
   })
   const result = await timeouts.checkRateLimit({
     type: timeouts.types.UPDATE_PROFILE,
     duration: 1000 * 10,
     limit: 1,
-    userid
+    userid,
   })
   expect(result.ok).toBe(false)
   expect(typeof result.timeLeft).toBe('number')

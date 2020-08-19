@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event'
 import LoginCard from './login-card'
 
 const defaultProps = {
-  ctfName: 'testCTF'
+  ctfName: 'testCTF',
 }
 
 describe('onTokenLogin', () => {
@@ -21,7 +21,7 @@ describe('onTokenLogin', () => {
     )
 
     const inputNode = queries.queryByLabelText('Team Code or Link', {
-      exact: false
+      exact: false,
     })
     if (inputNode === null) throw new Error()
     await userEvent.type(inputNode, token)
@@ -31,7 +31,7 @@ describe('onTokenLogin', () => {
       onCtftimeLogin,
       token,
       inputNode,
-      ...queries
+      ...queries,
     }
   }
 

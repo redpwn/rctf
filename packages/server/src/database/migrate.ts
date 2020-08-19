@@ -2,7 +2,8 @@ import pgMigrate from 'node-pg-migrate'
 import { migrationsDir } from '@rctf/migrations'
 import config from '../config/server'
 
-const sleep = async (time: number) => new Promise(resolve => setTimeout(resolve, time))
+const sleep = async (time: number) =>
+  new Promise(resolve => setTimeout(resolve, time))
 
 const migrate = async (attempt: number): Promise<void> => {
   try {
@@ -12,7 +13,7 @@ const migrate = async (attempt: number): Promise<void> => {
       direction: 'up',
       migrationsTable: 'pgmigrations',
       verbose: true,
-      count: Infinity
+      count: Infinity,
     })
   } catch (e) {
     if (attempt > 10) {

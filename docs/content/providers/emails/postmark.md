@@ -4,9 +4,9 @@ The Postmark email provider sends email via the Postmark API. To use it, specify
 
 ## Configuration Options
 
-YAML/JSON name|environment name|required|default value|type|description
--|-|-|-|-|-
-`serverToken`|`RCTF_POSTMARK_SERVER_TOKEN`|yes|_(none)_|string|Postmark server API token
+| YAML/JSON name | environment name             | required | default value | type   | description               |
+| -------------- | ---------------------------- | -------- | ------------- | ------ | ------------------------- |
+| `serverToken`  | `RCTF_POSTMARK_SERVER_TOKEN` | yes      | _(none)_      | string | Postmark server API token |
 
 ## Configuration Example
 

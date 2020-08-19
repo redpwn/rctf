@@ -32,12 +32,13 @@ const Home: FunctionComponent = () => {
   }
 
   return (
-    <Flex sx={{
-      height: '100%',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'column'
-    }}
+    <Flex
+      sx={{
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+      }}
     >
       <h3>Your token is</h3>
       <code>{authToken ?? 'none'}</code>
@@ -50,12 +51,10 @@ const Home: FunctionComponent = () => {
           )}
           {done ? (
             <h3>done</h3>
+          ) : pending ? (
+            <Spinner />
           ) : (
-            pending ? (
-              <Spinner />
-            ) : (
-              <Button onClick={handleRemoveCtftime}>dewit</Button>
-            )
+            <Button onClick={handleRemoveCtftime}>dewit</Button>
           )}
         </>
       )}

@@ -10,19 +10,19 @@ export default {
       type: 'object',
       properties: {
         id: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['id']
-    }
+      required: ['id'],
+    },
   },
   handler: async ({ req }) => {
     const userData = await getGenericUserData({
-      id: req.params.id
+      id: req.params.id,
     })
 
     if (userData === null) return responses.badUnknownUser
 
     return [responses.goodUserData, userData]
-  }
+  },
 }

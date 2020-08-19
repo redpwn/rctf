@@ -17,11 +17,11 @@ export default {
       type: 'object',
       properties: {
         email: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['email']
-    }
+      required: ['email'],
+    },
   },
   handler: async ({ req }) => {
     if (!config.email) {
@@ -40,19 +40,22 @@ export default {
 
     const verifyUuid = uuidv4()
     await cache.login.makeLogin({ id: verifyUuid })
-    const verifyToken = await auth.token.getToken(auth.token.tokenKinds.verify, {
-      verifyId: verifyUuid,
-      kind: 'recover',
-      userId: user.id,
-      email
-    })
+    const verifyToken = await auth.token.getToken(
+      auth.token.tokenKinds.verify,
+      {
+        verifyId: verifyUuid,
+        kind: 'recover',
+        userId: user.id,
+        email,
+      }
+    )
 
     await sendVerification({
       email,
       kind: 'recover',
-      token: verifyToken
+      token: verifyToken,
     })
 
     return responses.goodVerifySent
-  }
+  },
 }

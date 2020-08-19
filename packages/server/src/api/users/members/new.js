@@ -14,11 +14,11 @@ export default {
       type: 'object',
       properties: {
         email: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['email']
-    }
+      required: ['email'],
+    },
   },
   handler: async ({ req, user }) => {
     if (!config.userMembers) {
@@ -38,7 +38,7 @@ export default {
       const data = await database.members.makeMember({
         id,
         userid: user.id,
-        email
+        email,
       })
 
       return [responses.goodMemberCreate, data]
@@ -49,5 +49,5 @@ export default {
 
       throw e
     }
-  }
+  },
 }

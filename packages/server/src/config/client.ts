@@ -15,9 +15,12 @@ const config: ClientConfig = {
   faviconUrl: server.faviconUrl,
   emailEnabled: server.email != null,
   userMembers: server.userMembers,
-  ctftime: server.ctftime == null ? undefined : {
-    clientId: server.ctftime.clientId
-  }
+  ctftime:
+    server.ctftime == null
+      ? undefined
+      : {
+          clientId: server.ctftime.clientId,
+        },
 }
 
 export default config

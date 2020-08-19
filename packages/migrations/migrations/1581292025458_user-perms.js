@@ -1,6 +1,6 @@
 exports.up = pgm => {
   pgm.addColumns('users', {
-    perms: { type: 'int', notNull: true }
+    perms: { type: 'int', notNull: true },
   })
 }
 

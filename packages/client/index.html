@@ -1,33 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>{{ config.ctfName }}</title>
-		<meta name="viewport" content="width=device-width,initial-scale=1">
-		<meta name="mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-capable" content="yes">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ config.ctfName }}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
 
-		<link rel="shortcut icon" href="{{ config.faviconUrl }}">
-		<meta name="title" content="{{ config.ctfName }}">
-		<meta name="description" content="{{ config.meta.description }}">
-		<meta property="og:type" content="website">
-		<meta property="og:title" content="{{ config.ctfName }}">
-		<meta property="og:image" content="{{ config.meta.imageUrl }}">
-		<meta property="og:description" content="{{ config.meta.description }}">
-		<meta property="og:url" content="{{ config.origin }}">
-		<meta name="twitter:card" content="summary_large_image">
-		<meta name="twitter:title" content="{{ config.ctfName }}">
-		<meta name="twitter:description" content="{{ config.meta.description }}">
-		<meta name="twitter:image" content="{{ config.meta.imageUrl }}">
-		<meta name="twitter:url" content="{{ config.origin }}">
-		<link rel="canonical" href="{{ config.origin }}" />
-		<meta name="theme-color" content="#111111">
+    <link rel="shortcut icon" href="{{ config.faviconUrl }}" />
+    <meta name="title" content="{{ config.ctfName }}" />
+    <meta name="description" content="{{ config.meta.description }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{ config.ctfName }}" />
+    <meta property="og:image" content="{{ config.meta.imageUrl }}" />
+    <meta property="og:description" content="{{ config.meta.description }}" />
+    <meta property="og:url" content="{{ config.origin }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ config.ctfName }}" />
+    <meta name="twitter:description" content="{{ config.meta.description }}" />
+    <meta name="twitter:image" content="{{ config.meta.imageUrl }}" />
+    <meta name="twitter:url" content="{{ config.origin }}" />
+    <link rel="canonical" href="{{ config.origin }}" />
+    <meta name="theme-color" content="#111111" />
 
-		<style>html,body,#app{height: 100%;width: 100%;overflow-x: hidden}</style>
+    <style>
+      html,
+      body,
+      #app {
+        height: 100%;
+        width: 100%;
+        overflow-x: hidden;
+      }
+    </style>
 
-		<meta name="rctf-config" content="{{ jsonConfig }}" />
-	</head>
-	<body>
-		<div id="app" />
-	</body>
+    <meta name="rctf-config" content="{{ jsonConfig }}" />
+  </head>
+  <body>
+    <div id="app" />
+  </body>
 </html>

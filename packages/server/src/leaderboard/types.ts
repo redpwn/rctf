@@ -19,7 +19,10 @@ export type InternalUserInfo = Pick<User, 'id' | 'name' | 'division'> & {
 
 export type UserInfo = Pick<InternalUserInfo, 'id' | 'name' | 'score'>
 
-export type InternalChallengeInfo = Pick<Challenge, 'id' | 'tiebreakEligible'> & {
+export type InternalChallengeInfo = Pick<
+  Challenge,
+  'id' | 'tiebreakEligible'
+> & {
   solves: number
   score: number
 }

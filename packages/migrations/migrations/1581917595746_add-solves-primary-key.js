@@ -4,7 +4,7 @@ exports.shorthands = undefined
 
 exports.up = pgm => {
   pgm.addConstraint('solves', 'uq', {
-    unique: ['challengeid', 'userid']
+    unique: ['challengeid', 'userid'],
   })
 }
 

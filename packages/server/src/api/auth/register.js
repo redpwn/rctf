@@ -17,28 +17,34 @@ export default {
       type: 'object',
       properties: {
         email: {
-          type: 'string'
+          type: 'string',
         },
         name: {
-          type: 'string'
+          type: 'string',
         },
         ctftimeToken: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
       required: ['name'],
-      oneOf: [{
-        required: ['email']
-      }, {
-        required: ['ctftimeToken']
-      }]
-    }
+      oneOf: [
+        {
+          required: ['email'],
+        },
+        {
+          required: ['ctftimeToken'],
+        },
+      ],
+    },
   },
   handler: async ({ req }) => {
     let email
     let ctftimeId
     if (req.body.ctftimeToken !== undefined) {
-      const ctftimeData = await auth.token.getData(auth.token.tokenKinds.ctftimeAuth, req.body.ctftimeToken)
+      const ctftimeData = await auth.token.getData(
+        auth.token.tokenKinds.ctftimeAuth,
+        req.body.ctftimeToken
+      )
       if (ctftimeData === null) {
         return responses.badCtftimeToken
       }
@@ -56,18 +62,19 @@ export default {
     }
 
     if (!config.email) {
-      const division = config.defaultDivision || Object.keys(config.divisions)[0]
+      const division =
+        config.defaultDivision || Object.keys(config.divisions)[0]
       return auth.register.register({
         division,
         email,
         name,
-        ctftimeId
+        ctftimeId,
       })
     }
 
     const division = config.divisionACLs
       ? util.restrict.allowedDivisions(email)[0]
-      : (config.defaultDivision || Object.keys(config.divisions)[0])
+      : config.defaultDivision || Object.keys(config.divisions)[0]
     if (division === undefined) {
       return responses.badCompetitionNotAllowed
     }
@@ -76,7 +83,7 @@ export default {
       return auth.register.register({
         division,
         name,
-        ctftimeId
+        ctftimeId,
       })
     }
 
@@ -90,20 +97,23 @@ export default {
 
     const verifyUuid = uuidv4()
     await cache.login.makeLogin({ id: verifyUuid })
-    const verifyToken = await auth.token.getToken(auth.token.tokenKinds.verify, {
-      verifyId: verifyUuid,
-      kind: 'register',
-      email,
-      name,
-      division
-    })
+    const verifyToken = await auth.token.getToken(
+      auth.token.tokenKinds.verify,
+      {
+        verifyId: verifyUuid,
+        kind: 'register',
+        email,
+        name,
+        division,
+      }
+    )
 
     await sendVerification({
       email,
       kind: 'register',
-      token: verifyToken
+      token: verifyToken,
     })
 
     return responses.goodVerifySent
-  }
+  },
 }

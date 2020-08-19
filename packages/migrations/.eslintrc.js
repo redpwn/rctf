@@ -1,3 +1,3 @@
 module.exports = {
-  ignorePatterns: ['index.js', 'index.d.ts']
+  ignorePatterns: ['index.js', 'index.d.ts'],
 }

@@ -6,5 +6,5 @@ export default {
   requireAuth: true,
   handler: async () => {
     return responses.goodToken
-  }
+  },
 }

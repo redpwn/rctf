@@ -10,14 +10,14 @@ const fetchData = async (): Promise<WorkerRequest> => {
   const [solves, users, graphUpdate] = await Promise.all([
     database.solves.getAllSolves(),
     database.users.getAllUsers(),
-    cache.leaderboard.getGraphUpdate()
+    cache.leaderboard.getGraphUpdate(),
   ])
   return {
     solves,
     users,
     graphUpdate,
     challenges: getAllChallenges(),
-    config
+    config,
   }
 }
 
@@ -29,7 +29,7 @@ const runUpdate = async () => {
   }
   updating = true
   const worker = new Worker(path.join(__dirname, 'worker.js'), {
-    workerData: await fetchData()
+    workerData: await fetchData(),
   })
   worker.once('message', async (data: WorkerResponse) => {
     await cache.leaderboard.setLeaderboard(data)

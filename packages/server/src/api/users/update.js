@@ -14,14 +14,14 @@ export default {
       type: 'object',
       properties: {
         name: {
-          type: 'string'
+          type: 'string',
         },
         division: {
           type: 'string',
-          enum: Object.keys(config.divisions)
-        }
-      }
-    }
+          enum: Object.keys(config.divisions),
+        },
+      },
+    },
   },
   handler: async ({ user, req }) => {
     if (Date.now() > config.endTime) {
@@ -42,14 +42,17 @@ export default {
         type: timeouts.types.UPDATE_PROFILE,
         userid: uuid,
         duration: 10 * 60 * 1000,
-        limit: 1
+        limit: 1,
       })
 
       // Rate limit name changes only
       if (!passRateLimit.ok) {
-        return [responses.badRateLimit, {
-          timeLeft: passRateLimit.timeLeft
-        }]
+        return [
+          responses.badRateLimit,
+          {
+            timeLeft: passRateLimit.timeLeft,
+          },
+        ]
       }
     }
 
@@ -59,7 +62,7 @@ export default {
         id: uuid,
         name,
         division,
-        email: user.email
+        email: user.email,
       })
     } catch (e) {
       if (e instanceof DivisionACLError) {
@@ -71,12 +74,15 @@ export default {
       throw e
     }
 
-    return [responses.goodUserUpdate, {
-      user: {
-        name: newUser.name,
-        email: newUser.email,
-        division: newUser.division
-      }
-    }]
-  }
+    return [
+      responses.goodUserUpdate,
+      {
+        user: {
+          name: newUser.name,
+          email: newUser.email,
+          division: newUser.division,
+        },
+      },
+    ]
+  },
 }

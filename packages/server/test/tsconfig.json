@@ -7,10 +7,6 @@
     "declarationMap": false,
     "composite": false
   },
-  "include": [
-    "**/*"
-  ],
-  "projectReferences": [
-    { "path": "../src" }
-  ]
+  "include": ["**/*"],
+  "projectReferences": [{ "path": "../src" }]
 }

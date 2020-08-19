@@ -22,21 +22,23 @@ jest.mock('../src/config/load', () => {
       const realCfg = realConfigLoad.loadFullServerConfig()
       const extractedHostCfg = {
         database: realCfg.database,
-        tokenKey: realCfg.tokenKey
+        tokenKey: realCfg.tokenKey,
       }
       const cfg = deepMerge.all([
         realConfigLoad.defaultConfig,
         extractedHostCfg,
-        ...realConfigLoad.loadFileConfigs(mockTestConfigDir)
+        ...realConfigLoad.loadFileConfigs(mockTestConfigDir),
       ])
       return cfg
-    }
+    },
   }
 })
 
 jest.mock('pino')
 const pino = require('pino')
-pino.mockImplementation(opts => jest.requireActual('pino')({
-  ...opts,
-  level: 'silent'
-}))
+pino.mockImplementation(opts =>
+  jest.requireActual('pino')({
+    ...opts,
+    level: 'silent',
+  })
+)

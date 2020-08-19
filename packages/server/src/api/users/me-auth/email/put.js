@@ -17,11 +17,11 @@ export default {
       type: 'object',
       properties: {
         email: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['email']
-    }
+      required: ['email'],
+    },
   },
   handler: async ({ req, user }) => {
     const email = util.normalize.normalizeEmail(req.body.email)
@@ -31,12 +31,15 @@ export default {
 
     if (config.email) {
       const checkUser = await database.users.getUserByEmail({
-        email
+        email,
       })
       if (checkUser !== undefined) {
         return responses.badKnownEmail
       }
-      if (config.divisionACLs && !util.restrict.divisionAllowed(email, user.division)) {
+      if (
+        config.divisionACLs &&
+        !util.restrict.divisionAllowed(email, user.division)
+      ) {
         return responses.badEmailChangeDivision
       }
     } else {
@@ -44,7 +47,7 @@ export default {
       try {
         result = await database.users.updateUser({
           id: user.id,
-          email
+          email,
         })
       } catch (e) {
         if (e.constraint === 'users_email_key') {
@@ -60,20 +63,23 @@ export default {
 
     const verifyUuid = uuidv4()
     await cache.login.makeLogin({ id: verifyUuid })
-    const verifyToken = await auth.token.getToken(auth.token.tokenKinds.verify, {
-      verifyId: verifyUuid,
-      kind: 'update',
-      userId: user.id,
-      email,
-      division: user.division
-    })
+    const verifyToken = await auth.token.getToken(
+      auth.token.tokenKinds.verify,
+      {
+        verifyId: verifyUuid,
+        kind: 'update',
+        userId: user.id,
+        email,
+        division: user.division,
+      }
+    )
 
     await sendVerification({
       email,
       kind: 'update',
-      token: verifyToken
+      token: verifyToken,
     })
 
     return responses.goodVerifySent
-  }
+  },
 }

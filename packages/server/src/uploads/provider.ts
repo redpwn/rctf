@@ -5,7 +5,10 @@ export interface Provider {
   upload: (data: Buffer, name: string) => Promise<string>
 
   // Returns a string, the url of the previously uploaded file. Returns null if the file was not previously uploaded.
-  getUrl: (sha256: string, name: string) => Promise<string|null>
+  getUrl: (sha256: string, name: string) => Promise<string | null>
 }
 
-export type ProviderConstructor = new (options: unknown, app: FastifyInstance | null) => Provider
+export type ProviderConstructor = new (
+  options: unknown,
+  app: FastifyInstance | null
+) => Provider

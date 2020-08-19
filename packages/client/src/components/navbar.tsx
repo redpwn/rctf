@@ -6,9 +6,10 @@ export const NavElement: FunctionComponent<{
   as: ElementType
   active?: boolean
   [k: string]: unknown
-}> = ({ active, children, ...props }) =>
+}> = ({ active, children, ...props }) => (
   <Box
-    {...props} sx={{
+    {...props}
+    sx={{
       fontFamily: 'heading',
       color: 'text',
       textDecoration: 'none',
@@ -23,34 +24,38 @@ export const NavElement: FunctionComponent<{
         width: '100%',
         height: 2,
         bg: 'primary',
-        opacity: () => active ? 1 : 0,
-        transition: 'all 300ms'
+        opacity: () => (active ? 1 : 0),
+        transition: 'all 300ms',
       },
       '&:hover::after, &:focus::after, &.active::after': {
-        opacity: 1
+        opacity: 1,
       },
       '&:active::after': {
         opacity: 0.8,
-        transition: 'all 200ms'
+        transition: 'all 200ms',
       },
       '&:focus': {
-        outline: 'none'
-      }
+        outline: 'none',
+      },
     }}
   >
     {children}
   </Box>
+)
 
-export const NavLink: FunctionComponent<ComponentProps<typeof Link>> = ({ ...props }) =>
-  <NavElement {...props} as={RouterNavLink} activeClassName='active' />
+export const NavLink: FunctionComponent<ComponentProps<typeof Link>> = ({
+  ...props
+}) => <NavElement {...props} as={RouterNavLink} activeClassName='active' />
 
-export const NavBar: FunctionComponent = ({ children }) =>
+export const NavBar: FunctionComponent = ({ children }) => (
   <Flex
-    as='nav' sx={{
+    as='nav'
+    sx={{
       width: '100%',
       justifyContent: 'center',
-      alignItems: 'stretch'
+      alignItems: 'stretch',
     }}
   >
     {children}
   </Flex>
+)

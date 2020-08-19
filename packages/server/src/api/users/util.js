@@ -11,25 +11,22 @@ export const getGenericUserData = async ({ id }) => {
 }
 
 export const getUserData = async ({ user }) => {
-  let [
-    { userSolves, challengeInfo },
-    score
-  ] = await Promise.all([
+  let [{ userSolves, challengeInfo }, score] = await Promise.all([
     (async () => {
       const userSolves = await db.solves.getSolvesByUserId({ userid: user.id })
       const challengeInfo = await getChallengeInfo({
-        ids: userSolves.map((solve) => solve.challengeid)
+        ids: userSolves.map(solve => solve.challengeid),
       })
       return { userSolves, challengeInfo }
     })(),
-    cache.leaderboard.getScore({ id: user.id })
+    cache.leaderboard.getScore({ id: user.id }),
   ])
 
   if (score === null) {
     score = {
       score: 0,
       globalPlace: null,
-      divisionPlace: null
+      divisionPlace: null,
     }
   }
 
@@ -47,7 +44,7 @@ export const getUserData = async ({ user }) => {
       points: challengeInfo[i].score,
       solves: challengeInfo[i].solves,
       id: chall.id,
-      createdAt: solve.createdat.valueOf()
+      createdAt: solve.createdat.valueOf(),
     })
   })
 
@@ -58,6 +55,6 @@ export const getUserData = async ({ user }) => {
     score: score.score,
     globalPlace: score.globalPlace,
     divisionPlace: score.divisionPlace,
-    solves
+    solves,
   }
 }

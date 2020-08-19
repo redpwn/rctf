@@ -12,16 +12,16 @@ export default {
       properties: {
         division: {
           type: 'string',
-          enum: Object.keys(config.divisions)
+          enum: Object.keys(config.divisions),
         },
         limit: {
           type: 'integer',
           minimum: 1,
-          maximum: config.leaderboard.graphMaxTeams
-        }
+          maximum: config.leaderboard.graphMaxTeams,
+        },
       },
-      required: ['limit']
-    }
+      required: ['limit'],
+    },
   },
   handler: async ({ req }) => {
     if (Date.now() < config.startTime) {
@@ -32,26 +32,34 @@ export default {
     const limit = req.query.limit
     const graph = await cache.leaderboard.getGraph({
       division,
-      maxTeams: limit
+      maxTeams: limit,
     })
-    const reducedGraph = graph.map((user) => {
+    const reducedGraph = graph.map(user => {
       const { points } = user
       const reducedPoints = []
       points.forEach((point, i) => {
         const prev = points[i - 1]
         const next = points[i + 1]
-        if (prev && next && prev.score === point.score && next.score === point.score) {
+        if (
+          prev &&
+          next &&
+          prev.score === point.score &&
+          next.score === point.score
+        ) {
           return
         }
         reducedPoints.push(point)
       })
       return {
         ...user,
-        points: reducedPoints
+        points: reducedPoints,
       }
     })
-    return [responses.goodLeaderboard, {
-      graph: reducedGraph
-    }]
-  }
+    return [
+      responses.goodLeaderboard,
+      {
+        graph: reducedGraph,
+      },
+    ]
+  },
 }

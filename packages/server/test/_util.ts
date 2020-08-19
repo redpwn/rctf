@@ -8,7 +8,7 @@ export const generateTestUser = (): Omit<db.users.User, 'id'> => ({
   email: uuidv4() + '@test.com',
   name: uuidv4(),
   division: Object.keys(config.divisions)[0],
-  perms: 0
+  perms: 0,
 })
 
 // Generate a real user, adding to database
@@ -21,12 +21,14 @@ export const generateRealTestUser = async (): Promise<{
   const userData = generateTestUser()
   const user = await db.users.makeUser({
     ...userData,
-    id
+    id,
   })
 
   return {
     user,
-    cleanup: async () => { await db.users.removeUserById({ id }) }
+    cleanup: async () => {
+      await db.users.removeUserById({ id })
+    },
   }
 }
 
@@ -47,12 +49,12 @@ export const generateChallenge = async (): Promise<{
     tiebreakEligible: true,
     points: {
       min: 100,
-      max: 500
-    }
+      max: 500,
+    },
   }
   await challenges.updateChallenge(chall)
   return {
     chall,
-    cleanup: async () => challenges.deleteChallenge(chall.id)
+    cleanup: async () => challenges.deleteChallenge(chall.id),
   }
 }

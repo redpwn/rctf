@@ -1,17 +1,17 @@
 exports.up = function (pgm) {
   pgm.alterColumn('users', 'created_at', {
-    type: 'timestamptz'
+    type: 'timestamptz',
   })
   pgm.alterColumn('solves', 'createdat', {
-    type: 'timestamptz'
+    type: 'timestamptz',
   })
 }
 
 exports.down = function (pgm) {
   pgm.alterColumn('solves', 'createdat', {
-    type: 'timestamp'
+    type: 'timestamp',
   })
   pgm.alterColumn('users', 'created_at', {
-    type: 'timestamp'
+    type: 'timestamp',
   })
 }

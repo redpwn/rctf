@@ -11,30 +11,65 @@ export interface Solve {
 }
 
 export const getAllSolves = async (): Promise<Solve[]> => {
-  return db.query<Solve>('SELECT * FROM solves ORDER BY createdat ASC')
+  return db
+    .query<Solve>('SELECT * FROM solves ORDER BY createdat ASC')
     .then(res => res.rows)
 }
 
-export const getSolvesByUserId = async ({ userid }: Pick<Solve, 'userid'>): Promise<Solve[]> => {
-  return db.query<Solve>('SELECT * FROM solves WHERE userid = $1 ORDER BY createdat DESC', [userid])
+export const getSolvesByUserId = async ({
+  userid,
+}: Pick<Solve, 'userid'>): Promise<Solve[]> => {
+  return db
+    .query<Solve>(
+      'SELECT * FROM solves WHERE userid = $1 ORDER BY createdat DESC',
+      [userid]
+    )
     .then(res => res.rows)
 }
 
-export const getSolvesByChallId = async ({ challengeid, limit, offset }: Pick<Solve, 'challengeid'> & { limit: number, offset: number }): Promise<(Solve & Pick<User, 'name'>)[]> => {
-  return db.query<ExtractQueryType<typeof getSolvesByChallId>>('SELECT solves.id, solves.userid, solves.createdat, users.name FROM solves INNER JOIN users ON solves.userid = users.id WHERE solves.challengeid=$1 ORDER BY solves.createdat ASC LIMIT $2 OFFSET $3', [challengeid, limit, offset])
+export const getSolvesByChallId = async ({
+  challengeid,
+  limit,
+  offset,
+}: Pick<Solve, 'challengeid'> & { limit: number; offset: number }): Promise<
+  (Solve & Pick<User, 'name'>)[]
+> => {
+  return db
+    .query<ExtractQueryType<typeof getSolvesByChallId>>(
+      'SELECT solves.id, solves.userid, solves.createdat, users.name FROM solves INNER JOIN users ON solves.userid = users.id WHERE solves.challengeid=$1 ORDER BY solves.createdat ASC LIMIT $2 OFFSET $3',
+      [challengeid, limit, offset]
+    )
     .then(res => res.rows)
 }
 
-export const getSolveByUserIdAndChallId = async ({ userid, challengeid }: Pick<Solve, 'userid' | 'challengeid'>): Promise<Solve | undefined> => {
-  return db.query<Solve>('SELECT * FROM solves WHERE userid = $1 AND challengeid = $2 ORDER BY createdat DESC', [userid, challengeid])
+export const getSolveByUserIdAndChallId = async ({
+  userid,
+  challengeid,
+}: Pick<Solve, 'userid' | 'challengeid'>): Promise<Solve | undefined> => {
+  return db
+    .query<Solve>(
+      'SELECT * FROM solves WHERE userid = $1 AND challengeid = $2 ORDER BY createdat DESC',
+      [userid, challengeid]
+    )
     .then(res => res.rows[0])
 }
 
-export const newSolve = async ({ id, userid, challengeid, createdat }: Solve): Promise<Solve> => {
-  return db.query<Solve>('INSERT INTO solves (id, challengeid, userid, createdat) VALUES ($1, $2, $3, $4) RETURNING *', [id, challengeid, userid, createdat])
+export const newSolve = async ({
+  id,
+  userid,
+  challengeid,
+  createdat,
+}: Solve): Promise<Solve> => {
+  return db
+    .query<Solve>(
+      'INSERT INTO solves (id, challengeid, userid, createdat) VALUES ($1, $2, $3, $4) RETURNING *',
+      [id, challengeid, userid, createdat]
+    )
     .then(res => res.rows[0])
 }
 
-export const removeSolvesByUserId = async ({ userid }: Pick<Solve, 'userid'>): Promise<void> => {
+export const removeSolvesByUserId = async ({
+  userid,
+}: Pick<Solve, 'userid'>): Promise<void> => {
   await db.query('DELETE FROM solves WHERE userid = $1', [userid])
 }

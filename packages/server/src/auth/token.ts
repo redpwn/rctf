@@ -11,7 +11,7 @@ export enum tokenKinds {
   auth = 0,
   team = 1,
   verify = 2,
-  ctftimeAuth = 4
+  ctftimeAuth = 4,
 }
 
 export type VerifyTokenKinds = 'update' | 'register' | 'recover'
@@ -45,7 +45,10 @@ export interface RecoverTokenData extends BaseVerifyTokenData {
   email: User['email']
 }
 
-export type VerifyTokenData = RegisterVerifyTokenData | UpdateVerifyTokenData | RecoverTokenData
+export type VerifyTokenData =
+  | RegisterVerifyTokenData
+  | UpdateVerifyTokenData
+  | RecoverTokenData
 
 export interface CtftimeAuthTokenData {
   name: User['name']
@@ -73,12 +76,14 @@ const tokenExpiries: Record<ValueOf<typeof tokenKinds>, number> = {
   [tokenKinds.auth]: Infinity,
   [tokenKinds.team]: Infinity,
   [tokenKinds.verify]: config.loginTimeout,
-  [tokenKinds.ctftimeAuth]: config.loginTimeout
+  [tokenKinds.ctftimeAuth]: config.loginTimeout,
 }
 
 const timeNow = () => Math.floor(Date.now() / 1000)
 
-const encryptToken = async <Kind extends tokenKinds>(content: InternalTokenData<Kind>): Promise<Token> => {
+const encryptToken = async <Kind extends tokenKinds>(
+  content: InternalTokenData<Kind>
+): Promise<Token> => {
   const iv = await randomBytes(12)
   const cipher = crypto.createCipheriv('aes-256-gcm', tokenKey, iv)
   const cipherText = cipher.update(JSON.stringify(content))
@@ -87,14 +92,18 @@ const encryptToken = async <Kind extends tokenKinds>(content: InternalTokenData<
   return tokenContent.toString('base64')
 }
 
-const decryptToken = async <Kind extends tokenKinds>(token: Token): Promise<InternalTokenData<Kind> | null> => {
+const decryptToken = async <Kind extends tokenKinds>(
+  token: Token
+): Promise<InternalTokenData<Kind> | null> => {
   try {
     const tokenContent = Buffer.from(token, 'base64')
     const iv = tokenContent.slice(0, 12)
     const authTag = tokenContent.slice(tokenContent.length - 16)
     const cipher = crypto.createDecipheriv('aes-256-gcm', tokenKey, iv)
     cipher.setAuthTag(authTag)
-    const plainText = cipher.update(tokenContent.slice(12, tokenContent.length - 16))
+    const plainText = cipher.update(
+      tokenContent.slice(12, tokenContent.length - 16)
+    )
     cipher.final()
     return JSON.parse(plainText.toString()) as InternalTokenData<Kind>
   } catch (e) {
@@ -102,7 +111,10 @@ const decryptToken = async <Kind extends tokenKinds>(token: Token): Promise<Inte
   }
 }
 
-export const getData = async <Kind extends tokenKinds>(expectedTokenKind: Kind, token: Token): Promise<TokenDataTypes[Kind] | null> => {
+export const getData = async <Kind extends tokenKinds>(
+  expectedTokenKind: Kind,
+  token: Token
+): Promise<TokenDataTypes[Kind] | null> => {
   const content = await decryptToken<Kind>(token)
   if (content === null) {
     return null
@@ -117,11 +129,14 @@ export const getData = async <Kind extends tokenKinds>(expectedTokenKind: Kind, 
   return data
 }
 
-export const getToken = async <Kind extends tokenKinds>(tokenKind: Kind, data: TokenDataTypes[Kind]): Promise<Token> => {
+export const getToken = async <Kind extends tokenKinds>(
+  tokenKind: Kind,
+  data: TokenDataTypes[Kind]
+): Promise<Token> => {
   const token = await encryptToken({
     k: tokenKind,
     t: timeNow(),
-    d: data
+    d: data,
   })
   return token
 }

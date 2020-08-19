@@ -12,8 +12,8 @@ export default {
     const standings = leaderboard.map((user, i) => ({
       pos: i + 1,
       team: user.name,
-      score: user.score
+      score: user.score,
     }))
     return [responses.goodCtftimeLeaderboard, JSON.stringify({ standings })]
-  }
+  },
 }

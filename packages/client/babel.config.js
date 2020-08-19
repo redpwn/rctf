@@ -3,23 +3,35 @@ module.exports = api => {
 
   return {
     plugins: [
-      ['const-enum', {
-        transform: 'constObject'
-      }]
+      [
+        'const-enum',
+        {
+          transform: 'constObject',
+        },
+      ],
     ],
     presets: [
-      ['@babel/preset-typescript', {
-        isTSX: true,
-        allExtensions: true
-      }],
-      ['@babel/preset-react', {
-        pragma: 'jsx',
-        pragmaFrag: 'Fragment'
-      }],
-      ['@babel/preset-env', {
-        targets: { esmodules: true },
-        bugfixes: true
-      }]
-    ]
+      [
+        '@babel/preset-typescript',
+        {
+          isTSX: true,
+          allExtensions: true,
+        },
+      ],
+      [
+        '@babel/preset-react',
+        {
+          pragma: 'jsx',
+          pragmaFrag: 'Fragment',
+        },
+      ],
+      [
+        '@babel/preset-env',
+        {
+          targets: { esmodules: true },
+          bugfixes: true,
+        },
+      ],
+    ],
   }
 }

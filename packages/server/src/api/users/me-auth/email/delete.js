@@ -23,5 +23,5 @@ export default {
       return responses.badEmailNoExists
     }
     return responses.goodEmailRemoved
-  }
+  },
 }

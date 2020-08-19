@@ -12,17 +12,20 @@ export default {
       type: 'object',
       properties: {
         ctftimeToken: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['ctftimeToken']
-    }
+      required: ['ctftimeToken'],
+    },
   },
   handler: async ({ req, user }) => {
     if (!config.ctftime) {
       return responses.badEndpoint
     }
-    const ctftimeData = await auth.token.getData(auth.token.tokenKinds.ctftimeAuth, req.body.ctftimeToken)
+    const ctftimeData = await auth.token.getData(
+      auth.token.tokenKinds.ctftimeAuth,
+      req.body.ctftimeToken
+    )
     if (ctftimeData === null) {
       return responses.badCtftimeToken
     }
@@ -30,7 +33,7 @@ export default {
     try {
       result = await database.users.updateUser({
         id: user.id,
-        ctftimeId: ctftimeData.ctftimeId
+        ctftimeId: ctftimeData.ctftimeId,
       })
     } catch (e) {
       if (e.constraint === 'users_ctftime_id_key') {
@@ -42,5 +45,5 @@ export default {
       return responses.badUnknownUser
     }
     return responses.goodCtftimeAuthSet
-  }
+  },
 }

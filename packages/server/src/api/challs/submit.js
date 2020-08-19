@@ -15,20 +15,20 @@ export default {
       type: 'object',
       properties: {
         flag: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['flag']
+      required: ['flag'],
     },
     params: {
       type: 'object',
       properties: {
         id: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['id']
-    }
+      required: ['id'],
+    },
   },
   handler: async ({ req, user }) => {
     const uuid = user.id
@@ -46,10 +46,13 @@ export default {
 
     const challenge = challenges.getChallenge(challengeid)
 
-    req.log.info({
-      chall: challengeid,
-      flag: submittedFlag
-    }, 'flag submission attempt')
+    req.log.info(
+      {
+        chall: challengeid,
+        flag: submittedFlag,
+      },
+      'flag submission attempt'
+    )
 
     if (!challenge) {
       return responses.badChallenge
@@ -59,16 +62,22 @@ export default {
       type: timeouts.getChallengeType(challengeid),
       userid: uuid,
       duration: 10 * 1000,
-      limit: 3
+      limit: 3,
     })
 
     if (!passRateLimit.ok) {
-      req.log.warn({
-        timeLeft: passRateLimit.timeLeft
-      }, 'flag submission rate limit exceeded')
-      return [responses.badRateLimit, {
-        timeLeft: passRateLimit.timeLeft
-      }]
+      req.log.warn(
+        {
+          timeLeft: passRateLimit.timeLeft,
+        },
+        'flag submission rate limit exceeded'
+      )
+      return [
+        responses.badRateLimit,
+        {
+          timeLeft: passRateLimit.timeLeft,
+        },
+      ]
     }
 
     const bufSubmittedFlag = Buffer.from(submittedFlag)
@@ -83,7 +92,12 @@ export default {
     }
 
     try {
-      await db.solves.newSolve({ id: uuidv4(), challengeid: challengeid, userid: uuid, createdat: new Date() })
+      await db.solves.newSolve({
+        id: uuidv4(),
+        challengeid: challengeid,
+        userid: uuid,
+        createdat: new Date(),
+      })
       return responses.goodFlag
     } catch (e) {
       if (e.constraint === 'uq') {
@@ -96,5 +110,5 @@ export default {
       }
       throw e
     }
-  }
+  },
 }

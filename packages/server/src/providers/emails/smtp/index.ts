@@ -8,16 +8,16 @@ interface SmtpProviderOptions {
 
 export default class SmtpProvider implements Provider {
   private readonly mailer: Mailer
-  constructor (_options: Partial<SmtpProviderOptions>) {
+  constructor(_options: Partial<SmtpProviderOptions>) {
     const options = {
-      smtpUrl: process.env.RCTF_SMTP_URL ?? _options.smtpUrl
+      smtpUrl: process.env.RCTF_SMTP_URL ?? _options.smtpUrl,
     } as SmtpProviderOptions
     // TODO: validate that all options are indeed provided
 
     this.mailer = nodemailer.createTransport(options.smtpUrl)
   }
 
-  async send (mail: Mail): Promise<void> {
+  async send(mail: Mail): Promise<void> {
     await this.mailer.sendMail(mail)
   }
 }

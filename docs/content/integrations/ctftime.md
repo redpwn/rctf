@@ -3,6 +3,7 @@
 To allow teams to login via their CTFtime teams, you need an event on CTFtime. You can [register for one here](https://ctftime.org/event/mail/).
 
 In the OAuth endpoint field on the event editing page, enter:
+
 ```
 https://your-rctf.example.com/integrations/ctftime/callback
 ```

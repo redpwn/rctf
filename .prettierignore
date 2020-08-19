@@ -1,6 +1,3 @@
-# Allow dotfiles
-!.*
-
 # Ignore build folders
 dist
 

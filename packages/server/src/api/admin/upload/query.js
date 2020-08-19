@@ -17,18 +17,18 @@ export default {
             type: 'object',
             properties: {
               sha256: {
-                type: 'string'
+                type: 'string',
               },
               name: {
-                type: 'string'
-              }
+                type: 'string',
+              },
             },
-            required: ['sha256', 'name']
-          }
-        }
+            required: ['sha256', 'name'],
+          },
+        },
       },
-      required: ['uploads']
-    }
+      required: ['uploads'],
+    },
   },
   handler: async ({ req }) => {
     const data = await Promise.all(
@@ -38,11 +38,11 @@ export default {
         return {
           sha256,
           name,
-          url
+          url,
         }
       })
     )
 
     return [responses.goodUploadsQuery, data]
-  }
+  },
 }

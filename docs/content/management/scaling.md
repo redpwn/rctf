@@ -2,8 +2,8 @@
 
 rCTF can be split into two types of instances.
 
-* Frontend instances are horizontally scalable and handle incoming requests
-* A single leaderboard instance does leaderboard and graph data calculations.
+- Frontend instances are horizontally scalable and handle incoming requests
+- A single leaderboard instance does leaderboard and graph data calculations.
 
 ## Smaller installations
 
@@ -18,10 +18,13 @@ instanceType: all
 
 For larger rCTF installations, you can run infinite frontend instances, but make sure to only run a single leaderboard instance.
 Frontend instances should have `instanceType` or `RCTF_INSTANCE_TYPE` set to `frontend`.
+
 ```yaml
 instanceType: frontend
 ```
+
 Leaderboard instances should have `instanceType` or `RCTF_INSTANCE_TYPE` set to `leaderboard`.
+
 ```yaml
 instanceType: leaderboard
 ```

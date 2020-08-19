@@ -1,4 +1,1 @@
-export default [
-  require('./delete').default,
-  require('./put').default
-]
+export default [require('./delete').default, require('./put').default]

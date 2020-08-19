@@ -13,22 +13,19 @@ const ThemeColorDisplayer: FunctionComponent<{
 }> = ({ color, ...props }) => {
   const { theme } = useThemeUI()
 
-  return (
-    <div {...props}>
-      {theme.colors?.[color] ?? 'undefined'}
-    </div>
-  )
+  return <div {...props}>{theme.colors?.[color] ?? 'undefined'}</div>
 }
 
 test('default background color is cardBackground', () => {
   const { queryByTestId } = render(
-    <ThemeProvider theme={{
-      ...theme,
-      colors: {
-        background: 'badcolor',
-        cardBackground: 'testcolor1'
-      }
-    }}
+    <ThemeProvider
+      theme={{
+        ...theme,
+        colors: {
+          background: 'badcolor',
+          cardBackground: 'testcolor1',
+        },
+      }}
     >
       <Card>
         <ThemeColorDisplayer color='background' data-testid='colordisplayer' />
@@ -41,13 +38,14 @@ test('default background color is cardBackground', () => {
 
 test('background color respects theme', () => {
   const { queryByTestId } = render(
-    <ThemeProvider theme={{
-      ...theme,
-      colors: {
-        background: 'badcolor',
-        custom: 'testcolor2'
-      }
-    }}
+    <ThemeProvider
+      theme={{
+        ...theme,
+        colors: {
+          background: 'badcolor',
+          custom: 'testcolor2',
+        },
+      }}
     >
       <Card bg='custom'>
         <ThemeColorDisplayer color='background' data-testid='colordisplayer' />
@@ -60,12 +58,13 @@ test('background color respects theme', () => {
 
 test('background color not in theme should be passed through', () => {
   const { queryByTestId } = render(
-    <ThemeProvider theme={{
-      ...theme,
-      colors: {
-        background: 'badcolor'
-      }
-    }}
+    <ThemeProvider
+      theme={{
+        ...theme,
+        colors: {
+          background: 'badcolor',
+        },
+      }}
     >
       <Card bg='testcolor3'>
         <ThemeColorDisplayer color='background' data-testid='colordisplayer' />

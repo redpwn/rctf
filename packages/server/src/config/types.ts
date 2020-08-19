@@ -14,19 +14,23 @@ export interface Sponsor {
 
 export interface ServerConfig {
   database: {
-    sql: string | {
-      host: string
-      port: number
-      user: string
-      password: string
-      database: string
-    }
-    redis: string | {
-      host: string
-      port: number
-      password: string
-      database: number
-    }
+    sql:
+      | string
+      | {
+          host: string
+          port: number
+          user: string
+          password: string
+          database: string
+        }
+    redis:
+      | string
+      | {
+          host: string
+          port: number
+          password: string
+          database: number
+        }
     migrate: string
   }
   instanceType: string
@@ -81,19 +85,20 @@ export interface ServerConfig {
   loginTimeout: number
 }
 
-export type ClientConfig = Pick<ServerConfig,
-'meta' |
-'homeContent' |
-'sponsors' |
-'globalSiteTag' |
-'ctfName' |
-'divisions' |
-'defaultDivision' |
-'origin' |
-'startTime' |
-'endTime' |
-'userMembers' |
-'faviconUrl'
+export type ClientConfig = Pick<
+  ServerConfig,
+  | 'meta'
+  | 'homeContent'
+  | 'sponsors'
+  | 'globalSiteTag'
+  | 'ctfName'
+  | 'divisions'
+  | 'defaultDivision'
+  | 'origin'
+  | 'startTime'
+  | 'endTime'
+  | 'userMembers'
+  | 'faviconUrl'
 > & {
   emailEnabled: boolean
   ctftime?: Pick<NonNullable<ServerConfig['ctftime']>, 'clientId'>

@@ -37,7 +37,12 @@ test('fails with unauthorized', async () => {
 test('fails with badBody', async () => {
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app.server)
-    .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
+    .post(
+      process.env.API_ENDPOINT +
+        '/challs/' +
+        encodeURIComponent(chall.id) +
+        '/submit'
+    )
     .set('Authorization', ' Bearer ' + authToken)
     .expect(responseList.badBody.status)
 
@@ -49,7 +54,10 @@ test('fails with badChallenge', async () => {
 
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app.server)
-    .post(process.env.API_ENDPOINT + `/challs/${encodeURIComponent(badChallenge)}/submit`)
+    .post(
+      process.env.API_ENDPOINT +
+        `/challs/${encodeURIComponent(badChallenge)}/submit`
+    )
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: 'wrong_flag' })
     .expect(responseList.badChallenge.status)
@@ -60,7 +68,12 @@ test('fails with badChallenge', async () => {
 test('fails with badFlag', async () => {
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app.server)
-    .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
+    .post(
+      process.env.API_ENDPOINT +
+        '/challs/' +
+        encodeURIComponent(chall.id) +
+        '/submit'
+    )
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: 'wrong_flag' })
     .expect(responseList.badFlag.status)
@@ -71,7 +84,12 @@ test('fails with badFlag', async () => {
 test('succeeds with goodFlag', async () => {
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app.server)
-    .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
+    .post(
+      process.env.API_ENDPOINT +
+        '/challs/' +
+        encodeURIComponent(chall.id) +
+        '/submit'
+    )
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: chall.flag })
     .expect(responseList.goodFlag.status)
@@ -82,7 +100,12 @@ test('succeeds with goodFlag', async () => {
 test('fails with badAlreadySolvedChallenge', async () => {
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app.server)
-    .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
+    .post(
+      process.env.API_ENDPOINT +
+        '/challs/' +
+        encodeURIComponent(chall.id) +
+        '/submit'
+    )
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: chall.flag })
     .expect(responseList.badAlreadySolvedChallenge.status)

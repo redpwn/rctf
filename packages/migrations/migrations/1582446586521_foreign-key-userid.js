@@ -8,8 +8,8 @@ exports.up = pgm => {
       columns: 'userid',
       references: 'users("id")',
       onDelete: 'cascade',
-      onUpdate: 'cascade'
-    }
+      onUpdate: 'cascade',
+    },
   })
 }
 

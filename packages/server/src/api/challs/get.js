@@ -14,13 +14,16 @@ export default {
 
     const cleaned = challenges.getCleanedChallenges()
     const challengeInfo = await getChallengeInfo({
-      ids: cleaned.map(chall => chall.id)
+      ids: cleaned.map(chall => chall.id),
     })
 
-    return [responses.goodChallenges, cleaned.map((chall, i) => ({
-      ...chall,
-      points: challengeInfo[i].score,
-      solves: challengeInfo[i].solves
-    }))]
-  }
+    return [
+      responses.goodChallenges,
+      cleaned.map((chall, i) => ({
+        ...chall,
+        points: challengeInfo[i].score,
+        solves: challengeInfo[i].solves,
+      })),
+    ]
+  },
 }

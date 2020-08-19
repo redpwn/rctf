@@ -15,7 +15,7 @@ export const publishChallUpdate = async (): Promise<void> => {
 export const challUpdateEmitter = new EventEmitter()
 
 subClient.on('message', async (msgChannel, msg) => {
-  if (msgChannel !== channel || await clientId === parseInt(msg)) {
+  if (msgChannel !== channel || (await clientId) === parseInt(msg)) {
     return
   }
   challUpdateEmitter.emit('update')

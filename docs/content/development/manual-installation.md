@@ -5,6 +5,7 @@ Manual installation of rCTF is useful to develop and modify the project.
 To run rCTF locally, you'll need [node](https://nodejs.org/) and [yarn](https://yarnpkg.com/).
 
 Clone the rCTF repository:
+
 ```bash
 git clone https://github.com/redpwn/rctf
 ```
@@ -21,4 +22,4 @@ To simulate a full production build, run:
 
 ```bash
 yarn build && yarn start
-``` 
+```
