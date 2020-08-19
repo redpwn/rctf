@@ -28,7 +28,7 @@ const runUpdate = async () => {
     return
   }
   updating = true
-  const worker = new Worker(path.join(__dirname, 'calculate.js'), {
+  const worker = new Worker(path.join(__dirname, 'worker.js'), {
     workerData: await fetchData()
   })
   worker.once('message', async (data: WorkerResponse) => {
