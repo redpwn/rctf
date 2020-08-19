@@ -3,7 +3,6 @@ import path from 'path'
 import { Challenge, CleanedChallenge } from './types'
 import { Provider, ProviderConstructor } from './Provider'
 import { challUpdateEmitter, publishChallUpdate } from '../cache/challs'
-import { EventEmitter } from 'events'
 
 let provider: Provider
 
@@ -42,8 +41,7 @@ void import(path.join('../providers', config.challengeProvider.name))
     provider.on('update', onUpdate)
   })
 
-// FIXME: remove cast once cache is typed
-;(challUpdateEmitter as EventEmitter).on('update', () => {
+challUpdateEmitter.on('update', () => {
   provider.forceUpdate()
 })
 
