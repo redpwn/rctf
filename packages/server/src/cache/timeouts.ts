@@ -1,18 +1,10 @@
-import { promisify } from 'util'
-import client from './client'
+import client, { loadScript } from './client'
 
-const redisScript = promisify(client.script.bind(client))
-const redisEvalsha = promisify(client.evalsha.bind(client))
-
-const rateLimitScript = redisScript('load', `
-  local newValue = tonumber(redis.call("INCR", KEYS[1]))
-  if newValue > tonumber(ARGV[1]) then
-    return redis.call("PTTL", KEYS[1])
-  end
-  if newValue == 1 then
-    redis.call("PEXPIRE", KEYS[1], ARGV[2])
-  end
-`)
+client.defineCommand('rctfRateLimit', {
+  numberOfKeys: 1,
+  lua: loadScript('rate-limit')
+})
+export type scriptRateLimit = (bucketKey: string, limit: string, duration: string) => Promise<number | null>
 
 export const types = {
   FLAG: 'FLAG',
@@ -28,14 +20,22 @@ export const types = {
 * to the number of milliseconds left until the bucket expires and new requests can be sent.
 * Otherwise, the method will resolve to an object with the `ok` key set to true.
 */
-export const checkRateLimit = async ({ type, userid, duration, limit }) => {
+export const checkRateLimit = async ({
+  type,
+  userid,
+  duration,
+  limit
+}: {
+  type: string,
+  userid: string,
+  duration: number,
+  limit: number
+}): Promise<{ ok: boolean, timeLeft: number | null }> => {
   const bucketKey = `rl:${type}:${userid}`
-  const result = await redisEvalsha(
-    await rateLimitScript,
-    1,
+  const result = await client.rctfRateLimit(
     bucketKey,
-    limit,
-    duration
+    limit.toString(),
+    duration.toString()
   )
   return {
     ok: result === null,
@@ -43,6 +43,6 @@ export const checkRateLimit = async ({ type, userid, duration, limit }) => {
   }
 }
 
-export const getChallengeType = (name) => {
+export const getChallengeType = (name: string): string => {
   return `${types.FLAG}:${name}`
 }

@@ -38,7 +38,8 @@ module.exports = {
     ],
     rules: {
       '@typescript-eslint/no-unnecessary-condition': 'error',
-      '@typescript-eslint/require-await': 'off'
+      '@typescript-eslint/require-await': 'off',
+      '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: false }]
     }
   }, {
     files: ['**/.eslintrc.js'],

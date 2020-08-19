@@ -71,7 +71,8 @@ export default {
             }
           }
         }
-      }
+      },
+      required: ['data']
     }
   },
   handler: async ({ req }) => {
