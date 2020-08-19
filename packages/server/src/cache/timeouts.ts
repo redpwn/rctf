@@ -1,3 +1,4 @@
+import { Opaque } from 'type-fest'
 import client, { loadScript } from './client'
 
 client.defineCommand('rctfRateLimit', {
@@ -6,9 +7,19 @@ client.defineCommand('rctfRateLimit', {
 })
 export type scriptRateLimit = (bucketKey: string, limit: string, duration: string) => Promise<number | null>
 
-export const types = {
-  FLAG: 'FLAG',
-  UPDATE_PROFILE: 'UPDATE_PROFILE'
+const typePrefixes = {
+  FLAG: 'FLAG'
+}
+
+export enum types {
+  UPDATE_PROFILE = 'UPDATE_PROFILE'
+}
+
+type PrefixType = Opaque<string>
+export type RateLimitType = types | PrefixType
+
+export const getChallengeType = (name: string): PrefixType => {
+  return `${typePrefixes.FLAG}:${name}` as PrefixType
 }
 
 /*
@@ -26,7 +37,7 @@ export const checkRateLimit = async ({
   duration,
   limit
 }: {
-  type: string,
+  type: RateLimitType,
   userid: string,
   duration: number,
   limit: number
@@ -41,8 +52,4 @@ export const checkRateLimit = async ({
     ok: result === null,
     timeLeft: result
   }
-}
-
-export const getChallengeType = (name: string): string => {
-  return `${types.FLAG}:${name}`
 }

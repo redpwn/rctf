@@ -37,7 +37,7 @@ export const loadScript = (name: string): string => {
   const filePath = path.join(__dirname, 'scripts', name + '.lua')
   const content = fs.readFileSync(filePath).toString()
   const matcher = (match: string, quote: string, name: string): string => loadScript(name)
-  return content.replace(/^%include\s*(['"])(.+?)\1\s*$/mg, matcher)
+  return content.replace(/^%include\s*(['"])(.+?)\1\s*(?=--|$)/mg, matcher)
 }
 
 export default client
