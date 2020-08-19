@@ -31,6 +31,10 @@ jobs:
         run: |
           yarn install --frozen-lockfile
 
+      - name: Prettier
+        run: |
+          yarn prettier -c .
+
       - name: Lint
         run: |
           yarn lint --max-warnings=0
