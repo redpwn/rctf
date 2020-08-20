@@ -16,7 +16,7 @@ export enum types {
   UPDATE_PROFILE = 'UPDATE_PROFILE'
 }
 
-enum _prefixType {}
+const enum _prefixType {}
 type PrefixType = Opaque<string, _prefixType>
 export type RateLimitType = types | PrefixType
 

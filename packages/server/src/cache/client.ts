@@ -1,6 +1,6 @@
 import path from 'path'
 import fs from 'fs'
-import Redis, { Redis as IORedis } from 'ioredis'
+import Redis, { Redis as IORedis, RedisOptions } from 'ioredis'
 import config from '../config/server'
 import { scriptRateLimit } from './timeouts'
 import { scriptSetLeaderboard, scriptGetRange, scriptSetGraph, scriptGetGraph } from './leaderboard'
@@ -17,17 +17,21 @@ type RedisClient = IORedis & {
 
 let client: RedisClient
 
+const commonOpts: RedisOptions = {
+  dropBufferSupport: true
+}
+
 if (typeof creds === 'string') {
   client = new Redis(creds, {
-    dropBufferSupport: true
+    ...commonOpts
   }) as RedisClient
 } else {
   client = new Redis({
+    ...commonOpts,
     host: creds.host,
     port: creds.port,
     password: creds.password,
-    db: creds.database,
-    dropBufferSupport: true
+    db: creds.database
   }) as RedisClient
 }
 
