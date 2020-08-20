@@ -157,11 +157,11 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
           </Label>
         }
       </Box>
-      {showError && errorMessage &&
+      {showError &&
         <Text sx={{
           color: 'danger'
         }}>
-          {errorMessage}
+          {errorMessage || <br/>}
         </Text>
       }
     </>
