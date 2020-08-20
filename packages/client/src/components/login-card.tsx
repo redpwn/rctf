@@ -1,9 +1,9 @@
 import { FunctionComponent, useCallback, FormEventHandler } from 'react'
 import { Link, Heading, Box, Grid, SxStyleProp } from 'theme-ui'
-import TextInput from './textinput'
+import TextInput from './text-input'
 import Button from './button'
 import Card from './card'
-import useInput from '../util/useInput'
+import useInput from '../util/use-input'
 
 export interface LoginCardProps {
   ctfName: string

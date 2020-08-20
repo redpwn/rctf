@@ -1,7 +1,7 @@
 import { Story } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import LoginCard, { LoginCardProps } from './loginCard'
+import LoginCard, { LoginCardProps } from './login-card'
 
 export default {
   title: 'Login Card',
@@ -18,7 +18,7 @@ export const Default: Story<LoginCardProps> = props =>
   />
 
 Default.args = {
-  ctfName: 'redpwnCTF',
+  ctfName: 'testCTF',
   onTokenLogin: action('onTokenLogin'),
   onCtftimeLogin: action('onCtftimeLogin')
 }

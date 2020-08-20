@@ -1,7 +1,7 @@
 import { Story } from '@storybook/react'
 import { OmitArgs } from '../sb-util'
 import { FunctionComponent, useState, useCallback, ChangeEvent } from 'react'
-import TextInput, { TextInputProps } from './textinput'
+import TextInput, { TextInputProps } from './text-input'
 import { text } from '@storybook/addon-knobs'
 import { Text } from 'theme-ui'
 

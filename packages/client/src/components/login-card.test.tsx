@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { render } from './test-util'
 import userEvent from '@testing-library/user-event'
 
-import LoginCard from './loginCard'
+import LoginCard from './login-card'
 
 const defaultProps = {
   ctfName: 'testCTF'
