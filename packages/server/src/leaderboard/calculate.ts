@@ -1,8 +1,8 @@
 import { getScore } from '../util/scores'
-import { WorkerRequest, WorkerResponse, ChallengeInfo, UserInfo, GraphEntry } from './types'
+import { WorkerRequest, WorkerResponse, InternalChallengeInfo, InternalUserInfo, InternalGraphEntry } from './types'
 
 export default ({ solves, users, graphUpdate, challenges, config }: WorkerRequest): WorkerResponse => {
-  const challengeInfos = new Map<ChallengeInfo['id'], ChallengeInfo>()
+  const challengeInfos = new Map<InternalChallengeInfo['id'], InternalChallengeInfo>()
   for (let i = 0; i < challenges.length; i++) {
     const challenge = challenges[i]
     challengeInfos.set(challenge.id, {
@@ -12,7 +12,7 @@ export default ({ solves, users, graphUpdate, challenges, config }: WorkerReques
       score: 0
     })
   }
-  const userInfos = new Map<UserInfo['id'], UserInfo>()
+  const userInfos = new Map<InternalUserInfo['id'], InternalUserInfo>()
   for (let i = 0; i < users.length; i++) {
     const user = users[i]
     userInfos.set(user.id, {
@@ -75,7 +75,8 @@ export default ({ solves, users, graphUpdate, challenges, config }: WorkerReques
 
     for (let i = 0; i < challenges.length; i++) {
       const challenge = challenges[i]
-      const challengeInfo = challengeInfos.get(challenge.id) as ChallengeInfo
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const challengeInfo = challengeInfos.get(challenge.id)!
       challengeInfo.score = getScore(
         challenge.points.min,
         challenge.points.max,
@@ -96,7 +97,7 @@ export default ({ solves, users, graphUpdate, challenges, config }: WorkerReques
     }
   }
 
-  const userCompare = (a: UserInfo, b: UserInfo) => {
+  const userCompare = (a: InternalUserInfo, b: InternalUserInfo) => {
     // sort the users by score
     // if two user's scores are the same, sort by last solve time
     const scoreCompare = b.score - a.score
@@ -112,11 +113,11 @@ export default ({ solves, users, graphUpdate, challenges, config }: WorkerReques
     end: leaderboardUpdate
   })
 
-  const graphLeaderboards: GraphEntry[] = []
+  const graphLeaderboards: InternalGraphEntry[] = []
   for (let i = 0; i < samples.length; i++) {
     const sample = samples[i]
     calcScores(sample)
-    const graphUserInfos: GraphEntry['userInfos'] = []
+    const graphUserInfos: InternalGraphEntry['userInfos'] = []
     for (const [, userInfo] of userInfos) {
       graphUserInfos.push({
         id: userInfo.id,

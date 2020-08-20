@@ -1,5 +1,6 @@
-import { Opaque } from 'type-fest'
+import { Opaque, MergeExclusive } from 'type-fest'
 import client, { loadScript } from './client'
+import { User } from '../database/users'
 
 client.defineCommand('rctfRateLimit', {
   numberOfKeys: 1,
@@ -15,7 +16,8 @@ export enum types {
   UPDATE_PROFILE = 'UPDATE_PROFILE'
 }
 
-type PrefixType = Opaque<string>
+enum _prefixType {}
+type PrefixType = Opaque<string, _prefixType>
 export type RateLimitType = types | PrefixType
 
 export const getChallengeType = (name: string): PrefixType => {
@@ -31,25 +33,22 @@ export const getChallengeType = (name: string): PrefixType => {
 * to the number of milliseconds left until the bucket expires and new requests can be sent.
 * Otherwise, the method will resolve to an object with the `ok` key set to true.
 */
-export const checkRateLimit = async ({
-  type,
-  userid,
-  duration,
-  limit
-}: {
+export type CheckRateLimitRequest = {
   type: RateLimitType,
-  userid: string,
+  userid: User['id'],
   duration: number,
   limit: number
-}): Promise<{ ok: boolean, timeLeft: number | null }> => {
+}
+export type CheckRateLimitResponse = MergeExclusive<{ ok: true }, { ok: false, timeLeft: number }>
+export const checkRateLimit = async ({ type, userid, duration, limit }: CheckRateLimitRequest): Promise<CheckRateLimitResponse> => {
   const bucketKey = `rl:${type}:${userid}`
-  const result = await client.rctfRateLimit(
+  const redisResult = await client.rctfRateLimit(
     bucketKey,
     limit.toString(),
     duration.toString()
   )
-  return {
-    ok: result === null,
-    timeLeft: result
+  if (redisResult === null) {
+    return { ok: true }
   }
+  return { ok: false, timeLeft: redisResult }
 }

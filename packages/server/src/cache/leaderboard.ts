@@ -3,12 +3,7 @@ import client, { loadScript } from './client'
 import config from '../config/server'
 import { User } from '../database/users'
 import { Challenge } from '../challenges/types'
-import { WorkerResponse, ExternalUserInfo, ExternalChallengeInfo, UserInfo, ExternalGraphEntry } from '../leaderboard/types'
-
-client.defineCommand('rctfSetLeaderboard', {
-  lua: loadScript('set-leaderboard')
-})
-export type scriptSetLeaderboard = (keys: number, ...args: string[]) => Promise<void>
+import { WorkerResponse, UserInfo, ChallengeInfo, InternalUserInfo, GraphEntry } from '../leaderboard/types'
 
 const getLeaderboardKey = (division?: string): string => {
   if (division === undefined) {
@@ -18,11 +13,13 @@ const getLeaderboardKey = (division?: string): string => {
   }
 }
 
-export const setLeaderboard = async ({
-  leaderboard,
-  challengeInfos,
-  leaderboardUpdate
-}: Pick<WorkerResponse, 'leaderboard' | 'challengeInfos' | 'leaderboardUpdate'>): Promise<void> => {
+client.defineCommand('rctfSetLeaderboard', {
+  lua: loadScript('set-leaderboard')
+})
+export type scriptSetLeaderboard = (keys: number, ...args: string[]) => Promise<void>
+
+export type SetLeaderboardRequest = Pick<WorkerResponse, 'leaderboard' | 'challengeInfos' | 'leaderboardUpdate'>
+export const setLeaderboard = async ({ leaderboard, challengeInfos, leaderboardUpdate }: SetLeaderboardRequest): Promise<void> => {
   const divisions = Object.keys(config.divisions)
   const divisionKeys = divisions.map(getLeaderboardKey)
   const keys = [
@@ -55,21 +52,11 @@ client.defineCommand('rctfGetRange', {
   numberOfKeys: 1,
   lua: loadScript('get-range')
 })
-export type scriptGetRange = (leaderbardKey: string, start: number, end: number) => Promise<string[]>
+export type scriptGetRange = (leaderboardKey: string, start: number, end: number) => Promise<string[]>
 
-export const getRange = async ({
-  start,
-  end,
-  division,
-  all
-}: {
-  division: string
-} & MergeExclusive<{
-  start: number,
-  end: number
-}, {
-  all: boolean
-}>): Promise<{ total: number, leaderboard: ExternalUserInfo[] }> => {
+export type GetRangeRequest = { division: string } & MergeExclusive<{ start: number, end: number}, { all: boolean }>
+export type GetRangeResponse = { total: number, leaderboard: UserInfo[] }
+export const getRange = async ({ start, end, division, all }: GetRangeRequest): Promise<GetRangeResponse> => {
   if (!all && start === end) {
     // zero-length query - get total only
     return {
@@ -84,8 +71,6 @@ export const getRange = async ({
   )
   const result = []
   for (let i = 0; i < redisResult.length - 1; i += 3) {
-    // format the flat redis list response into an array of arrays
-    // i is the user id, i + 1 is the user name, i + 2 is the user score
     result.push({
       id: redisResult[i],
       name: redisResult[i + 1],
@@ -98,9 +83,9 @@ export const getRange = async ({
   }
 }
 
-export const getScore = async ({
-  id
-}: Pick<User, 'id'>): Promise<null | { score: UserInfo['score'], globalPlace: number, divisionPlace: number }> => {
+export type GetScoreRequest = Pick<User, 'id'>
+export type GetScoreResponse = null | { score: InternalUserInfo['score'], globalPlace: number, divisionPlace: number }
+export const getScore = async ({ id }: GetScoreRequest): Promise<GetScoreResponse> => {
   const redisResult = await client.hget('score-positions', id)
   if (redisResult === null) {
     return null
@@ -113,7 +98,9 @@ export const getScore = async ({
   }
 }
 
-export const getChallengeInfo = async ({ ids }: { ids: Challenge['id'][] }): Promise<ExternalChallengeInfo[]> => {
+export type GetChallengeInfoRequest = { ids: Challenge['id'][] }
+export type GetChallengeInfoResponse = ChallengeInfo[]
+export const getChallengeInfo = async ({ ids }: GetChallengeInfoRequest): Promise<GetChallengeInfoResponse> => {
   if (ids.length === 0) {
     return []
   }
@@ -138,7 +125,8 @@ client.defineCommand('rctfSetGraph', {
 })
 export type scriptSetGraph = (keys: number, args: string[]) => Promise<void>
 
-export const setGraph = async ({ graphLeaderboards }: Pick<WorkerResponse, 'graphLeaderboards'>): Promise<void> => {
+export type SetGraphRequest = Pick<WorkerResponse, 'graphLeaderboards'>
+export const setGraph = async ({ graphLeaderboards }: SetGraphRequest): Promise<void> => {
   let lastSample = 0
   const userPoints = new Map<string, number[]>()
   for (let entryIdx = 0; entryIdx < graphLeaderboards.length; entryIdx++) {
@@ -176,10 +164,9 @@ client.defineCommand('rctfGetGraph', {
 })
 export type scriptGetGraph = (leaderboardKey: string, leaderboardUpdateKey: string, maxTeams: string) => Promise<string | null>
 
-export const getGraph = async ({
-  division,
-  maxTeams
-}: { division: string, maxTeams: number }): Promise<ExternalGraphEntry[]> => {
+export type GetGraphRequest = { division: string, maxTeams: number }
+export type GetGraphResponse = GraphEntry[]
+export const getGraph = async ({ division, maxTeams }: GetGraphRequest): Promise<GetGraphResponse> => {
   const redisResult = await client.rctfGetGraph(
     getLeaderboardKey(division),
     'leaderboard-update',
@@ -192,7 +179,7 @@ export const getGraph = async ({
   const lastUpdate = parseInt(parsed[0])
   const latest = parsed[1]
   const graphData = parsed[2]
-  const result = []
+  const result: GraphEntry[] = []
   for (let userIdx = 0; userIdx < latest.length / 3; userIdx++) {
     const points = [{
       time: lastUpdate,

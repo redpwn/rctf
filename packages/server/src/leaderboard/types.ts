@@ -11,30 +11,30 @@ export type WorkerRequest = {
   config: ServerConfig
 }
 
-export type UserInfo = Pick<User, 'id' | 'name' | 'division'> & {
+export type InternalUserInfo = Pick<User, 'id' | 'name' | 'division'> & {
   score: number,
   lastSolve: number,
   solvedChallengeIds: Challenge['id'][]
 }
 
-export type ExternalUserInfo = Pick<UserInfo, 'id' | 'name' | 'score'>
+export type UserInfo = Pick<InternalUserInfo, 'id' | 'name' | 'score'>
 
-export type ChallengeInfo = Pick<Challenge, 'id' | 'tiebreakEligible'> & {
+export type InternalChallengeInfo = Pick<Challenge, 'id' | 'tiebreakEligible'> & {
   solves: number,
   score: number
 }
 
-export type ExternalChallengeInfo = {
-  solves: ChallengeInfo['solves'] | null,
-  score: ChallengeInfo['score'] | null
+export type ChallengeInfo = {
+  solves: InternalChallengeInfo['solves'] | null,
+  score: InternalChallengeInfo['score'] | null
 }
 
-export type GraphEntry = {
+export type InternalGraphEntry = {
   sample: number
-  userInfos: Pick<UserInfo, 'id' | 'score'>[]
+  userInfos: Pick<InternalUserInfo, 'id' | 'score'>[]
 }
 
-export type ExternalGraphEntry = Pick<User, 'id' | 'name'> & {
+export type GraphEntry = Pick<User, 'id' | 'name'> & {
   points: {
     time: number,
     score: number
@@ -42,8 +42,8 @@ export type ExternalGraphEntry = Pick<User, 'id' | 'name'> & {
 }
 
 export type WorkerResponse = {
-  leaderboard: UserInfo[],
-  graphLeaderboards: GraphEntry[],
-  challengeInfos: Map<ChallengeInfo['id'], ChallengeInfo>,
+  leaderboard: InternalUserInfo[],
+  graphLeaderboards: InternalGraphEntry[],
+  challengeInfos: Map<InternalChallengeInfo['id'], InternalChallengeInfo>,
   leaderboardUpdate: number
 }

@@ -9,8 +9,7 @@ test('allows request if under ratelimit', async () => {
     userid: uuid()
   })
   expect(result).toEqual({
-    ok: true,
-    timeLeft: null
+    ok: true
   })
 })
 
