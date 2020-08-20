@@ -1,4 +1,7 @@
-export const theme = {
+import deepMerge from 'deepmerge'
+import base from '@theme-ui/preset-base'
+
+export const theme = deepMerge(base, {
   fonts: {
     body: 'system-ui, sans-serif',
     heading: '"Avenir Next", sans-serif',
@@ -14,16 +17,30 @@ export const theme = {
     danger: '#f44336'
   },
   styles: {
-    root: {
-      fontFamily: 'body'
+    a: {
+      transition: 'all 300ms',
+      ':hover, :focus': {
+        filter: 'brightness(1.2) saturate(0.8)'
+      },
+      ':active': {
+        filter: 'brightness(0.8)'
+      }
     }
   },
   cards: {
     primary: {
-      p: 3,
+      p: 4,
       borderRadius: 4
     }
+  },
+  buttons: {
+    primary: {
+      cursor: 'pointer',
+      ':disabled': {
+        cursor: 'default'
+      }
+    }
   }
-}
+})
 
 export default theme

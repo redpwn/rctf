@@ -4,7 +4,7 @@ import { render, act, fireEvent } from '@testing-library/preact'
 
 import { createRef } from 'react'
 
-import TextInput from './textinput'
+import TextInput from './text-input'
 
 test('attributes should propagate', () => {
   const { queryByTestId } = render(
