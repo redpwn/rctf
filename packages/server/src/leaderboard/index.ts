@@ -4,8 +4,9 @@ import * as database from '../database'
 import { getAllChallenges } from '../challenges'
 import * as cache from '../cache'
 import config from '../config/server'
+import { WorkerRequest, WorkerResponse } from './types'
 
-const fetchData = async () => {
+const fetchData = async (): Promise<WorkerRequest> => {
   const [solves, users, graphUpdate] = await Promise.all([
     database.solves.getAllSolves(),
     database.users.getAllUsers(),
@@ -15,7 +16,8 @@ const fetchData = async () => {
     solves,
     users,
     graphUpdate,
-    allChallenges: getAllChallenges()
+    challenges: getAllChallenges(),
+    config
   }
 }
 
@@ -26,19 +28,17 @@ const runUpdate = async () => {
     return
   }
   updating = true
-  const worker = new Worker(path.join(__dirname, 'calculate.js'), {
-    workerData: {
-      data: await fetchData()
-    }
+  const worker = new Worker(path.join(__dirname, 'worker.js'), {
+    workerData: await fetchData()
   })
-  worker.once('message', async (data) => {
+  worker.once('message', async (data: WorkerResponse) => {
     await cache.leaderboard.setLeaderboard(data)
-    await cache.leaderboard.setGraph({ leaderboards: data.graphLeaderboards })
+    await cache.leaderboard.setGraph(data)
     updating = false
   })
 }
 
-export const startUpdater = () => {
+export const startUpdater = (): void => {
   setInterval(runUpdate, config.leaderboard.updateInterval)
-  runUpdate()
+  void runUpdate()
 }

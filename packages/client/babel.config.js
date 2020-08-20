@@ -2,6 +2,11 @@ module.exports = api => {
   api.cache.forever()
 
   return {
+    plugins: [
+      ['const-enum', {
+        transform: 'constObject'
+      }]
+    ],
     presets: [
       ['@babel/preset-typescript', {
         isTSX: true,

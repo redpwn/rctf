@@ -24,6 +24,9 @@ export default {
     if (!config.userMembers) {
       return responses.badEndpoint
     }
+    if (Date.now() > config.endTime) {
+      return responses.badEnded
+    }
 
     const email = util.normalize.normalizeEmail(req.body.email)
     if (!emailValidator.validate(email)) {

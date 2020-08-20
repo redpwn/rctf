@@ -6,6 +6,11 @@ module.exports = {
   testEnvironment: 'node',
   transform: {
     '^.+\\.[jt]sx?$': ['babel-jest', {
+      plugins: [
+        ['const-enum', {
+          transform: 'constObject'
+        }]
+      ],
       presets: [
         ['@babel/preset-env', {
           targets: {

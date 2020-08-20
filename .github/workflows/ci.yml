@@ -12,7 +12,7 @@ jobs:
 
     - name: Shellcheck
       run: |
-        shellcheck install/*.sh
+        shellcheck scripts/*.sh
 
   lint:
     runs-on: ubuntu-latest

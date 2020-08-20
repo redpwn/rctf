@@ -42,6 +42,7 @@
     "@types/theme-ui": "0.3.6",
     "@types/webpack-env": "1.15.2",
     "babel-loader": "8.1.0",
+    "babel-plugin-const-enum": "1.0.1",
     "copy-webpack-plugin": "6.0.3",
     "cross-env": "7.0.2",
     "deepmerge": "4.2.2",

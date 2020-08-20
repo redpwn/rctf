@@ -18,6 +18,10 @@ export default {
     }
   },
   handler: async ({ req, user }) => {
+    if (Date.now() > config.endTime) {
+      return responses.badEnded
+    }
+
     if (!config.userMembers) {
       return responses.badEndpoint
     }
