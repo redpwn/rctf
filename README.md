@@ -7,11 +7,13 @@ rCTF is redpwnCTF's CTF platform. It is developed and maintained by the [redpwn]
 
 ## Getting Started
 
-To get started with rCTF, vist the docs at [rctf.redpwn.net](https://rctf.redpwn.net/)
+To get started with rCTF, visit the docs at [rctf.redpwn.net](https://rctf.redpwn.net/installation/)
 
 ## Deploying Challenges with rCTF
 
-[rCDS manages challenge deployments](https://github.com/redpwn/rcds) and is heavily integrated with rCTF.
+rCTF itself does not handle challenge deployments.
+
+Optionally, you can use [rCDS](https://github.com/redpwn/rcds) to deploy challenges. It is heavily integrated with rCTF.
 
 ## Development
 
