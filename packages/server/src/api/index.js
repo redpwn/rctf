@@ -9,10 +9,10 @@ const routes = [
   ...require('./integrations/client').default,
   ...require('./users').default,
   ...require('./auth').default,
-  ...require('./admin').default
+  ...require('./admin').default,
 ]
 
-const makeSendResponse = (res) => (responseKind, data = null) => {
+const makeSendResponse = res => (responseKind, data = null) => {
   const response = responseList[responseKind]
   if (response === undefined) {
     throw new Error(`unknown response ${responseKind}`)
@@ -25,12 +25,12 @@ const makeSendResponse = (res) => (responseKind, data = null) => {
     res.send({
       kind: responseKind,
       message: response.message,
-      data
+      data,
     })
   }
 }
 
-export default async (fastify) => {
+export default async fastify => {
   fastify.setErrorHandler((error, req, reply) => {
     const sendResponse = makeSendResponse(reply)
     if (error.validation) {
@@ -49,10 +49,7 @@ export default async (fastify) => {
       sendResponse(responses.errorInternal)
       return
     } else if (res.statusCode >= 400) {
-      reply.log.info(
-        { res, err: error },
-        error && error.message
-      )
+      reply.log.info({ res, err: error }, error && error.message)
     }
     reply.send(error)
   })
@@ -73,14 +70,17 @@ export default async (fastify) => {
           sendResponse(responses.badToken)
           return
         }
-        const uuid = await auth.token.getData(auth.token.tokenKinds.auth, authHeader.slice('Bearer '.length))
+        const uuid = await auth.token.getData(
+          auth.token.tokenKinds.auth,
+          authHeader.slice('Bearer '.length)
+        )
         if (uuid === null) {
           sendResponse(responses.badToken)
           return
         }
 
         user = await db.users.getUserById({
-          id: uuid
+          id: uuid,
         })
         if (!user) {
           sendResponse(responses.badToken)
@@ -111,7 +111,7 @@ export default async (fastify) => {
     const fastifyRoute = {
       ...route,
       url: route.path,
-      handler
+      handler,
     }
     delete fastifyRoute.path
     delete fastifyRoute.requireAuth
@@ -125,10 +125,10 @@ export default async (fastify) => {
     url: '/*',
     handler: async (req, res) => {
       res.callNotFound()
-    }
+    },
   })
 }
 
 export const logSerializers = {
-  user: user => user.id
+  user: user => user.id,
 }

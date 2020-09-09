@@ -1,15 +1,30 @@
 import { getScore } from '../util/scores'
-import { WorkerRequest, WorkerResponse, InternalChallengeInfo, InternalUserInfo, InternalGraphEntry } from './types'
+import {
+  WorkerRequest,
+  WorkerResponse,
+  InternalChallengeInfo,
+  InternalUserInfo,
+  InternalGraphEntry,
+} from './types'
 
-export default ({ solves, users, graphUpdate, challenges, config }: WorkerRequest): WorkerResponse => {
-  const challengeInfos = new Map<InternalChallengeInfo['id'], InternalChallengeInfo>()
+export default ({
+  solves,
+  users,
+  graphUpdate,
+  challenges,
+  config,
+}: WorkerRequest): WorkerResponse => {
+  const challengeInfos = new Map<
+    InternalChallengeInfo['id'],
+    InternalChallengeInfo
+  >()
   for (let i = 0; i < challenges.length; i++) {
     const challenge = challenges[i]
     challengeInfos.set(challenge.id, {
       id: challenge.id,
       tiebreakEligible: challenge.tiebreakEligible,
       solves: 0,
-      score: 0
+      score: 0,
     })
   }
   const userInfos = new Map<InternalUserInfo['id'], InternalUserInfo>()
@@ -21,17 +36,27 @@ export default ({ solves, users, graphUpdate, challenges, config }: WorkerReques
       division: user.division,
       score: 0,
       lastSolve: 0,
-      solvedChallengeIds: []
+      solvedChallengeIds: [],
     })
   }
 
   const graphSampleTime = config.leaderboard.graphSampleTime
-  const calcSamples = ({ start, end }: { start: number, end: number }): number[] => {
+  const calcSamples = ({
+    start,
+    end,
+  }: {
+    start: number
+    end: number
+  }): number[] => {
     const samples = []
     const sampleStart = Math.ceil(start / graphSampleTime) * graphSampleTime
     const sampleEnd = Math.floor(end / graphSampleTime) * graphSampleTime
 
-    for (let sample = sampleStart; sample <= sampleEnd; sample += graphSampleTime) {
+    for (
+      let sample = sampleStart;
+      sample <= sampleEnd;
+      sample += graphSampleTime
+    ) {
       samples.push(sample)
     }
     return samples
@@ -110,7 +135,7 @@ export default ({ solves, users, graphUpdate, challenges, config }: WorkerReques
   const leaderboardUpdate = Math.min(Date.now(), config.endTime)
   const samples = calcSamples({
     start: Math.max(graphUpdate + 1, config.startTime),
-    end: leaderboardUpdate
+    end: leaderboardUpdate,
   })
 
   const graphLeaderboards: InternalGraphEntry[] = []
@@ -121,12 +146,12 @@ export default ({ solves, users, graphUpdate, challenges, config }: WorkerReques
     for (const [, userInfo] of userInfos) {
       graphUserInfos.push({
         id: userInfo.id,
-        score: userInfo.score
+        score: userInfo.score,
       })
     }
     graphLeaderboards.push({
       sample,
-      userInfos: graphUserInfos
+      userInfos: graphUserInfos,
     })
   }
 
@@ -139,6 +164,6 @@ export default ({ solves, users, graphUpdate, challenges, config }: WorkerReques
     leaderboard,
     graphLeaderboards,
     challengeInfos,
-    leaderboardUpdate
+    leaderboardUpdate,
   }
 }

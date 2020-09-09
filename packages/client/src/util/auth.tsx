@@ -1,15 +1,25 @@
-import { createContext, useState, useCallback, FunctionComponent, useContext } from 'react'
+import {
+  createContext,
+  useState,
+  useCallback,
+  FunctionComponent,
+  useContext,
+} from 'react'
 
 interface AuthContextValue {
-  authToken: string | null,
-  setAuthToken: (token: string | null) => void;
+  authToken: string | null
+  setAuthToken: (token: string | null) => void
 }
 
 // Using the context without a provider mounted should be an error
-const AuthContext = createContext<AuthContextValue>(null as unknown as AuthContextValue)
+const AuthContext = createContext<AuthContextValue>(
+  (null as unknown) as AuthContextValue
+)
 
 const AuthProvider: FunctionComponent = ({ children }) => {
-  const [authToken, setAuthToken] = useState<string | null>(localStorage.token ?? null)
+  const [authToken, setAuthToken] = useState<string | null>(
+    localStorage.token ?? null
+  )
   const handleSetAuthToken = useCallback((newAuthToken: string | null) => {
     if (newAuthToken === null) {
       delete localStorage.token
@@ -19,7 +29,9 @@ const AuthProvider: FunctionComponent = ({ children }) => {
     setAuthToken(newAuthToken)
   }, [])
   return (
-    <AuthContext.Provider value={{ authToken, setAuthToken: handleSetAuthToken }}>
+    <AuthContext.Provider
+      value={{ authToken, setAuthToken: handleSetAuthToken }}
+    >
       {children}
     </AuthContext.Provider>
   )

@@ -1,4 +1,1 @@
-export default [
-  require('./graph').default,
-  require('./now').default
-]
+export default [require('./graph').default, require('./now').default]

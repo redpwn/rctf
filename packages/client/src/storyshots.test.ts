@@ -5,5 +5,5 @@ import { shallowRender } from 'preact-render-to-string'
 initStoryshots({
   configPath: path.resolve(__dirname, '../.storybook'),
   framework: 'preact',
-  renderer: shallowRender
+  renderer: shallowRender,
 })

@@ -10,19 +10,19 @@ import { deepCopy } from '../../../util'
 class DatabaseProvider extends EventEmitter implements Provider {
   private challenges: Challenge[] = []
 
-  constructor () {
+  constructor() {
     super()
     void this.update()
   }
 
-  private async update (): Promise<void> {
+  private async update(): Promise<void> {
     try {
       const dbchallenges = await db.challenges.getAllChallenges()
 
       this.challenges = dbchallenges.map(({ id, data }) => {
         return {
           ...data,
-          id
+          id,
         }
       })
 
@@ -33,22 +33,22 @@ class DatabaseProvider extends EventEmitter implements Provider {
     }
   }
 
-  forceUpdate (): void {
+  forceUpdate(): void {
     void this.update()
   }
 
-  challengeToRow (chall: Challenge): DatabaseChallenge {
+  challengeToRow(chall: Challenge): DatabaseChallenge {
     const { id, ...data } = deepCopy(chall)
 
     return {
       id,
-      data
+      data,
     }
   }
 
-  async updateChallenge (chall: Challenge): Promise<void> {
+  async updateChallenge(chall: Challenge): Promise<void> {
     const originalData = await db.challenges.getChallengeById({
-      id: chall.id
+      id: chall.id,
     })
 
     // If we're inserting, have sane defaults
@@ -57,7 +57,7 @@ class DatabaseProvider extends EventEmitter implements Provider {
     } else {
       chall = {
         ...originalData.data,
-        ...chall
+        ...chall,
       }
     }
 
@@ -68,13 +68,13 @@ class DatabaseProvider extends EventEmitter implements Provider {
     void this.update()
   }
 
-  async deleteChallenge (id: string): Promise<void> {
+  async deleteChallenge(id: string): Promise<void> {
     await db.challenges.removeChallengeById({ id: id })
 
     void this.update()
   }
 
-  cleanup (): void {
+  cleanup(): void {
     // do nothing
   }
 }

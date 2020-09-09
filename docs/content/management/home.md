@@ -4,9 +4,9 @@ The home page of your CTF can be configured with various content in markdown and
 
 In addition to normal HTML, you can use some custom elements.
 
-* `<timer></timer>`: a countdown timer until the beginning or end of the CTF
-* `<sponsors></sponsors>`: a list of sponsor cards
-* `<action-button></action-button>`: a button with hover effects, generally used as a link to `/register`
+- `<timer></timer>`: a countdown timer until the beginning or end of the CTF
+- `<sponsors></sponsors>`: a list of sponsor cards
+- `<action-button></action-button>`: a button with hover effects, generally used as a link to `/register`
 
 ```yaml
 homeContent: |

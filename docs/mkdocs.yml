@@ -12,7 +12,7 @@ docs_dir: content
 theme:
   name: material
   language: en
-  features: 
+  features:
     - instant
   palette:
     scheme: slate

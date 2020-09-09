@@ -13,10 +13,10 @@ export default {
       type: 'object',
       properties: {
         id: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['id']
+      required: ['id'],
     },
     body: {
       type: 'object',
@@ -25,34 +25,34 @@ export default {
           type: 'object',
           properties: {
             author: {
-              type: 'string'
+              type: 'string',
             },
             category: {
-              type: 'string'
+              type: 'string',
             },
             description: {
-              type: 'string'
+              type: 'string',
             },
             flag: {
-              type: 'string'
+              type: 'string',
             },
             name: {
-              type: 'string'
+              type: 'string',
             },
             points: {
               type: 'object',
               properties: {
                 max: {
-                  type: 'integer'
+                  type: 'integer',
                 },
                 min: {
-                  type: 'integer'
-                }
+                  type: 'integer',
+                },
               },
-              required: ['max', 'min']
+              required: ['max', 'min'],
             },
             tiebreakEligible: {
-              type: 'boolean'
+              type: 'boolean',
             },
             files: {
               type: 'array',
@@ -60,20 +60,20 @@ export default {
                 type: 'object',
                 properties: {
                   name: {
-                    type: 'string'
+                    type: 'string',
                   },
                   url: {
-                    type: 'string'
-                  }
+                    type: 'string',
+                  },
                 },
-                required: ['name', 'url']
-              }
-            }
-          }
-        }
+                required: ['name', 'url'],
+              },
+            },
+          },
+        },
       },
-      required: ['data']
-    }
+      required: ['data'],
+    },
   },
   handler: async ({ req }) => {
     const chall = req.body.data
@@ -87,5 +87,5 @@ export default {
     }
 
     return [responses.goodChallengeUpdate, chall]
-  }
+  },
 }

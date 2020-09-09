@@ -13,20 +13,20 @@ export default {
         limit: {
           type: 'integer',
           minimum: 0,
-          maximum: config.leaderboard.maxLimit
+          maximum: config.leaderboard.maxLimit,
         },
         offset: {
           type: 'integer',
           minimum: 0,
-          maximum: config.leaderboard.maxOffset
+          maximum: config.leaderboard.maxOffset,
         },
         division: {
           type: 'string',
-          enum: Object.keys(config.divisions)
-        }
+          enum: Object.keys(config.divisions),
+        },
       },
-      required: ['limit', 'offset']
-    }
+      required: ['limit', 'offset'],
+    },
   },
   handler: async ({ req }) => {
     if (Date.now() < config.startTime) {
@@ -38,8 +38,8 @@ export default {
     const result = await cache.leaderboard.getRange({
       start: offset,
       end: offset + limit,
-      division: req.query.division
+      division: req.query.division,
     })
     return [responses.goodLeaderboard, result]
-  }
+  },
 }

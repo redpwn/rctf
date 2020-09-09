@@ -1,13 +1,13 @@
 module.exports = {
   env: {
-    node: true
+    node: true,
   },
-  plugins: [
+  plugins: [],
+  rules: {},
+  overrides: [
+    {
+      files: ['jest.*.js'],
+      parser: 'espree',
+    },
   ],
-  rules: {
-  },
-  overrides: [{
-    files: ['jest.*.js'],
-    parser: 'espree'
-  }]
 }

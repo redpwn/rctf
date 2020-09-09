@@ -1,5 +1,5 @@
 export default [
   require('./new').default,
   require('./delete').default,
-  require('./list').default
+  require('./list').default,
 ]

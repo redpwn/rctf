@@ -19,49 +19,64 @@ export const LoginCard: FunctionComponent<LoginCardProps> = ({
 }) => {
   const [teamToken, handleTeamTokenChange] = useInput('')
 
-  const onTokenLogin = useCallback<FormEventHandler<HTMLFormElement>>((e) => {
-    _onTokenLogin(teamToken)
-    e.preventDefault()
-  }, [teamToken, _onTokenLogin])
+  const onTokenLogin = useCallback<FormEventHandler<HTMLFormElement>>(
+    e => {
+      _onTokenLogin(teamToken)
+      e.preventDefault()
+    },
+    [teamToken, _onTokenLogin]
+  )
 
   return (
     <Card
-      sx={{
-        display: 'grid',
-        gridGap: 3
-      // FIXME: what is up with these types?
-      } as SxStyleProp}
+      sx={
+        {
+          display: 'grid',
+          gridGap: 3,
+          // FIXME: what is up with these types?
+        } as SxStyleProp
+      }
       {...props}
     >
       <Heading mx={4}>Log in to {ctfName}</Heading>
       <Grid gap={3}>
         <form
-          sx={{
-            display: 'grid',
-            gridGap: 3
-          // FIXME: what is up with these types?
-          } as SxStyleProp}
+          sx={
+            {
+              display: 'grid',
+              gridGap: 3,
+              // FIXME: what is up with these types?
+            } as SxStyleProp
+          }
           onSubmit={onTokenLogin}
         >
           <Box>
-            <TextInput value={teamToken} onChange={handleTeamTokenChange} label='Team Code or Link'/>
+            <TextInput
+              value={teamToken}
+              onChange={handleTeamTokenChange}
+              label='Team Code or Link'
+            />
             <Box mt={1}>
               <Link href='/recover'>Lost your team token?</Link>
             </Box>
           </Box>
-          <Button sx={{ width: '100%' }} type='submit' disabled={!teamToken}>Log In</Button>
+          <Button sx={{ width: '100%' }} type='submit' disabled={!teamToken}>
+            Log In
+          </Button>
         </form>
-        <Box sx={{
-          fontFamily: 'heading',
-          fontWeight: 'heading',
-          textAlign: 'center'
-        }}>
+        <Box
+          sx={{
+            fontFamily: 'heading',
+            fontWeight: 'heading',
+            textAlign: 'center',
+          }}
+        >
           or
         </Box>
         <Button
           sx={{
             width: '100%',
-            bg: '#e3000b'
+            bg: '#e3000b',
           }}
           type='button'
           onClick={onCtftimeLogin}

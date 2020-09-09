@@ -7,13 +7,13 @@ const itemSchema = {
   type: 'object',
   properties: {
     name: {
-      type: 'string'
+      type: 'string',
     },
     data: {
-      type: 'string'
-    }
+      type: 'string',
+    },
   },
-  required: ['name', 'data']
+  required: ['name', 'data'],
 }
 
 export default {
@@ -27,11 +27,11 @@ export default {
       properties: {
         files: {
           type: 'array',
-          items: itemSchema
-        }
+          items: itemSchema,
+        },
       },
-      required: ['files']
-    }
+      required: ['files'],
+    },
   },
   bodyLimit: 2 ** 30, // 1 GiB
   handler: async ({ req }) => {
@@ -40,18 +40,20 @@ export default {
       convertedFiles = req.body.files.map(({ name, data }) => {
         return {
           name,
-          data: toBuffer(data)
+          data: toBuffer(data),
         }
       })
     } catch (e) {
       return responses.badDataUri
     }
 
-    const files = await Promise.all(convertedFiles.map(async ({ name, data }) => {
-      const url = await upload(data, name)
-      return { name, url }
-    }))
+    const files = await Promise.all(
+      convertedFiles.map(async ({ name, data }) => {
+        const url = await upload(data, name)
+        return { name, url }
+      })
+    )
 
     return [responses.goodFilesUpload, files]
-  }
+  },
 }

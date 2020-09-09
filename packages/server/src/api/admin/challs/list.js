@@ -10,5 +10,5 @@ export default {
   handler: async () => {
     const challs = challenges.getAllChallenges()
     return [responses.goodChallenges, challs]
-  }
+  },
 }

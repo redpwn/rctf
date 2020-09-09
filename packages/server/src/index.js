@@ -34,7 +34,7 @@ const runMain = async () => {
   }
 }
 
-(async () => {
+;(async () => {
   switch (config.database.migrate) {
     case 'before':
       await runMigrations()

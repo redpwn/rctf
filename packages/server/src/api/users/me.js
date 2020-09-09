@@ -11,16 +11,22 @@ export default {
     const uuid = user.id
     const userData = await getUserData({ user })
 
-    const teamToken = await auth.token.getToken(auth.token.tokenKinds.team, uuid)
+    const teamToken = await auth.token.getToken(
+      auth.token.tokenKinds.team,
+      uuid
+    )
 
     const allowedDivisions = util.restrict.allowedDivisions(user.email)
 
-    return [responses.goodUserData, {
-      ...userData,
-      teamToken,
-      allowedDivisions,
-      id: uuid,
-      email: user.email
-    }]
-  }
+    return [
+      responses.goodUserData,
+      {
+        ...userData,
+        teamToken,
+        allowedDivisions,
+        id: uuid,
+        email: user.email,
+      },
+    ]
+  },
 }

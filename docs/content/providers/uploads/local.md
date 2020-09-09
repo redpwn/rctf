@@ -6,10 +6,10 @@ rCTF must have write access to the `uploadDirectory`.
 
 ## Configuration Options
 
-YAML/JSON name|environment name|required|default value|type|description
--|-|-|-|-|-
-`uploadDirectory`|_(none)_|yes|`uploads`|string|directory where uploaded files are stored
-`endpoint`|_(none)_|yes|`/uploads`|string|endpoint from which uploaded files are served
+| YAML/JSON name    | environment name | required | default value | type   | description                                   |
+| ----------------- | ---------------- | -------- | ------------- | ------ | --------------------------------------------- |
+| `uploadDirectory` | _(none)_         | yes      | `uploads`     | string | directory where uploaded files are stored     |
+| `endpoint`        | _(none)_         | yes      | `/uploads`    | string | endpoint from which uploaded files are served |
 
 ## Configuration Example
 

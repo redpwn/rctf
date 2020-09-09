@@ -8,11 +8,11 @@ jobs:
   shellcheck:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Shellcheck
-      run: |
-        shellcheck scripts/*.sh
+      - name: Shellcheck
+        run: |
+          shellcheck scripts/*.sh
 
   lint:
     runs-on: ubuntu-latest
@@ -20,24 +20,28 @@ jobs:
       matrix:
         node: [12]
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Node ${{ matrix.node }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node }}
+      - name: Set up Node ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
 
-    - name: Install dependencies
-      run: |
-        yarn install --frozen-lockfile
+      - name: Install dependencies
+        run: |
+          yarn install --frozen-lockfile
 
-    - name: Lint
-      run: |
-        yarn lint --max-warnings=0
+      - name: Prettier
+        run: |
+          yarn prettier -c .
 
-    - name: Typecheck
-      run: |
-        yarn typecheck
+      - name: Lint
+        run: |
+          yarn lint --max-warnings=0
+
+      - name: Typecheck
+        run: |
+          yarn typecheck
 
   test:
     runs-on: ubuntu-latest
@@ -62,37 +66,37 @@ jobs:
       RCTF_REDIS_URL: redis://@localhost:6379/0
       RCTF_TOKEN_KEY: 32_byte_long_base64_encoded_value_for_token
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Node ${{ matrix.node }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node }}
+      - name: Set up Node ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
 
-    - name: Install dependencies
-      run: |
-        yarn install --frozen-lockfile
+      - name: Install dependencies
+        run: |
+          yarn install --frozen-lockfile
 
-    - name: Build
-      run: |
-        yarn build
+      - name: Build
+        run: |
+          yarn build
 
-    - name: Create DB
-      run: |
-        psql postgres://postgres:password@localhost -c 'CREATE DATABASE rctf;'
+      - name: Create DB
+        run: |
+          psql postgres://postgres:password@localhost -c 'CREATE DATABASE rctf;'
 
-    - name: Run migrations
-      run: |
-        yarn workspace @rctf/server migrate
+      - name: Run migrations
+        run: |
+          yarn workspace @rctf/server migrate
 
-    - name: Run tests
-      id: testrun
-      run: |
-        yarn test:report --ci --forceExit --color
+      - name: Run tests
+        id: testrun
+        run: |
+          yarn test:report --ci --forceExit --color
 
-    - name: Upload coverage reports
-      if: always() && ((steps.testrun.outcome == 'success') || (steps.testrun.outcome == 'failure'))
-      uses: codecov/codecov-action@v1
+      - name: Upload coverage reports
+        if: always() && ((steps.testrun.outcome == 'success') || (steps.testrun.outcome == 'failure'))
+        uses: codecov/codecov-action@v1
 
   docker-build:
     runs-on: ubuntu-latest
@@ -102,30 +106,30 @@ jobs:
       - test
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Build
-      uses: docker://docker/github-actions:v1
-      with:
-        args: build
-        path: .
-        repository: redpwn/rctf
-        tags: ${{ github.sha }}
-        cache_froms: redpwn/rctf:master
+      - name: Build
+        uses: docker://docker/github-actions:v1
+        with:
+          args: build
+          path: .
+          repository: redpwn/rctf
+          tags: ${{ github.sha }}
+          cache_froms: redpwn/rctf:master
 
-    - name: Login
-      # TODO: handle tagging releases correctly
-      if: github.ref == 'refs/heads/master'
-      uses: docker://docker/github-actions:v1
-      with:
-        args: build
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASS }}
+      - name: Login
+        # TODO: handle tagging releases correctly
+        if: github.ref == 'refs/heads/master'
+        uses: docker://docker/github-actions:v1
+        with:
+          args: build
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASS }}
 
-    - name: Push
-      # TODO: handle tagging releases correctly
-      if: github.ref == 'refs/heads/master'
-      run: |
-        docker tag redpwn/rctf:${{ github.sha }} redpwn/rctf:master
-        docker push redpwn/rctf:${{ github.sha }}
-        docker push redpwn/rctf:master
+      - name: Push
+        # TODO: handle tagging releases correctly
+        if: github.ref == 'refs/heads/master'
+        run: |
+          docker tag redpwn/rctf:${{ github.sha }} redpwn/rctf:master
+          docker push redpwn/rctf:${{ github.sha }}
+          docker push redpwn/rctf:master

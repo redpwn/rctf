@@ -1,5 +1,4 @@
 const webpack = require('webpack')
-const util = require('util')
 
 module.exports = {
   stories: ['../src/**/*.stories.tsx'],
@@ -8,13 +7,13 @@ module.exports = {
     '@storybook/addon-controls',
     '@storybook/addon-knobs',
     '@storybook/addon-actions',
-    '@storybook/addon-a11y'
+    '@storybook/addon-a11y',
   ],
   webpackFinal: config => {
     config.plugins.push(
       new webpack.ProvidePlugin({
         jsx: ['theme-ui', 'jsx'],
-        Fragment: ['react', 'Fragment']
+        Fragment: ['react', 'Fragment'],
       })
     )
 
@@ -27,8 +26,8 @@ module.exports = {
     reactDocgenOptions: {
       shouldExtractLiteralValuesFromEnum: true,
       propFilter: {
-        skipPropsWithName: ['as', 'id']
-      }
-    }
-  }
+        skipPropsWithName: ['as', 'id'],
+      },
+    },
+  },
 }

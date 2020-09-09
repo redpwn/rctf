@@ -16,12 +16,15 @@ export const deepCopy = <T>(data: T): T => {
   return JSON.parse(JSON.stringify(data)) as T
 }
 
-export const serveIndex: FastifyPluginAsync<{ indexPath: string; }> = async (fastify, opts) => {
+export const serveIndex: FastifyPluginAsync<{ indexPath: string }> = async (
+  fastify,
+  opts
+) => {
   const indexTemplate = (await fs.readFile(opts.indexPath)).toString()
 
   const rendered = mustache.render(indexTemplate, {
     jsonConfig: JSON.stringify(clientConfig),
-    config: clientConfig
+    config: clientConfig,
   })
 
   const routeHandler: RouteHandlerMethod = async (req, reply) => {
@@ -49,7 +52,7 @@ let getRealIp: (req: FastifyRequest) => string = getFastifyIp
 
 if (config.proxy.cloudflare) {
   getRealIp = (req: FastifyRequest): string =>
-    getCloudflareIp(req) || getFastifyIp(req)
+    getCloudflareIp(req) ?? getFastifyIp(req)
 }
 
 export { getRealIp }

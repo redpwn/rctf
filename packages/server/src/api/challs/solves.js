@@ -12,10 +12,10 @@ export default {
       type: 'object',
       properties: {
         id: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['id']
+      required: ['id'],
     },
     query: {
       type: 'object',
@@ -23,16 +23,16 @@ export default {
         limit: {
           type: 'integer',
           minimum: 1,
-          maximum: config.leaderboard.maxLimit
+          maximum: config.leaderboard.maxLimit,
         },
         offset: {
           type: 'integer',
           minimum: 0,
-          maximum: config.leaderboard.maxOffset
-        }
+          maximum: config.leaderboard.maxOffset,
+        },
       },
-      required: ['limit', 'offset']
-    }
+      required: ['limit', 'offset'],
+    },
   },
   handler: async ({ req }) => {
     if (Date.now() < config.startTime) {
@@ -45,15 +45,18 @@ export default {
     const solves = await db.solves.getSolvesByChallId({
       challengeid: req.params.id,
       limit: req.query.limit,
-      offset: req.query.offset
+      offset: req.query.offset,
     })
-    return [responses.goodChallengeSolves, {
-      solves: solves.map(solve => ({
-        id: solve.id,
-        createdAt: solve.createdat.getTime(),
-        userId: solve.userid,
-        userName: solve.name
-      }))
-    }]
-  }
+    return [
+      responses.goodChallengeSolves,
+      {
+        solves: solves.map(solve => ({
+          id: solve.id,
+          createdAt: solve.createdat.getTime(),
+          userId: solve.userid,
+          userName: solve.name,
+        })),
+      },
+    ]
+  },
 }

@@ -3,31 +3,34 @@ import crypto from 'crypto'
 import { Provider } from '../../../uploads/provider'
 
 interface GcsProviderOptions {
-  credentials: Record<string, unknown>;
-  bucketName: string;
+  credentials: Record<string, unknown>
+  bucketName: string
 }
 
 export default class GcsProvider implements Provider {
-  private bucket: Bucket
-  private bucketName: string
+  private readonly bucket: Bucket
+  private readonly bucketName: string
 
-  constructor (_options: Partial<GcsProviderOptions>) {
+  constructor(_options: Partial<GcsProviderOptions>) {
     const options = {
-      credentials: process.env.RCTF_GCS_CREDENTIALS === undefined
-        ? _options.credentials
-        : JSON.parse(process.env.RCTF_GCS_CREDENTIALS) as GcsProviderOptions['credentials'],
-      bucketName: process.env.RCTF_GCS_BUCKET ?? _options.bucketName
+      credentials:
+        process.env.RCTF_GCS_CREDENTIALS === undefined
+          ? _options.credentials
+          : (JSON.parse(
+              process.env.RCTF_GCS_CREDENTIALS
+            ) as GcsProviderOptions['credentials']),
+      bucketName: process.env.RCTF_GCS_BUCKET ?? _options.bucketName,
     } as GcsProviderOptions
     // TODO: validate that all options are indeed provided
 
     const storage = new Storage({
-      credentials: options.credentials
+      credentials: options.credentials,
     })
     this.bucket = new Bucket(storage, options.bucketName)
     this.bucketName = options.bucketName
   }
 
-  private getGcsFile = (sha256: string, name: string): File => {
+  private readonly getGcsFile = (sha256: string, name: string): File => {
     const key = `uploads/${sha256}/${name}`
     const file = this.bucket.file(key)
     return file
@@ -42,18 +45,20 @@ export default class GcsProvider implements Provider {
         public: true,
         resumable: false,
         metadata: {
-          contentDisposition: 'download'
-        }
+          contentDisposition: 'download',
+        },
       })
     }
     return this.toUrl(hash, name)
   }
 
-  private toUrl (sha256: string, name: string): string {
-    return `https://${this.bucketName}.storage.googleapis.com/uploads/${sha256}/${encodeURIComponent(name)}`
+  private toUrl(sha256: string, name: string): string {
+    return `https://${
+      this.bucketName
+    }.storage.googleapis.com/uploads/${sha256}/${encodeURIComponent(name)}`
   }
 
-  async getUrl (sha256: string, name: string): Promise<string|null> {
+  async getUrl(sha256: string, name: string): Promise<string | null> {
     const file = this.getGcsFile(sha256, name)
 
     const exists = (await file.exists())[0]

@@ -18,7 +18,7 @@ services:
   redis:
     image: redis:6.0.6
     restart: always
-    command: ["redis-server", "--requirepass", "${RCTF_REDIS_PASSWORD}"]
+    command: ['redis-server', '--requirepass', '${RCTF_REDIS_PASSWORD}']
     networks:
       - rctf
     volumes:

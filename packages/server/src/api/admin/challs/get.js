@@ -12,11 +12,11 @@ export default {
       type: 'object',
       properties: {
         id: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['id']
-    }
+      required: ['id'],
+    },
   },
   handler: async ({ req }) => {
     const chall = challenges.getChallenge(req.params.id)
@@ -26,5 +26,5 @@ export default {
     }
 
     return [responses.goodChallenges, chall]
-  }
+  },
 }

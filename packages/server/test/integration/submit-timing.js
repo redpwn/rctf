@@ -31,7 +31,12 @@ test('fails with badNotStarted', async () => {
 
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app.server)
-    .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
+    .post(
+      process.env.API_ENDPOINT +
+        '/challs/' +
+        encodeURIComponent(chall.id) +
+        '/submit'
+    )
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: chall.flag })
     .expect(responseList.badNotStarted.status)
@@ -47,7 +52,12 @@ test('fails with badEnded', async () => {
 
   const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, uuid)
   const resp = await request(app.server)
-    .post(process.env.API_ENDPOINT + '/challs/' + encodeURIComponent(chall.id) + '/submit')
+    .post(
+      process.env.API_ENDPOINT +
+        '/challs/' +
+        encodeURIComponent(chall.id) +
+        '/submit'
+    )
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: chall.flag })
     .expect(responseList.badEnded.status)

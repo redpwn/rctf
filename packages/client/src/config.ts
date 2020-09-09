@@ -7,7 +7,9 @@ const config: ClientConfig = {} as ClientConfig
 
 const loadConfig = async (): Promise<void> => {
   if (process.env.NODE_ENV === 'development') {
-    const { data } = await (await fetch('/api/v1/integrations/client/config')).json() as { data: ClientConfig }
+    const { data } = (await (
+      await fetch('/api/v1/integrations/client/config')
+    ).json()) as { data: ClientConfig }
     Object.assign(config, data)
   } else if (process.env.NODE_ENV === 'production') {
     const el = document.querySelector('[name=rctf-config]') as HTMLMetaElement

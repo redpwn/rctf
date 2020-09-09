@@ -5,6 +5,7 @@
 Development primarily occurs with `yarn`. While there are docker containers avalible, these are meant more for production environments.
 
 You should first clone the repository and run:
+
 ```bash
 yarn
 ```

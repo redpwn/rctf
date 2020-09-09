@@ -8,7 +8,7 @@ import { responseList } from '../../src/responses'
 const testUser = {
   email: uuidv4() + '@test.com',
   name: uuidv4(),
-  division: Object.values(config.divisions)[0]
+  division: Object.values(config.divisions)[0],
 }
 
 let oldEmail
@@ -38,7 +38,7 @@ test('succeeds with goodUserData', async () => {
 
 afterAll(async () => {
   await removeUserByEmail({
-    email: testUser.email
+    email: testUser.email,
   })
   config.email = oldEmail
 })

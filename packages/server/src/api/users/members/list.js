@@ -12,9 +12,9 @@ export default {
     }
 
     const members = await database.members.getMembers({
-      userid: user.id
+      userid: user.id,
     })
 
     return [responses.goodMemberData, members]
-  }
+  },
 }

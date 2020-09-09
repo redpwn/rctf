@@ -1,0 +1,13 @@
+# Ignore build folders
+dist
+
+# Ignore coverage reports
+coverage/
+
+# Ignore built docs
+/docs/site
+
+# Ignore HTML as Prettier does not handle Mustache well, and certain parts of
+# client HTML entrypoint must be minified since the HTML minifier does not
+# minify the contents of certain tags (which Prettier would then format)
+*.html

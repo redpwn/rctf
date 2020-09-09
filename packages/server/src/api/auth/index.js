@@ -3,5 +3,5 @@ export default [
   require('./recover').default,
   require('./register').default,
   require('./test').default,
-  require('./verify').default
+  require('./verify').default,
 ]

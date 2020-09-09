@@ -6,8 +6,8 @@ test('removeUndefined passes through properties', () => {
     b: 1,
     c: true,
     d: {
-      e: 'world'
-    }
+      e: 'world',
+    },
   }
   expect(removeUndefined(obj)).toEqual(obj)
 })
@@ -19,14 +19,14 @@ test('removeUndefined removes all undefined properties', () => {
     c: undefined,
     d: {
       e: undefined,
-      f: 'world'
-    }
+      f: 'world',
+    },
   }
   expect(removeUndefined(obj)).toEqual({
     a: 'hello',
     d: {
-      f: 'world'
-    }
+      f: 'world',
+    },
   })
 })
 
@@ -37,9 +37,9 @@ test('removeUndefined does not return undefined', () => {
     d: {
       e: undefined,
       f: {
-        g: undefined
-      }
-    }
+        g: undefined,
+      },
+    },
   }
   expect(removeUndefined(obj)).toEqual({})
 })

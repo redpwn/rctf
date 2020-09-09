@@ -13,11 +13,11 @@ export default {
       type: 'object',
       properties: {
         id: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      required: ['id']
-    }
+      required: ['id'],
+    },
   },
   handler: async ({ req }) => {
     const chall = await challenges.deleteChallenge(req.params.id)
@@ -25,5 +25,5 @@ export default {
     await cache.leaderboard.setChallsDirty()
 
     return [responses.goodChallengeDelete, chall]
-  }
+  },
 }

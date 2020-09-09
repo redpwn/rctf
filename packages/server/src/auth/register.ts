@@ -4,9 +4,15 @@ import { getToken, tokenKinds } from './token'
 import { responses } from '../responses'
 import { ValueOf } from 'type-fest'
 
-export const register = async (
-  { division, email, name, ctftimeId }: Pick<User, 'division' | 'email' | 'name' | 'ctftimeId'>
-): Promise<[typeof responses.goodRegister, { authToken: string }] | ValueOf<typeof responses>> => {
+export const register = async ({
+  division,
+  email,
+  name,
+  ctftimeId,
+}: Pick<User, 'division' | 'email' | 'name' | 'ctftimeId'>): Promise<
+  | [typeof responses.goodRegister, { authToken: string }]
+  | ValueOf<typeof responses>
+> => {
   const userUuid = uuidv4()
   try {
     await makeUser({
@@ -15,7 +21,7 @@ export const register = async (
       name,
       id: userUuid,
       ctftimeId,
-      perms: 0
+      perms: 0,
     })
   } catch (e) {
     if (e instanceof Object) {

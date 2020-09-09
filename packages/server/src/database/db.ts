@@ -8,7 +8,7 @@ let pool: Pool
 // connection string
 if (typeof creds === 'string') {
   pool = new Pool({
-    connectionString: creds
+    connectionString: creds,
   })
 } else {
   pool = new Pool(creds)

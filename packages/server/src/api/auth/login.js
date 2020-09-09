@@ -11,29 +11,40 @@ export default {
       type: 'object',
       properties: {
         teamToken: {
-          type: 'string'
+          type: 'string',
         },
         ctftimeToken: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      oneOf: [{
-        required: ['teamToken']
-      }, {
-        required: ['ctftimeToken']
-      }]
-    }
+      oneOf: [
+        {
+          required: ['teamToken'],
+        },
+        {
+          required: ['ctftimeToken'],
+        },
+      ],
+    },
   },
   handler: async ({ req }) => {
     let user
     if (req.body.ctftimeToken !== undefined) {
-      const ctftimeData = await auth.token.getData(auth.token.tokenKinds.ctftimeAuth, req.body.ctftimeToken)
+      const ctftimeData = await auth.token.getData(
+        auth.token.tokenKinds.ctftimeAuth,
+        req.body.ctftimeToken
+      )
       if (ctftimeData === null) {
         return responses.badCtftimeToken
       }
-      user = await database.users.getUserByCtftimeId({ ctftimeId: ctftimeData.ctftimeId })
+      user = await database.users.getUserByCtftimeId({
+        ctftimeId: ctftimeData.ctftimeId,
+      })
     } else {
-      const uuid = await auth.token.getData(auth.token.tokenKinds.team, req.body.teamToken)
+      const uuid = await auth.token.getData(
+        auth.token.tokenKinds.team,
+        req.body.teamToken
+      )
       if (uuid === null) {
         return responses.badTokenVerification
       }
@@ -42,9 +53,15 @@ export default {
     if (user === undefined) {
       return responses.badUnknownUser
     }
-    const authToken = await auth.token.getToken(auth.token.tokenKinds.auth, user.id)
-    return [responses.goodLogin, {
-      authToken
-    }]
-  }
+    const authToken = await auth.token.getToken(
+      auth.token.tokenKinds.auth,
+      user.id
+    )
+    return [
+      responses.goodLogin,
+      {
+        authToken,
+      },
+    ]
+  },
 }

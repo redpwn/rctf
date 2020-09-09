@@ -6,10 +6,6 @@ import theme from '../src/util/theme'
 
 if (process.env.NODE_ENV !== 'test') {
   addDecorator(withKnobs)
-  addDecorator(story =>
-    <ThemeProvider theme={theme}>
-      {story()}
-    </ThemeProvider>
-  )
+  addDecorator(story => <ThemeProvider theme={theme}>{story()}</ThemeProvider>)
   addDecorator(centered)
 }

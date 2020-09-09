@@ -2,7 +2,7 @@ import {
   tokenKinds,
   getToken,
   getData,
-  CtftimeAuthTokenData
+  CtftimeAuthTokenData,
 } from '../../../src/auth/token'
 import config from '../../../src/config/server'
 import crypto from 'crypto'
@@ -11,10 +11,13 @@ import { promisify } from 'util'
 test('round-trip token is valid', async () => {
   const origData: CtftimeAuthTokenData = {
     name: 'name',
-    ctftimeId: 'ctftimeId'
+    ctftimeId: 'ctftimeId',
   }
   const token: string = await getToken(tokenKinds.ctftimeAuth, origData)
-  const roundtripData: CtftimeAuthTokenData | null = await getData(tokenKinds.ctftimeAuth, token)
+  const roundtripData: CtftimeAuthTokenData | null = await getData(
+    tokenKinds.ctftimeAuth,
+    token
+  )
   expect(roundtripData).not.toBeNull()
   expect(roundtripData).toStrictEqual(origData)
 })
@@ -34,7 +37,7 @@ test('token expires', async () => {
     verifyId: 'id',
     name: 'name',
     email: 'email',
-    division: 'division'
+    division: 'division',
   })
   jest.setSystemTime(createdAt + config.loginTimeout * 1000 + 1500)
 

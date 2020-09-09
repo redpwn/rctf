@@ -11,9 +11,9 @@ const ChallengeDefaults: Challenge = {
   tiebreakEligible: true,
   points: {
     min: 0,
-    max: 0
+    max: 0,
   },
-  flag: ''
+  flag: '',
 }
 
 export const applyChallengeDefaults = (chall: Challenge): Challenge => {
@@ -21,6 +21,6 @@ export const applyChallengeDefaults = (chall: Challenge): Challenge => {
 
   return {
     ...copy,
-    ...chall
+    ...chall,
   }
 }

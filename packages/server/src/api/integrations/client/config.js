@@ -7,5 +7,5 @@ export default {
   requireAuth: false,
   handler: async () => {
     return [responses.goodClientConfig, clientConfig]
-  }
+  },
 }

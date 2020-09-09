@@ -1,4 +1,1 @@
-export default [
-  require('./callback').default,
-  require('./leaderboard').default
-]
+export default [require('./callback').default, require('./leaderboard').default]

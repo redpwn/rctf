@@ -1,6 +1,10 @@
 exports.up = function (pgm) {
   pgm.addColumns('users', {
-    created_at: { type: 'timestamp', notNull: true, default: pgm.func('NOW()') }
+    created_at: {
+      type: 'timestamp',
+      notNull: true,
+      default: pgm.func('NOW()'),
+    },
   })
 }
 
