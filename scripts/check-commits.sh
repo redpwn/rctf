@@ -3,6 +3,8 @@
 set -eo pipefail
 
 do_check() {
+	set -eo pipefail
+
 	base="$1"
 	head="$2"
 	log="$(git log --pretty='format:%h %s' --no-merges "${base}..${head}")"
