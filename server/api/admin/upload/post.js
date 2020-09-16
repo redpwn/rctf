@@ -61,6 +61,10 @@ export default {
 
       return [responses.goodFilesUpload, files]
     } catch (e) {
+      req.log.error(
+        { err: e },
+        e && e.message
+      )
       return responses.badFilesUpload
     }
   }
