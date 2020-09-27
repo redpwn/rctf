@@ -61,7 +61,8 @@ export const RecaptchaLegalNotice = withStyles({
     textAlign: 'center'
   },
   link: {
-    display: 'inline'
+    display: 'inline',
+    padding: '0'
   }
 }, ({ classes }) => (
   <div class={classes.root}>
