@@ -58,11 +58,12 @@ export const verify = async ({ verifyToken }) => {
   }
 }
 
-export const register = async ({ email, name, ctftimeToken }) => {
+export const register = async ({ email, name, ctftimeToken, recaptchaCode }) => {
   const resp = await request('POST', '/auth/register', {
     email,
     name,
-    ctftimeToken
+    ctftimeToken,
+    recaptchaCode
   })
   switch (resp.kind) {
     case 'goodRegister':
@@ -113,9 +114,10 @@ export const deleteCtftime = () => {
   return request('DELETE', '/users/me/auth/ctftime')
 }
 
-export const recover = async ({ email }) => {
+export const recover = async ({ email, recaptchaCode }) => {
   const resp = await request('POST', '/auth/recover', {
-    email
+    email,
+    recaptchaCode
   })
   switch (resp.kind) {
     case 'goodVerifySent':

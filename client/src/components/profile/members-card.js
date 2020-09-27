@@ -80,7 +80,7 @@ const MembersCard = withStyles({
     <div class='card'>
       <div class='content'>
         <p>Team Information</p>
-        <p class='font-thin u-no-margin'>There is no limit on team members. Please enter a separate email for each team member. This data is collected for informational purposes only. Ensure that this section is up to date in order to remain prize eligible.</p>
+        <p class='font-thin u-no-margin'>Please enter a separate email for each team member. This data is collected for informational purposes only. Ensure that this section is up to date in order to remain prize eligible.</p>
         <div class='row u-center'>
           <Form class={`col-12 ${classes.form}`} onSubmit={handleSubmit} disabled={buttonDisabled} buttonText='Add Member'>
             <input

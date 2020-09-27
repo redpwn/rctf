@@ -29,6 +29,7 @@ nav:
       - Local: providers/uploads/local.md
   - Integrations:
     - CTFtime: integrations/ctftime.md
+    - reCAPTCHA: integrations/recaptcha.md
   - Development:
     - Manual Installation: development/manual-installation.md
 

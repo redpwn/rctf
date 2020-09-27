@@ -8,6 +8,8 @@ import * as auth from '../../../../auth'
 import * as database from '../../../../database'
 import { sendVerification } from '../../../../email'
 
+const recaptchaEnabled = util.recaptcha.checkProtectedAction(util.recaptcha.RecaptchaProtectedActions.setEmail)
+
 export default {
   method: 'PUT',
   path: '/users/me/auth/email',
@@ -18,12 +20,19 @@ export default {
       properties: {
         email: {
           type: 'string'
+        },
+        recaptchaCode: {
+          type: 'string'
         }
       },
-      required: ['email']
+      required: ['email', ...(recaptchaEnabled ? ['recaptchaCode'] : [])]
     }
   },
   handler: async ({ req, user }) => {
+    if (recaptchaEnabled && !await util.recaptcha.verifyRecaptchaCode(req.body.recaptchaCode)) {
+      return responses.badRecaptchaCode
+    }
+
     const email = util.normalize.normalizeEmail(req.body.email)
     if (!emailValidator.validate(email)) {
       return responses.badEmail

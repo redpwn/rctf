@@ -231,6 +231,10 @@ export const responseList = {
     status: 200,
     message: 'The client config was retrieved.'
   },
+  badRecaptchaCode: {
+    status: 401,
+    message: 'The recaptcha code is invalid.'
+  },
   errorInternal: {
     status: 500,
     message: 'An internal error occurred.'

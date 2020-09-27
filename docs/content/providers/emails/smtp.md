@@ -11,8 +11,10 @@ Option|Description
 ## Configuration Example
 
 ```yaml
-emailProvider:
-  name: 'emails/smtp'
-  options:
-    smtpUrl: 'smtp://a:b@example.com'
+email:
+  from: no-reply@example.com
+  provider:
+    name: 'emails/smtp'
+    options:
+      smtpUrl: 'smtp://a:b@example.com'
 ```
