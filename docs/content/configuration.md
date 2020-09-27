@@ -65,6 +65,9 @@ YAML/JSON name|environment name|required|default value|type|description
 `email.from`|_(none)_|no|_(none)_|provider|`from:` address when sending email. [documentation](providers/emails/index.md)
 `ctftime.clientId`|`RCTF_CTFTIME_CLIENT_ID`|no|_(none)_|string|CTFtime OAuth client ID. [documentation](integrations/ctftime.md)
 `ctftime.clientSecret`|`RCTF_CTFTIME_CLIENT_SECRET`|no|_(none)_|string|CTFtime OAuth client secret. [documentation](integrations/ctftime.md)
+`recaptcha.siteKey`|`RCTF_RECAPTCHA_SITE_KEY`|no|_(none)_|string|reCAPTCHA public site key.[documentation](integrations/recaptcha.md)
+`recaptcha.secretKey`|`RCTF_RECAPTCHA_SECRET_KEY`|no|_(none)_|string|reCAPTCHA secret key.[documentation](integrations/recaptcha.md)
+`recaptcha.protectedActions`|__(none)__|no|_(none)_|array|list of reCAPTCHA protected actions. [documentation](integrations/recaptcha.md)
 
 ### Advanced
 

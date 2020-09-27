@@ -12,9 +12,11 @@ Option|Description
 ## Configuration Example
 
 ```yaml
-emailProvider:
-  name: 'emails/mailgun'
-  options:
-    api_key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxx-xxxxxxxx'
-    domain: 'sandboxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.mailgun.org'
+email:
+  from: no-reply@sandboxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.mailgun.org
+  provider:
+    name: 'emails/mailgun'
+    options:
+      apiKey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxx-xxxxxxxx'
+      domain: 'sandboxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.mailgun.org'
 ```

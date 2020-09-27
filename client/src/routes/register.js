@@ -11,6 +11,11 @@ import CtftimeButton from '../components/ctftime-button'
 import CtftimeAdditional from '../components/ctftime-additional'
 import AuthOr from '../components/or'
 
+import { loadRecaptcha, requestRecaptchaCode, RecaptchaLegalNotice } from '../components/recaptcha'
+
+// legacy check for class components
+const recaptchaEnabled = config.recaptcha?.protectedActions.includes('register')
+
 export default withStyles({
   root: {
     flexDirection: 'column'
@@ -31,6 +36,9 @@ export default withStyles({
   },
   or: {
     textAlign: 'center'
+  },
+  recaptchaLegalNotice: {
+    marginTop: '50px'
   }
 }, class Register extends Component {
   state = {
@@ -45,6 +53,9 @@ export default withStyles({
 
   componentDidMount () {
     document.title = `Registration | ${config.ctfName}`
+    if (recaptchaEnabled) {
+      loadRecaptcha()
+    }
   }
 
   render ({ classes }, { name, email, disabledButton, errors, ctftimeToken, ctftimeName, verifySent }) {
@@ -61,6 +72,7 @@ export default withStyles({
     return (
       <div class={`row u-center ${classes.root}`}>
         <h4 class={classes.title}>Register for {config.ctfName}</h4>
+        <p>Please register one account per team.</p>
         <Form class={`${classes.form} col-6`} onSubmit={this.handleSubmit} disabled={disabledButton} errors={errors} buttonText='Register'>
           <input
             autofocus
@@ -88,12 +100,16 @@ export default withStyles({
             onChange={this.linkState('email')}
           />
         </Form>
-        <p>Please register one account per team.</p>
         {config.ctftime && (
           <Fragment>
             <AuthOr />
             <CtftimeButton class='col-6' onCtftimeDone={this.handleCtftimeDone} />
           </Fragment>
+        )}
+        {requestRecaptchaCode && (
+          <div class={classes.recaptchaLegalNotice}>
+            <RecaptchaLegalNotice />
+          </div>
         )}
       </div>
     )
@@ -120,11 +136,16 @@ export default withStyles({
   handleSubmit = async e => {
     e.preventDefault()
 
+    const recaptchaCode = recaptchaEnabled ? await requestRecaptchaCode() : undefined
+
     this.setState({
       disabledButton: true
     })
 
-    const { errors, verifySent } = await register(this.state)
+    const { errors, verifySent } = await register({
+      ...this.state,
+      recaptchaCode
+    })
     if (verifySent) {
       this.setState({
         verifySent: true

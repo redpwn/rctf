@@ -182,11 +182,11 @@ const Challenges = ({ classes }) => {
           <div class='frame__body'>
             <div class='frame__title title'>Categories</div>
             {
-              Object.entries(categories).sort((a, b) => a[0].localeCompare(b[0])).map(([category, checked]) => {
+              Array.from(categoryCounts.entries()).sort((a, b) => a[0].localeCompare(b[0])).map(([category, { solved, total }]) => {
                 return (
                   <div key={category} class='form-ext-control form-ext-checkbox'>
-                    <input id={`category-${category}`} data-category={category} class='form-ext-input' type='checkbox' checked={checked} onChange={handleCategoryCheckedChange} />
-                    <label for={`category-${category}`} class='form-ext-label'>{category} ({categoryCounts.get(category).solved}/{categoryCounts.get(category).total} solved)</label>
+                    <input id={`category-${category}`} data-category={category} class='form-ext-input' type='checkbox' checked={categories[category]} onChange={handleCategoryCheckedChange} />
+                    <label for={`category-${category}`} class='form-ext-label'>{category} ({solved}/{total} solved)</label>
                   </div>
                 )
               })

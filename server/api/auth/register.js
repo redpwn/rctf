@@ -8,6 +8,8 @@ import { responses } from '../../responses'
 import { getUserByNameOrEmail } from '../../database/users'
 import { sendVerification } from '../../email'
 
+const recaptchaEnabled = util.recaptcha.checkProtectedAction(util.recaptcha.RecaptchaProtectedActions.register)
+
 export default {
   method: 'POST',
   path: '/auth/register',
@@ -24,8 +26,12 @@ export default {
         },
         ctftimeToken: {
           type: 'string'
+        },
+        recaptchaCode: {
+          type: 'string'
         }
       },
+      required: [...(recaptchaEnabled ? ['recaptchaCode'] : [])],
       oneOf: [{
         required: ['email', 'name']
       }, {
@@ -34,6 +40,10 @@ export default {
     }
   },
   handler: async ({ req }) => {
+    if (recaptchaEnabled && !await util.recaptcha.verifyRecaptchaCode(req.body.recaptchaCode)) {
+      return responses.badRecaptchaCode
+    }
+
     let email
     let reqName
     let ctftimeId
