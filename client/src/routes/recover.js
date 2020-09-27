@@ -4,21 +4,27 @@ import EnvelopeOpen from '../icons/envelope-open.svg'
 import Form from '../components/form'
 import config from '../config'
 import { recover } from '../api/auth'
+import useRecaptcha, { RecaptchaLegalNotice } from '../components/recaptcha'
 
 const Recover = ({ classes }) => {
   const [disabled, setDisabled] = useState(false)
   const [errors, setErrors] = useState({})
   const [verifySent, setVerifySent] = useState(false)
   const [email, setEmail] = useState('')
+  const requestRecaptchaCode = useRecaptcha('recover')
+
   const handleSubmit = useCallback(async (evt) => {
     evt.preventDefault()
-
+    const recaptchaCode = await requestRecaptchaCode?.()
     setDisabled(true)
-    const { errors, verifySent } = await recover({ email })
+    const { errors, verifySent } = await recover({
+      email,
+      recaptchaCode
+    })
     setErrors(errors)
     setVerifySent(verifySent)
     setDisabled(false)
-  }, [setDisabled, email, setErrors, setVerifySent])
+  }, [setDisabled, email, setErrors, setVerifySent, requestRecaptchaCode])
 
   const handleEmailChange = useCallback(evt => setEmail(evt.target.value), [setEmail])
 
@@ -48,6 +54,11 @@ const Recover = ({ classes }) => {
           onChange={handleEmailChange}
         />
       </Form>
+      {requestRecaptchaCode && (
+        <div class={classes.recaptchaLegalNotice}>
+          <RecaptchaLegalNotice />
+        </div>
+      )}
     </div>
   )
 }
@@ -66,5 +77,8 @@ export default withStyles({
   },
   title: {
     marginBottom: '20px'
+  },
+  recaptchaLegalNotice: {
+    marginTop: '50px'
   }
 }, Recover)

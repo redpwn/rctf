@@ -8,6 +8,7 @@ export * as normalize from './normalize'
 export * as validate from './validate'
 export * as scores from './scores'
 export * as restrict from './restrict'
+export * as recaptcha from './recaptcha'
 
 /**
  * Perform a deep-copy of a JSON-stringifiable object

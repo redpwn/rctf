@@ -8,6 +8,8 @@ import config from '../../config/server'
 import { responses } from '../../responses'
 import { sendVerification } from '../../email'
 
+const recaptchaEnabled = util.recaptcha.checkProtectedAction(util.recaptcha.RecaptchaProtectedActions.recover)
+
 export default {
   method: 'POST',
   path: '/auth/recover',
@@ -18,14 +20,21 @@ export default {
       properties: {
         email: {
           type: 'string'
+        },
+        recaptchaCode: {
+          type: 'string'
         }
       },
-      required: ['email']
+      required: ['email', ...(recaptchaEnabled ? ['recaptchaCode'] : [])]
     }
   },
   handler: async ({ req }) => {
     if (!config.email) {
       return responses.badEndpoint
+    }
+
+    if (recaptchaEnabled && !await util.recaptcha.verifyRecaptchaCode(req.body.recaptchaCode)) {
+      return responses.badRecaptchaCode
     }
 
     const email = util.normalize.normalizeEmail(req.body.email)

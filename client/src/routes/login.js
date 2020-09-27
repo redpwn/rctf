@@ -128,7 +128,7 @@ export default withStyles({
     setAuthToken({ authToken: this.state.pendingAuthToken })
   }
 
-  handleSubmit = e => {
+  handleSubmit = async (e) => {
     e.preventDefault()
     this.setState({
       disabledButton: true
@@ -143,16 +143,16 @@ export default withStyles({
       }
     } catch {}
 
-    login({ teamToken })
-      .then(result => {
-        if (result.authToken) {
-          setAuthToken({ authToken: result.authToken })
-          return
-        }
-        this.setState({
-          errors: result,
-          disabledButton: false
-        })
-      })
+    const result = await login({
+      teamToken
+    })
+    if (result.authToken) {
+      setAuthToken({ authToken: result.authToken })
+      return
+    }
+    this.setState({
+      errors: result,
+      disabledButton: false
+    })
   }
 })

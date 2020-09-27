@@ -17,6 +17,7 @@ import UserCircle from '../icons/user-circle.svg'
 import EnvelopeOpen from '../icons/envelope-open.svg'
 import Rank from '../icons/rank.svg'
 import Ctftime from '../icons/ctftime.svg'
+import useRecaptcha, { RecaptchaLegalNotice } from '../components/recaptcha'
 
 const SummaryCard = memo(withStyles({
   icon: {
@@ -159,9 +160,13 @@ const UpdateCard = withStyles({
   },
   divisionSelect: {
     paddingLeft: '2.75rem'
+  },
+  recaptchaLegalNotice: {
+    marginTop: '20px'
   }
 }, ({ name: oldName, email: oldEmail, divisionId: oldDivision, allowedDivisions, onUpdate, classes }) => {
   const { toast } = useToast()
+  const requestRecaptchaCode = useRecaptcha('setEmail')
 
   const [name, setName] = useState(oldName)
   const handleSetName = useCallback((e) => setName(e.target.value), [])
@@ -174,7 +179,7 @@ const UpdateCard = withStyles({
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
-  const doUpdate = useCallback((e) => {
+  const doUpdate = useCallback(async (e) => {
     e.preventDefault()
 
     let updated = false
@@ -183,65 +188,62 @@ const UpdateCard = withStyles({
       updated = true
 
       setIsButtonDisabled(true)
-      updateAccount({
+      const { error, data } = await updateAccount({
         name: oldName === name ? undefined : name,
         division: oldDivision === division ? undefined : division
       })
-        .then(({ error, data }) => {
-          setIsButtonDisabled(false)
+      setIsButtonDisabled(false)
 
-          if (error !== undefined) {
-            toast({ body: error, type: 'error' })
-            return
-          }
+      if (error !== undefined) {
+        toast({ body: error, type: 'error' })
+        return
+      }
 
-          toast({ body: 'Profile updated' })
+      toast({ body: 'Profile updated' })
 
-          onUpdate({
-            name: data.user.name,
-            divisionId: data.user.division
-          })
-        })
+      onUpdate({
+        name: data.user.name,
+        divisionId: data.user.division
+      })
     }
 
     if (email !== oldEmail) {
       updated = true
 
-      setIsButtonDisabled(true)
-
-      const handleResponse = ({ error, data }) => {
-        setIsButtonDisabled(false)
-
-        if (error !== undefined) {
-          toast({ body: error, type: 'error' })
-          return
-        }
-
-        toast({ body: data })
-        onUpdate({ email })
-      }
-
+      let error, data
       if (email === '') {
-        deleteEmail()
-          .then(handleResponse)
+        setIsButtonDisabled(true)
+        ;({ error, data } = await deleteEmail())
       } else {
-        updateEmail({
-          email
-        })
-          .then(handleResponse)
+        const recaptchaCode = await requestRecaptchaCode?.()
+        setIsButtonDisabled(true)
+        ;({ error, data } = await updateEmail({
+          email,
+          recaptchaCode
+        }))
       }
+
+      setIsButtonDisabled(false)
+
+      if (error !== undefined) {
+        toast({ body: error, type: 'error' })
+        return
+      }
+
+      toast({ body: data })
+      onUpdate({ email })
     }
 
     if (!updated) {
       toast({ body: 'Nothing to update!' })
     }
-  }, [name, email, division, oldName, oldEmail, oldDivision, onUpdate, toast])
+  }, [name, email, division, oldName, oldEmail, oldDivision, onUpdate, toast, requestRecaptchaCode])
 
   return (
     <div class='card'>
       <div class='content'>
         <p>Update Information</p>
-        <p class='font-thin u-no-margin'>This will change how your team appears on the scoreboard. Note that you may only change your team's name once every 10 minutes.</p>
+        <p class='font-thin u-no-margin'>This will change how your team appears on the scoreboard. You may only change your team's name once every 10 minutes.</p>
         <div class='row u-center'>
           <Form class={`col-12 ${classes.form}`} onSubmit={doUpdate} disabled={isButtonDisabled} buttonText='Update'>
             <input
@@ -276,6 +278,11 @@ const UpdateCard = withStyles({
               }
             </select>
           </Form>
+          {requestRecaptchaCode && (
+            <div class={classes.recaptchaLegalNotice}>
+              <RecaptchaLegalNotice />
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import deepMerge from 'deepmerge'
 import { PartialDeep } from 'type-fest'
 import { nullsafeParseInt, nullsafeParseBoolEnv, removeUndefined } from './util'
 import { ACL } from '../util/restrict'
+import { RecaptchaProtectedActions } from '../util/recaptcha'
 
 export type ProviderConfig = {
   name: string;
@@ -58,6 +59,7 @@ export type ServerConfig = {
     description: string;
     imageUrl: string;
   }
+  faviconUrl?: string;
   logoUrl?: string;
   globalSiteTag?: string;
 
@@ -75,6 +77,12 @@ export type ServerConfig = {
 
   startTime: number;
   endTime: number;
+
+  recaptcha?: {
+    siteKey: string;
+    secretKey: string;
+    protectedActions: RecaptchaProtectedActions[];
+  }
 
   leaderboard: {
     maxLimit: number;
@@ -141,6 +149,7 @@ const envConfig: PartialDeep<ServerConfig> = {
     description: process.env.RCTF_META_DESCRIPTION,
     imageUrl: process.env.RCTF_IMAGE_URL
   },
+  faviconUrl: process.env.RCTF_FAVICON_URL,
   logoUrl: process.env.RCTF_LOGO_URL,
   globalSiteTag: process.env.RCTF_GLOBAL_SITE_TAG,
   email: {
@@ -148,6 +157,10 @@ const envConfig: PartialDeep<ServerConfig> = {
   },
   startTime: nullsafeParseInt(process.env.RCTF_START_TIME),
   endTime: nullsafeParseInt(process.env.RCTF_END_TIME),
+  recaptcha: {
+    siteKey: process.env.RCTF_RECAPTCHA_SITE_KEY,
+    secretKey: process.env.RCTF_RECAPTCHA_SECRET_KEY
+  },
   leaderboard: {
     maxLimit: nullsafeParseInt(process.env.RCTF_LEADERBOARD_MAX_LIMIT),
     maxOffset: nullsafeParseInt(process.env.RCTF_LEADERBOARD_MAX_OFFSET),
@@ -166,6 +179,7 @@ const defaultConfig: PartialDeep<ServerConfig> = {
   userMembers: true,
   sponsors: [],
   homeContent: '',
+  faviconUrl: 'https://redpwn.storage.googleapis.com/branding/rctf-favicon.ico',
   challengeProvider: {
     name: 'challenges/database'
   },

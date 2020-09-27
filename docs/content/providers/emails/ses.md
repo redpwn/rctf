@@ -15,10 +15,12 @@ Option|Description
 ## Configuration Example
 
 ```yaml
-emailProvider:
-  name: 'emails/ses'
-  options:
-    awsKeyId: 'ABCDABCD'
-    awsKeySecret: 'abcdabcd'
-    awsRegion: 'us-east-1'
+email:
+  from: no-reply@example.com
+  provider:
+    name: emails/ses
+    options:
+      awsKeyId: ABCDABCD
+      awsKeySecret: abcdabcd
+      awsRegion: us-east-1
 ```

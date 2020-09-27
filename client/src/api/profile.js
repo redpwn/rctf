@@ -48,9 +48,10 @@ export const updateAccount = async ({ name, division }) => {
   return handleResponse({ resp, valid: ['goodUserUpdate'] })
 }
 
-export const updateEmail = async ({ email }) => {
+export const updateEmail = async ({ email, recaptchaCode }) => {
   const resp = await request('PUT', '/users/me/auth/email', {
-    email
+    email,
+    recaptchaCode
   })
 
   return handleResponse({ resp, valid: ['goodVerifySent', 'goodEmailSet'], resolveDataMessage: true })
