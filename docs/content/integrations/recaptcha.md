@@ -7,9 +7,10 @@ Copy the corresponding values from Google into `recaptcha.siteKey` and `recaptch
 You must also configure `recaptcha.protectedActions` as a list of strings specifying which actions require a reCAPTCHA.
 
 Valid protected action values are:
-- `register`
-- `recover`
-- `setEmail`
+
+* `register`
+* `recover`
+* `setEmail`
 
 For example, to prevent automated registration and recovery, use:
 
