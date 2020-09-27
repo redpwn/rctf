@@ -149,6 +149,7 @@ const envConfig: PartialDeep<ServerConfig> = {
     description: process.env.RCTF_META_DESCRIPTION,
     imageUrl: process.env.RCTF_IMAGE_URL
   },
+  faviconUrl: process.env.RCTF_FAVICON_URL,
   logoUrl: process.env.RCTF_LOGO_URL,
   globalSiteTag: process.env.RCTF_GLOBAL_SITE_TAG,
   email: {

@@ -1,4 +1,3 @@
 Contact: mailto:contact@redpwn.net
 Preferred-Languages: en
-Canonical: https://2020.redpwn.net/.well-known/security.txt
 Policy: https://github.com/redpwn/rctf/blob/master/SECURITY.md
