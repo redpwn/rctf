@@ -5,6 +5,19 @@ on:
   pull_request:
 
 jobs:
+  check-commits:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        # Fetch all history
+        fetch-depth: 0
+
+    - name: Check commit messages
+      run: |
+        scripts/check-commits.sh ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
+
   shellcheck:
     runs-on: ubuntu-latest
     steps:
@@ -12,7 +25,7 @@ jobs:
 
     - name: Shellcheck
       run: |
-        shellcheck install/*.sh
+        shellcheck install/*.sh scripts/*.sh
 
   lint:
     runs-on: ubuntu-latest
