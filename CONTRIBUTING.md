@@ -52,7 +52,6 @@ You should follow the examples below as a guideline for how to name your branche
 ```
 feature/brief-description-here
 fix/bug-description
-style/some-frontend-component
 refactor/some-component
-add/contributing-md
+docs/some-component
 ```
