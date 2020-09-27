@@ -106,7 +106,7 @@ export default withStyles({
             <CtftimeButton class='col-6' onCtftimeDone={this.handleCtftimeDone} />
           </Fragment>
         )}
-        {requestRecaptchaCode && (
+        {recaptchaEnabled && (
           <div class={classes.recaptchaLegalNotice}>
             <RecaptchaLegalNotice />
           </div>
