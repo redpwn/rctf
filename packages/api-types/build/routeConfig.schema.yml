@@ -1,0 +1,11 @@
+type: object
+properties:
+  badAuthResponse:
+    type: string
+    # enum filled in at runtime
+  badPermsResponse:
+    type: string
+    # enum filled in at runtime
+required:
+  - badAuthResponse
+  - badPermsResponse

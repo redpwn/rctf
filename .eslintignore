@@ -9,3 +9,9 @@ coverage/
 
 # Ignore built docs
 /docs/site
+
+# Duplicate api-types ignore rules here because otherwise their paths get
+# broken when eslint is run from the monorepo root
+/packages/api-types/*.js
+/packages/api-types/*.mjs
+/packages/api-types/*.d.ts

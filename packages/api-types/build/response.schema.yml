@@ -1,0 +1,28 @@
+$schema: http://json-schema.org/draft-07/schema#
+type: object
+properties:
+  status:
+    type: integer
+  message:
+    type: string
+  data:
+    type: object
+    # TODO: ref to JSON metaschema
+  rawJson:
+    type: object
+    # TODO: ref to JSON metaschema
+  rawContentType:
+    type: string
+required: ['status']
+allOf:
+  - oneOf:
+      - required: ['message']
+      - required: ['rawJson']
+      - required: ['rawContentType']
+  - not:
+      allOf:
+        - anyOf:
+            - required: ['data']
+        - anyOf:
+            - required: ['rawJson']
+            - required: ['rawContentType']

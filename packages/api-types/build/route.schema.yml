@@ -1,0 +1,53 @@
+type: object
+properties:
+  method:
+    type: string
+    enum: ['DELETE', 'GET', 'HEAD', 'PATCH', 'POST', 'PUT', 'OPTIONS']
+  path:
+    type: string
+  summary:
+    type: string
+  description:
+    type: string
+  requireAuth:
+    type: boolean
+  perms:
+    type: array
+    items:
+      type: string
+      # enum filled in at runtime
+    uniqueItems: true
+    tsType: number # converted to bitmask at runtime
+  schema:
+    type: object
+    properties:
+      body:
+        type: object
+        # TODO: ref to JSON metaschema
+      querystring:
+        type: object
+        # TODO: ref to JSON metaschema
+      params:
+        type: object
+        # TODO: ref to JSON metaschema
+  responses:
+    type: array
+    items:
+      type: string
+      # enum filled in at runtime
+    minItems: 1
+    uniqueItems: true
+required:
+  - method
+  - path
+  - requireAuth
+  - responses
+if:
+  properties:
+    perms:
+      minItems: 1
+  required: ['perms']
+then:
+  properties:
+    requireAuth:
+      const: true
