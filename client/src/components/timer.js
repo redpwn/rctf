@@ -33,7 +33,8 @@ const Timer = withStyles({
   },
   over: {
     margin: '20px 40px',
-    fontSize: '20px'
+    fontSize: '20px',
+    textAlign: 'center'
   }
 }, ({ classes }) => {
   const [time, setTime] = useState(Date.now())
