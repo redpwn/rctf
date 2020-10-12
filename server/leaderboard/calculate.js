@@ -20,6 +20,7 @@ for (let i = 0; i < allChallenges.length; i++) {
   challengeTiebreakEligibles.set(challenge.id, challenge.tiebreakEligible)
 }
 const userSolves = new Map()
+const userTiebreakEligibleLastSolves = new Map()
 const userLastSolves = new Map()
 let lastIndex = 0
 
@@ -42,8 +43,9 @@ const calculateScores = (sample) => {
     }
     solveAmount.set(challId, amt + 1)
 
+    userLastSolves.set(userId, createdAt)
     if (challengeTiebreakEligibles.get(challId) !== false) { // !== false because we default to true
-      userLastSolves.set(userId, createdAt)
+      userTiebreakEligibleLastSolves.set(userId, createdAt)
     }
     // Store which challenges each user solved for later
     if (!userSolves.has(userId)) {
@@ -74,6 +76,7 @@ const calculateScores = (sample) => {
   for (let i = 0; i < users.length; i++) {
     const user = users[i]
     let currScore = 0
+    const lastTiebreakEligibleSolve = userTiebreakEligibleLastSolves.get(user.id)
     const lastSolve = userLastSolves.get(user.id)
     if (lastSolve === undefined) continue // If the user has not solved any challenges, do not add to leaderboard
     const solvedChalls = userSolves.get(user.id)
@@ -84,7 +87,14 @@ const calculateScores = (sample) => {
         currScore += value
       }
     }
-    userScores.push([user.id, user.name, user.division, currScore, lastSolve])
+    userScores.push([
+      user.id,
+      user.name,
+      user.division,
+      currScore,
+      lastTiebreakEligibleSolve,
+      lastSolve
+    ])
   }
 
   return {
@@ -95,12 +105,16 @@ const calculateScores = (sample) => {
 
 const userCompare = (a, b) => {
   // sort the users by score
-  // if two user's scores are the same, sort by last solve time
+  // if two user's scores are the same, sort by last tiebreakEligible solve time
+  // if neither user has any tiebreakEligible solves, sort by last solve time
   const scoreCompare = b[3] - a[3]
   if (scoreCompare !== 0) {
     return scoreCompare
   }
-  return a[4] - b[4]
+  if (a[4] !== undefined || b[4] !== undefined) {
+    return (a[4] ?? Infinity) - (b[4] ?? Infinity)
+  }
+  return a[5] - b[5]
 }
 
 const leaderboardUpdate = Math.min(Date.now(), config.endTime)
