@@ -61,6 +61,12 @@ export default async fastify => {
   })
 
   routes.forEach((route, i) => {
+    // FIXME: remove once everything is migrated
+    if ('__new_style_route' in route) {
+      fastify.route(route)
+      return
+    }
+
     const handler = async (req, res) => {
       const sendResponse = makeSendResponse(res)
       let user
