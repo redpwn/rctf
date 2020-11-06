@@ -82,7 +82,7 @@ export type scriptGetRange = (
   end: number
 ) => Promise<string[]>
 
-export type GetRangeRequest = { division: string } & MergeExclusive<
+export type GetRangeRequest = { division?: string } & MergeExclusive<
   { start: number; end: number },
   { all: boolean }
 >
