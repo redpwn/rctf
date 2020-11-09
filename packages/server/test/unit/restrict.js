@@ -90,14 +90,18 @@ test('throws error on invalid matcher', () => {
       match: 'bad',
     },
   ]
-  expect(compileACLs).toThrowErrorMatchingSnapshot('"bad"')
+  expect(compileACLs).toThrowErrorMatchingInlineSnapshot(
+    `"Unrecognized ACL matcher \\"bad\\""`
+  )
 
   config.divisionACLs = [
     {
       match: '__proto__',
     },
   ]
-  expect(compileACLs).toThrowErrorMatchingSnapshot('"__proto__"')
+  expect(compileACLs).toThrowErrorMatchingInlineSnapshot(
+    `"Unrecognized ACL matcher \\"__proto__\\""`
+  )
 })
 
 test('denies no email with all matchers except any', () => {
