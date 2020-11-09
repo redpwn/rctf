@@ -60,7 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [14]
+        node: [14, 15]
         postgres: [12]
         redis: [6]
     services:
