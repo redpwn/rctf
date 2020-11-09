@@ -1,0 +1,5 @@
+method: GET
+path: /auth/test
+requireAuth: true
+responses:
+  - goodToken

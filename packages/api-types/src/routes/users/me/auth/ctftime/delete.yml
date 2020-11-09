@@ -1,0 +1,8 @@
+method: DELETE
+path: /users/me/auth/ctftime
+requireAuth: true
+responses:
+  - goodCtftimeRemoved
+  - badEndpoint
+  - badZeroAuth
+  - badCtftimeNoExists

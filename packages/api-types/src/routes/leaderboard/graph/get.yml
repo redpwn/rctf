@@ -1,0 +1,17 @@
+method: GET
+path: /leaderboard/graph
+requireAuth: false
+schema:
+  querystring:
+    type: object
+    properties:
+      division:
+        type: string
+      limit:
+        type: integer
+        minimum: 1
+    required:
+      - limit
+responses:
+  - goodLeaderboard
+  - badNotStarted

@@ -1,0 +1,6 @@
+method: GET
+path: /challs
+requireAuth: true
+responses:
+  - goodChallenges
+  - badNotStarted

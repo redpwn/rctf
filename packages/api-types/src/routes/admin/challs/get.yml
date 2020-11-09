@@ -1,0 +1,5 @@
+method: GET
+path: /admin/challs
+requireAuth: true
+responses:
+  - goodChallenges

@@ -1,0 +1,5 @@
+method: GET
+path: /integrations/client/config
+requireAuth: false
+responses:
+  - goodClientConfig

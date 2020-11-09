@@ -1,0 +1,17 @@
+method: PUT
+path: /users/me/auth/ctftime
+requireAuth: true
+schema:
+  body:
+    type: object
+    properties:
+      ctftimeToken:
+        type: string
+    required:
+      - ctftimeToken
+responses:
+  - goodCtftimeAuthSet
+  - badEndpoint
+  - badCtftimeToken
+  - badKnownCtftimeId
+  - badUnknownUser

@@ -1,0 +1,55 @@
+method: PUT
+path: /admin/challs/:id
+requireAuth: true
+schema:
+  params:
+    type: object
+    properties:
+      id:
+        type: string
+    required:
+      - id
+  body:
+    type: object
+    properties:
+      data:
+        type: object
+        properties:
+          author:
+            type: string
+          category:
+            type: string
+          description:
+            type: string
+          flag:
+            type: string
+          name:
+            type: string
+          points:
+            type: object
+            properties:
+              max:
+                type: integer
+              min:
+                type: integer
+            required:
+              - max
+              - min
+          tiebreakEligible:
+            type: boolean
+          files:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+              required:
+                - name
+                - url
+    required:
+      - data
+responses:
+  - goodChallengeUpdate

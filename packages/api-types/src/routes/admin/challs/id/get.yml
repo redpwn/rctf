@@ -1,0 +1,14 @@
+method: GET
+path: /admin/challs/:id
+requireAuth: true
+schema:
+  params:
+    type: object
+    properties:
+      id:
+        type: string
+    required:
+      - id
+responses:
+  - goodChallenges
+  - badChallenge

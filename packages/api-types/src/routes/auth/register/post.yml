@@ -1,0 +1,28 @@
+method: POST
+path: /auth/register
+requireAuth: false
+schema:
+  body:
+    type: object
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      ctftimeToken:
+        type: string
+    required:
+      - name
+    oneOf:
+      - required:
+          - email
+      - required:
+          - ctftimeToken
+responses:
+  - goodVerifySent
+  - badCtftimeToken
+  - badEmail
+  - badName
+  - badCompetitionNotAllowed
+  - badKnownEmail
+  - badKnownName

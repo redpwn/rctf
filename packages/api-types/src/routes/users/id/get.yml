@@ -1,0 +1,14 @@
+method: GET
+path: /users/:id
+requireAuth: false
+schema:
+  params:
+    type: object
+    properties:
+      id:
+        type: string
+    required:
+      - id
+responses:
+  - goodUserData
+  - badUnknownUser

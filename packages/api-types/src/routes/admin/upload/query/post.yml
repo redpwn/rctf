@@ -1,0 +1,23 @@
+method: POST
+path: /admin/upload/query
+requireAuth: true
+schema:
+  body:
+    type: object
+    properties:
+      uploads:
+        type: array
+        items:
+          type: object
+          properties:
+            sha256:
+              type: string
+            name:
+              type: string
+          required:
+            - sha256
+            - name
+    required:
+      - uploads
+responses:
+  - goodUploadsQuery

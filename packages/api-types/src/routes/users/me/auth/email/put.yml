@@ -1,0 +1,18 @@
+method: PUT
+path: /users/me/auth/email
+requireAuth: true
+schema:
+  body:
+    type: object
+    properties:
+      email:
+        type: string
+    required:
+      - email
+responses:
+  - goodEmailSet
+  - goodVerifySent
+  - badEmail
+  - badKnownEmail
+  - badEmailChangeDivision
+  - badUnknownUser

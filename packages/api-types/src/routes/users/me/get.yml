@@ -1,0 +1,5 @@
+method: GET
+path: /users/me
+requireAuth: true
+responses:
+  - goodUserData

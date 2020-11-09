@@ -1,0 +1,6 @@
+method: GET
+path: /users/me/members
+requireAuth: true
+responses:
+  - goodMemberData
+  - badEndpoint
