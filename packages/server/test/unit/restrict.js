@@ -29,6 +29,8 @@ test('matches domains', () => {
   compileACLs()
   expect(divisionAllowed('anything@good-domain.com', 'allowed')).toBe(true)
   expect(divisionAllowed('anything@bad-domain.com', 'allowed')).toBe(false)
+  expect(divisionAllowed('anything@not-good-domain.com', 'allowed')).toBe(false)
+  expect(divisionAllowed('bad@good-domain.com.cn', 'allowed')).toBe(false)
 })
 
 test('matches emails', () => {
@@ -42,6 +44,8 @@ test('matches emails', () => {
   compileACLs()
   expect(divisionAllowed('good-email@test.com', 'allowed')).toBe(true)
   expect(divisionAllowed('bad-email@test.com', 'allowed')).toBe(false)
+  expect(divisionAllowed('not-good-email@test.com', 'allowed')).toBe(false)
+  expect(divisionAllowed('good-email@test.com.cn', 'allowed')).toBe(false)
 })
 
 test('matches regex', () => {
@@ -132,4 +136,5 @@ test('denies no email with all matchers except any', () => {
   expect(divisionAllowed(undefined, 'email')).toBe(false)
   expect(divisionAllowed(undefined, 'regex')).toBe(false)
   expect(divisionAllowed(undefined, 'any')).toBe(true)
+  expect(allowedDivisions(undefined)).toEqual(['any'])
 })
