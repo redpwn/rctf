@@ -25,7 +25,7 @@ jobs:
 
       - name: Shellcheck
         run: |
-          shellcheck scripts/*.sh
+          find . -not \( \( -name node_modules -o -name .git \) -prune \) -name '*.sh' -exec shellcheck '{}' +
 
   lint:
     runs-on: ubuntu-latest
