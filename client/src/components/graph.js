@@ -38,12 +38,13 @@ const pointsToPolyline = ({ id, name, currentScore, points, maxX, minX, maxY, wi
 
 const getXLabels = ({ minX, maxX, width }) => {
   const labels = []
+  const step = Math.ceil((maxX - minX) / width * 200 / day) * day
   let labelStart = new Date(minX).setHours(0, 0, 0, 0)
-  if (labelStart % day !== 0) {
-    labelStart += day
+  if (labelStart % step !== 0) {
+    labelStart += step
   }
 
-  for (let label = labelStart; label <= maxX; label += day) {
+  for (let label = labelStart; label <= maxX; label += step) {
     labels.push({
       label: new Date(label).toLocaleDateString(),
       x: timeToX({ minX, maxX, time: label, width })
