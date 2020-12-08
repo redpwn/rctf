@@ -93,8 +93,8 @@ export default withStyles({
   '@global body': {
     overflowX: 'hidden'
   },
+  // we show the google legal notice on each protected form
   '@global .grecaptcha-badge': {
-    // we show the google legal notice on each protected form
     visibility: 'hidden'
   },
   // cirrus makes recaptcha position the modal incorrectly, so we reset it here
