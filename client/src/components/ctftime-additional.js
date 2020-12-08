@@ -1,4 +1,5 @@
 import Form from '../components/form'
+import useRecaptcha from '../components/recaptcha'
 import config from '../config'
 import withStyles from '../components/jss'
 import { register } from '../api/auth'
@@ -28,28 +29,28 @@ export default withStyles({
   const handleNameChange = useCallback(e => setName(e.target.value), [])
 
   const [errors, setErrors] = useState({})
+  const requestRecaptchaCode = useRecaptcha('register')
 
-  const handleRegister = useCallback(() => {
+  const handleRegister = useCallback(async () => {
     setDisabledButton(true)
 
-    register({
+    const { errors } = await register({
       ctftimeToken,
       name: name || undefined,
-      division
+      division,
+      recaptchaCode: await requestRecaptchaCode?.()
     })
-      .then(({ errors }) => {
-        setDisabledButton(false)
+    setDisabledButton(false)
 
-        if (!errors) {
-          return
-        }
-        if (errors.name) {
-          setShowName(true)
-        }
+    if (!errors) {
+      return
+    }
+    if (errors.name) {
+      setShowName(true)
+    }
 
-        setErrors(errors)
-      })
-  }, [ctftimeToken, name, division])
+    setErrors(errors)
+  }, [ctftimeToken, name, division, requestRecaptchaCode])
 
   const handleSubmit = useCallback(e => {
     e.preventDefault()
