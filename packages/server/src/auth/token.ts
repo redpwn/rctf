@@ -27,7 +27,7 @@ interface BaseVerifyTokenData {
 
 export interface RegisterVerifyTokenData extends BaseVerifyTokenData {
   kind: 'register'
-  email: User['email']
+  email: NonNullable<User['email']>
   name: User['name']
   division: User['division']
 }
@@ -35,14 +35,14 @@ export interface RegisterVerifyTokenData extends BaseVerifyTokenData {
 export interface UpdateVerifyTokenData extends BaseVerifyTokenData {
   kind: 'update'
   userId: User['id']
-  email: User['email']
+  email: NonNullable<User['email']>
   division: User['division']
 }
 
 export interface RecoverTokenData extends BaseVerifyTokenData {
   kind: 'recover'
   userId: User['id']
-  email: User['email']
+  email: NonNullable<User['email']>
 }
 
 export type VerifyTokenData =
@@ -52,7 +52,7 @@ export type VerifyTokenData =
 
 export interface CtftimeAuthTokenData {
   name: User['name']
-  ctftimeId: User['ctftimeId']
+  ctftimeId: NonNullable<User['ctftimeId']>
 }
 
 // Internal map of type definitions for typing purposes only -
