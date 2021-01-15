@@ -3,7 +3,11 @@ import app from '../../src/app'
 import * as util from '../_util'
 import * as auth from '../../src/auth'
 import config from '../../src/config/server'
-import { responseList } from '../../src/responses'
+import {
+  badToken,
+  badNotStarted,
+  goodChallenges,
+} from '@rctf/api-types/responses'
 
 let uuid, testUserData
 
@@ -23,7 +27,7 @@ afterAll(async () => {
 test('fails with unauthorized', async () => {
   const resp = await request(app.server)
     .get(process.env.API_ENDPOINT + '/challs')
-    .expect(responseList.badToken.status)
+    .expect(badToken.status)
 
   expect(resp.body.kind).toBe('badToken')
 })
@@ -37,7 +41,7 @@ test('fails with badNotStarted', async () => {
   const resp = await request(app.server)
     .get(process.env.API_ENDPOINT + '/challs')
     .set('Authorization', ' Bearer ' + authToken)
-    .expect(responseList.badNotStarted.status)
+    .expect(badNotStarted.status)
 
   expect(resp.body.kind).toBe('badNotStarted')
 
@@ -49,7 +53,7 @@ test('succeeds with goodChallenges', async () => {
   const resp = await request(app.server)
     .get(process.env.API_ENDPOINT + '/challs')
     .set('Authorization', ' Bearer ' + authToken)
-    .expect(responseList.goodChallenges.status)
+    .expect(goodChallenges.status)
 
   expect(resp.body.kind).toBe('goodChallenges')
   expect(Array.isArray(resp.body.data)).toBe(true)

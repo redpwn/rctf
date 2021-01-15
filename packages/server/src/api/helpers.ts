@@ -125,7 +125,7 @@ function makeResponseFactory<Kind extends keyof Responses>(
   }
 }
 
-function makeResponseFactories<ResponseKinds extends keyof Responses>(
+export function makeResponseFactories<ResponseKinds extends keyof Responses>(
   responseKinds: ResponseKinds[]
 ): HandlerResponseFactories<ResponseKinds> {
   const factories = {} as ReturnType<typeof makeResponseFactories>
@@ -158,21 +158,34 @@ export type HandlerType<Route extends ApiRoute> = (
   args: HandlerArgs<Route>
 ) => Promise<ResponseFactoryReturn<GetRouteResponseKinds<Route>>>
 
-function processHandlerResult<Route extends ApiRoute>(
-  result: ResponseFactoryReturn<GetRouteResponseKinds<Route>>,
+export const processResponseFactoryReturn = <
+  ResponseKind extends keyof Responses
+>(
+  result: ResponseFactoryReturn<ResponseKind>,
   reply: FastifyReply
-): GetRouteResponseType<Route> {
+): ResponsePayloads[ResponseKind] => {
   void reply.code(result.status)
   if (result.rawContentType !== undefined) {
     void reply.type(result.rawContentType)
   }
 
-  // Even though these types *should* be identical, it seems that Typescript
-  // replaces `GetRouteResponseKinds<Route>` with (the equivalent of) `indexof
-  // Responses` when indexing into `ResponsePayloads`, breaking type
-  // compatibility. This cast needs manual type-checking.
-  return (result.payload as unknown) as GetRouteResponseType<Route>
+  return result.payload
 }
+
+// Manually type-checked cast; even though the return types *should* be
+// identical, it seems that Typescript replaces `GetRouteResponseKinds<Route>`
+// with (the equivalent of) `indexof Responses` when indexing into
+// `ResponsePayloads`, breaking type compatibility.
+// Note: casting the function directly is technically less type-safe, as we are
+// casting the whole function instead of just one argument. However, this
+// avoids a call since `processHandlerResult` is the same function as
+// `processResponseFactoryReturn`.
+const processHandlerResult = processResponseFactoryReturn as <
+  Route extends ApiRoute
+>(
+  result: ResponseFactoryReturn<GetRouteResponseKinds<Route>>,
+  reply: FastifyReply
+) => GetRouteResponseType<Route>
 
 // NOT-TYPE-SAFE function for use when it is known through API specification
 // invariants that a certain response kind is guaranteed to be valid for a
@@ -280,8 +293,6 @@ export function makeFastifyRoute<Route extends ApiRoute>(
     schema: fastifySchema,
     url: route.path,
     handler: wrappedHandler,
-    // FIXME: remove once everything is migrated
-    __new_style_route: undefined,
   }
 
   return fastifyRoute

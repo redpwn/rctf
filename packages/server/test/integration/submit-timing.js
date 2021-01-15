@@ -3,7 +3,7 @@ import app from '../../src/app'
 import config from '../../src/config/server'
 import { generateChallenge, generateRealTestUser } from '../_util'
 
-import { responseList } from '../../src/responses'
+import { badNotStarted, badEnded } from '@rctf/api-types/responses'
 import * as auth from '../../src/auth'
 
 let chall, challData, uuid, userData
@@ -39,7 +39,7 @@ test('fails with badNotStarted', async () => {
     )
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: chall.flag })
-    .expect(responseList.badNotStarted.status)
+    .expect(badNotStarted.status)
 
   expect(resp.body.kind).toBe('badNotStarted')
 
@@ -60,7 +60,7 @@ test('fails with badEnded', async () => {
     )
     .set('Authorization', ' Bearer ' + authToken)
     .send({ flag: chall.flag })
-    .expect(responseList.badEnded.status)
+    .expect(badEnded.status)
 
   expect(resp.body.kind).toBe('badEnded')
 
