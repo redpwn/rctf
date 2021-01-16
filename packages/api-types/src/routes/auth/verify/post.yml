@@ -3,6 +3,7 @@ path: /auth/verify
 requireAuth: false
 schema:
   body:
+    type: object
     properties:
       verifyToken:
         type: string
@@ -11,7 +12,10 @@ schema:
 responses:
   - goodVerify
   - goodEmailSet
+  - goodRegister
   - badTokenVerification
   - badEmailChangeDivision
+  - badKnownCtftimeId
   - badKnownEmail
+  - badKnownName
   - badUnknownUser

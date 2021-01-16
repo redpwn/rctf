@@ -1,2 +1,20 @@
 status: 200
 message: The challenges solves have been retreived.
+data:
+  type: object
+  properties:
+    solves:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          createdAt:
+            type: integer
+          userId:
+            type: string
+          userName:
+            type: string
+        required: ['id', 'createdAt', 'userId', 'userName']
+  required: ['solves']

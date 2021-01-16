@@ -1,2 +1,12 @@
 status: 200
 message: Team member successfully created
+data:
+  type: object
+  properties:
+    id:
+      type: string
+    userid:
+      type: string
+    email:
+      type: string
+  required: ['id', 'userid', 'email']

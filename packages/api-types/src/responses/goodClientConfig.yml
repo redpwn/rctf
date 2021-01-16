@@ -1,2 +1,70 @@
 status: 200
 message: The client config was retrieved.
+data:
+  type: object
+  properties:
+    meta:
+      type: object
+      properties:
+        description:
+          type: string
+        imageUrl:
+          type: string
+      required: ['description', 'imageUrl']
+    homeContent:
+      type: string
+    sponsors:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          icon:
+            type: string
+          description:
+            type: string
+          small:
+            type: boolean
+        required: ['name', 'icon', 'description']
+    globalSiteTag:
+      type: string
+    ctfName:
+      type: string
+    divisions:
+      type: object
+      additionalProperties:
+        type: string
+    defaultDivision:
+      type: string
+    origin:
+      type: string
+    startTime:
+      type: integer
+    endTime:
+      type: integer
+    userMembers:
+      type: boolean
+    faviconUrl:
+      type: string
+    emailEnabled:
+      type: boolean
+    ctftime:
+      type: object
+      properties:
+        clientId:
+          type: string
+      required: ['clientId']
+  required:
+    - meta
+    - homeContent
+    - sponsors
+    - ctfName
+    - divisions
+    - origin
+    - startTime
+    - endTime
+    - userMembers
+    - emailEnabled
+  # Should this be true for extensibility?
+  additionalProperties: true

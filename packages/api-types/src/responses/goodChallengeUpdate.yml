@@ -1,2 +1,40 @@
 status: 200
 message: Challenge successfully updated
+data:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    description:
+      type: string
+    category:
+      type: string
+    author:
+      type: string
+    files:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          url:
+            type: string
+        required: ['name', 'url']
+    points:
+      type: object
+      properties:
+        max:
+          type: integer
+        min:
+          type: integer
+      required: ['max', 'min']
+    flag:
+      type: string
+    tiebreakEligible:
+      type: boolean
+    sortWeight:
+      type: number
+  additionalProperties: true

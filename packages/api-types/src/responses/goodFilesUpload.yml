@@ -1,2 +1,12 @@
 status: 200
 message: The files were successfully uploaded
+data:
+  type: array
+  items:
+    type: object
+    properties:
+      name:
+        type: string
+      url:
+        type: string
+    required: ['name', 'url']

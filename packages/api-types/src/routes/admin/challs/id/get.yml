@@ -1,6 +1,8 @@
 method: GET
 path: /admin/challs/:id
 requireAuth: true
+perms:
+  - challsRead
 schema:
   params:
     type: object
@@ -10,5 +12,5 @@ schema:
     required:
       - id
 responses:
-  - goodChallenges
+  - goodAdminChallenge
   - badChallenge

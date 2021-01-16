@@ -1,6 +1,8 @@
 method: POST
 path: /admin/upload
 requireAuth: true
+perms:
+  - challsWrite
 schema:
   body:
     type: object

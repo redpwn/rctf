@@ -6,4 +6,3 @@ data:
     authToken:
       type: string
   required: ['authToken']
-  additionalProperties: false

@@ -1,2 +1,40 @@
 status: 200
 message: The retrieval of challenges was successful.
+data:
+  type: array
+  items:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      category:
+        type: string
+      author:
+        type: string
+      files:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            url:
+              type: string
+          required: ['name', 'url']
+      points:
+        type: integer
+      solves:
+        type: integer
+      sortWeight:
+        type: number
+    required:
+      - id
+      - name
+      - description
+      - category
+      - author
+      - files

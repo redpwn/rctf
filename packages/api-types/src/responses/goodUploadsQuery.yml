@@ -1,2 +1,16 @@
 status: 200
 message: The status of uploads was successfully queried
+data:
+  type: array
+  items:
+    type: object
+    properties:
+      sha256:
+        type: string
+      name:
+        type: string
+      url:
+        oneOf:
+          - type: string
+          - type: 'null'
+    required: ['sha256', 'name', 'url']

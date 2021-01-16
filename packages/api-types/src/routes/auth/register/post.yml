@@ -20,9 +20,11 @@ schema:
           - ctftimeToken
 responses:
   - goodVerifySent
+  - goodRegister
   - badCtftimeToken
   - badEmail
   - badName
   - badCompetitionNotAllowed
+  - badKnownCtftimeId
   - badKnownEmail
   - badKnownName

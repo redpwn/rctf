@@ -9,7 +9,7 @@ schema:
         type: string
     required:
       - id
-  query:
+  querystring:
     type: object
     properties:
       limit:

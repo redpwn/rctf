@@ -1,0 +1,26 @@
+status: 200
+message: The leaderboard graph was retrieved.
+data:
+  type: object
+  properties:
+    graph:
+      type: array
+      items:
+        type: object
+        properties:
+          points:
+            type: array
+            items:
+              type: object
+              properties:
+                time:
+                  type: integer
+                score:
+                  type: integer
+              required: ['time', 'score']
+          id:
+            type: string
+          name:
+            type: string
+        required: ['points', 'id', 'name']
+  required: ['graph']

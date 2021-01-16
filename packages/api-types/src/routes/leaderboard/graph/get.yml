@@ -13,5 +13,5 @@ schema:
     required:
       - limit
 responses:
-  - goodLeaderboard
+  - goodLeaderboardGraph
   - badNotStarted

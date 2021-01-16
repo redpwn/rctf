@@ -1,6 +1,8 @@
 method: POST
 path: /admin/upload/query
 requireAuth: true
+perms:
+  - challsRead
 schema:
   body:
     type: object

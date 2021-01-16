@@ -12,7 +12,6 @@ schema:
     oneOf:
       - required: ['teamToken']
       - required: ['ctftimeToken']
-    additionalProperties: false
 responses:
   - goodLogin
   - badUnknownUser

@@ -1,6 +1,8 @@
 method: PUT
 path: /admin/challs/:id
 requireAuth: true
+perms:
+  - challsWrite
 schema:
   params:
     type: object
@@ -32,9 +34,7 @@ schema:
                 type: integer
               min:
                 type: integer
-            required:
-              - max
-              - min
+            required: ['max', 'min']
           tiebreakEligible:
             type: boolean
           files:
@@ -46,10 +46,10 @@ schema:
                   type: string
                 url:
                   type: string
-              required:
-                - name
-                - url
-    required:
-      - data
+              required: ['name', 'url']
+          sortWeight:
+            type: number
+        additionalProperties: true
+    required: ['data']
 responses:
   - goodChallengeUpdate

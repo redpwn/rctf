@@ -1,6 +1,8 @@
 method: DELETE
 path: /admin/challs/:id
 requireAuth: true
+perms:
+  - challsWrite
 schema:
   params:
     type: object
