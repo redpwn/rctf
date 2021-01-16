@@ -9,7 +9,9 @@ export interface Provider extends EventEmitter {
 
     Challenge equality is determined by chall.id.
   */
-  updateChallenge: (chall: Challenge) => Promise<void>
+  updateChallenge: (
+    chall: Pick<Challenge, 'id'> & Partial<Challenge>
+  ) => Promise<void>
   deleteChallenge: (id: string) => Promise<void>
   cleanup: () => void
 }

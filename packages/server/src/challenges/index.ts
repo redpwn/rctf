@@ -75,7 +75,9 @@ export function resetCache(): void {
   provider.forceUpdate()
 }
 
-export async function updateChallenge(chall: Challenge): Promise<void> {
+export async function updateChallenge(
+  chall: Pick<Challenge, 'id'> & Partial<Challenge>
+): Promise<void> {
   await provider.updateChallenge(chall)
   await publishChallUpdate()
 }

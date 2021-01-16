@@ -16,7 +16,9 @@ const ChallengeDefaults: Challenge = {
   flag: '',
 }
 
-export const applyChallengeDefaults = (chall: Challenge): Challenge => {
+export const applyChallengeDefaults = (
+  chall: Partial<Challenge>
+): Challenge => {
   const copy = deepCopy(ChallengeDefaults)
 
   return {
