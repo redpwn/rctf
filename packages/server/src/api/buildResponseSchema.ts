@@ -1,7 +1,9 @@
 import { Route as ApiRoute } from '@rctf/api-types'
 import { Responses } from '@rctf/api-types/responses'
+import { GetRouteResponseKinds } from '@rctf/api-types/routes'
 import * as _responseObjects from '@rctf/api-types/responses'
 import { FastifySchema } from 'fastify'
+import deepmerge from 'deepmerge'
 
 const responseObjects = _responseObjects as Responses
 
@@ -38,6 +40,18 @@ function removeFalseProperties<T extends object>(
 
 export const kIsRawJson = Symbol('isRawJson')
 
+export type ResponseSchemaOverrides<Kinds extends keyof Responses> = {
+  [K in Kinds]?:
+    | {
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        data: object
+      }
+    | {
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        rawJson: object
+      }
+}
+
 type UnoptimizedSchema = FastifySchema['response'] & {
   [key: number]: {
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -65,13 +79,19 @@ interface StandardResponseSchema {
 }
 
 export function buildUnoptimizedSchema(
-  kinds: (keyof Responses)[]
+  kinds: (keyof Responses)[],
+  overrides?: ResponseSchemaOverrides<keyof Responses>
 ): UnoptimizedSchema {
   const responseSchema: {
     [K in keyof UnoptimizedSchema]: UnoptimizedSchema[K] | false
   } = {}
   for (const kind of kinds) {
-    const responseObj = responseObjects[kind]
+    let responseObj = responseObjects[kind]
+    const currOverride = overrides?.[kind]
+    if (currOverride !== undefined) {
+      responseObj = deepmerge<typeof responseObj>(responseObj, currOverride)
+    }
+
     if ('rawContentType' in responseObj) {
       // Ensure no response schema for this code, because we aren't sending
       // JSON
@@ -216,9 +236,16 @@ export function optimizeSchema(
 }
 
 export function buildResponseSchema<Route extends ApiRoute>(
-  route: Route
+  route: Route,
+  overrides?: ResponseSchemaOverrides<GetRouteResponseKinds<Route>>
 ): FastifySchema['response'] {
-  return optimizeSchema(buildUnoptimizedSchema(route.responses))
+  return optimizeSchema(
+    buildUnoptimizedSchema(
+      route.responses,
+      // types should be identical - manual type-checking required!
+      overrides as ResponseSchemaOverrides<keyof Responses> | undefined
+    )
+  )
 }
 
 export default buildResponseSchema

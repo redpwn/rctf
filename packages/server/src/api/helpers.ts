@@ -28,7 +28,12 @@ import {
   RawReplyDefaultExpression as FastifyRawReplyDefaultExpression,
 } from 'fastify/types/utils'
 
-import buildResponseSchema from './buildResponseSchema'
+import deepmerge from 'deepmerge'
+import { omit } from '../util/object'
+
+import buildResponseSchema, {
+  ResponseSchemaOverrides,
+} from './buildResponseSchema'
 
 import { getData as tokenGetData, tokenKinds } from '../auth/token'
 import { User, getUserById } from '../database/users'
@@ -270,30 +275,49 @@ function makeWrappedHandler<Route extends ApiRoute>(
   }
 }
 
+export type SchemaOverrides<Route extends ApiRoute> = Omit<
+  FastifySchema,
+  'response'
+> & {
+  response?: ResponseSchemaOverrides<GetRouteResponseKinds<Route>>
+}
+
+function buildSchema<Route extends ApiRoute>(
+  route: Route,
+  overrides?: SchemaOverrides<Route>
+): FastifySchema {
+  let baseSchema
+  if (route.schema !== undefined) {
+    baseSchema =
+      overrides !== undefined
+        ? deepmerge(route.schema, omit(overrides, 'response'))
+        : route.schema
+  } else {
+    baseSchema = {}
+  }
+  return {
+    ...baseSchema,
+    response: buildResponseSchema(route, overrides?.response),
+  }
+}
+
 export function makeFastifyRoute<Route extends ApiRoute>(
   route: Route,
   handler: HandlerType<Route>,
-  extraOptions?: Omit<RouteOptions, 'schema' | 'handler' | 'method' | 'url'>
+  extraOptions?: Omit<RouteOptions, 'schema' | 'handler' | 'method' | 'url'> & {
+    schema?: SchemaOverrides<Route>
+  }
 ): RouteOptions<
   FastifyRawServerDefault,
   FastifyRawRequestDefaultExpression<FastifyRawServerDefault>,
   FastifyRawReplyDefaultExpression<FastifyRawServerDefault>,
   GetFastifyRouteGenericForRoute<Route>
 > {
-  const wrappedHandler = makeWrappedHandler(route, handler)
-
-  const fastifySchema: FastifySchema = {
-    ...route.schema,
-    response: buildResponseSchema(route),
-  }
-
-  const fastifyRoute = {
+  return {
     ...extraOptions,
     method: route.method,
-    schema: fastifySchema,
+    schema: buildSchema(route, extraOptions?.schema),
     url: route.path,
-    handler: wrappedHandler,
+    handler: makeWrappedHandler(route, handler),
   }
-
-  return fastifyRoute
 }

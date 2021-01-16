@@ -5,7 +5,7 @@ import { EventEmitter } from 'events'
 
 import * as db from '../../../database'
 import { DatabaseChallenge } from '../../../database/challenges'
-import { deepCopy } from '../../../util'
+import { deepCopy } from '../../../util/object'
 
 class DatabaseProvider extends EventEmitter implements Provider {
   private challenges: Challenge[] = []

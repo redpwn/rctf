@@ -1,5 +1,5 @@
 import { Challenge } from './types'
-import { deepCopy } from '../util'
+import { deepCopy } from '../util/object'
 
 const ChallengeDefaults: Challenge = {
   id: '',
