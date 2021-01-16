@@ -1,0 +1,19 @@
+status: 200
+rawJson:
+  type: object
+  properties:
+    standings:
+      type: array
+      items:
+        type: object
+        properties:
+          pos:
+            type: integer
+          team:
+            type: string
+          score:
+            type: number
+        required: ['pos', 'team', 'score']
+        additionalProperties: false
+  required: ['standings']
+  additionalProperties: false

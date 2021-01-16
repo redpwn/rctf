@@ -1,0 +1,9 @@
+status: 200
+message: The login was successful.
+data:
+  type: object
+  properties:
+    authToken:
+      type: string
+  required: ['authToken']
+  additionalProperties: false
