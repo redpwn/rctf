@@ -119,7 +119,6 @@ export function buildUnoptimizedSchema(
               type: 'string',
               const: responseObj.message,
             },
-            // eslint-disable-next-line @typescript-eslint/ban-types
           },
           requiredProperties: ['kind', 'message'],
           additionalProperties: false,
