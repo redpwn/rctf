@@ -38,7 +38,10 @@ export default async (
   fastify.setErrorHandler(async (error, req, reply) => {
     try {
       if (error.validation) {
-        return processResponseFactoryReturn(responseFactories.badBody(), reply)
+        return processResponseFactoryReturn(
+          responseFactories.badBody({ reason: error.message }),
+          reply
+        )
       }
 
       // based on https://github.com/fastify/fastify/blob/v3.10.1/fastify.js#L62-L75
