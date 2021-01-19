@@ -1,5 +1,9 @@
 import { RouteOptions, FastifyInstance } from 'fastify'
-import { makeResponseFactories, processResponseFactoryReturn } from './helpers'
+import {
+  makeResponseFactories,
+  processResponseFactoryReturn,
+  implicitResponseKinds,
+} from './helpers'
 import { User } from '../database/users'
 import * as http from 'http'
 import { SetRequired } from 'type-fest'
@@ -16,6 +20,11 @@ const routes = [
 ] as RouteOptions[]
 /* eslint-enable */
 
+// TODO: move to a util module
+function widenConcat<A, B>(a: readonly A[], b: readonly B[]): (A | B)[] {
+  return (a as readonly (A | B)[]).concat(b)
+}
+
 export default async (
   fastify: FastifyInstance<
     http.Server,
@@ -23,11 +32,9 @@ export default async (
     http.IncomingMessage & SetRequired<http.IncomingMessage, 'method' | 'url'>
   >
 ): Promise<void> => {
-  const responseFactories = makeResponseFactories([
-    'badBody',
-    'errorInternal',
-    'badEndpoint',
-  ])
+  const responseFactories = makeResponseFactories(
+    widenConcat(implicitResponseKinds, ['badEndpoint'])
+  )
   fastify.setErrorHandler(async (error, req, reply) => {
     try {
       if (error.validation) {

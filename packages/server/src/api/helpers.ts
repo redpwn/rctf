@@ -30,6 +30,7 @@ import {
 
 import deepmerge from 'deepmerge'
 import { omit } from '../util/object'
+import { HasType } from '../util/types'
 
 import buildResponseSchema, {
   ResponseSchemaOverrides,
@@ -69,6 +70,15 @@ interface ResponseFactoryReturn<ResponseKind extends keyof Responses> {
   rawContentType?: string
   payload: ResponsePayloads[ResponseKind]
 }
+
+// Response kinds which are added implicitly to every route, but not included
+// in the published kinds/types for the route
+export const implicitResponseKinds = ['errorInternal', 'badBody'] as const
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type _staticassert1 = HasType<
+  readonly (keyof Responses)[],
+  typeof implicitResponseKinds
+>
 
 // Factory function to construct a response object from the payload of the route
 // (i.e. automatically wraps into kind/message/data when appropriate)
@@ -297,7 +307,11 @@ function buildSchema<Route extends ApiRoute>(
   }
   return {
     ...baseSchema,
-    response: buildResponseSchema(route, overrides?.response),
+    // drop down to most general type as workaround for wonky TS behavior
+    response: buildResponseSchema<keyof Responses>(
+      route.responses.concat(implicitResponseKinds),
+      overrides?.response
+    ),
   }
 }
 

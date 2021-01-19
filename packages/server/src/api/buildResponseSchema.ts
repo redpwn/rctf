@@ -1,6 +1,4 @@
-import { Route as ApiRoute } from '@rctf/api-types'
 import { Responses } from '@rctf/api-types/responses'
-import { GetRouteResponseKinds } from '@rctf/api-types/routes'
 import * as _responseObjects from '@rctf/api-types/responses'
 import { FastifySchema } from 'fastify'
 import deepmerge from 'deepmerge'
@@ -234,17 +232,11 @@ export function optimizeSchema(
   return schema
 }
 
-export function buildResponseSchema<Route extends ApiRoute>(
-  route: Route,
-  overrides?: ResponseSchemaOverrides<GetRouteResponseKinds<Route>>
+export function buildResponseSchema<Kinds extends keyof Responses>(
+  responses: Kinds[],
+  overrides?: ResponseSchemaOverrides<Kinds>
 ): FastifySchema['response'] {
-  return optimizeSchema(
-    buildUnoptimizedSchema(
-      route.responses,
-      // types should be identical - manual type-checking required!
-      overrides as ResponseSchemaOverrides<keyof Responses> | undefined
-    )
-  )
+  return optimizeSchema(buildUnoptimizedSchema(responses, overrides))
 }
 
 export default buildResponseSchema
