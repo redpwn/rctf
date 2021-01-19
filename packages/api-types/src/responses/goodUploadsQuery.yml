@@ -1,5 +1,5 @@
 status: 200
-message: The status of uploads was successfully queried
+message: The status of uploads was successfully queried.
 data:
   type: array
   items:

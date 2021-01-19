@@ -1,5 +1,5 @@
 status: 200
-message: Challenge successfully updated
+message: Challenge successfully updated.
 data:
   type: object
   properties:

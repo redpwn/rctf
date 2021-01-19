@@ -1,5 +1,5 @@
 status: 200
-message: The files were successfully uploaded
+message: The files were successfully uploaded.
 data:
   type: array
   items:

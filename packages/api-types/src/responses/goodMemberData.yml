@@ -1,5 +1,5 @@
 status: 200
-message: The team member data was successfully retrieved
+message: The team member data was successfully retrieved.
 data:
   type: array
   items:

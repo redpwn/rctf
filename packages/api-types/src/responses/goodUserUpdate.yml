@@ -1,5 +1,5 @@
 status: 200
-message: Your account was successfully updated
+message: Your account was successfully updated.
 data:
   type: object
   properties:

@@ -1,5 +1,5 @@
 status: 200
-message: Team member successfully created
+message: Team member successfully created.
 data:
   type: object
   properties:

@@ -1,5 +1,5 @@
 status: 429
-message: You are trying this too fast
+message: You are trying this too fast.
 data:
   type: object
   properties:
