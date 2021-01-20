@@ -1,0 +1,8 @@
+status: 400
+message: The request body does not meet requirements.
+data:
+  type: object
+  properties:
+    reason:
+      type: string
+  required: ['reason']

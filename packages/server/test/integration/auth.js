@@ -2,7 +2,15 @@ import request from 'supertest'
 import app from '../../src/app'
 import * as database from '../../src/database'
 import config from '../../src/config/server'
-import { responseList } from '../../src/responses'
+import {
+  badEmail,
+  badUnknownEmail,
+  badKnownEmail,
+  badKnownName,
+  goodRegister,
+  goodToken,
+  goodUserUpdate,
+} from '@rctf/api-types/responses'
 
 import * as auth from '../../src/auth'
 import { removeUserByEmail } from '../../src/database/users'
@@ -31,7 +39,7 @@ test('fails with badEmail', async () => {
       ...testUser,
       email: 'notanemail',
     })
-    .expect(responseList.badEmail.status)
+    .expect(badEmail.status)
 
   expect(resp.body.kind).toBe('badEmail')
 })
@@ -45,7 +53,7 @@ test('fails with badUnknownEmail', async () => {
     .send({
       email: unknownEmail,
     })
-    .expect(responseList.badUnknownEmail.status)
+    .expect(badUnknownEmail.status)
 
   expect(resp.body.kind).toBe('badUnknownEmail')
 })
@@ -56,7 +64,7 @@ test('when not email, succeeds with goodRegister', async () => {
   let resp = await request(app.server)
     .post(process.env.API_ENDPOINT + '/auth/register')
     .send(testUser)
-    .expect(responseList.goodRegister.status)
+    .expect(goodRegister.status)
 
   expect(resp.body.kind).toBe('goodRegister')
   expect(typeof resp.body.data.authToken === 'string').toBe(true)
@@ -64,7 +72,7 @@ test('when not email, succeeds with goodRegister', async () => {
   resp = await request(app.server)
     .get(process.env.API_ENDPOINT + '/auth/test')
     .set('Authorization', ' Bearer ' + resp.body.data.authToken)
-    .expect(responseList.goodToken.status)
+    .expect(goodToken.status)
 
   expect(resp.body.kind).toBe('goodToken')
 })
@@ -78,7 +86,7 @@ test('duplicate email fails with badKnownEmail', async () => {
       ...testUser,
       name: String(Math.random()),
     })
-    .expect(responseList.badKnownEmail.status)
+    .expect(badKnownEmail.status)
 
   expect(resp.body.kind).toBe('badKnownEmail')
 })
@@ -92,7 +100,7 @@ test('duplicate name fails with badKnownName', async () => {
       ...testUser,
       email: 'non-existent-email' + String(Math.random()) + '@gmail.com',
     })
-    .expect(responseList.badKnownName.status)
+    .expect(badKnownName.status)
 
   expect(resp.body.kind).toBe('badKnownName')
 })
@@ -118,7 +126,7 @@ test('succeeds with goodUserUpdate', async () => {
       name: nextUser.name,
       division: nextUser.division,
     })
-    .expect(responseList.goodUserUpdate.status)
+    .expect(goodUserUpdate.status)
 
   const respUser = resp.body.data.user
   testUser.name = respUser.name

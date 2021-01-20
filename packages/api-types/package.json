@@ -1,0 +1,39 @@
+{
+  "name": "@rctf/api-types",
+  "license": "BSD-3-Clause",
+  "version": "3.0.0-alpha.0",
+  "description": "Types and schemas for rCTF API",
+  "main": "index.js",
+  "module": "index.mjs",
+  "types": "index.d.ts",
+  "files": [
+    "/*.js",
+    "/*.mjs",
+    "/*.d.ts"
+  ],
+  "sideEffects": "false",
+  "scripts": {
+    "lint": "eslint .",
+    "build": "node build",
+    "prepack": "yarn build"
+  },
+  "devDependencies": {
+    "@babel/core": "7.11.6",
+    "@babel/preset-env": "7.11.5",
+    "ajv": "6.12.5",
+    "deepmerge": "4.2.2",
+    "json-schema-to-typescript": "9.1.1",
+    "prettier": "2.1.2",
+    "walkdir": "0.4.1",
+    "yaml": "1.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redpwn/rctf.git"
+  },
+  "author": "redpwn <contact@redpwn.net>",
+  "bugs": {
+    "url": "https://github.com/redpwn/rctf/issues"
+  },
+  "homepage": "https://rctf.redpwn.net"
+}

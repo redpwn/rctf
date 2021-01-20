@@ -1,0 +1,16 @@
+method: POST
+path: /auth/recover
+requireAuth: false
+schema:
+  body:
+    type: object
+    properties:
+      email:
+        type: string
+    required:
+      - email
+responses:
+  - goodVerifySent
+  - badEndpoint
+  - badEmail
+  - badUnknownEmail

@@ -5,7 +5,7 @@ import { EventEmitter } from 'events'
 
 import * as db from '../../../database'
 import { DatabaseChallenge } from '../../../database/challenges'
-import { deepCopy } from '../../../util'
+import { deepCopy } from '../../../util/object'
 
 class DatabaseProvider extends EventEmitter implements Provider {
   private challenges: Challenge[] = []
@@ -46,22 +46,25 @@ class DatabaseProvider extends EventEmitter implements Provider {
     }
   }
 
-  async updateChallenge(chall: Challenge): Promise<void> {
+  async updateChallenge(
+    chall: Pick<Challenge, 'id'> & Partial<Challenge>
+  ): Promise<void> {
     const originalData = await db.challenges.getChallengeById({
       id: chall.id,
     })
 
+    let mergedChall: Challenge
     // If we're inserting, have sane defaults
     if (originalData === undefined) {
-      chall = applyChallengeDefaults(chall)
+      mergedChall = applyChallengeDefaults(chall)
     } else {
-      chall = {
+      mergedChall = {
         ...originalData.data,
         ...chall,
       }
     }
 
-    const data = this.challengeToRow(chall)
+    const data = this.challengeToRow(mergedChall)
 
     await db.challenges.upsertChallenge(data)
 

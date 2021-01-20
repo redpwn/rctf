@@ -1,0 +1,14 @@
+status: 200
+message: The team member data was successfully retrieved.
+data:
+  type: array
+  items:
+    type: object
+    properties:
+      id:
+        type: string
+      userid:
+        type: string
+      email:
+        type: string
+    required: ['id', 'userid', 'email']

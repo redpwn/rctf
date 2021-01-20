@@ -1,0 +1,7 @@
+method: GET
+path: /admin/challs
+requireAuth: true
+perms:
+  - challsRead
+responses:
+  - goodAdminChallenges

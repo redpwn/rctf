@@ -1,0 +1,21 @@
+method: POST
+path: /auth/verify
+requireAuth: false
+schema:
+  body:
+    type: object
+    properties:
+      verifyToken:
+        type: string
+    required:
+      - verifyToken
+responses:
+  - goodVerify
+  - goodEmailSet
+  - goodRegister
+  - badTokenVerification
+  - badEmailChangeDivision
+  - badKnownCtftimeId
+  - badKnownEmail
+  - badKnownName
+  - badUnknownUser

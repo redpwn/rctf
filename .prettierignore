@@ -11,3 +11,9 @@ coverage/
 # client HTML entrypoint must be minified since the HTML minifier does not
 # minify the contents of certain tags (which Prettier would then format)
 *.html
+
+# Duplicate api-types ignore rules here because otherwise their paths get
+# broken when eslint is run from the monorepo root
+/packages/api-types/*.js
+/packages/api-types/*.mjs
+/packages/api-types/*.d.ts

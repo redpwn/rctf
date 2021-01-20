@@ -1,0 +1,18 @@
+method: PATCH
+path: /users/me
+requireAuth: true
+schema:
+  body:
+    type: object
+    properties:
+      name:
+        type: string
+      division:
+        type: string
+responses:
+  - goodUserUpdate
+  - badEnded
+  - badName
+  - badRateLimit
+  - badDivisionNotAllowed
+  - badKnownName

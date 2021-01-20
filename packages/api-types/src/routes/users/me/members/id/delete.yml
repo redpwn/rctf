@@ -1,0 +1,15 @@
+method: DELETE
+path: /users/me/members/:id
+requireAuth: true
+schema:
+  params:
+    type: object
+    properties:
+      id:
+        type: string
+    required:
+      - id
+responses:
+  - goodMemberDelete
+  - badEnded
+  - badEndpoint

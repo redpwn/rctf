@@ -1,0 +1,19 @@
+method: POST
+path: /auth/login
+requireAuth: false
+schema:
+  body:
+    type: object
+    properties:
+      teamToken:
+        type: string
+      ctftimeToken:
+        type: string
+    oneOf:
+      - required: ['teamToken']
+      - required: ['ctftimeToken']
+responses:
+  - goodLogin
+  - badUnknownUser
+  - badTokenVerification
+  - badCtftimeToken

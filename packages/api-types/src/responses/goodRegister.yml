@@ -1,0 +1,8 @@
+status: 200
+message: The user was created.
+data:
+  type: object
+  properties:
+    authToken:
+      type: string
+  required: ['authToken']

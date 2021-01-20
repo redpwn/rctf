@@ -9,13 +9,6 @@ export * as validate from './validate'
 export * as scores from './scores'
 export * as restrict from './restrict'
 
-/**
- * Perform a deep-copy of a JSON-stringifiable object
- */
-export const deepCopy = <T>(data: T): T => {
-  return JSON.parse(JSON.stringify(data)) as T
-}
-
 export const serveIndex: FastifyPluginAsync<{ indexPath: string }> = async (
   fastify,
   opts

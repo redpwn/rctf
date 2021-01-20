@@ -1,0 +1,8 @@
+status: 200
+message: The email was verified.
+data:
+  type: object
+  properties:
+    authToken:
+      type: string
+  required: ['authToken']

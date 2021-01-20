@@ -1,0 +1,15 @@
+method: DELETE
+path: /admin/challs/:id
+requireAuth: true
+perms:
+  - challsWrite
+schema:
+  params:
+    type: object
+    properties:
+      id:
+        type: string
+    required:
+      - id
+responses:
+  - goodChallengeDelete

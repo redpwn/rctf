@@ -1,0 +1,16 @@
+status: 200
+message: Your account was successfully updated.
+data:
+  type: object
+  properties:
+    user:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        division:
+          type: string
+      required: ['name', 'division']
+  required: ['user']

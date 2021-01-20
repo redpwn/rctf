@@ -220,7 +220,7 @@ export type scriptGetGraph = (
 ) => Promise<string | null>
 
 export interface GetGraphRequest {
-  division: string
+  division?: string
   maxTeams: number
 }
 export type GetGraphResponse = GraphEntry[]

@@ -1,0 +1,8 @@
+status: 429
+message: You are trying this too fast.
+data:
+  type: object
+  properties:
+    timeLeft:
+      type: number
+  required: ['timeLeft']

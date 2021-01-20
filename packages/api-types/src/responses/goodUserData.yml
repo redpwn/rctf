@@ -1,0 +1,56 @@
+status: 200
+message: The user data was successfully retrieved.
+data:
+  type: object
+  properties:
+    name:
+      type: string
+    ctftimeId:
+      type: string
+    division:
+      type: string
+    score:
+      type: integer
+    globalPlace:
+      oneOf:
+        - type: integer
+        - type: 'null'
+    divisionPlace:
+      oneOf:
+        - type: integer
+        - type: 'null'
+    solves:
+      type: array
+      items:
+        type: object
+        properties:
+          category:
+            type: string
+          name:
+            type: string
+          points:
+            oneOf:
+              - type: integer
+              - type: 'null'
+          solves:
+            oneOf:
+              - type: integer
+              - type: 'null'
+          id:
+            type: string
+          createdAt:
+            type: integer
+        required:
+          - category
+          - name
+          - points
+          - solves
+          - id
+          - createdAt
+  required:
+    - name
+    - division
+    - score
+    - globalPlace
+    - divisionPlace
+    - solves

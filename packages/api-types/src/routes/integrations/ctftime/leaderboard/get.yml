@@ -1,0 +1,7 @@
+method: GET
+path: /integrations/ctftime/leaderboard
+requireAuth: true
+perms:
+  - leaderboardRead
+responses:
+  - goodCtftimeLeaderboard

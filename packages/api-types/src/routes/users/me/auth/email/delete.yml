@@ -1,0 +1,8 @@
+method: DELETE
+path: /users/me/auth/email
+requireAuth: true
+responses:
+  - goodEmailRemoved
+  - badEndpoint
+  - badZeroAuth
+  - badEmailNoExists

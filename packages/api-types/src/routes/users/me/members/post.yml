@@ -1,0 +1,17 @@
+method: POST
+path: /users/me/members
+requireAuth: true
+schema:
+  body:
+    type: object
+    properties:
+      email:
+        type: string
+    required:
+      - email
+responses:
+  - goodMemberCreate
+  - badEndpoint
+  - badEnded
+  - badEmail
+  - badKnownEmail

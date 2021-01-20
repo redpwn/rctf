@@ -1,0 +1,15 @@
+method: POST
+path: /integrations/ctftime/callback
+requireAuth: false
+schema:
+  body:
+    type: object
+    properties:
+      ctftimeCode:
+        type: string
+    required:
+      - ctftimeCode
+responses:
+  - goodCtftimeToken
+  - badEndpoint
+  - badCtftimeCode

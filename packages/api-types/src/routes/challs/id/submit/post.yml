@@ -1,0 +1,27 @@
+method: POST
+path: /challs/:id/submit
+requireAuth: true
+schema:
+  body:
+    type: object
+    properties:
+      flag:
+        type: string
+    required:
+      - flag
+  params:
+    type: object
+    properties:
+      id:
+        type: string
+    required:
+      - id
+responses:
+  - goodFlag
+  - badFlag
+  - badNotStarted
+  - badEnded
+  - badChallenge
+  - badRateLimit
+  - badAlreadySolvedChallenge
+  - badUnknownUser
