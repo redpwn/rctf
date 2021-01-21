@@ -8,14 +8,13 @@ import {
   GetScoreResponse,
   GetChallengeInfoResponse,
 } from '../../cache/leaderboard'
-import { ValueOf } from 'type-fest'
 
 export type UserSolvesData = Pick<
   CleanedChallenge,
   'category' | 'name' | 'id'
 > &
-  Pick<ValueOf<GetChallengeInfoResponse, number>, 'solves'> & {
-    points: ValueOf<GetChallengeInfoResponse, number>['score']
+  Pick<GetChallengeInfoResponse[number], 'solves'> & {
+    points: GetChallengeInfoResponse[number]['score']
     createdAt: number
   }
 

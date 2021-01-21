@@ -41,9 +41,6 @@ import { User, getUserById } from '../database/users'
 
 const responseObjects = _responseObjects as Responses
 
-// FIXME: consolidate with duplicate in database/util
-type ArrayValue<Arr> = Arr extends (infer Val)[] ? Val : Arr
-
 type GetFastifyRouteGenericForRoute<
   Route extends ApiRoute
 > = FastifyRouteGenericInterface & {
@@ -154,7 +151,7 @@ export function makeResponseFactories<ResponseKinds extends keyof Responses>(
 
 interface HandlerBaseArgs<Route extends ApiRoute> {
   req: FastifyRequest<GetFastifyRouteGenericForRoute<Route>>
-  res: HandlerResponseFactories<ArrayValue<Route['responses']>>
+  res: HandlerResponseFactories<Route['responses'][number]>
 }
 
 export type HandlerArgs<Route extends ApiRoute> = HandlerBaseArgs<Route> &
