@@ -535,7 +535,7 @@ const trim = (parts, ...args) => {
     const routeIdent = toCamelCase(
       path
         .relative(routeRoot, file)
-        .replace(/\//g, '-')
+        .replace(/[/\\]/g, '-')
         .replace(yamlExtRegex, '')
     )
 
