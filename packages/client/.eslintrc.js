@@ -6,8 +6,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'standard-jsx',
-    'prettier/standard',
-    'prettier/react',
+    'prettier',
   ],
   plugins: [],
   rules: {

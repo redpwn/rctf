@@ -1,11 +1,16 @@
-import { FunctionComponent, useCallback, FormEventHandler } from 'react'
-import { Link, Heading, Box, Grid, SxStyleProp } from 'theme-ui'
+import {
+  FunctionComponent,
+  useCallback,
+  FormEventHandler,
+  ComponentProps,
+} from 'react'
+import { Link, Heading, Box, Grid } from 'theme-ui'
 import TextInput from './text-input'
 import Button from './button'
 import Card from './card'
 import useInput from '../util/use-input'
 
-export interface LoginCardProps {
+export interface LoginCardProps extends ComponentProps<typeof Card> {
   ctfName: string
   onTokenLogin: (token: string) => void
   onCtftimeLogin: () => void
@@ -29,25 +34,19 @@ export const LoginCard: FunctionComponent<LoginCardProps> = ({
 
   return (
     <Card
-      sx={
-        {
-          display: 'grid',
-          gridGap: 3,
-          // FIXME: what is up with these types?
-        } as SxStyleProp
-      }
+      sx={{
+        display: 'grid',
+        gridGap: 3,
+      }}
       {...props}
     >
       <Heading mx={4}>Log in to {ctfName}</Heading>
       <Grid gap={3}>
         <form
-          sx={
-            {
-              display: 'grid',
-              gridGap: 3,
-              // FIXME: what is up with these types?
-            } as SxStyleProp
-          }
+          sx={{
+            display: 'grid',
+            gridGap: 3,
+          }}
           onSubmit={onTokenLogin}
         >
           <Box>

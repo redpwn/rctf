@@ -1,5 +1,5 @@
 module.exports = api => {
-  api.cache.forever()
+  const env = api.cache(() => process.env.NODE_ENV)
 
   return {
     plugins: [
@@ -21,8 +21,9 @@ module.exports = api => {
       [
         '@babel/preset-react',
         {
-          pragma: 'jsx',
-          pragmaFrag: 'Fragment',
+          runtime: 'automatic',
+          importSource: 'theme-ui',
+          development: env === 'development',
         },
       ],
       [

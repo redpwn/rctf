@@ -45,6 +45,7 @@ required:
 if:
   properties:
     perms:
+      type: array # duplicated to silence ajv strictTypes
       minItems: 1
   required: ['perms']
 then:

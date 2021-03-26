@@ -17,11 +17,13 @@ export const Card = forwardRef<ExtractRefType<CardProps>, CardProps>(
 
       return {
         ...theme,
-        colors: {
-          ...theme.colors,
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          background: bg in theme.colors! ? theme.colors![bg] : bg,
-        },
+        colors:
+          theme.colors &&
+          ({
+            ...theme.colors,
+            background: bg in theme.colors ? theme.colors[bg] : bg,
+            // TODO: make this less hacky
+          } as typeof theme.colors),
       }
     }, [theme, bg])
 

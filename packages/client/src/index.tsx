@@ -4,5 +4,6 @@ import App from './app'
 
 void (async () => {
   await loadConfig()
-  render(<App />, document.getElementById('app') as HTMLMetaElement)
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  render(<App />, document.getElementById('app')!)
 })()

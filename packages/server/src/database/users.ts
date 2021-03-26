@@ -4,7 +4,6 @@ import { ServerConfig } from '../config/types'
 import config from '../config/server'
 import { DivisionACLError } from '../errors'
 import { ExtractQueryType } from './util'
-import { SetRequired } from 'type-fest'
 
 export interface User {
   id: string
@@ -35,7 +34,7 @@ export const getUserById = async ({
 
 export const getUserByEmail = async ({
   email,
-}: SetRequired<Pick<User, 'email'>>): Promise<User | undefined> => {
+}: Required<Pick<User, 'email'>>): Promise<User | undefined> => {
   return db
     .query<User>('SELECT * FROM users WHERE email = $1', [email])
     .then(res => res.rows[0])
@@ -43,7 +42,7 @@ export const getUserByEmail = async ({
 
 export const getUserByCtftimeId = async ({
   ctftimeId,
-}: SetRequired<Pick<User, 'ctftimeId'>>): Promise<User | undefined> => {
+}: Required<Pick<User, 'ctftimeId'>>): Promise<User | undefined> => {
   return db
     .query<User>('SELECT * FROM users WHERE ctftime_id = $1', [ctftimeId])
     .then(res => res.rows[0])
@@ -52,7 +51,7 @@ export const getUserByCtftimeId = async ({
 export const getUserByIdAndEmail = async ({
   id,
   email,
-}: SetRequired<Pick<User, 'id' | 'email'>>): Promise<User | undefined> => {
+}: Required<Pick<User, 'id' | 'email'>>): Promise<User | undefined> => {
   return db
     .query<User>('SELECT * FROM users WHERE id = $1 AND email = $2', [
       id,
@@ -88,7 +87,7 @@ export const getUserByNameOrCtftimeId = async ({
 
 export const removeUserByEmail = async ({
   email,
-}: SetRequired<Pick<User, 'email'>>): Promise<User | undefined> => {
+}: Required<Pick<User, 'email'>>): Promise<User | undefined> => {
   return db
     .query<User>('DELETE FROM users WHERE email = $1 RETURNING *', [email])
     .then(res => res.rows[0])

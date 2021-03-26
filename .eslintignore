@@ -1,5 +1,9 @@
-# Allow dotfiles
+# Include dotfiles
 !.*
+
+# Re-add default ignore patterns
+node_modules/
+.git/
 
 # Ignore build folders
 dist

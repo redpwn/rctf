@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
+const ESLintPlugin = require('eslint-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const PrefreshWebpackPlugin = require('@prefresh/webpack')
 
@@ -34,12 +35,11 @@ module.exports = () => {
           },
         ],
       }),
-      new webpack.ProvidePlugin({
-        jsx: ['theme-ui', 'jsx'],
-        Fragment: ['preact', 'Fragment'],
-      }),
       new webpack.EnvironmentPlugin({
         NODE_ENV: env,
+      }),
+      new ESLintPlugin({
+        extensions: ['js', 'jsx', 'ts', 'tsx'],
       }),
       new ForkTsCheckerWebpackPlugin(),
       ...(env === 'development'
@@ -60,19 +60,14 @@ module.exports = () => {
     module: {
       rules: [
         {
-          enforce: 'pre',
-          test: /\.[jt]sx?$/,
-          exclude: /node_modules/,
-          loader: 'eslint-loader',
-        },
-        {
           test: /\.[jt]sx?$/,
           exclude: /node_modules/,
           use: [
             {
               loader: 'babel-loader',
               options: {
-                plugins: env === 'development' ? ['react-refresh/babel'] : [],
+                plugins:
+                  env === 'development' ? ['@prefresh/babel-plugin'] : [],
               },
             },
           ],

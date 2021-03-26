@@ -162,9 +162,9 @@ export type HandlerArgs<Route extends ApiRoute> = HandlerBaseArgs<Route> &
     : unknown)
 
 // Type for handler args object with all possible properties
-type InternalFullHandlerArgs<Route extends ApiRoute> = HandlerBaseArgs<
-  Route
-> & { user?: User }
+type InternalFullHandlerArgs<
+  Route extends ApiRoute
+> = HandlerBaseArgs<Route> & { user?: User }
 
 export type HandlerType<Route extends ApiRoute> = (
   args: HandlerArgs<Route>
