@@ -6,6 +6,7 @@ const TerserWebpackPlugin = require('terser-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const PrefreshWebpackPlugin = require('@prefresh/webpack')
+const SizePlugin = require('size-plugin')
 
 module.exports = () => {
   const env = process.env.NODE_ENV
@@ -54,7 +55,11 @@ module.exports = () => {
             new PrefreshWebpackPlugin(),
             new webpack.HotModuleReplacementPlugin(),
           ]
-        : []),
+        : [
+            new SizePlugin({
+              writeFile: false,
+            }),
+          ]),
     ],
     optimization: {
       minimizer: [
