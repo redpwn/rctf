@@ -13,9 +13,9 @@ module.exports = {
   },
   moduleNameMapper: {
     '^react$': 'preact/compat',
+    '^react/(.*)$': 'preact/compat/$1',
     '^react-dom$': 'preact/compat',
     '^@storybook/preact$': '@storybook/react',
   },
   snapshotSerializers: ['jest-serializer-html'],
-  setupFiles: ['<rootDir>/lib/jest.setup.js'],
 }
