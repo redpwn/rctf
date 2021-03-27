@@ -11,19 +11,26 @@ module.exports = () => {
   const env = process.env.NODE_ENV
 
   return {
+    context: path.resolve(__dirname),
     mode: env,
-    entry: './src/index',
+    entry: [
+      ...(env === 'development' ? ['./lib/preact-debug-entry'] : []),
+      './src/index',
+    ],
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename:
-        env === 'development' ? 'assets/bundle.js' : 'assets/[contenthash].js',
+        env === 'development'
+          ? 'assets/[name].js'
+          : 'assets/[name].[contenthash].js',
       publicPath: '/',
+      clean: true,
     },
     devtool:
       env === 'development' ? 'eval-cheap-module-source-map' : 'source-map',
     plugins: [
       new HtmlWebpackPlugin({
-        template: 'index.html',
+        template: 'lib/index.html',
         scriptLoading: 'defer',
         inject: 'body',
       }),
