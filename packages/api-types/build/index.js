@@ -165,7 +165,7 @@ const trim = (parts, ...args) => {
 
   const compile = (schema, name, opts) =>
     schema2tsCompile(
-      schema,
+      JSON.parse(JSON.stringify(schema)),
       name,
       opts ? { ...compileOpts, ...opts } : compileOpts
     )
