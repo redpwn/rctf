@@ -17,5 +17,4 @@ module.exports = {
     '^react-dom$': 'preact/compat',
     '^@storybook/preact$': '@storybook/react',
   },
-  snapshotSerializers: ['jest-serializer-html'],
 }
