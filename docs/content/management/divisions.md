@@ -1,7 +1,7 @@
 # Divisions
 
 Divisions can be used in rCTF to segregate users into different scoreboards, with optional access control lists based on verified email addresses.
-Every user must be in exactly one division, although users can change their division at any time (provided the new divison satisifies the ACL).
+Every user must be in exactly one division, although users can change their division at any time (provided the new division satisfies the ACL).
 
 * `divisions` is a map from a division ID to its human readable name shown in the UI.
 * `defaultDivision` is the division ID that new users will be placed into.
