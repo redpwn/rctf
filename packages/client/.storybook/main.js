@@ -1,7 +1,8 @@
-const webpack = require('webpack')
-
 module.exports = {
   stories: ['../src/**/*.stories.tsx'],
+  core: {
+    builder: 'webpack5',
+  },
   addons: [
     '@storybook/addon-docs',
     '@storybook/addon-controls',
@@ -9,16 +10,6 @@ module.exports = {
     '@storybook/addon-actions',
     '@storybook/addon-a11y',
   ],
-  webpackFinal: config => {
-    config.plugins.push(
-      new webpack.ProvidePlugin({
-        jsx: ['theme-ui', 'jsx'],
-        Fragment: ['react', 'Fragment'],
-      })
-    )
-
-    return config
-  },
   typescript: {
     check: false,
     checkOptions: {},
