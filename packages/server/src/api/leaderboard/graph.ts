@@ -2,7 +2,6 @@ import { leaderboardGraphGet } from '@rctf/api-types/routes'
 import { makeFastifyRoute } from '../helpers'
 import { getGraph } from '../../cache/leaderboard'
 import config from '../../config/server'
-import { ValueOf } from 'type-fest'
 
 export default makeFastifyRoute(
   leaderboardGraphGet,
@@ -20,8 +19,8 @@ export default makeFastifyRoute(
     const reducedGraph = graph.map(user => {
       const { points } = user
       const reducedPoints = points.filter((point, i) => {
-        const prev = points[i - 1] as ValueOf<typeof points, number> | undefined
-        const next = points[i + 1] as ValueOf<typeof points, number> | undefined
+        const prev = points[i - 1] as typeof points[number] | undefined
+        const next = points[i + 1] as typeof points[number] | undefined
         return !(
           prev &&
           next &&
