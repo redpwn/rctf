@@ -38,7 +38,6 @@
     "@testing-library/preact": "2.0.1",
     "@testing-library/user-event": "13.0.16",
     "@theme-ui/preset-base": "0.6.0",
-    "@types/history": "2.0.50",
     "@types/react": "17.0.3",
     "@types/webpack-env": "1.16.0",
     "babel-loader": "8.2.2",
