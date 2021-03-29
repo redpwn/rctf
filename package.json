@@ -58,6 +58,5 @@
   "bugs": {
     "url": "https://github.com/redpwn/rctf/issues"
   },
-  "homepage": "https://rctf.redpwn.net",
-  "dependencies": {}
+  "homepage": "https://rctf.redpwn.net"
 }
