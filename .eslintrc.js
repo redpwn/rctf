@@ -1,8 +1,9 @@
 module.exports = {
+  root: true,
   env: {
     es6: true,
   },
-  extends: ['standard', 'plugin:prettier/recommended', 'prettier/standard'],
+  extends: ['standard', 'plugin:prettier/recommended'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {},
@@ -38,8 +39,6 @@ module.exports = {
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
         'standard-with-typescript',
         'prettier',
-        'prettier/standard',
-        'prettier/@typescript-eslint',
       ],
       plugins: ['@typescript-eslint'],
       rules: {

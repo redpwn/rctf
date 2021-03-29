@@ -1,0 +1,1 @@
+import 'preact/debug'

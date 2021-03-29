@@ -1,5 +1,5 @@
-import { useMemo, forwardRef, ComponentProps } from 'react'
-import { Card as ThemeUICard, ThemeProvider, useThemeUI } from 'theme-ui'
+import { useCallback, forwardRef, ComponentProps } from 'react'
+import { Card as ThemeUICard, ThemeProvider, Theme } from 'theme-ui'
 import { ExtractRefType } from '../util/react-types'
 
 export interface CardProps extends ComponentProps<typeof ThemeUICard> {
@@ -8,25 +8,28 @@ export interface CardProps extends ComponentProps<typeof ThemeUICard> {
 
 export const Card = forwardRef<ExtractRefType<CardProps>, CardProps>(
   ({ bg = 'cardBackground', children, ...props }, forwardedRef) => {
-    const { theme } = useThemeUI()
-
-    const newTheme = useMemo(() => {
-      // Don't die in test render environment with no theme provider
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      if (theme === null) return theme
-
-      return {
+    const themeTransformer = useCallback(
+      (theme: Theme) => ({
         ...theme,
-        colors: {
-          ...theme.colors,
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          background: bg in theme.colors! ? theme.colors![bg] : bg,
-        },
-      }
-    }, [theme, bg])
+        colors:
+          theme.colors &&
+          ({
+            ...theme.colors,
+            background: theme.colors[bg] ?? bg,
+            // TODO: make this less hacky
+          } as typeof theme.colors),
+        rawColors:
+          theme.rawColors &&
+          ({
+            ...theme.rawColors,
+            background: theme.rawColors[bg] ?? bg,
+          } as typeof theme.rawColors),
+      }),
+      [bg]
+    )
 
     return (
-      <ThemeProvider theme={newTheme}>
+      <ThemeProvider theme={themeTransformer}>
         <ThemeUICard bg='background' {...props} ref={forwardedRef}>
           {children}
         </ThemeUICard>

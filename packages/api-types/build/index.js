@@ -5,7 +5,7 @@ const yaml = require('yaml')
 const prettier = require('prettier')
 const { compile: schema2tsCompile } = require('json-schema-to-typescript')
 const { all: deepmerge } = require('deepmerge')
-const Ajv = require('ajv')
+const Ajv = require('ajv').default
 const babel = require('@babel/core')
 
 // camelCase / kebab-case / snake_case to PascalCase
@@ -133,6 +133,7 @@ const trim = (parts, ...args) => {
     useDefaults: true,
     allErrors: true,
   })
+  ajv.addKeyword('tsType')
 
   const responseValidator = ajv.compile(responseSchema)
 
@@ -164,7 +165,7 @@ const trim = (parts, ...args) => {
 
   const compile = (schema, name, opts) =>
     schema2tsCompile(
-      schema,
+      JSON.parse(JSON.stringify(schema)),
       name,
       opts ? { ...compileOpts, ...opts } : compileOpts
     )

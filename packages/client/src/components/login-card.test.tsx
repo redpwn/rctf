@@ -24,7 +24,7 @@ describe('onTokenLogin', () => {
       exact: false,
     })
     if (inputNode === null) throw new Error()
-    await userEvent.type(inputNode, token)
+    userEvent.type(inputNode, token)
 
     return {
       onTokenLogin,
@@ -41,7 +41,7 @@ describe('onTokenLogin', () => {
     onTokenLogin.mockClear()
     onCtftimeLogin.mockClear()
 
-    await userEvent.type(inputNode, '{enter}')
+    userEvent.type(inputNode, '{enter}')
 
     expect(onCtftimeLogin).not.toBeCalled()
     expect(onTokenLogin).toHaveBeenCalledTimes(1)
@@ -57,7 +57,7 @@ describe('onTokenLogin', () => {
     onCtftimeLogin.mockClear()
 
     const buttonNode = queryByRole('button', { name: 'Log In' })
-    expect(buttonNode).not.toBeNull()
+    expect(buttonNode).toBeInTheDocument()
     if (buttonNode === null) throw new Error()
     userEvent.click(buttonNode)
 
@@ -77,7 +77,7 @@ describe('onCtftimeLogin', () => {
     )
 
     const buttonNode = queryByRole('button', { name: 'Log In with CTFtime' })
-    expect(buttonNode).not.toBeNull()
+    expect(buttonNode).toBeInTheDocument()
     if (buttonNode === null) throw new Error()
     userEvent.click(buttonNode)
 

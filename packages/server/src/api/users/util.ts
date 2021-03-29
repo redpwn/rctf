@@ -75,6 +75,7 @@ export const getUserData = async ({
       const chall = getCleanedChallenge(solve.challengeid)
 
       // Ignore challenges with invalid id, potentially deleted challs
+      // eslint-disable-next-line array-callback-return
       if (chall === undefined) return
 
       return {

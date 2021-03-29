@@ -5,6 +5,7 @@
     "target": "es5",
     "lib": ["es6", "dom"],
     "jsx": "preserve",
+    "jsxImportSource": "theme-ui",
     "noEmit": true,
     "types": ["react", "webpack-env", "jest", "@testing-library/jest-dom"]
   },

@@ -3,26 +3,35 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
+const ESLintPlugin = require('eslint-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const PrefreshWebpackPlugin = require('@prefresh/webpack')
+const SizePlugin = require('size-plugin')
 
 module.exports = () => {
   const env = process.env.NODE_ENV
 
   return {
+    context: path.resolve(__dirname),
     mode: env,
-    entry: './src/index',
+    entry: [
+      ...(env === 'development' ? ['./lib/preact-debug-entry'] : []),
+      './src/index',
+    ],
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename:
-        env === 'development' ? 'assets/bundle.js' : 'assets/[contenthash].js',
+        env === 'development'
+          ? 'assets/[name].js'
+          : 'assets/[name].[contenthash].js',
       publicPath: '/',
+      clean: true,
     },
     devtool:
       env === 'development' ? 'eval-cheap-module-source-map' : 'source-map',
     plugins: [
       new HtmlWebpackPlugin({
-        template: 'index.html',
+        template: 'lib/index.html',
         scriptLoading: 'defer',
         inject: 'body',
       }),
@@ -34,12 +43,11 @@ module.exports = () => {
           },
         ],
       }),
-      new webpack.ProvidePlugin({
-        jsx: ['theme-ui', 'jsx'],
-        Fragment: ['preact', 'Fragment'],
-      }),
       new webpack.EnvironmentPlugin({
         NODE_ENV: env,
+      }),
+      new ESLintPlugin({
+        extensions: ['js', 'jsx', 'ts', 'tsx'],
       }),
       new ForkTsCheckerWebpackPlugin(),
       ...(env === 'development'
@@ -47,7 +55,11 @@ module.exports = () => {
             new PrefreshWebpackPlugin(),
             new webpack.HotModuleReplacementPlugin(),
           ]
-        : []),
+        : [
+            new SizePlugin({
+              writeFile: false,
+            }),
+          ]),
     ],
     optimization: {
       minimizer: [
@@ -60,19 +72,14 @@ module.exports = () => {
     module: {
       rules: [
         {
-          enforce: 'pre',
-          test: /\.[jt]sx?$/,
-          exclude: /node_modules/,
-          loader: 'eslint-loader',
-        },
-        {
           test: /\.[jt]sx?$/,
           exclude: /node_modules/,
           use: [
             {
               loader: 'babel-loader',
               options: {
-                plugins: env === 'development' ? ['react-refresh/babel'] : [],
+                plugins:
+                  env === 'development' ? ['@prefresh/babel-plugin'] : [],
               },
             },
           ],
