@@ -11,7 +11,7 @@ do_check() {
 	if [ -z "$log" ]; then
 		echo 'WARNING: no commits in specified range' >&2
 	fi
-	grep -vE '^[0-9a-f]+ (feat|fix|refactor|docs|chore|build|test|ci|style)(\([a-zA-Z-]+\))?:' <<<"$log" || true
+	grep -vE '^[0-9a-f]+ (feat|fix|refactor|docs|chore|build|test|ci|style|perf)(\([a-zA-Z-]+\))?:' <<<"$log" || true
 }
 
 if [ $# -ne 2 ]; then
