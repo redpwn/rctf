@@ -13,7 +13,7 @@ interface AuthContextValue {
 
 // Using the context without a provider mounted should be an error
 const AuthContext = createContext<AuthContextValue>(
-  (null as unknown) as AuthContextValue
+  null as unknown as AuthContextValue
 )
 
 const AuthProvider: FunctionComponent = ({ children }) => {

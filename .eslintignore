@@ -5,6 +5,9 @@
 node_modules/
 .git/
 
+# Ignore yarn 2 stuff
+.yarn/
+
 # Ignore build folders
 dist
 

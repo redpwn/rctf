@@ -70,20 +70,18 @@ export const StackedNoPadding: FunctionComponent = () => (
   </>
 )
 
-export const ControlledInput: OmitArgs<
-  typeof Template,
-  'value' | 'onChange'
-> = props => {
-  const [value, setValue] = useState('')
-  const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
-  }, [])
+export const ControlledInput: OmitArgs<typeof Template, 'value' | 'onChange'> =
+  props => {
+    const [value, setValue] = useState('')
+    const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+      setValue(e.target.value)
+    }, [])
 
-  return (
-    <>
-      <Template {...props} value={value} onChange={onChange} />
-      <Text pt={3}>You typed: {value}</Text>
-    </>
-  )
-}
+    return (
+      <>
+        <Template {...props} value={value} onChange={onChange} />
+        <Text pt={3}>You typed: {value}</Text>
+      </>
+    )
+  }
 ControlledInput.args = { ...Default.args }
