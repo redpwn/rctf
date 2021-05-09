@@ -40,7 +40,10 @@ const runBgColorTest = ({
       <ThemeProvider
         theme={{
           ...theme,
-          useCustomProperties,
+          config: {
+            ...theme.config,
+            useCustomProperties,
+          },
           colors: themeColors,
         }}
       >
