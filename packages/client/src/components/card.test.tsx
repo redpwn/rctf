@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/extend-expect'
 import { matchers } from '@emotion/jest'
 
-import { render } from '@testing-library/preact'
+import { render, screen } from '@testing-library/preact'
 
 import Card from './card'
 
@@ -36,7 +36,7 @@ const runBgColorTest = ({
     useCustomProperties: boolean,
     doExpect: (e: HTMLElement) => void
   ) => {
-    const { getByTestId } = render(
+    render(
       <ThemeProvider
         theme={{
           ...theme,
@@ -56,7 +56,7 @@ const runBgColorTest = ({
       </ThemeProvider>
     )
 
-    doExpect(getByTestId('colordisplayer'))
+    doExpect(screen.getByTestId('colordisplayer'))
   }
 
   test('with CSS variables', () =>
@@ -105,7 +105,7 @@ test('misc theme properties are kept', () => {
     return <div {...props}>{JSON.stringify(theme.space)}</div>
   }
 
-  const { getByTestId } = render(
+  render(
     <ThemeProvider
       theme={{
         ...theme,
@@ -118,10 +118,12 @@ test('misc theme properties are kept', () => {
     </ThemeProvider>
   )
 
-  expect(getByTestId('spacedumper')).toHaveTextContent(JSON.stringify(space))
+  expect(screen.getByTestId('spacedumper')).toHaveTextContent(
+    JSON.stringify(space)
+  )
 })
 
 test('does not die when outside of ThemeProvider', () => {
-  const { queryByTestId } = render(<Card data-testid='card' />)
-  expect(queryByTestId('card')).toBeInTheDocument()
+  render(<Card data-testid='card' />)
+  expect(screen.queryByTestId('card')).toBeInTheDocument()
 })

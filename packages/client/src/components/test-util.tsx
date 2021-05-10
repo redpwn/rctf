@@ -26,3 +26,5 @@ export function render<Q extends Queries>(
 ): RenderResult<Q> | RenderResult {
   return baseRender<Q>(ui, { wrapper: AllProviders, ...options })
 }
+
+export { screen } from '@testing-library/preact'

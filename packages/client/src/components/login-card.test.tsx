@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/extend-expect'
 
-import { render } from './test-util'
+import { render, screen } from './test-util'
 import userEvent from '@testing-library/user-event'
 
 import LoginCard from './login-card'
@@ -16,11 +16,11 @@ describe('onTokenLogin', () => {
 
     const token = 'tokendata'
 
-    const queries = render(
+    render(
       <LoginCard {...defaultProps} {...{ onTokenLogin, onCtftimeLogin }} />
     )
 
-    const inputNode = queries.queryByLabelText('Team Code or Link', {
+    const inputNode = screen.queryByLabelText('Team Code or Link', {
       exact: false,
     })
     if (inputNode === null) throw new Error()
@@ -31,7 +31,6 @@ describe('onTokenLogin', () => {
       onCtftimeLogin,
       token,
       inputNode,
-      ...queries,
     }
   }
 
@@ -51,12 +50,12 @@ describe('onTokenLogin', () => {
   })
 
   it('should fire on click', async () => {
-    const { onTokenLogin, onCtftimeLogin, token, queryByRole } = await setup()
+    const { onTokenLogin, onCtftimeLogin, token } = await setup()
 
     onTokenLogin.mockClear()
     onCtftimeLogin.mockClear()
 
-    const buttonNode = queryByRole('button', { name: 'Log In' })
+    const buttonNode = screen.queryByRole('button', { name: 'Log In' })
     expect(buttonNode).toBeInTheDocument()
     if (buttonNode === null) throw new Error()
     userEvent.click(buttonNode)
@@ -72,11 +71,13 @@ describe('onCtftimeLogin', () => {
     const onTokenLogin = jest.fn()
     const onCtftimeLogin = jest.fn()
 
-    const { queryByRole } = render(
+    render(
       <LoginCard {...defaultProps} {...{ onTokenLogin, onCtftimeLogin }} />
     )
 
-    const buttonNode = queryByRole('button', { name: 'Log In with CTFtime' })
+    const buttonNode = screen.queryByRole('button', {
+      name: 'Log In with CTFtime',
+    })
     expect(buttonNode).toBeInTheDocument()
     if (buttonNode === null) throw new Error()
     userEvent.click(buttonNode)
