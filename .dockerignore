@@ -1,5 +1,10 @@
-# yarn 2 files are not ignored so that builds can take advantage of the host's
-# cache (since the cache is a pure function of the lockfile)
+# yarn 2 (zero-install ignore list to take advantage of host cache)
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
 **/npm-debug.log*
 **/yarn-debug.log*
