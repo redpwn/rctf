@@ -20,10 +20,9 @@ describe('onTokenLogin', () => {
       <LoginCard {...defaultProps} {...{ onTokenLogin, onCtftimeLogin }} />
     )
 
-    const inputNode = screen.queryByLabelText('Team Code or Link', {
+    const inputNode = screen.getByLabelText('Team Code or Link', {
       exact: false,
     })
-    if (inputNode === null) throw new Error()
     userEvent.type(inputNode, token)
 
     return {
@@ -55,9 +54,8 @@ describe('onTokenLogin', () => {
     onTokenLogin.mockClear()
     onCtftimeLogin.mockClear()
 
-    const buttonNode = screen.queryByRole('button', { name: 'Log In' })
+    const buttonNode = screen.getByRole('button', { name: 'Log In' })
     expect(buttonNode).toBeInTheDocument()
-    if (buttonNode === null) throw new Error()
     userEvent.click(buttonNode)
 
     expect(onCtftimeLogin).not.toBeCalled()
@@ -75,11 +73,10 @@ describe('onCtftimeLogin', () => {
       <LoginCard {...defaultProps} {...{ onTokenLogin, onCtftimeLogin }} />
     )
 
-    const buttonNode = screen.queryByRole('button', {
+    const buttonNode = screen.getByRole('button', {
       name: 'Log In with CTFtime',
     })
     expect(buttonNode).toBeInTheDocument()
-    if (buttonNode === null) throw new Error()
     userEvent.click(buttonNode)
 
     expect(onTokenLogin).not.toBeCalled()
