@@ -41,14 +41,13 @@ import { User, getUserById } from '../database/users'
 
 const responseObjects = _responseObjects as Responses
 
-type GetFastifyRouteGenericForRoute<
-  Route extends ApiRoute
-> = FastifyRouteGenericInterface & {
-  Body: GetRouteBodyType<Route>
-  Querystring: GetRouteQSType<Route>
-  Params: GetRouteParamsType<Route>
-  Reply: GetRouteResponseType<Route>
-}
+type GetFastifyRouteGenericForRoute<Route extends ApiRoute> =
+  FastifyRouteGenericInterface & {
+    Body: GetRouteBodyType<Route>
+    Querystring: GetRouteQSType<Route>
+    Params: GetRouteParamsType<Route>
+    Reply: GetRouteResponseType<Route>
+  }
 
 // https://github.com/fastify/fastify/blob/v3.7.0/types/route.d.ts#L127
 // Not general, only for our specific use case
@@ -79,13 +78,12 @@ type _staticassert1 = HasType<
 
 // Factory function to construct a response object from the payload of the route
 // (i.e. automatically wraps into kind/message/data when appropriate)
-type ResponseFactory<
-  ResponseKind extends keyof Responses
-> = GetResponsePayloadDataType<Responses[ResponseKind]> extends never
-  ? () => ResponseFactoryReturn<ResponseKind>
-  : (
-      data: GetResponsePayloadDataType<Responses[ResponseKind]>
-    ) => ResponseFactoryReturn<ResponseKind>
+type ResponseFactory<ResponseKind extends keyof Responses> =
+  GetResponsePayloadDataType<Responses[ResponseKind]> extends never
+    ? () => ResponseFactoryReturn<ResponseKind>
+    : (
+        data: GetResponsePayloadDataType<Responses[ResponseKind]>
+      ) => ResponseFactoryReturn<ResponseKind>
 
 // Factories for all allowable responses for a route handler
 export type HandlerResponseFactories<ResponseKinds extends keyof Responses> = {
@@ -111,28 +109,26 @@ function makeResponseFactory<Kind extends keyof Responses>(
   if ('data' in responseObj && 'message' in responseObj) {
     return ((data: GetResponsePayloadDataType<Responses[Kind]>) => ({
       ...topLevel,
-      payload: ({
+      payload: {
         kind,
         message: responseObj.message,
         data,
-      } as unknown) as ReturnType<ResponseFactory<Kind>>['payload'],
+      } as unknown as ReturnType<ResponseFactory<Kind>>['payload'],
     })) as ResponseFactory<Kind>
   } else if ('message' in responseObj) {
     return (() => ({
       ...topLevel,
-      payload: ({
+      payload: {
         kind,
         message: responseObj.message,
-      } as unknown) as ReturnType<ResponseFactory<Kind>>['payload'],
+      } as unknown as ReturnType<ResponseFactory<Kind>>['payload'],
     })) as ResponseFactory<Kind>
   } else {
     // Either `rawJson` or `rawContentType` payload - both should be passed
     // through unchanged
     return ((data: GetResponsePayloadDataType<Responses[Kind]>) => ({
       ...topLevel,
-      payload: (data as unknown) as ReturnType<
-        ResponseFactory<Kind>
-      >['payload'],
+      payload: data as unknown as ReturnType<ResponseFactory<Kind>>['payload'],
     })) as ResponseFactory<Kind>
   }
 }
@@ -142,9 +138,8 @@ export function makeResponseFactories<ResponseKinds extends keyof Responses>(
 ): HandlerResponseFactories<ResponseKinds> {
   const factories = {} as ReturnType<typeof makeResponseFactories>
   for (const kind of responseKinds) {
-    ;(factories[kind] as ResponseFactory<typeof kind>) = makeResponseFactory(
-      kind
-    )
+    ;(factories[kind] as ResponseFactory<typeof kind>) =
+      makeResponseFactory(kind)
   }
   return factories
 }
@@ -162,9 +157,8 @@ export type HandlerArgs<Route extends ApiRoute> = HandlerBaseArgs<Route> &
     : unknown)
 
 // Type for handler args object with all possible properties
-type InternalFullHandlerArgs<
-  Route extends ApiRoute
-> = HandlerBaseArgs<Route> & { user?: User }
+type InternalFullHandlerArgs<Route extends ApiRoute> =
+  HandlerBaseArgs<Route> & { user?: User }
 
 export type HandlerType<Route extends ApiRoute> = (
   args: HandlerArgs<Route>

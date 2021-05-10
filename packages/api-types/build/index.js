@@ -143,22 +143,24 @@ const trim = (parts, ...args) => {
     style: prettierOpts,
   }
 
-  const makePrettierTag = parser => (code, ...args) => {
-    if (code instanceof Array) {
-      // Tagged template literal
-      let templated = ''
-      let i = 0
-      for (; i < code.length - 1; i++) {
-        templated += code[i] + args[i]
+  const makePrettierTag =
+    parser =>
+    (code, ...args) => {
+      if (code instanceof Array) {
+        // Tagged template literal
+        let templated = ''
+        let i = 0
+        for (; i < code.length - 1; i++) {
+          templated += code[i] + args[i]
+        }
+        templated += code[i]
+        code = templated
       }
-      templated += code[i]
-      code = templated
+      return prettier.format(code, {
+        ...prettierOpts,
+        parser,
+      })
     }
-    return prettier.format(code, {
-      ...prettierOpts,
-      parser,
-    })
-  }
 
   const ts = makePrettierTag('typescript')
   const js = makePrettierTag('babel')
@@ -354,9 +356,8 @@ const trim = (parts, ...args) => {
 
   const permsConfig = await findAndLoadSingleYaml('perms')
 
-  permsSchema.additionalProperties.oneOf[1].items.enum = Object.keys(
-    permsConfig
-  ).sort()
+  permsSchema.additionalProperties.oneOf[1].items.enum =
+    Object.keys(permsConfig).sort()
   const permsValidator = ajv.compile(permsSchema)
   if (!permsValidator(permsConfig)) {
     console.error('perms not valid:')
@@ -434,8 +435,10 @@ const trim = (parts, ...args) => {
   const _routeSchemaForTypeCompilation = JSON.parse(
     JSON.stringify(disallowAdditonalProperties(routeSchema))
   )
-  _routeSchemaForTypeCompilation.properties.responses.tsType = _routeTypeResponseSymbol
-  _routeSchemaForTypeCompilation.properties.requireAuth.tsType = _routeTypeRequireAuthSymbol
+  _routeSchemaForTypeCompilation.properties.responses.tsType =
+    _routeTypeResponseSymbol
+  _routeSchemaForTypeCompilation.properties.requireAuth.tsType =
+    _routeTypeRequireAuthSymbol
   const _routeSchemaResponseKindsEnum = 'keyof Responses'
   const routeType = ts(
     (
@@ -625,9 +628,9 @@ const trim = (parts, ...args) => {
     return entry
   }
 
-  const routes = (
-    await Promise.all(routeFiles.map(loadRouteFromFile))
-  ).sort((a, b) => a.ident.localeCompare(b.ident))
+  const routes = (await Promise.all(routeFiles.map(loadRouteFromFile))).sort(
+    (a, b) => a.ident.localeCompare(b.ident)
+  )
 
   // OUTPUT
 

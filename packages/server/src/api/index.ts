@@ -1,4 +1,4 @@
-import { RouteOptions, FastifyInstance } from 'fastify'
+import { FastifyInstance } from 'fastify'
 import {
   makeResponseFactories,
   processResponseFactoryReturn,
@@ -7,6 +7,12 @@ import {
 import { User } from '../database/users'
 import * as http from 'http'
 import { SetRequired } from 'type-fest'
+
+type HTTPFastifyInstance = FastifyInstance<
+  http.Server,
+  // fix the IncomingMessage type for http.Server
+  http.IncomingMessage & SetRequired<http.IncomingMessage, 'method' | 'url'>
+>
 
 /* eslint-disable @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 const routes = [
@@ -17,7 +23,7 @@ const routes = [
   ...require('./users').default,
   ...require('./auth').default,
   ...require('./admin').default,
-] as RouteOptions[]
+] as Parameters<HTTPFastifyInstance['route']>[0][]
 /* eslint-enable */
 
 // TODO: move to a util module
@@ -25,13 +31,7 @@ function widenConcat<A, B>(a: readonly A[], b: readonly B[]): (A | B)[] {
   return (a as readonly (A | B)[]).concat(b)
 }
 
-export default async (
-  fastify: FastifyInstance<
-    http.Server,
-    // fix the IncomingMessage type for http.Server
-    http.IncomingMessage & SetRequired<http.IncomingMessage, 'method' | 'url'>
-  >
-): Promise<void> => {
+export default async (fastify: HTTPFastifyInstance): Promise<void> => {
   const responseFactories = makeResponseFactories(
     widenConcat(implicitResponseKinds, ['badEndpoint'])
   )

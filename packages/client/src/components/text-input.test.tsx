@@ -1,19 +1,17 @@
 import '@testing-library/jest-dom/extend-expect'
 
-import { render, act, fireEvent } from '@testing-library/preact'
+import { render, act, fireEvent, screen } from '@testing-library/preact'
 
 import { createRef } from 'react'
 
 import TextInput from './text-input'
 
 test('attributes should propagate', () => {
-  const { queryByTestId } = render(
-    <TextInput data-testid='test-input' autoFocus />
-  )
+  render(<TextInput data-testid='test-input' autoFocus />)
 
-  expect(queryByTestId('test-input')).toBeVisible()
-  expect(queryByTestId('test-input')?.tagName).toBe('INPUT')
-  expect(queryByTestId('test-input')).toHaveAttribute('autofocus')
+  expect(screen.getByTestId('test-input')).toBeVisible()
+  expect(screen.getByTestId('test-input').tagName).toBe('INPUT')
+  expect(screen.getByTestId('test-input')).toHaveAttribute('autofocus')
 })
 
 test('forwards ref', () => {
@@ -30,35 +28,33 @@ test('forwards ref', () => {
 test('label should be visible', () => {
   const labelText = 'Label'
 
-  const { queryByText, queryByLabelText } = render(
-    <TextInput label={labelText} />
-  )
+  render(<TextInput label={labelText} />)
 
-  expect(queryByText(labelText)).toBeVisible()
-  expect(queryByLabelText(labelText)).toBeVisible()
+  expect(screen.getByText(labelText)).toBeVisible()
+  expect(screen.getByLabelText(labelText)).toBeVisible()
 })
 
 test('error text should be visible when showError', () => {
   const errorMessage = 'error message!'
 
-  const { queryByText } = render(<TextInput error={errorMessage} showError />)
+  render(<TextInput error={errorMessage} showError />)
 
-  expect(queryByText(errorMessage)).toBeVisible()
+  expect(screen.getByText(errorMessage)).toBeVisible()
 })
 
 test('error text should not be visible when not showError', () => {
   const errorMessage = 'error message!'
 
-  const { queryByText } = render(<TextInput error={errorMessage} />)
+  render(<TextInput error={errorMessage} />)
 
-  expect(queryByText(errorMessage)).not.toBeInTheDocument()
+  expect(screen.queryByText(errorMessage)).not.toBeInTheDocument()
 })
 
 test('native error message is visible', async () => {
   const errorMessage = 'error message!'
   const ref = createRef<HTMLInputElement>()
 
-  const { queryByText } = render(<TextInput ref={ref} showError />)
+  render(<TextInput ref={ref} showError />)
 
   await act(() => {
     expect(ref.current).not.toBeNull()
@@ -68,14 +64,14 @@ test('native error message is visible', async () => {
     fireEvent.input(ref.current)
   })
 
-  expect(queryByText(errorMessage)).toBeVisible()
+  expect(screen.getByText(errorMessage)).toBeVisible()
 })
 
 test('reacts to "invalid" event', async () => {
   const errorMessage = 'error message!'
   const ref = createRef<HTMLInputElement>()
 
-  const { queryByText } = render(<TextInput ref={ref} showError />)
+  render(<TextInput ref={ref} showError />)
 
   await act(() => {
     expect(ref.current).not.toBeNull()
@@ -85,7 +81,7 @@ test('reacts to "invalid" event', async () => {
     fireEvent.invalid(ref.current)
   })
 
-  expect(queryByText(errorMessage)).toBeVisible()
+  expect(screen.getByText(errorMessage)).toBeVisible()
 })
 
 test('custom error message has precedence', async () => {
@@ -93,9 +89,7 @@ test('custom error message has precedence', async () => {
   const validationMessage = 'validation message'
   const ref = createRef<HTMLInputElement>()
 
-  const { queryByText } = render(
-    <TextInput ref={ref} showError error={propErrorMessage} />
-  )
+  render(<TextInput ref={ref} showError error={propErrorMessage} />)
 
   await act(() => {
     expect(ref.current).not.toBeNull()
@@ -105,41 +99,36 @@ test('custom error message has precedence', async () => {
     fireEvent.input(ref.current)
   })
 
-  expect(queryByText(validationMessage)).not.toBeInTheDocument()
-  expect(queryByText(propErrorMessage)).toBeVisible()
+  expect(screen.queryByText(validationMessage)).not.toBeInTheDocument()
+  expect(screen.getByText(propErrorMessage)).toBeVisible()
 })
 
 test('updated error message is visible', async () => {
   const origErrorMessage = 'this is an error!'
   const newErrorMessage = 'oh noes!'
 
-  const { queryByText, rerender } = render(
-    <TextInput showError error={origErrorMessage} />
-  )
+  const { rerender } = render(<TextInput showError error={origErrorMessage} />)
 
-  expect(queryByText(origErrorMessage)).toBeVisible()
-  expect(queryByText(newErrorMessage)).not.toBeInTheDocument()
+  expect(screen.getByText(origErrorMessage)).toBeVisible()
+  expect(screen.queryByText(newErrorMessage)).not.toBeInTheDocument()
 
   rerender(<TextInput showError error={newErrorMessage} />)
 
-  expect(queryByText(origErrorMessage)).not.toBeInTheDocument()
-  expect(queryByText(newErrorMessage)).toBeVisible()
+  expect(screen.queryByText(origErrorMessage)).not.toBeInTheDocument()
+  expect(screen.getByText(newErrorMessage)).toBeVisible()
 })
 
 test('propagates onChange event', async () => {
   const testid = 'testid'
   const onChange = jest.fn()
 
-  const { queryByTestId } = render(
-    <TextInput data-testid={testid} onChange={onChange} />
-  )
+  render(<TextInput data-testid={testid} onChange={onChange} />)
 
   expect(onChange).not.toBeCalled()
 
-  const el = queryByTestId(testid)
+  const el = screen.getByTestId(testid)
 
   expect(el).toBeInTheDocument()
-  if (el === null) throw new Error()
 
   fireEvent.input(el)
 
@@ -149,9 +138,7 @@ test('propagates onChange event', async () => {
 test('does not crash with boolean error and showError', async () => {
   const testid = 'testid'
 
-  const { queryByTestId } = render(
-    <TextInput data-testid={testid} error showError />
-  )
+  render(<TextInput data-testid={testid} error showError />)
 
-  expect(queryByTestId(testid)).toBeVisible()
+  expect(screen.getByTestId(testid)).toBeVisible()
 })

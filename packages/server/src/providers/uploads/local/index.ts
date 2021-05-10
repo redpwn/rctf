@@ -19,7 +19,7 @@ export default class LocalProvider implements Provider {
       options.uploadDirectory ?? path.join(process.cwd(), 'uploads')
     )
 
-    void app.register(fastifyStatic, ({
+    void app.register(fastifyStatic, {
       root: this.uploadDirectory,
       prefix: '/uploads/',
       decorateReply: false,
@@ -32,7 +32,7 @@ export default class LocalProvider implements Provider {
       // fastify-static types are incorrect
       // https://github.com/fastify/fastify-static/blob/master/index.d.ts#L48
       // https://github.com/pillarjs/send#dotfiles
-    } as unknown) as FastifyStaticOptions)
+    } as unknown as FastifyStaticOptions)
   }
 
   private getKey(hash: string, name: string): string {

@@ -50,7 +50,9 @@ if (emailConfig) {
       update: `Update your ${config.ctfName} email`,
     }[kind]
 
-    await (await provider).send({
+    await (
+      await provider
+    ).send({
       from: `${config.ctfName} <${emailConfig.from}>`,
       to: email,
       subject,

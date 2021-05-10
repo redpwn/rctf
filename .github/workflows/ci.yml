@@ -40,9 +40,21 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      # https://github.com/actions/cache/blob/v2.1.5/examples.md#node---yarn-2
+      - uses: actions/cache@v2
+        with:
+          path: .yarn/cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Check yarn lockfile
+        run: |
+          yarn dedupe -c
+
       - name: Install dependencies
         run: |
-          yarn install --frozen-lockfile
+          yarn install --immutable
 
       - name: Run codegen
         run: |
@@ -90,9 +102,17 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      # https://github.com/actions/cache/blob/v2.1.5/examples.md#node---yarn-2
+      - uses: actions/cache@v2
+        with:
+          path: .yarn/cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
       - name: Install dependencies
         run: |
-          yarn install --frozen-lockfile
+          yarn install --immutable
 
       - name: Build
         run: |
@@ -124,6 +144,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      # https://github.com/actions/cache/blob/v2.1.5/examples.md#node---yarn-2
+      - uses: actions/cache@v2
+        with:
+          path: .yarn/cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: Build
         uses: docker://docker/github-actions:v1

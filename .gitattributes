@@ -1,0 +1,3 @@
+.yarn/releases/** -diff -merge
+.yarn/plugins/** -diff -merge
+yarn.lock -diff
