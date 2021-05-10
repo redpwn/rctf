@@ -13,13 +13,14 @@ const app = fastify({
   logger: {
     level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
     serializers: {
-      // From https://github.com/fastify/fastify/blob/v3.0.2/lib/logger.js#L49
+      // From https://github.com/fastify/fastify/blob/v3.15.1/lib/logger.js#L49
       req: req => ({
         method: req.method,
         url: req.url,
+        version: req.headers['accept-version'],
         hostname: req.hostname,
         remoteAddress: getRealIp(req),
-        remotePort: req.connection.remotePort,
+        remotePort: req.socket.remotePort,
         userAgent: req.headers['user-agent'],
       }),
     },
