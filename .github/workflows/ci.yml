@@ -40,9 +40,13 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      - name: Check yarn lockfile
+        run: |
+          yarn dedupe -c
+
       - name: Install dependencies
         run: |
-          yarn install --frozen-lockfile
+          yarn install --immutable
 
       - name: Run codegen
         run: |
@@ -92,7 +96,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn install --frozen-lockfile
+          yarn install --immutable
 
       - name: Build
         run: |

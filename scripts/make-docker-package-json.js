@@ -14,7 +14,7 @@ const packages = fs
 const packageToTarball = package => {
   /** @type string */
   const name = package.name
-  const transformedName = name.replace('/', '-').replace('@', '')
+  const transformedName = name.replace('/', '-')
   const filename = `${transformedName}-v${package.version}.tgz`
   const fullpath = path.resolve(tarballPath, filename)
   if (!fs.existsSync(fullpath)) {

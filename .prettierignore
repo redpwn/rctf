@@ -1,5 +1,7 @@
 # Ignore yarn 2 stuff
 .yarn/
+# yarnrc is managed and reformatted by yarn
+.yarnrc.yml
 
 # Ignore build folders
 dist

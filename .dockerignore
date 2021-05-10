@@ -1,3 +1,6 @@
+# yarn 2 files are not ignored so that builds can take advantage of the host's
+# cache (since the cache is a pure function of the lockfile)
+
 **/npm-debug.log*
 **/yarn-debug.log*
 **/yarn-error.log*
@@ -6,7 +9,7 @@
 **/node_modules
 
 # Packed packages
-/packages/*/rctf-*.tgz
+/packages/*/package.tgz
 
 **/dist
 /.env

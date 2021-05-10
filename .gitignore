@@ -16,7 +16,7 @@ lerna-debug.log*
 node_modules
 
 # Packed packages
-/packages/*/rctf-*.tgz
+/packages/*/package.tgz
 
 dist
 /.env

@@ -18,4 +18,5 @@ module.exports = {
       .filter(packageDir => tsPackages.includes(packageDir))
       .map(packageDir => `tsc -b ${packageDir}`),
   '*.({j,t}s?(x)|md?(x)|json|y?(a)ml)': 'prettier --write',
+  'yarn.lock': () => 'yarn dedupe',
 }
