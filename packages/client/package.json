@@ -12,8 +12,8 @@
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc -b",
-    "build": "cross-env NODE_ENV=production webpack build",
-    "dev": "cross-env NODE_ENV=development webpack serve",
+    "build": "NODE_ENV=production webpack build",
+    "dev": "NODE_ENV=development webpack serve",
     "storybook": "start-storybook",
     "test": "jest",
     "prepack": "yarn build"
@@ -44,7 +44,6 @@
     "babel-loader": "8.2.2",
     "babel-plugin-const-enum": "1.0.1",
     "copy-webpack-plugin": "8.1.1",
-    "cross-env": "7.0.3",
     "deepmerge": "4.2.2",
     "eslint": "7.26.0",
     "eslint-webpack-plugin": "2.5.4",

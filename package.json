@@ -28,7 +28,6 @@
     "@typescript-eslint/parser": "4.22.1",
     "babel-plugin-const-enum": "1.0.1",
     "concurrently": "6.1.0",
-    "cross-env": "7.0.3",
     "eslint": "7.26.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-config-standard": "16.0.2",
