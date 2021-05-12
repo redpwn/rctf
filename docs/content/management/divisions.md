@@ -39,7 +39,7 @@ divisionACLs:
     value: external-user@example.org
     divisions:
       - corp
-  - match: all
+  - match: any
     value: ''
     divisions:
       - open
