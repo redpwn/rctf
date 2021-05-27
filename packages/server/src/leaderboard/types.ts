@@ -13,7 +13,8 @@ export interface WorkerRequest {
 
 export type InternalUserInfo = Pick<User, 'id' | 'name' | 'division'> & {
   score: number
-  lastSolve: number
+  lastSolve: number | undefined
+  lastTiebreakEligibleSolve: number | undefined
   solvedChallengeIds: Challenge['id'][]
 }
 

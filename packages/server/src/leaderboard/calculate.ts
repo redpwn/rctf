@@ -35,7 +35,8 @@ export default ({
       name: user.name,
       division: user.division,
       score: 0,
-      lastSolve: 0,
+      lastSolve: undefined,
+      lastTiebreakEligibleSolve: undefined,
       solvedChallengeIds: [],
     })
   }
@@ -84,8 +85,9 @@ export default ({
 
       challengeInfo.solves++
 
+      userInfo.lastSolve = createdAt
       if (challengeInfo.tiebreakEligible) {
-        userInfo.lastSolve = createdAt
+        userInfo.lastTiebreakEligibleSolve = createdAt
       }
 
       userInfo.solvedChallengeIds.push(challId)
@@ -124,12 +126,22 @@ export default ({
 
   const userCompare = (a: InternalUserInfo, b: InternalUserInfo) => {
     // sort the users by score
-    // if two user's scores are the same, sort by last solve time
+    // if two user's scores are the same, sort by last tiebreakEligible solve time
+    // if neither user has any tiebreakEligible solves, sort by last solve time
     const scoreCompare = b.score - a.score
     if (scoreCompare !== 0) {
       return scoreCompare
     }
-    return a.lastSolve - b.lastSolve
+    if (
+      a.lastTiebreakEligibleSolve !== undefined ||
+      b.lastTiebreakEligibleSolve !== undefined
+    ) {
+      return (
+        (a.lastTiebreakEligibleSolve ?? Infinity) -
+        (b.lastTiebreakEligibleSolve ?? Infinity)
+      )
+    }
+    return (a.lastSolve ?? Infinity) - (b.lastSolve ?? Infinity)
   }
 
   const leaderboardUpdate = Math.min(Date.now(), config.endTime)
@@ -157,7 +169,7 @@ export default ({
 
   calcScores(leaderboardUpdate)
   const leaderboard = Array.from(userInfos.values())
-    .filter(userInfo => userInfo.lastSolve !== 0)
+    .filter(userInfo => userInfo.lastSolve !== undefined)
     .sort(userCompare)
 
   return {
