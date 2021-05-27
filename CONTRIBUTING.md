@@ -2,7 +2,7 @@
 
 ## Workflow
 
-Development primarily occurs with `yarn`. While there are docker containers available, these are meant for production environments.
+Development primarily occurs with `yarn`. While there are docker containers available, these are meant for production environments. rCTF uses Yarn Berry and workspaces in a monorepo.
 
 You should first clone the repository and run:
 
@@ -16,6 +16,12 @@ Next, run a build of everything to ensure that generated files are where all com
 yarn build
 ```
 
+### Database setup
+
+<!-- TODO -->
+
+### Development servers
+
 Most development work happens on either the frontend (`@rctf/client`) or the backend (`@rctf/server`).
 
 To bring up the full stack in development mode, run:
@@ -24,13 +30,17 @@ To bring up the full stack in development mode, run:
 yarn dev
 ```
 
-These will automatically watch the filesystem for changes, and restart when needed.
+This will automatically watch the filesystem for changes, and restart when needed.
 
 **Note that this will start two servers**. The API listens on `http://localhost:3000` by default while the frontend is served on `http://localhost:8080`.
 
-There are also two development settings you have to change to develop the frontend.
+This full development stack is usually only needed for working on the frontend (in which case you would use `http://localhost:8080` only). For working on the backend server, it is sufficient to start only the backend in development mode via `yarn workspace @rctf/server dev` (or just `yarn dev` if your CWD is inside the server package).
 
-Before committing your changes, you should run `yarn lint --fix` to fix any lint errors and run `yarn test` to ensure there are no regressions.
+rCTF also uses [Storybook](https://storybook.js.org/) for developing frontend UI components; start storybook via `yarn workspace @rctf/client storybook` (or just `yarn storybook` from within the client package). Running / developing the full frontend requires the backend server to be running, but working within Storybook does not.
+
+### Lint
+
+Pre-commit hooks are set up to catch most lint issues, but you can (and probably should) still run the checks manually: run `yarn lint --fix` to fix any lint errors, `yarn test` to ensure there are no regressions, and `yarn typecheck`. Editor integrations for TypeScript, ESLint, and Prettier are recommended.
 
 ## Commits
 
@@ -39,13 +49,13 @@ Finally when it's all done, you can commit with `git commit`. Our commit message
 ```
 <type>(<scope>): <short summary>
   │       │             │
-  │       │             └─⫸ Summary in present tense. Not capitalized. No period at the end.
+  │       │             └─▶ Summary in present tense. Not capitalized. No period at the end.
   │       │
-  │       └─⫸ (Optional) Commit Scope: what area of the project the change affects - use the
+  │       └─▶ (Optional) Commit Scope: what area of the project the change affects - use the
   │                        package name (using its directory name under packages/, e.g.
   │                        'api-types'), 'deps', 'docs', or 'ci'.
   │
-  └─⫸ Commit Type: feat|fix|refactor|docs|chore|build|test|ci|style|perf
+  └─▶ Commit Type: feat|fix|refactor|docs|chore|build|test|ci|style|perf
 ```
 
 ## Branches
