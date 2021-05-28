@@ -4,6 +4,7 @@ import {
   useCallback,
   FunctionComponent,
   useContext,
+  useMemo,
 } from 'react'
 
 interface AuthContextValue {
@@ -16,7 +17,7 @@ const AuthContext = createContext<AuthContextValue>(
   null as unknown as AuthContextValue
 )
 
-const AuthProvider: FunctionComponent = ({ children }) => {
+export const AuthProvider: FunctionComponent = ({ children }) => {
   const [authToken, setAuthToken] = useState<string | null>(
     localStorage.token ?? null
   )
@@ -28,16 +29,17 @@ const AuthProvider: FunctionComponent = ({ children }) => {
     }
     setAuthToken(newAuthToken)
   }, [])
+  const contextValue = useMemo(
+    () => ({ authToken, setAuthToken: handleSetAuthToken }),
+    [authToken, handleSetAuthToken]
+  )
   return (
-    <AuthContext.Provider
-      value={{ authToken, setAuthToken: handleSetAuthToken }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   )
 }
 
-const useAuth = (): AuthContextValue => useContext(AuthContext)
+export const useAuth = (): AuthContextValue => useContext(AuthContext)
+export const useAuthToken = (): string | null => useAuth().authToken
+export const useIsLoggedIn = (): boolean => useAuthToken() !== null
 
-export { AuthProvider }
 export default useAuth
