@@ -44,7 +44,7 @@ const makeSchemaModifier = (modifier, inPlace) => {
   return doModify
 }
 
-const disallowAdditonalProperties = makeSchemaModifier(schema => {
+const disallowAdditionalProperties = makeSchemaModifier(schema => {
   schema = { ...schema }
   if (schema.type === 'object') {
     if (!('additionalProperties' in schema)) {
@@ -274,7 +274,7 @@ const trim = (parts, ...args) => {
     }
 
     if ('data' in responseObj) {
-      responseObj.data = disallowAdditonalProperties(responseObj.data)
+      responseObj.data = disallowAdditionalProperties(responseObj.data)
     }
 
     const responseTypeIdent = toPascalCase(responseKind)
@@ -433,7 +433,7 @@ const trim = (parts, ...args) => {
   const _routeTypeResponseSymbol = '$$RESPONSE_TYPE$$'
   const _routeTypeRequireAuthSymbol = '$$REQUIRE_AUTH$$'
   const _routeSchemaForTypeCompilation = JSON.parse(
-    JSON.stringify(disallowAdditonalProperties(routeSchema))
+    JSON.stringify(disallowAdditionalProperties(routeSchema))
   )
   _routeSchemaForTypeCompilation.properties.responses.tsType =
     _routeTypeResponseSymbol
@@ -569,7 +569,7 @@ const trim = (parts, ...args) => {
         tsDef +=
           '\n' +
           (await compile(
-            normalizeOneOf(disallowAdditonalProperties(routeObj.schema.body)),
+            normalizeOneOf(disallowAdditionalProperties(routeObj.schema.body)),
             routeTypeBodyType
           ))
       }
@@ -579,13 +579,13 @@ const trim = (parts, ...args) => {
           '\n' +
           (await compile(
             normalizeOneOf(
-              disallowAdditonalProperties(routeObj.schema.querystring)
+              disallowAdditionalProperties(routeObj.schema.querystring)
             ),
             routeTypeQSType
           ))
       }
       if (routeObj.schema.params) {
-        routeObj.schema.params = disallowAdditonalProperties(
+        routeObj.schema.params = disallowAdditionalProperties(
           routeObj.schema.params
         )
         routeTypeParamsType = routeTypeIdentPrefix + 'Params'
