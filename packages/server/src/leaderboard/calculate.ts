@@ -6,6 +6,13 @@ import {
   InternalUserInfo,
   InternalGraphEntry,
 } from './types'
+import { Challenge } from '../challenges/types'
+
+type IntermediateUserInfo = InternalUserInfo & {
+  lastSolve: number | undefined
+  lastTiebreakEligibleSolve: number | undefined
+  solvedChallengeIds: Challenge['id'][]
+}
 
 export default ({
   solves,
@@ -27,7 +34,7 @@ export default ({
       score: 0,
     })
   }
-  const userInfos = new Map<InternalUserInfo['id'], InternalUserInfo>()
+  const userInfos = new Map<IntermediateUserInfo['id'], IntermediateUserInfo>()
   for (let i = 0; i < users.length; i++) {
     const user = users[i]
     userInfos.set(user.id, {
@@ -35,7 +42,8 @@ export default ({
       name: user.name,
       division: user.division,
       score: 0,
-      lastSolve: 0,
+      lastSolve: undefined,
+      lastTiebreakEligibleSolve: undefined,
       solvedChallengeIds: [],
     })
   }
@@ -84,8 +92,9 @@ export default ({
 
       challengeInfo.solves++
 
+      userInfo.lastSolve = createdAt
       if (challengeInfo.tiebreakEligible) {
-        userInfo.lastSolve = createdAt
+        userInfo.lastTiebreakEligibleSolve = createdAt
       }
 
       userInfo.solvedChallengeIds.push(challId)
@@ -122,14 +131,26 @@ export default ({
     }
   }
 
-  const userCompare = (a: InternalUserInfo, b: InternalUserInfo) => {
+  const userCompare = (a: IntermediateUserInfo, b: IntermediateUserInfo) => {
     // sort the users by score
-    // if two user's scores are the same, sort by last solve time
+    // if two user's scores are the same, sort by last tiebreakEligible solve time
+    // if neither user has any tiebreakEligible solves, sort by last solve time
     const scoreCompare = b.score - a.score
     if (scoreCompare !== 0) {
       return scoreCompare
     }
-    return a.lastSolve - b.lastSolve
+    if (
+      a.lastTiebreakEligibleSolve !== undefined ||
+      b.lastTiebreakEligibleSolve !== undefined
+    ) {
+      return (
+        (a.lastTiebreakEligibleSolve ?? Infinity) -
+        (b.lastTiebreakEligibleSolve ?? Infinity)
+      )
+    }
+
+    if (a.lastSolve === undefined && b.lastSolve === undefined) return 0
+    return (a.lastSolve ?? Infinity) - (b.lastSolve ?? Infinity)
   }
 
   const leaderboardUpdate = Math.min(Date.now(), config.endTime)
@@ -155,10 +176,18 @@ export default ({
     })
   }
 
+  const cleanIntermediateInfo = ({
+    id,
+    name,
+    division,
+    score,
+  }: IntermediateUserInfo): InternalUserInfo => ({ id, name, division, score })
+
   calcScores(leaderboardUpdate)
   const leaderboard = Array.from(userInfos.values())
-    .filter(userInfo => userInfo.lastSolve !== 0)
+    .filter(userInfo => userInfo.lastSolve !== undefined)
     .sort(userCompare)
+    .map(cleanIntermediateInfo)
 
   return {
     leaderboard,

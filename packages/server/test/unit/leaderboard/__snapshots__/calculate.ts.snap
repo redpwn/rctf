@@ -9,6 +9,12 @@ Object {
       "solves": 1,
       "tiebreakEligible": true,
     },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 0,
+      "tiebreakEligible": false,
+    },
   },
   "graphLeaderboards": Array [
     Object {
@@ -94,12 +100,8 @@ Object {
     Object {
       "division": "div1",
       "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
-      "lastSolve": 14000,
       "name": "a",
       "score": 100,
-      "solvedChallengeIds": Array [
-        "3195c55f-377a-4c78-924e-820e48d7674d",
-      ],
     },
   ],
   "leaderboardUpdate": 15000,
@@ -115,6 +117,12 @@ Object {
       "solves": 2,
       "tiebreakEligible": true,
     },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 0,
+      "tiebreakEligible": false,
+    },
   },
   "graphLeaderboards": Array [
     Object {
@@ -265,22 +273,14 @@ Object {
     Object {
       "division": "div1",
       "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
-      "lastSolve": 14000,
       "name": "a",
       "score": 100,
-      "solvedChallengeIds": Array [
-        "3195c55f-377a-4c78-924e-820e48d7674d",
-      ],
     },
     Object {
       "division": "div2",
       "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
-      "lastSolve": 16000,
       "name": "b",
       "score": 100,
-      "solvedChallengeIds": Array [
-        "3195c55f-377a-4c78-924e-820e48d7674d",
-      ],
     },
   ],
   "leaderboardUpdate": 20000,
@@ -295,6 +295,12 @@ Object {
       "score": 100,
       "solves": 2,
       "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 0,
+      "tiebreakEligible": false,
     },
   },
   "graphLeaderboards": Array [
@@ -368,22 +374,14 @@ Object {
     Object {
       "division": "div1",
       "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
-      "lastSolve": 14000,
       "name": "a",
       "score": 100,
-      "solvedChallengeIds": Array [
-        "3195c55f-377a-4c78-924e-820e48d7674d",
-      ],
     },
     Object {
       "division": "div2",
       "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
-      "lastSolve": 16000,
       "name": "b",
       "score": 100,
-      "solvedChallengeIds": Array [
-        "3195c55f-377a-4c78-924e-820e48d7674d",
-      ],
     },
   ],
   "leaderboardUpdate": 20000,
@@ -398,6 +396,12 @@ Object {
       "score": 500,
       "solves": 0,
       "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 0,
+      "tiebreakEligible": false,
     },
   },
   "graphLeaderboards": Array [],
@@ -512,6 +516,12 @@ Object {
       "solves": 0,
       "tiebreakEligible": true,
     },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 0,
+      "tiebreakEligible": false,
+    },
   },
   "graphLeaderboards": Array [
     Object {
@@ -660,5 +670,1603 @@ Object {
   ],
   "leaderboard": Array [],
   "leaderboardUpdate": 20000,
+}
+`;
+
+exports[`E2E snapshots ranking tiebreakEligible false no tiebreak: Mid CTF no tie 1`] = `
+Object {
+  "challengeInfos": Map {
+    "3195c55f-377a-4c78-924e-820e48d7674d" => Object {
+      "id": "3195c55f-377a-4c78-924e-820e48d7674d",
+      "score": 100,
+      "solves": 1,
+      "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 0,
+      "tiebreakEligible": false,
+    },
+  },
+  "graphLeaderboards": Array [
+    Object {
+      "sample": 10000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 11000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 12000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 13000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 14000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 15000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+  ],
+  "leaderboard": Array [
+    Object {
+      "division": "div1",
+      "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+      "name": "a",
+      "score": 100,
+    },
+  ],
+  "leaderboardUpdate": 15000,
+}
+`;
+
+exports[`E2E snapshots ranking tiebreakEligible false no tiebreak: Mid CTF one tiebreak 1`] = `
+Object {
+  "challengeInfos": Map {
+    "3195c55f-377a-4c78-924e-820e48d7674d" => Object {
+      "id": "3195c55f-377a-4c78-924e-820e48d7674d",
+      "score": 100,
+      "solves": 2,
+      "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 1,
+      "tiebreakEligible": false,
+    },
+  },
+  "graphLeaderboards": Array [
+    Object {
+      "sample": 10000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 11000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 12000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 13000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 14000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 15000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 16000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 17000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 18000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 101,
+        },
+      ],
+    },
+    Object {
+      "sample": 19000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 101,
+        },
+      ],
+    },
+  ],
+  "leaderboard": Array [
+    Object {
+      "division": "div2",
+      "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+      "name": "b",
+      "score": 101,
+    },
+    Object {
+      "division": "div1",
+      "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+      "name": "a",
+      "score": 100,
+    },
+  ],
+  "leaderboardUpdate": 19000,
+}
+`;
+
+exports[`E2E snapshots ranking tiebreakEligible false no tiebreak: Mid CTF tie 1`] = `
+Object {
+  "challengeInfos": Map {
+    "3195c55f-377a-4c78-924e-820e48d7674d" => Object {
+      "id": "3195c55f-377a-4c78-924e-820e48d7674d",
+      "score": 100,
+      "solves": 2,
+      "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 0,
+      "tiebreakEligible": false,
+    },
+  },
+  "graphLeaderboards": Array [
+    Object {
+      "sample": 10000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 11000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 12000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 13000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 14000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 15000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 16000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 17000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+  ],
+  "leaderboard": Array [
+    Object {
+      "division": "div1",
+      "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+      "name": "a",
+      "score": 100,
+    },
+    Object {
+      "division": "div2",
+      "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+      "name": "b",
+      "score": 100,
+    },
+  ],
+  "leaderboardUpdate": 17000,
+}
+`;
+
+exports[`E2E snapshots ranking tiebreakEligible false no tiebreak: Post CTF backfill 1`] = `
+Object {
+  "challengeInfos": Map {
+    "3195c55f-377a-4c78-924e-820e48d7674d" => Object {
+      "id": "3195c55f-377a-4c78-924e-820e48d7674d",
+      "score": 100,
+      "solves": 2,
+      "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 2,
+      "tiebreakEligible": false,
+    },
+  },
+  "graphLeaderboards": Array [
+    Object {
+      "sample": 10000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 11000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 12000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 13000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 14000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 15000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 16000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 17000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 18000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 101,
+        },
+      ],
+    },
+    Object {
+      "sample": 19000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 101,
+        },
+      ],
+    },
+    Object {
+      "sample": 20000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 101,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 101,
+        },
+      ],
+    },
+  ],
+  "leaderboard": Array [
+    Object {
+      "division": "div1",
+      "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+      "name": "a",
+      "score": 101,
+    },
+    Object {
+      "division": "div2",
+      "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+      "name": "b",
+      "score": 101,
+    },
+  ],
+  "leaderboardUpdate": 20000,
+}
+`;
+
+exports[`E2E snapshots ranking tiebreakEligible false no tiebreak: Post CTF relative 1`] = `
+Object {
+  "challengeInfos": Map {
+    "3195c55f-377a-4c78-924e-820e48d7674d" => Object {
+      "id": "3195c55f-377a-4c78-924e-820e48d7674d",
+      "score": 100,
+      "solves": 2,
+      "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 2,
+      "tiebreakEligible": false,
+    },
+  },
+  "graphLeaderboards": Array [
+    Object {
+      "sample": 20000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 101,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 101,
+        },
+      ],
+    },
+  ],
+  "leaderboard": Array [
+    Object {
+      "division": "div1",
+      "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+      "name": "a",
+      "score": 101,
+    },
+    Object {
+      "division": "div2",
+      "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+      "name": "b",
+      "score": 101,
+    },
+  ],
+  "leaderboardUpdate": 20000,
+}
+`;
+
+exports[`E2E snapshots ranking tiebreakEligible false no tiebreak: Pre CTF 1`] = `
+Object {
+  "challengeInfos": Map {
+    "3195c55f-377a-4c78-924e-820e48d7674d" => Object {
+      "id": "3195c55f-377a-4c78-924e-820e48d7674d",
+      "score": 500,
+      "solves": 0,
+      "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 0,
+      "tiebreakEligible": false,
+    },
+  },
+  "graphLeaderboards": Array [],
+  "leaderboard": Array [],
+  "leaderboardUpdate": 5000,
+}
+`;
+
+exports[`E2E snapshots ranking tiebreakEligible false only team: Mid CTF 1`] = `
+Object {
+  "challengeInfos": Map {
+    "3195c55f-377a-4c78-924e-820e48d7674d" => Object {
+      "id": "3195c55f-377a-4c78-924e-820e48d7674d",
+      "score": 500,
+      "solves": 0,
+      "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 100,
+      "solves": 1,
+      "tiebreakEligible": false,
+    },
+  },
+  "graphLeaderboards": Array [
+    Object {
+      "sample": 10000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 11000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 12000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 13000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 14000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 15000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+  ],
+  "leaderboard": Array [
+    Object {
+      "division": "div2",
+      "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+      "name": "b",
+      "score": 100,
+    },
+  ],
+  "leaderboardUpdate": 15000,
+}
+`;
+
+exports[`E2E snapshots ranking tiebreakEligible false only team: Post CTF backfill 1`] = `
+Object {
+  "challengeInfos": Map {
+    "3195c55f-377a-4c78-924e-820e48d7674d" => Object {
+      "id": "3195c55f-377a-4c78-924e-820e48d7674d",
+      "score": 100,
+      "solves": 1,
+      "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 100,
+      "solves": 1,
+      "tiebreakEligible": false,
+    },
+  },
+  "graphLeaderboards": Array [
+    Object {
+      "sample": 10000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 11000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 12000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 13000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 14000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 15000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 16000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 17000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 18000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 19000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 20000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+  ],
+  "leaderboard": Array [
+    Object {
+      "division": "div1",
+      "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+      "name": "a",
+      "score": 100,
+    },
+    Object {
+      "division": "div2",
+      "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+      "name": "b",
+      "score": 100,
+    },
+  ],
+  "leaderboardUpdate": 20000,
+}
+`;
+
+exports[`E2E snapshots ranking tiebreakEligible false only team: Post CTF relative 1`] = `
+Object {
+  "challengeInfos": Map {
+    "3195c55f-377a-4c78-924e-820e48d7674d" => Object {
+      "id": "3195c55f-377a-4c78-924e-820e48d7674d",
+      "score": 100,
+      "solves": 1,
+      "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 100,
+      "solves": 1,
+      "tiebreakEligible": false,
+    },
+  },
+  "graphLeaderboards": Array [
+    Object {
+      "sample": 16000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 17000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 18000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 19000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+    Object {
+      "sample": 20000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 100,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 100,
+        },
+      ],
+    },
+  ],
+  "leaderboard": Array [
+    Object {
+      "division": "div1",
+      "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+      "name": "a",
+      "score": 100,
+    },
+    Object {
+      "division": "div2",
+      "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+      "name": "b",
+      "score": 100,
+    },
+  ],
+  "leaderboardUpdate": 20000,
+}
+`;
+
+exports[`E2E snapshots ranking tiebreakEligible false only team: Pre CTF 1`] = `
+Object {
+  "challengeInfos": Map {
+    "3195c55f-377a-4c78-924e-820e48d7674d" => Object {
+      "id": "3195c55f-377a-4c78-924e-820e48d7674d",
+      "score": 500,
+      "solves": 0,
+      "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 500,
+      "solves": 0,
+      "tiebreakEligible": false,
+    },
+  },
+  "graphLeaderboards": Array [],
+  "leaderboard": Array [],
+  "leaderboardUpdate": 5000,
+}
+`;
+
+exports[`E2E snapshots ranking tiebreakEligible false with tiebreak: Mid CTF no tie 1`] = `
+Object {
+  "challengeInfos": Map {
+    "3195c55f-377a-4c78-924e-820e48d7674d" => Object {
+      "id": "3195c55f-377a-4c78-924e-820e48d7674d",
+      "score": 500,
+      "solves": 0,
+      "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 1,
+      "tiebreakEligible": false,
+    },
+  },
+  "graphLeaderboards": Array [
+    Object {
+      "sample": 10000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 11000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 12000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 13000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 14000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 15000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+  ],
+  "leaderboard": Array [
+    Object {
+      "division": "div1",
+      "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+      "name": "a",
+      "score": 1,
+    },
+  ],
+  "leaderboardUpdate": 15000,
+}
+`;
+
+exports[`E2E snapshots ranking tiebreakEligible false with tiebreak: Mid CTF tie 1`] = `
+Object {
+  "challengeInfos": Map {
+    "3195c55f-377a-4c78-924e-820e48d7674d" => Object {
+      "id": "3195c55f-377a-4c78-924e-820e48d7674d",
+      "score": 500,
+      "solves": 0,
+      "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 2,
+      "tiebreakEligible": false,
+    },
+  },
+  "graphLeaderboards": Array [
+    Object {
+      "sample": 10000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 11000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 12000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 13000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 14000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 15000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 16000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 1,
+        },
+      ],
+    },
+    Object {
+      "sample": 17000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 1,
+        },
+      ],
+    },
+  ],
+  "leaderboard": Array [
+    Object {
+      "division": "div1",
+      "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+      "name": "a",
+      "score": 1,
+    },
+    Object {
+      "division": "div2",
+      "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+      "name": "b",
+      "score": 1,
+    },
+  ],
+  "leaderboardUpdate": 17000,
+}
+`;
+
+exports[`E2E snapshots ranking tiebreakEligible false with tiebreak: Post CTF backfill 1`] = `
+Object {
+  "challengeInfos": Map {
+    "3195c55f-377a-4c78-924e-820e48d7674d" => Object {
+      "id": "3195c55f-377a-4c78-924e-820e48d7674d",
+      "score": 213,
+      "solves": 1,
+      "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 2,
+      "tiebreakEligible": false,
+    },
+  },
+  "graphLeaderboards": Array [
+    Object {
+      "sample": 10000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 11000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 12000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 13000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 0,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 14000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 15000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 0,
+        },
+      ],
+    },
+    Object {
+      "sample": 16000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 1,
+        },
+      ],
+    },
+    Object {
+      "sample": 17000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 1,
+        },
+      ],
+    },
+    Object {
+      "sample": 18000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 214,
+        },
+      ],
+    },
+    Object {
+      "sample": 19000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 214,
+        },
+      ],
+    },
+    Object {
+      "sample": 20000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 214,
+        },
+      ],
+    },
+  ],
+  "leaderboard": Array [
+    Object {
+      "division": "div2",
+      "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+      "name": "b",
+      "score": 214,
+    },
+    Object {
+      "division": "div1",
+      "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+      "name": "a",
+      "score": 1,
+    },
+  ],
+  "leaderboardUpdate": 20000,
+}
+`;
+
+exports[`E2E snapshots ranking tiebreakEligible false with tiebreak: Post CTF relative 1`] = `
+Object {
+  "challengeInfos": Map {
+    "3195c55f-377a-4c78-924e-820e48d7674d" => Object {
+      "id": "3195c55f-377a-4c78-924e-820e48d7674d",
+      "score": 213,
+      "solves": 1,
+      "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 2,
+      "tiebreakEligible": false,
+    },
+  },
+  "graphLeaderboards": Array [
+    Object {
+      "sample": 18000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 214,
+        },
+      ],
+    },
+    Object {
+      "sample": 19000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 214,
+        },
+      ],
+    },
+    Object {
+      "sample": 20000,
+      "userInfos": Array [
+        Object {
+          "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+          "score": 1,
+        },
+        Object {
+          "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+          "score": 214,
+        },
+      ],
+    },
+  ],
+  "leaderboard": Array [
+    Object {
+      "division": "div2",
+      "id": "86583c14-a264-4bc1-8a0d-94f462e0f7d3",
+      "name": "b",
+      "score": 214,
+    },
+    Object {
+      "division": "div1",
+      "id": "225cd1ef-9ad3-4039-97eb-81a113189b9c",
+      "name": "a",
+      "score": 1,
+    },
+  ],
+  "leaderboardUpdate": 20000,
+}
+`;
+
+exports[`E2E snapshots ranking tiebreakEligible false with tiebreak: Pre CTF 1`] = `
+Object {
+  "challengeInfos": Map {
+    "3195c55f-377a-4c78-924e-820e48d7674d" => Object {
+      "id": "3195c55f-377a-4c78-924e-820e48d7674d",
+      "score": 500,
+      "solves": 0,
+      "tiebreakEligible": true,
+    },
+    "134785d3-08e7-48c5-99c0-18b966172636" => Object {
+      "id": "134785d3-08e7-48c5-99c0-18b966172636",
+      "score": 1,
+      "solves": 0,
+      "tiebreakEligible": false,
+    },
+  },
+  "graphLeaderboards": Array [],
+  "leaderboard": Array [],
+  "leaderboardUpdate": 5000,
 }
 `;
