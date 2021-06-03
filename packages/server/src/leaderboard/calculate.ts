@@ -148,6 +148,8 @@ export default ({
         (b.lastTiebreakEligibleSolve ?? Infinity)
       )
     }
+
+    if (a.lastSolve === undefined && b.lastSolve === undefined) return 0
     return (a.lastSolve ?? Infinity) - (b.lastSolve ?? Infinity)
   }
 
