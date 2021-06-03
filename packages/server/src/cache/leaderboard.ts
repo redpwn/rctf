@@ -84,19 +84,17 @@ export type scriptGetRange = (
 
 export type GetRangeRequest = { division?: string } & MergeExclusive<
   { start: number; end: number },
-  { all: boolean }
+  { all: true }
 >
 export interface GetRangeResponse {
   total: number
   leaderboard: UserInfo[]
 }
 export const getRange = async ({
-  start,
-  end,
   division,
-  all,
+  ...range
 }: GetRangeRequest): Promise<GetRangeResponse> => {
-  if (!all && start === end) {
+  if (!range.all && range.start === range.end) {
     // zero-length query - get total only
     return {
       total: (await client.llen(getLeaderboardKey(division))) / 3,
@@ -105,8 +103,8 @@ export const getRange = async ({
   }
   const redisResult = await client.rctfGetRange(
     getLeaderboardKey(division),
-    all ? 0 : (start as number) * 3,
-    all ? -1 : (end as number) * 3 - 1
+    range.all ? 0 : range.start * 3,
+    range.all ? -1 : range.end * 3 - 1
   )
   const result = []
   for (let i = 0; i < redisResult.length - 1; i += 3) {
