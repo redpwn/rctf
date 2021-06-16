@@ -34,7 +34,7 @@ This will automatically watch the filesystem for changes, and restart when neede
 
 **Note that this will start two servers**. The API listens on `http://localhost:3000` by default while the frontend is served on `http://localhost:8080`.
 
-This full development stack is usually only needed for working on the frontend (in which case you would use `http://localhost:8080` only). For working on the backend server, it is sufficient to start only the backend in development mode via `yarn workspace @rctf/server dev` (or just `yarn dev` if your CWD is inside the server package).
+This full development stack is usually only needed for working on the frontend (in which case you would connect to `http://localhost:8080` only). For working on the backend server, it is sufficient to start only the backend in development mode via `yarn workspace @rctf/server dev` (or just `yarn dev` if your CWD is inside the server package).
 
 rCTF also uses [Storybook](https://storybook.js.org/) for developing frontend UI components; start storybook via `yarn workspace @rctf/client storybook` (or just `yarn storybook` from within the client package). Running / developing the full frontend requires the backend server to be running, but working within Storybook does not.
 
