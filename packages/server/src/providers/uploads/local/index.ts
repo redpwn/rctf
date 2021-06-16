@@ -5,7 +5,7 @@ import fs from 'fs'
 import { ServerResponse } from 'http'
 import crypto from 'crypto'
 import { FastifyInstance } from 'fastify'
-import fastifyStatic, { FastifyStaticOptions } from 'fastify-static'
+import fastifyStatic from 'fastify-static'
 
 interface LocalProviderOptions {
   uploadDirectory?: string
@@ -29,10 +29,7 @@ export default class LocalProvider implements Provider {
         res.setHeader('cache-control', 'public, max-age=31557600, immutable')
         res.setHeader('content-disposition', 'atttachment')
       },
-      // fastify-static types are incorrect
-      // https://github.com/fastify/fastify-static/blob/master/index.d.ts#L48
-      // https://github.com/pillarjs/send#dotfiles
-    } as unknown as FastifyStaticOptions)
+    })
   }
 
   private getKey(hash: string, name: string): string {
