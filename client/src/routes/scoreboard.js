@@ -226,7 +226,7 @@ const Scoreboard = withStyles({
                 }
               </select>
             </div>
-            <div class='frame__subtitle'>Teams per page</div>
+            <div class='frame__subtitle'>Users per page</div>
             <div class='input-control'>
               <select required class='select' name='pagesize' value={pageSize} onChange={pageSizeChangeHandler}>
                 { PAGESIZE_OPTIONS.map(sz => <option value={sz}>{sz}</option>) }
@@ -235,7 +235,7 @@ const Scoreboard = withStyles({
             { loggedIn &&
               <div class='btn-container u-center'>
                 <button disabled={!isUserOnCurrentScoreboard} onClick={goToSelfPage}>
-                  Go to my team
+                  Go to my user
                 </button>
               </div>
             }
@@ -249,7 +249,7 @@ const Scoreboard = withStyles({
               <thead>
                 <tr>
                   <th style='width: 3.5em'>#</th>
-                  <th>Team</th>
+                  <th>User</th>
                   <th style='width: 5em'>Points</th>
                 </tr>
               </thead>

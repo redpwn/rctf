@@ -1,7 +1,7 @@
-import Form from '../components/form'
-import useRecaptcha from '../components/recaptcha'
+import Form from './form'
+import useRecaptcha from './recaptcha'
 import config from '../config'
-import withStyles from '../components/jss'
+import withStyles from './jss'
 import { register } from '../api/auth'
 import UserCircle from '../icons/user-circle.svg'
 import { useEffect, useState, useCallback } from 'preact/hooks'
@@ -20,12 +20,12 @@ export default withStyles({
   title: {
     textAlign: 'center'
   }
-}, ({ classes, ctftimeToken, ctftimeName }) => {
+}, ({ classes, ionToken, ionName }) => {
   const [disabledButton, setDisabledButton] = useState(false)
   const division = config.defaultDivision || Object.keys(config.divisions)[0]
   const [showName, setShowName] = useState(false)
 
-  const [name, setName] = useState(ctftimeName)
+  const [name, setName] = useState(ionName)
   const handleNameChange = useCallback(e => setName(e.target.value), [])
 
   const [errors, setErrors] = useState({})
@@ -35,8 +35,8 @@ export default withStyles({
     setDisabledButton(true)
 
     const { errors } = await register({
-      ctftimeToken,
-      name: name || undefined,
+      ionToken,
+      name,
       division,
       recaptchaCode: await requestRecaptchaCode?.()
     })
@@ -50,7 +50,7 @@ export default withStyles({
     }
 
     setErrors(errors)
-  }, [ctftimeToken, name, division, requestRecaptchaCode])
+  }, [ionToken, name, division, requestRecaptchaCode])
 
   const handleSubmit = useCallback(e => {
     e.preventDefault()
@@ -58,7 +58,7 @@ export default withStyles({
     handleRegister()
   }, [handleRegister])
 
-  // Try login with CTFtime token only, if fails prompt for name
+  // Try login with token only, if fails prompt for name
   useEffect(handleRegister, [])
 
   return (
@@ -74,7 +74,7 @@ export default withStyles({
             name='name'
             maxLength='64'
             minLength='2'
-            placeholder='Team Name'
+            placeholder='User Name'
             type='text'
             value={name}
             onChange={handleNameChange}

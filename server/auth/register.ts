@@ -5,7 +5,7 @@ import { responses } from '../responses'
 import { ValueOf } from 'type-fest'
 
 export const register = async (
-  { division, email, name, ctftimeId }: Pick<User, 'division' | 'email' | 'name' | 'ctftimeId'>
+  { division, email, name, ionId, ionData }: Pick<User, 'division' | 'email' | 'name' | 'ionId' | 'ionData'>
 ): Promise<[typeof responses.goodRegister, { authToken: string }] | ValueOf<typeof responses>> => {
   const userUuid = uuidv4()
   try {
@@ -14,14 +14,15 @@ export const register = async (
       email,
       name,
       id: userUuid,
-      ctftimeId,
+      ionId,
+      ionData,
       perms: 0
     })
   } catch (e) {
     if (e instanceof Object) {
       const { constraint } = e as { constraint?: string }
-      if (constraint === 'users_ctftime_id_key') {
-        return responses.badKnownCtftimeId
+      if (constraint === 'users_ion_id_key') {
+        return responses.badKnownIonId
       }
       if (constraint === 'users_email_key') {
         return responses.badKnownEmail

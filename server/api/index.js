@@ -7,6 +7,7 @@ const routes = [
   ...require('./challs').default,
   ...require('./integrations/ctftime').default,
   ...require('./integrations/client').default,
+  ...require('./integrations/ion').default,
   ...require('./users').default,
   ...require('./auth').default,
   ...require('./admin').default

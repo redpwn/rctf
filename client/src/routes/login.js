@@ -1,5 +1,4 @@
 import { Fragment, Component } from 'preact'
-import { Link } from 'preact-router'
 import Form from '../components/form'
 import config from '../config'
 import 'linkstate/polyfill'
@@ -7,8 +6,8 @@ import withStyles from '../components/jss'
 
 import { login, setAuthToken } from '../api/auth'
 import IdCard from '../icons/id-card.svg'
-import CtftimeButton from '../components/ctftime-button'
-import CtftimeAdditional from '../components/ctftime-additional'
+import IonButton from '../components/ion-button'
+import IonAdditional from '../components/ion-additional'
 import AuthOr from '../components/or'
 import PendingToken from '../components/pending-token'
 
@@ -38,8 +37,8 @@ export default withStyles({
     teamToken: '',
     errors: {},
     disabledButton: false,
-    ctftimeToken: undefined,
-    ctftimeName: undefined,
+    ionToken: undefined,
+    ionName: undefined,
     pendingAuthToken: null,
     pendingUserName: null,
     pending: false
@@ -68,9 +67,9 @@ export default withStyles({
     })()
   }
 
-  render ({ classes }, { teamToken, errors, disabledButton, ctftimeToken, ctftimeName, pendingAuthToken, pending }) {
-    if (ctftimeToken) {
-      return <CtftimeAdditional ctftimeToken={ctftimeToken} ctftimeName={ctftimeName} />
+  render ({ classes }, { teamToken, errors, disabledButton, ionToken, ionName, pendingAuthToken, pending }) {
+    if (ionToken) {
+      return <IonAdditional ionToken={ionToken} ionName={ionName} />
     }
     if (pending) {
       return null
@@ -89,37 +88,34 @@ export default withStyles({
             autocorrect='off'
             name='teamToken'
             icon={<IdCard />}
-            placeholder='Team Token'
+            placeholder='User Token'
             type='text'
             value={teamToken}
             onChange={this.linkState('teamToken')}
           />
-          {config.emailEnabled && (
-            <Link href='/recover' class={classes.link}>Lost your team token?</Link>
-          )}
         </Form>
-        {config.ctftime && (
+        {config.ion && (
           <Fragment>
             <AuthOr />
-            <CtftimeButton class='col-12' onCtftimeDone={this.handleCtftimeDone} />
+            <IonButton class='col-12' onIonDone={this.handleIonDone} />
           </Fragment>
         )}
       </div>
     )
   }
 
-  handleCtftimeDone = async ({ ctftimeToken, ctftimeName }) => {
+  handleIonDone = async ({ ionToken, ionName }) => {
     this.setState({
       disabledButton: true
     })
-    const loginRes = await login({ ctftimeToken })
+    const loginRes = await login({ ionToken })
     if (loginRes.authToken) {
       setAuthToken({ authToken: loginRes.authToken })
     }
     if (loginRes && loginRes.badUnknownUser) {
       this.setState({
-        ctftimeToken,
-        ctftimeName
+        ionToken,
+        ionName
       })
     }
   }

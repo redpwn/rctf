@@ -1,23 +1,20 @@
 import { useState, useCallback, useEffect } from 'preact/hooks'
+import { Fragment } from 'preact'
 import { memo } from 'preact/compat'
 import config from '../config'
 import withStyles from '../components/jss'
 
-import { privateProfile, publicProfile, updateAccount, updateEmail, deleteEmail } from '../api/profile'
+import { privateProfile, publicProfile, updateAccount } from '../api/profile'
 import { useToast } from '../components/toast'
 import Form from '../components/form'
-import MembersCard from '../components/profile/members-card'
-import CtftimeCard from '../components/profile/ctftime-card'
 import { PublicSolvesCard, PrivateSolvesCard } from '../components/profile/solves-card'
 import TokenPreview from '../components/token-preview'
 import * as util from '../util'
 import Trophy from '../icons/trophy.svg'
 import AddressBook from '../icons/address-book.svg'
 import UserCircle from '../icons/user-circle.svg'
-import EnvelopeOpen from '../icons/envelope-open.svg'
 import Rank from '../icons/rank.svg'
-import Ctftime from '../icons/ctftime.svg'
-import useRecaptcha, { RecaptchaLegalNotice } from '../components/recaptcha'
+import Ion from '../icons/ion.svg'
 
 const SummaryCard = memo(withStyles({
   icon: {
@@ -51,19 +48,24 @@ const SummaryCard = memo(withStyles({
     paddingTop: '15px',
     paddingBottom: '5px'
   }
-}, ({ name, score, division, divisionPlace, globalPlace, ctftimeId, classes, isPrivate }) =>
+}, ({ name, score, division, divisionPlace, globalPlace, ionId, ionData, classes, isPrivate }) =>
   <div class='card'>
     <div class='content'>
       <div class={classes.wrapper}>
-        <h5
-          class={`title ${isPrivate ? classes.privateHeader : classes.publicHeader}`}
-          title={name}>
-          {name}
-        </h5>
+        <div>
+          <h5
+            class={`title ${isPrivate ? classes.privateHeader : classes.publicHeader}`}
+            title={name}>
+            {name}
+          </h5>
+          {ionData &&
+            <Fragment>{ionData.displayName} (Grade {ionData.grade})</Fragment>
+          }
+        </div>
         {
-          ctftimeId &&
-              <a href={`https://ctftime.org/team/${ctftimeId}`} target='_blank' rel='noopener noreferrer'>
-                <Ctftime style='height: 20px;' />
+          ionId &&
+              <a href={`https://ion.tjhsst.edu/profile/${ionId}`} target='_blank' rel='noopener noreferrer'>
+                <Ion style='height: 20px;' />
               </a>
         }
       </div>
@@ -91,7 +93,7 @@ const SummaryCard = memo(withStyles({
             <Rank />
           </span>
           {
-            score === 0 ? 'Unranked' : `${globalPlace} across all teams`
+            score === 0 ? 'Unranked' : `${globalPlace} across all users`
           }
         </p>
         <p>
@@ -124,7 +126,7 @@ const TeamCodeCard = withStyles({
     if (navigator.clipboard) {
       try {
         navigator.clipboard.writeText(tokenUrl).then(() => {
-          toast({ body: 'Copied team invite URL to clipboard' })
+          toast({ body: 'Copied login URL to clipboard' })
         })
       } catch {}
     }
@@ -133,8 +135,8 @@ const TeamCodeCard = withStyles({
   return (
     <div class='card'>
       <div class='content'>
-        <p>Team Invite</p>
-        <p class='font-thin'>Send this team invite URL to your teammates so they can login.</p>
+        <p>Login URL</p>
+        <p class='font-thin'>Save this login URL so you can login.</p>
 
         <button onClick={onCopyClick} class={`${classes.btn} btn-info u-center`} name='btn' value='submit' type='submit'>Copy</button>
 
@@ -164,15 +166,11 @@ const UpdateCard = withStyles({
   recaptchaLegalNotice: {
     marginTop: '20px'
   }
-}, ({ name: oldName, email: oldEmail, divisionId: oldDivision, allowedDivisions, onUpdate, classes }) => {
+}, ({ name: oldName, divisionId: oldDivision, allowedDivisions, onUpdate, classes }) => {
   const { toast } = useToast()
-  const requestRecaptchaCode = useRecaptcha('setEmail')
 
   const [name, setName] = useState(oldName)
   const handleSetName = useCallback((e) => setName(e.target.value), [])
-
-  const [email, setEmail] = useState(oldEmail)
-  const handleSetEmail = useCallback(e => setEmail(e.target.value), [])
 
   const [division, setDivision] = useState(oldDivision)
   const handleSetDivision = useCallback(e => setDivision(e.target.value), [])
@@ -207,43 +205,16 @@ const UpdateCard = withStyles({
       })
     }
 
-    if (email !== oldEmail) {
-      updated = true
-
-      let error, data
-      if (email === '') {
-        setIsButtonDisabled(true)
-        ;({ error, data } = await deleteEmail())
-      } else {
-        const recaptchaCode = await requestRecaptchaCode?.()
-        setIsButtonDisabled(true)
-        ;({ error, data } = await updateEmail({
-          email,
-          recaptchaCode
-        }))
-      }
-
-      setIsButtonDisabled(false)
-
-      if (error !== undefined) {
-        toast({ body: error, type: 'error' })
-        return
-      }
-
-      toast({ body: data })
-      onUpdate({ email })
-    }
-
     if (!updated) {
       toast({ body: 'Nothing to update!' })
     }
-  }, [name, email, division, oldName, oldEmail, oldDivision, onUpdate, toast, requestRecaptchaCode])
+  }, [name, division, oldName, oldDivision, onUpdate, toast])
 
   return (
     <div class='card'>
       <div class='content'>
         <p>Update Information</p>
-        <p class='font-thin u-no-margin'>This will change how your team appears on the scoreboard. You may only change your team's name once every 10 minutes.</p>
+        <p class='font-thin u-no-margin'>This will change how you appear on the scoreboard. You may only change your name once every 10 minutes.</p>
         <div class='row u-center'>
           <Form class={`col-12 ${classes.form}`} onSubmit={doUpdate} disabled={isButtonDisabled} buttonText='Update'>
             <input
@@ -259,16 +230,6 @@ const UpdateCard = withStyles({
               value={name}
               onChange={handleSetName}
             />
-            <input
-              autocomplete='email'
-              autocorrect='off'
-              icon={<EnvelopeOpen />}
-              name='email'
-              placeholder='Email'
-              type='email'
-              value={email}
-              onChange={handleSetEmail}
-            />
             <select icon={<AddressBook />} class={`select ${classes.divisionSelect}`} name='division' value={division} onChange={handleSetDivision}>
               <option value='' disabled>Division</option>
               {
@@ -278,11 +239,6 @@ const UpdateCard = withStyles({
               }
             </select>
           </Form>
-          {requestRecaptchaCode && (
-            <div class={classes.recaptchaLegalNotice}>
-              <RecaptchaLegalNotice />
-            </div>
-          )}
         </div>
       </div>
     </div>
@@ -297,12 +253,12 @@ const Profile = ({ uuid, classes }) => {
 
   const {
     name,
-    email,
     division: divisionId,
     score,
     solves,
     teamToken,
-    ctftimeId,
+    ionId,
+    ionData,
     allowedDivisions
   } = data
   const division = config.divisions[data.division]
@@ -336,13 +292,12 @@ const Profile = ({ uuid, classes }) => {
     }
   }, [uuid, isPrivate, toast])
 
-  const onProfileUpdate = useCallback(({ name, email, divisionId, ctftimeId }) => {
+  const onProfileUpdate = useCallback(({ name, divisionId, ionId }) => {
     setData(data => ({
       ...data,
       name: name === undefined ? data.name : name,
-      email: email === undefined ? data.email : email,
       division: divisionId === undefined ? data.division : divisionId,
-      ctftimeId: ctftimeId === undefined ? data.ctftimeId : ctftimeId
+      ionId: ionId === undefined ? data.ionId : ionId
     }))
   }, [])
 
@@ -370,17 +325,11 @@ const Profile = ({ uuid, classes }) => {
       {isPrivate && (
         <div class={classes.privateCol}>
           <TeamCodeCard {...{ teamToken }} />
-          <UpdateCard {...{ name, email, divisionId, allowedDivisions, onUpdate: onProfileUpdate }} />
-          {config.ctftime && (
-            <CtftimeCard {...{ ctftimeId, onUpdate: onProfileUpdate }} />
-          )}
+          <UpdateCard {...{ name, divisionId, allowedDivisions, onUpdate: onProfileUpdate }} />
         </div>
       )}
       <div class={classes.col}>
-        <SummaryCard {...{ name, score, division, divisionPlace, globalPlace, ctftimeId, isPrivate }} />
-        {isPrivate && config.userMembers && (
-          <MembersCard />
-        )}
+        <SummaryCard {...{ name, score, division, divisionPlace, globalPlace, ionId, ionData, isPrivate }} />
         {isPrivate ? (
           <PrivateSolvesCard solves={solves} />
         ) : (

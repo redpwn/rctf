@@ -3,26 +3,26 @@ import { responses } from '../../../responses'
 import * as auth from '../../../auth'
 import config from '../../../config/server'
 
-const tokenEndpoint = 'https://oauth.ctftime.org/token'
-const userEndpoint = 'https://oauth.ctftime.org/user'
+const tokenEndpoint = 'https://ion.tjhsst.edu/oauth/token'
+const userEndpoint = 'https://ion.tjhsst.edu/api/profile'
 
 export default {
   method: 'POST',
-  path: '/integrations/ctftime/callback',
+  path: '/integrations/ion/callback',
   requireAuth: false,
   schema: {
     body: {
       type: 'object',
       properties: {
-        ctftimeCode: {
+        ionCode: {
           type: 'string'
         }
       },
-      required: ['ctftimeCode']
+      required: ['ionCode']
     }
   },
   handler: async ({ req }) => {
-    if (!config.ctftime) {
+    if (!config.ion) {
       return responses.badEndpoint
     }
     let tokenBody
@@ -32,14 +32,15 @@ export default {
         method: 'POST',
         responseType: 'json',
         form: {
-          client_id: config.ctftime.clientId,
-          client_secret: config.ctftime.clientSecret,
-          code: req.body.ctftimeCode
+          client_id: config.ion.clientId,
+          client_secret: config.ion.clientSecret,
+          code: req.body.ionCode,
+          grant_type: 'authorization_code'
         }
       }))
     } catch (e) {
       if (e instanceof got.HTTPError && e.response.statusCode === 401) {
-        return responses.badCtftimeCode
+        return responses.badIonCode
       }
       throw e
     }
@@ -50,17 +51,22 @@ export default {
         authorization: `Bearer ${tokenBody.access_token}`
       }
     })
-    if (userBody.team === undefined) {
-      return responses.badCtftimeCode
+    if (userBody.id === undefined) {
+      return responses.badIonCode
     }
-    const token = await auth.token.getToken(auth.token.tokenKinds.ctftimeAuth, {
-      name: userBody.team.name,
-      ctftimeId: userBody.team.id
+    const token = await auth.token.getToken(auth.token.tokenKinds.ionAuth, {
+      name: userBody.ion_username,
+      email: userBody.tj_email,
+      ionId: userBody.id,
+      ionData: {
+        displayName: userBody.display_name,
+        grade: userBody.grade.number
+      }
     })
-    return [responses.goodCtftimeToken, {
-      ctftimeToken: token,
-      ctftimeName: userBody.team.name,
-      ctftimeId: userBody.team.id
+    return [responses.goodIonToken, {
+      ionToken: token,
+      ionName: userBody.ion_username,
+      ionId: userBody.id
     }]
   }
 }

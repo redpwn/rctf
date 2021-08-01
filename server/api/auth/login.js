@@ -13,25 +13,26 @@ export default {
         teamToken: {
           type: 'string'
         },
-        ctftimeToken: {
+        ionToken: {
           type: 'string'
         }
       },
       oneOf: [{
         required: ['teamToken']
       }, {
-        required: ['ctftimeToken']
+        required: ['ionToken']
       }]
     }
   },
   handler: async ({ req }) => {
     let user
-    if (req.body.ctftimeToken !== undefined) {
-      const ctftimeData = await auth.token.getData(auth.token.tokenKinds.ctftimeAuth, req.body.ctftimeToken)
-      if (ctftimeData === null) {
-        return responses.badCtftimeToken
+    if (req.body.ionToken !== undefined) {
+      const ionToken = await auth.token.getData(auth.token.tokenKinds.ionAuth, req.body.ionToken)
+      if (ionToken === null) {
+        return responses.badIonToken
       }
-      user = await database.users.getUserByCtftimeId({ ctftimeId: ctftimeData.ctftimeId })
+      const { ionId } = ionToken
+      user = await database.users.getUserByIonId({ ionId })
     } else {
       const uuid = await auth.token.getData(auth.token.tokenKinds.team, req.body.teamToken)
       if (uuid === null) {

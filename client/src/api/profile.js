@@ -47,19 +47,3 @@ export const updateAccount = async ({ name, division }) => {
 
   return handleResponse({ resp, valid: ['goodUserUpdate'] })
 }
-
-export const updateEmail = async ({ email, recaptchaCode }) => {
-  const resp = await request('PUT', '/users/me/auth/email', {
-    email,
-    recaptchaCode
-  })
-
-  return handleResponse({ resp, valid: ['goodVerifySent', 'goodEmailSet'], resolveDataMessage: true })
-}
-
-export const deleteEmail = async () => {
-  const resp = await request('DELETE', '/users/me/auth/email')
-
-  // If the email did not exist, still a "success" in that no more email
-  return handleResponse({ resp, valid: ['goodEmailRemoved', 'badEmailNoExists'], resolveDataMessage: true })
-}

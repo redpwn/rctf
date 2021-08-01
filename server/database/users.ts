@@ -9,8 +9,14 @@ export interface User {
   name: string;
   email?: string;
   division: keyof ServerConfig['divisions'];
-  ctftimeId?: string;
+  ionId: number;
+  ionData: IonData;
   perms: number;
+}
+
+export type IonData = {
+  displayName: string;
+  grade: number;
 }
 
 export const getAllUsers = (): Promise<Pick<User, 'id' | 'name' | 'division'>[]> => {
@@ -28,8 +34,8 @@ export const getUserByEmail = ({ email }: Pick<User, 'email'>): Promise<User | u
     .then(res => res.rows[0])
 }
 
-export const getUserByCtftimeId = ({ ctftimeId }: Pick<User, 'ctftimeId'>): Promise<User | undefined> => {
-  return db.query<User>('SELECT * FROM users WHERE ctftime_id = $1', [ctftimeId])
+export const getUserByIonId = ({ ionId }: Pick<User, 'ionId'>): Promise<User | undefined> => {
+  return db.query<User>('SELECT * FROM users WHERE ion_id = $1', [ionId])
     .then(res => res.rows[0])
 }
 
@@ -43,11 +49,6 @@ export const getUserByNameOrEmail = ({ name, email }: Pick<User, 'name' | 'email
     .then(res => res.rows[0])
 }
 
-export const getUserByNameOrCtftimeId = ({ name, ctftimeId }: Pick<User, 'name' | 'ctftimeId'>): Promise<User | undefined> => {
-  return db.query<User>('SELECT * FROM users WHERE name = $1 OR ctftime_id = $2', [name, ctftimeId])
-    .then(res => res.rows[0])
-}
-
 export const removeUserByEmail = ({ email }: Pick<User, 'email'>): Promise<User | undefined> => {
   return db.query<User>('DELETE FROM users WHERE email = $1 RETURNING *', [email])
     .then(res => res.rows[0])
@@ -58,28 +59,18 @@ export const removeUserById = ({ id }: Pick<User, 'id'>): Promise<User | undefin
     .then(res => res.rows[0])
 }
 
-export const makeUser = ({ id, name, email, division, ctftimeId, perms }: User): Promise<User> => {
+export const makeUser = ({ id, name, email, division, ionId, ionData, perms }: User): Promise<User> => {
   if (config.email && config.divisionACLs && !util.restrict.divisionAllowed(email, division)) {
     throw new DivisionACLError()
   }
-  return db.query<User>('INSERT INTO users (id, name, email, division, ctftime_id, perms) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-    [id, name, email, division, ctftimeId, perms]
+  return db.query<User>('INSERT INTO users (id, name, email, division, ion_id, ion_data, perms) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+    [id, name, email, division, ionId, ionData, perms]
   )
     .then(res => res.rows[0])
 }
 
-export const removeCtftimeId = ({ id }: Pick<User, 'id'>): Promise<User | undefined> => {
-  return db.query<User>('UPDATE users SET ctftime_id = NULL WHERE id = $1 AND ctftime_id IS NOT NULL RETURNING *', [id])
-    .then(res => res.rows[0])
-}
-
-export const removeEmail = ({ id }: Pick<User, 'id'>): Promise<User | undefined> => {
-  return db.query<User>('UPDATE users SET email = NULL WHERE id = $1 AND email IS NOT NULL RETURNING *', [id])
-    .then(res => res.rows[0])
-}
-
-export const updateUser = async ({ id, name, email, division, ctftimeId, perms }: Pick<User, 'id'> & Partial<User>): Promise<User | undefined> => {
-  if (config.email && config.divisionACLs) {
+export const updateUser = async ({ id, name, email, division, ionId, ionData, perms }: Pick<User, 'id'> & Partial<User>): Promise<User | undefined> => {
+  if (config.divisionACLs) {
     if (!email || !division) {
       const user = await getUserById({ id })
       if (user === undefined) {
@@ -98,11 +89,12 @@ export const updateUser = async ({ id, name, email, division, ctftimeId, perms }
         name = COALESCE($1, name),
         email = COALESCE($2, email),
         division = COALESCE($3, division),
-        ctftime_id = COALESCE($4, ctftime_id),
-        perms = COALESCE($5, perms)
-      WHERE id = $6 RETURNING *
+        ion_id = COALESCE($4, ion_id),
+        ion_data = COALESCE($5, ion_data),
+        perms = COALESCE($6, perms)
+      WHERE id = $7 RETURNING *
       `,
-  [name, email, division, ctftimeId, perms, id]
+  [name, email, division, ionId, ionData, perms, id]
   )
     .then(res => res.rows[0])
 }

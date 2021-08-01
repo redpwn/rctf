@@ -21,12 +21,13 @@ const getState = () => Array.from(crypto.getRandomValues(new Uint8Array(16)))
 export default () => {
   const state = getState()
   openPopup({
-    url: 'https://oauth.ctftime.org/authorize' +
-    `?scope=${encodeURIComponent('team:read')}` +
-    `&client_id=${encodeURIComponent(config.ctftime.clientId)}` +
-    `&redirect_uri=${encodeURIComponent(`${location.origin}/integrations/ctftime/callback`)}` +
-    `&state=${encodeURIComponent(state)}`,
-    title: 'CTFtime',
+    url: 'https://ion.tjhsst.edu/oauth/authorize' +
+    `?scope=${encodeURIComponent('read')}` +
+    `&client_id=${encodeURIComponent(config.ion.clientId)}` +
+    `&redirect_uri=${encodeURIComponent(`${location.origin}/integrations/ion/callback`)}` +
+    `&state=${encodeURIComponent(state)}` +
+    '&response_type=code',
+    title: 'Login with Ion',
     w: 600,
     h: 500
   })
