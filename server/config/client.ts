@@ -15,7 +15,7 @@ export type ClientConfig = Pick<ServerConfig,
   'faviconUrl'
 > & {
   emailEnabled: boolean;
-  ion?: Pick<NonNullable<ServerConfig['ion']>, 'clientId'>
+  ion: Pick<NonNullable<ServerConfig['ion']>, 'clientId'>
   recaptcha?: Pick<NonNullable<ServerConfig['recaptcha']>, 'siteKey' | 'protectedActions'>
 }
 

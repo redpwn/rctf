@@ -15,3 +15,7 @@ divisions:
   hs: High School
   college: College
   other: Other
+
+ion:
+  clientId: pepega
+  clientSecret: pepega
