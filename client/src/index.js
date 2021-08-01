@@ -38,7 +38,7 @@ function App ({ classes }) {
 
   const loggedOutPaths = [
     <Register key='register' path='/register' name='Register' />,
-    <Login key='login' path='/login' name='Login' />,
+    <Login key='login' path='/login' name='Login' />
   ]
 
   const loggedInPaths = [

@@ -1,3 +1,3 @@
 export default [
-  require('./callback').default,
+  require('./callback').default
 ]
