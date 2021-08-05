@@ -62,11 +62,10 @@ const SummaryCard = memo(withStyles({
             <Fragment>{ionData.displayName} (Grade {ionData.grade})</Fragment>
           }
         </div>
-        {
-          ionId &&
-              <a href={`https://ion.tjhsst.edu/profile/${ionId}`} target='_blank' rel='noopener noreferrer'>
-                <Ion style='height: 20px;' />
-              </a>
+        {ionId &&
+          <a href={`https://ion.tjhsst.edu/profile/${ionId}`} target='_blank' rel='noopener noreferrer'>
+            <Ion style='height: 20px;' />
+          </a>
         }
       </div>
       <div class='action-bar'>

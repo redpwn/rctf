@@ -39,6 +39,13 @@ export default withStyles({
     if (this.oauthState === null || evt.data.state !== this.oauthState) {
       return
     }
+    if (typeof evt.data.error !== 'undefined') {
+      this.props.toast({
+        body: (`Could not get Ion code: ${evt.data.error}`),
+        type: 'error'
+      })
+      return
+    }
     const { kind, message, data } = await ionCallback({
       ionCode: evt.data.ionCode
     })
