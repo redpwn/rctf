@@ -8,7 +8,7 @@ import Footer from './components/footer'
 
 import ErrorRoute from './routes/error'
 import Home from './routes/home'
-import Register from './routes/register'
+// import Register from './routes/register'
 import Login from './routes/login'
 import Profile from './routes/profile'
 import Challenges from './routes/challs'
@@ -37,7 +37,7 @@ function App ({ classes }) {
   const loggedOut = !localStorage.token
 
   const loggedOutPaths = [
-    <Register key='register' path='/register' name='Register' />,
+    // <Register key='register' path='/register' name='Register' />,
     <Login key='login' path='/login' name='Login' />
   ]
 
