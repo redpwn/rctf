@@ -46,7 +46,7 @@ export type ServerConfig = {
     trust: boolean | string | string[] | number
   }
 
-  ctftime?: {
+  ion: {
     clientId: string;
     clientSecret: string;
   }
@@ -138,9 +138,9 @@ const envConfig: PartialDeep<ServerConfig> = {
   instanceType: process.env.RCTF_INSTANCE_TYPE,
   tokenKey: process.env.RCTF_TOKEN_KEY,
   origin: process.env.RCTF_ORIGIN,
-  ctftime: {
-    clientId: process.env.RCTF_CTFTIME_CLIENT_ID,
-    clientSecret: process.env.RCTF_CTFTIME_CLIENT_SECRET
+  ion: {
+    clientId: process.env.RCTF_ION_CLIENT_ID,
+    clientSecret: process.env.RCTF_ION_CLIENT_SECRET
   },
   userMembers: nullsafeParseBoolEnv(process.env.RCTF_USER_MEMBERS),
   homeContent: process.env.RCTF_HOME_CONTENT,

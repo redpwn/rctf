@@ -1,11 +1,12 @@
 import { Component } from 'preact'
 
-export default class CtftimeCallback extends Component {
+export default class IonCallback extends Component {
   componentDidMount () {
     window.opener.postMessage({
-      kind: 'ctftimeCallback',
+      kind: 'ionCallback',
       state: this.props.state,
-      ctftimeCode: this.props.code
+      ionCode: this.props.code,
+      error: this.props.error
     }, location.origin)
     window.close()
   }

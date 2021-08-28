@@ -28,7 +28,7 @@ const restrictionChecks: { [checkType: string]: (value: string) => ACLCheck } = 
 export const compileACLs = (): void => {
   let divisionACLs = config.divisionACLs
   // allow everything if no ACLs or if no email verify
-  if (!divisionACLs || divisionACLs.length === 0 || !config.email) {
+  if (!divisionACLs || divisionACLs.length === 0) {
     divisionACLs = [{
       match: 'any',
       value: '',

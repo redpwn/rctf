@@ -11,7 +11,11 @@ function genToastId () {
   return toastIdCounter++
 }
 
-function Toast ({ children, remove, type, id }) {
+const Toast = withStyles({
+  toast: {
+    paddingRight: '2.25rem'
+  }
+}, ({ classes, children, remove, type, id }) => {
   const wrappedRemove = useCallback(() => remove(id), [remove, id])
   useEffect(() => {
     const duration = 1000 * 5
@@ -21,20 +25,19 @@ function Toast ({ children, remove, type, id }) {
   }, [wrappedRemove])
 
   return (
-    <div className={`toast toast--${type}`}>
+    <div className={`toast toast--${type} ${classes.toast}`}>
       {children}
       <button onClick={wrappedRemove} className='btn-close' />
     </div>
   )
-}
+})
 
 const ToastContainer = withStyles({
   container: {
     position: 'fixed',
     top: '1em',
     right: '1em',
-    zIndex: 9999,
-    width: '320px'
+    zIndex: 9999
   }
 }, ({ classes, ...props }) => <div class={classes.container} {...props} />)
 

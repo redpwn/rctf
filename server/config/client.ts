@@ -15,7 +15,7 @@ export type ClientConfig = Pick<ServerConfig,
   'faviconUrl'
 > & {
   emailEnabled: boolean;
-  ctftime?: Pick<NonNullable<ServerConfig['ctftime']>, 'clientId'>
+  ion: Pick<NonNullable<ServerConfig['ion']>, 'clientId'>
   recaptcha?: Pick<NonNullable<ServerConfig['recaptcha']>, 'siteKey' | 'protectedActions'>
 }
 
@@ -33,8 +33,8 @@ const config: ClientConfig = {
   emailEnabled: server.email != null,
   userMembers: server.userMembers,
   faviconUrl: server.faviconUrl,
-  ctftime: server.ctftime == null ? undefined : {
-    clientId: server.ctftime.clientId
+  ion: {
+    clientId: server.ion.clientId
   },
   recaptcha: server.recaptcha == null ? undefined : {
     siteKey: server.recaptcha.siteKey,

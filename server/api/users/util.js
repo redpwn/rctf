@@ -53,7 +53,8 @@ export const getUserData = async ({ user }) => {
 
   return {
     name: user.name,
-    ctftimeId: user.ctftime_id,
+    ionId: user.ion_id,
+    ionData: user.ion_data,
     division: user.division,
     score: score.score,
     globalPlace: score.globalPlace,

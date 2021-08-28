@@ -104,7 +104,7 @@ const SolvesDialog = withStyles({
               <div class={`modal-body ${classes.modalBody}`} ref={modalBodyRef}>
                 <div class={classes.table}>
                   <div class={classes.label}>#</div>
-                  <div class={classes.label}>Team</div>
+                  <div class={classes.label}>User</div>
                   <div class={classes.label}>Solve time</div>
                   {solves.map((solve, i) => (
                     <Fragment>

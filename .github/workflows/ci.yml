@@ -118,15 +118,31 @@ jobs:
       - lint
       - test
 
-    steps:
-    - uses: actions/checkout@v2
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: ${{ github.repository }}
 
-    - name: Build & push
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASS }}
-        repository: redpwn/rctf
-        # TODO: handle tagging releases correctly
-        tags: master,${{ github.sha }}
-        # TODO: add cache_froms once we have full releases
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@3f83d7b89cb3b72c3cb1c57dd6faaa722bb5895c
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@3a3bb3a81753dc99f090d24ee7e5343838b73a96
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@a66e35b9cbcf4ad0ea91ffcaf7bbad63ad9e0229
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}

@@ -17,6 +17,10 @@ export const deepCopy = <T>(data: T): T => {
   return JSON.parse(JSON.stringify(data)) as T
 }
 
+export const deepEquals = <T>(a: T, b: T): boolean => {
+  return JSON.stringify(a) === JSON.stringify(b)
+}
+
 export const serveIndex: FastifyPluginAsync<{ indexPath: string; }> = async (fastify, opts) => {
   const indexTemplate = (await fs.readFile(opts.indexPath)).toString()
 

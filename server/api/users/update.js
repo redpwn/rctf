@@ -58,8 +58,7 @@ export default {
       newUser = await database.users.updateUser({
         id: uuid,
         name,
-        division,
-        email: user.email
+        division
       })
     } catch (e) {
       if (e instanceof DivisionACLError) {
@@ -74,7 +73,6 @@ export default {
     return [responses.goodUserUpdate, {
       user: {
         name: newUser.name,
-        email: newUser.email,
         division: newUser.division
       }
     }]

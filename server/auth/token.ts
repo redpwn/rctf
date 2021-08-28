@@ -11,7 +11,7 @@ export enum tokenKinds {
   auth = 0,
   team = 1,
   verify = 2,
-  ctftimeAuth = 4
+  ionAuth = 4
 }
 
 export type VerifyTokenKinds = 'update' | 'register' | 'recover'
@@ -47,9 +47,9 @@ export interface RecoverTokenData extends BaseVerifyTokenData {
 
 export type VerifyTokenData = RegisterVerifyTokenData | UpdateVerifyTokenData | RecoverTokenData
 
-export interface CtftimeAuthTokenData {
-  name: User['name']
-  ctftimeId: User['ctftimeId']
+export interface IonAuthTokenData {
+  ionId: User['ionId']
+  ionData: User['ionData']
 }
 
 // Internal map of type definitions for typing purposes only -
@@ -58,7 +58,7 @@ type TokenDataTypes = {
   [tokenKinds.auth]: AuthTokenData;
   [tokenKinds.team]: TeamTokenData;
   [tokenKinds.verify]: VerifyTokenData;
-  [tokenKinds.ctftimeAuth]: CtftimeAuthTokenData;
+  [tokenKinds.ionAuth]: IonAuthTokenData;
 }
 
 export type Token = string
@@ -73,7 +73,7 @@ const tokenExpiries: Record<ValueOf<typeof tokenKinds>, number> = {
   [tokenKinds.auth]: Infinity,
   [tokenKinds.team]: Infinity,
   [tokenKinds.verify]: config.loginTimeout,
-  [tokenKinds.ctftimeAuth]: config.loginTimeout
+  [tokenKinds.ionAuth]: config.loginTimeout
 }
 
 const timeNow = () => Math.floor(Date.now() / 1000)

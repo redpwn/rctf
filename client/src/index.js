@@ -8,14 +8,12 @@ import Footer from './components/footer'
 
 import ErrorRoute from './routes/error'
 import Home from './routes/home'
-import Register from './routes/register'
+// import Register from './routes/register'
 import Login from './routes/login'
 import Profile from './routes/profile'
 import Challenges from './routes/challs'
 import Scoreboard from './routes/scoreboard'
-import Recover from './routes/recover'
-import Verify from './routes/verify'
-import CtftimeCallback from './routes/ctftime-callback'
+import IonCallback from './routes/ion-callback'
 
 import AdminChallenges from './routes/admin/challs'
 
@@ -39,9 +37,8 @@ function App ({ classes }) {
   const loggedOut = !localStorage.token
 
   const loggedOutPaths = [
-    <Register key='register' path='/register' name='Register' />,
-    <Login key='login' path='/login' name='Login' />,
-    <Recover key='recover' path='/recover' />
+    // <Register key='register' path='/register' name='Register' />,
+    <Login key='login' path='/login' name='Login' />
   ]
 
   const loggedInPaths = [
@@ -55,8 +52,7 @@ function App ({ classes }) {
     <Home key='home' path='/' name='Home' />,
     <Scoreboard key='scoreboard' path='/scores' name='Scoreboard' />,
     <Profile key='multiProfile' path='/profile/:uuid' />,
-    <Verify key='verify' path='/verify' />,
-    <CtftimeCallback key='ctftimeCallback' path='/integrations/ctftime/callback' />
+    <IonCallback key='ionCallback' path='/integrations/ion/callback' />
   ]
 
   loggedInPaths.forEach(route => loggedOutPaths.push(

@@ -6,10 +6,10 @@ export const setAuthToken = ({ authToken }) => {
   route('/profile')
 }
 
-export const login = async ({ teamToken, ctftimeToken }) => {
+export const login = async ({ teamToken, ionToken }) => {
   const resp = await request('POST', '/auth/login', {
     teamToken,
-    ctftimeToken
+    ionToken
   })
   switch (resp.kind) {
     case 'goodLogin':
@@ -58,11 +58,11 @@ export const verify = async ({ verifyToken }) => {
   }
 }
 
-export const register = async ({ email, name, ctftimeToken, recaptchaCode }) => {
+export const register = async ({ email, name, ionToken, recaptchaCode }) => {
   const resp = await request('POST', '/auth/register', {
     email,
     name,
-    ctftimeToken,
+    ionToken,
     recaptchaCode
   })
   switch (resp.kind) {
@@ -98,20 +98,10 @@ export const register = async ({ email, name, ctftimeToken, recaptchaCode }) => 
   }
 }
 
-export const ctftimeCallback = ({ ctftimeCode }) => {
-  return request('POST', '/integrations/ctftime/callback', {
-    ctftimeCode
+export const ionCallback = ({ ionCode }) => {
+  return request('POST', '/integrations/ion/callback', {
+    ionCode
   })
-}
-
-export const putCtftime = ({ ctftimeToken }) => {
-  return request('PUT', '/users/me/auth/ctftime', {
-    ctftimeToken
-  })
-}
-
-export const deleteCtftime = () => {
-  return request('DELETE', '/users/me/auth/ctftime')
 }
 
 export const recover = async ({ email, recaptchaCode }) => {
