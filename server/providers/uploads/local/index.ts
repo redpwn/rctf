@@ -14,7 +14,7 @@ interface LocalProviderOptions {
 export default class LocalProvider implements Provider {
   private readonly uploadDirectory: string
 
-  constructor(options: LocalProviderOptions, app: FastifyInstance) {
+  constructor (options: LocalProviderOptions, app: FastifyInstance) {
     this.uploadDirectory = path.resolve(
       options.uploadDirectory ?? path.join(process.cwd(), 'uploads')
     )
@@ -28,15 +28,15 @@ export default class LocalProvider implements Provider {
       setHeaders: (res: ServerResponse) => {
         res.setHeader('cache-control', 'public, max-age=31557600, immutable')
         res.setHeader('content-disposition', 'atttachment')
-      },
+      }
     })
   }
 
-  private getKey(hash: string, name: string): string {
+  private getKey (hash: string, name: string): string {
     return `${hash}/${name}`
   }
 
-  async upload(data: Buffer, name: string): Promise<string> {
+  async upload (data: Buffer, name: string): Promise<string> {
     const hash = crypto.createHash('sha256').update(data).digest('hex')
     const key = this.getKey(hash, name)
     const filePath = path.join(this.uploadDirectory, key)
@@ -47,7 +47,7 @@ export default class LocalProvider implements Provider {
     return `/uploads/${key}`
   }
 
-  async getUrl(sha256: string, name: string): Promise<string | null> {
+  async getUrl (sha256: string, name: string): Promise<string | null> {
     const key = this.getKey(sha256, name)
     try {
       await fs.promises.access(path.join(this.uploadDirectory, key))
