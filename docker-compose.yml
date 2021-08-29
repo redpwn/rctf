@@ -1,7 +1,7 @@
 version: '2.2'
 services:
   rctf:
-    image: redpwn/rctf:${RCTF_GIT_REF}
+    image: ghcr.io/tjcsec/rctf:${RCTF_GIT_REF}
     restart: always
     ports:
       - '127.0.0.1:8080:80'
