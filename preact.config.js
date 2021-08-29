@@ -16,6 +16,12 @@ export default (config, env, helpers) => {
       target: 'http://localhost:3000',
       changeOrigin: true,
       changeHost: true
+    },
+    {
+      path: '/uploads/**',
+      target: 'http://localhost:3000',
+      changeOrigin: true,
+      changeHost: true
     }]
   }
 

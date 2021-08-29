@@ -47,25 +47,11 @@ export default {
       return responses.badDataUri
     }
 
-    try {
-      const files = await Promise.all(
-        convertedFiles.map(async ({ name, data }) => {
-          const url = await upload(data, name)
+    const files = await Promise.all(convertedFiles.map(async ({ name, data }) => {
+      const url = await upload(data, name)
+      return { name, url }
+    }))
 
-          return {
-            name,
-            url
-          }
-        })
-      )
-
-      return [responses.goodFilesUpload, files]
-    } catch (e) {
-      req.log.error(
-        { err: e },
-        e && e.message
-      )
-      return responses.badFilesUpload
-    }
+    return [responses.goodFilesUpload, files]
   }
 }

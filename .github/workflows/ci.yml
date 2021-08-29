@@ -138,6 +138,9 @@ jobs:
         uses: docker/metadata-action@3a3bb3a81753dc99f090d24ee7e5343838b73a96
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,enable=true,event=push
+            type=sha,enable=true,prefix=,format=long
 
       - name: Build and push Docker image
         uses: docker/build-push-action@a66e35b9cbcf4ad0ea91ffcaf7bbad63ad9e0229
