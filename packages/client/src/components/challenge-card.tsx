@@ -1,5 +1,5 @@
 import { useState, ComponentProps, FunctionComponent } from 'react'
-import { Box, Divider, Flex, Input } from 'theme-ui'
+import { Box, Divider, Flex, Input, Link, Text } from 'theme-ui'
 import Card from './card'
 import TextInput from './text-input'
 
@@ -42,22 +42,40 @@ export const ChallengeCard: FunctionComponent<ChallengeCardProps> = ({
       {...props}
     >
       <Flex sx={{ columnGap: 1 }}>
-        <Box
+        <Text
           sx={{
             flex: 3,
+            fontWeight: 'bold',
           }}
         >
           {challenge.name}
-        </Box>
-        <Box>
+        </Text>
+        <Link href=''>
           {challenge.solves} {challenge.solves === 1 ? 'solve' : 'solves'}
           {' / '}
           {challenge.points} {challenge.points === 1 ? 'point' : 'points'}
-        </Box>
+        </Link>
       </Flex>
-      <Box>{challenge.author}</Box>
+      <Text>{challenge.author}</Text>
       <Divider />
-      <Box py={2}>{challenge.description}</Box>
+      <Text py={2}>{challenge.description}</Text>
+      {challenge.files.length > 0 ? (
+        <>
+          <Divider />
+          <Box>
+            Downloads:
+            <Flex sx={{ columnGap: 2 }}>
+              {challenge.files.map(file => (
+                <Box key={file.name}>
+                  <Link href={file.url}>{file.name}</Link>
+                </Box>
+              ))}
+            </Flex>
+          </Box>
+        </>
+      ) : (
+        <></>
+      )}
       <Flex
         as='form'
         sx={{ columnGap: 3 }}
