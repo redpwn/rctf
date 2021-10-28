@@ -58,7 +58,7 @@ export const ChallengeCard: FunctionComponent<ChallengeCardProps> = ({
       </Flex>
       <Text>{challenge.author}</Text>
       <Divider />
-      <Text py={2}>{challenge.description}</Text>
+      <Box py={2} dangerouslySetInnerHTML={{ __html: challenge.description }} />
       {challenge.files.length > 0 ? (
         <>
           <Divider />
