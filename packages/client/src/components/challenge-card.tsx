@@ -1,6 +1,7 @@
 import { useState, ComponentProps, FunctionComponent } from 'react'
-import { Box, Divider, Flex, Input, Link, Text } from 'theme-ui'
+import { Box, Divider, Flex, Link, Text } from 'theme-ui'
 import Card from './card'
+import Button from './button'
 import TextInput from './text-input'
 
 export interface ChallengeCardProps extends ComponentProps<typeof Card> {
@@ -50,7 +51,8 @@ export const ChallengeCard: FunctionComponent<ChallengeCardProps> = ({
         >
           {challenge.name}
         </Text>
-        <Link href=''>
+        {/* FIXME: probably a different component for these 'links' */}
+        <Link href='' sx={{ textDecoration: 'none' }}>
           {challenge.solves} {challenge.solves === 1 ? 'solve' : 'solves'}
           {' / '}
           {challenge.points} {challenge.points === 1 ? 'point' : 'points'}
@@ -99,7 +101,9 @@ export const ChallengeCard: FunctionComponent<ChallengeCardProps> = ({
           />
         </Box>
         <Flex>
-          <Input sx={{ alignSelf: 'flex-end' }} type='submit' value='Submit' />
+          <Button outline sx={{ alignSelf: 'flex-end' }} type='submit'>
+            Submit
+          </Button>
         </Flex>
       </Flex>
     </Card>
