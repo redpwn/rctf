@@ -52,6 +52,17 @@ YAML/JSON name|environment name|required|default value|type|description
 `defaultDivision`|_(none)_|no|_(none)_|string|default division ID. [documentation](management/divisions.md)
 `divisionACLs`|_(none)_|no|_(none)_|array|ACLs for restricting division access. [documentation](management/divisions.md)
 `faviconUrl`|`RCTF_FAVICON_URL`|no|_(rCTF favicon)_|string|URL to custom favicon image
+`database.sql`|`RCTF_DATABASE_URL`|either `database.sql` or `database.sql.*`|_(none)_|string|`postgres://` connection URI
+`database.sql.host`|`RCTF_DATABASE_HOST`|either `database.sql` or `database.sql.*`|_(none)_|string|hostname of a postgreSQL server
+`database.sql.port`|`RCTF_DATABASE_PORT`|either `database.sql` or `database.sql.*`|_(none)_|string|port number that postgreSQL is running on
+`database.sql.user`|`RCTF_DATABASE_USERNAME`|either `database.sql` or `database.sql.*`|_(none)_|string|postgreSQL username to authenticate with
+`database.sql.password`|`RCTF_DATABASE_PASSWORD`|either `database.sql` or `database.sql.*`|_(none)_|string|postgreSQL password to authenticate with
+`database.sql.database`|`RCTF_DATABASE_DATABASE`|either `database.sql` or `database.sql.*`|_(none)_|string|postgreSQL database to use
+`database.redis`|`RCTF_REDIS_URL`|either `database.redis` or `database.redis.*`|_(none)_|string|`redis://` connection URI
+`database.redis.host`|`RCTF_REDIS_HOST`|either `database.sql` or `database.sql.*`|_(none)_|string|hostname of a redis server
+`database.redis.post`|`RCTF_REDIS_PORT`|either `database.sql` or `database.sql.*`|_(none)_|string|port number that redis is running on
+`database.redis.password`|`RCTF_REDIS_PASSWORD`|either `database.sql` or `database.sql.*`|_(none)_|string|redis password to authenticate with
+`database.redis.database`|`RCTF_REDIS_DATABASE`|either `database.sql` or `database.sql.*`|_(none)_|string|redis numerical database ID to use
 
 ### Additional
 
@@ -85,17 +96,6 @@ YAML/JSON name|environment name|required|default value|type|description
 `instanceType`|`RCTF_INSTANCE_TYPE`|yes|`all`|`all | frontend | leaderboard`|what type of instance to run. [documentation](management/scaling.md)
 `challengeProvider`|_(none)_|yes|`database`|provider|provider for challenges. [documentation](providers/challenges/index.md)
 `uploadProvider`|_(none)_|yes|`local`|provider|provider for challenge file uploads. [documentation](providers/uploads/index.md)
-`database.sql`|`RCTF_DATABASE_URL`|either `database.sql` or `database.sql.*`|_(none)_|string|`postgres://` connection URI
-`database.sql.host`|`RCTF_DATABASE_HOST`|either `database.sql` or `database.sql.*`|_(none)_|string|hostname of a postgreSQL server
-`database.sql.port`|`RCTF_DATABASE_PORT`|either `database.sql` or `database.sql.*`|_(none)_|string|port number that postgreSQL is running on
-`database.sql.user`|`RCTF_DATABASE_USERNAME`|either `database.sql` or `database.sql.*`|_(none)_|string|postgreSQL username to authenticate with
-`database.sql.password`|`RCTF_DATABASE_PASSWORD`|either `database.sql` or `database.sql.*`|_(none)_|string|postgreSQL password to authenticate with
-`database.sql.database`|`RCTF_DATABASE_DATABASE`|either `database.sql` or `database.sql.*`|_(none)_|string|postgreSQL database to use
-`database.redis`|`RCTF_REDIS_URL`|either `database.redis` or `database.redis.*`|_(none)_|string|`redis://` connection URI
-`database.redis.host`|`RCTF_REDIS_HOST`|either `database.sql` or `database.sql.*`|_(none)_|string|hostname of a redis server
-`database.redis.post`|`RCTF_REDIS_PORT`|either `database.sql` or `database.sql.*`|_(none)_|string|port number that redis is running on
-`database.redis.password`|`RCTF_REDIS_PASSWORD`|either `database.sql` or `database.sql.*`|_(none)_|string|redis password to authenticate with
-`database.redis.database`|`RCTF_REDIS_DATABASE`|either `database.sql` or `database.sql.*`|_(none)_|string|redis numerical database ID to use
 `leaderboard.maxLimit`|`RCTF_LEADERBOARD_MAX_LIMIT`|yes|100|integer|maximum number of users retrievable in a single leaderboard request
 `leaderboard.maxOffset`|`RCTF_LEADERBOARD_MAX_OFFSET`|yes|4294967296|integer|maximum offset from the beginning of the leaderboard
 `leaderboard.updateInterval`|`RCTF_LEADERBOARD_UPDATE_INTERVAL`|yes|10000|integer|interval at which the leaderboard is recalculated, in milliseconds
