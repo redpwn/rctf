@@ -114,7 +114,33 @@ const Challenges = ({ classes }) => {
       })
     }
 
+    const latestAttendanceCategory = (() => {
+      const filteredCat = Object.keys(categories).filter(c => /[0-9]{2}-[0-9]{2}-[0-9]{2}_.+/.test(c)).sort()
+
+      if (filteredCat.length === 0)
+        return null
+
+      return filteredCat[filteredCat.length - 1]
+    })()
+
     filtered.sort((a, b) => {
+      // Put current attendance flags at the beginning
+      if (a.points === 1 && a.category === latestAttendanceCategory) return -1
+      if (b.points === 1 && b.category === latestAttendanceCategory) return 1
+
+      // Put old attendance flags at the end
+      if (a.points === 0 && b.points === 0)
+        return a.category < b.category ? 1 : -1
+
+      if (a.points === 0) return 1
+      if (b.points === 0) return -1
+
+      if (a.points === 1 && b.points === 1)
+        return a.category < b.category ? 1 : -1
+
+      if (a.points === 1) return 1
+      if (b.points === 1) return -1
+
       if (a.points === b.points) {
         if (a.solves === b.solves) {
           const aWeight = a.sortWeight || 0

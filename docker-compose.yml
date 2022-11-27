@@ -1,7 +1,7 @@
 version: '2.2'
 services:
   rctf:
-    image: ghcr.io/tjcsec/rctf:${RCTF_GIT_REF}
+    build: .
     restart: always
     ports:
       - '127.0.0.1:8080:80'
@@ -20,7 +20,12 @@ services:
   redis:
     image: redis:6.0.6
     restart: always
-    command: ["redis-server", "--requirepass", "${RCTF_REDIS_PASSWORD}"]
+    command:
+      [
+        "redis-server",
+        "--requirepass",
+        "${RCTF_REDIS_PASSWORD}"
+      ]
     networks:
       - rctf
     volumes:
