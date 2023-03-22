@@ -31,6 +31,14 @@
 			<script async src="/analytics/autotrack.js"></script>
 			<script async src="https://www.google-analytics.com/analytics.js"></script>
 		{{ /config.renderGoogleAnalytics }}
+
+		<script>
+		document.addEventListener('click', musicPlay);
+		function musicPlay() {
+			document.getElementById('musicPlay').play();
+			document.removeEventListener('click', musicPlay);
+		}
+		</script>
 	</head>
 	<body>
 		<% preact.bodyEnd %>

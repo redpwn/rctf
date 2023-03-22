@@ -43,7 +43,7 @@ export default (config, env, helpers) => {
   ;['file-loader', 'url-loader']
     .flatMap(name => helpers.getLoadersByName(config, name))
     .forEach(entry => {
-      entry.rule.test = /\.(woff2?|ttf|eot|jpe?g|png|webp|gif|mp4|mov|ogg|webm)(\?.*)?$/i
+      entry.rule.test = /\.(woff2?|ttf|eot|jpe?g|png|webp|gif|mp4|mov|ogg|webm|cur)(\?.*)?$/i
     })
 
   config.module.rules.push({

@@ -1,5 +1,10 @@
 <img src="https://raw.githubusercontent.com/redpwn/rctf/master/docs/content/assets/rctf-logotype-dark-1024.png" width="350px">
 
+## CURSED
+
+This copy of rctf has been cursed. Some instructions on how to use it with the
+install script here: ???
+
 [![Build Status](https://github.com/redpwn/rctf/workflows/CI/badge.svg?branch=master)](https://github.com/redpwn/rctf/actions?query=workflow%3ACI+branch%3Amaster)
 [![Code Coverage](https://img.shields.io/codecov/c/github/redpwn/rctf.svg)](https://codecov.io/github/redpwn/rctf/)
 

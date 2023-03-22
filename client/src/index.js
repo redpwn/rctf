@@ -21,6 +21,9 @@ import AdminChallenges from './routes/admin/challs'
 
 import { ToastProvider } from './components/toast'
 
+import BackgroundImage from './images/bg.png'
+import AmoogusCursor from './images/amoogus-cursor.cur'
+
 function useTriggerRerender () {
   const setToggle = useState(false)[1]
   return useCallback(() => setToggle(t => !t), [setToggle])
@@ -105,10 +108,13 @@ export default withStyles({
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100%',
-    background: '#111',
+    backgroundImage: `url(${BackgroundImage})`,
+    textRendering: 'optimizeLegibility',
+    imageRendering: 'pixelated',
+    cursor: `url(${AmoogusCursor}), default !important`,
     color: '#fff',
     '& *:not(code):not(pre)': {
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Noto Sans", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important'
+      fontFamily: '"Comic Sans MS", "Comic Sans", cursive; !important'
     },
     '& pre.code': {
       padding: '10px',
