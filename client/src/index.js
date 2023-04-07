@@ -81,6 +81,8 @@ function App ({ classes }) {
     <div class={classes.root}>
       <ToastProvider>
         <Header paths={headerPaths} />
+        <StylishMemes />
+
         <div class={classes.contentWrapper}>
           <Router onChange={triggerRerender}>
             {currentPaths}
@@ -145,3 +147,50 @@ export default withStyles({
     flex: '1 0 auto'
   }
 }, App)
+
+const Memes = ({ classes }) => (
+  <div style='z-index: 0'>
+    <div class={classes.wolfOne} />
+    <div class={classes.wolfTwo}> <span style='padding-left: 50px; color: #fe11a0; font-size: 39px; font-family: Times,"Times New Roman",serif'> URSED</span></div>
+    <div class={classes.moon} />
+
+    <div class={classes.underConstructionRibbon} />
+  </div>
+)
+
+const StylishMemes = withStyles({
+  wolfOne: {
+    backgroundImage: 'url(https://www.cameronsworld.net/img/content/6/11.gif)',
+    position: 'absolute',
+    width: '152px',
+    height: '192px',
+    top: '10px',
+    right: '5%'
+  },
+  wolfTwo: {
+    backgroundImage: 'url(https://www.cameronsworld.net/img/content/5/5.gif)',
+    position: 'absolute',
+    width: '72px',
+    height: '60px',
+    top: '20px',
+    left: '5%'
+  },
+  moon: {
+    backgroundImage: 'url(https://www.cameronsworld.net/img/content/1/7.gif)',
+    position: 'absolute',
+    width: '72px',
+    height: '72px',
+    bottom: '20px',
+    left: '5%'
+  },
+
+  underConstructionRibbon: {
+    backgroundImage: 'url(https://www.cameronsworld.net/img/content/22/left-side/31.png)',
+    backgroundRepeat: 'repeat-x',
+    height: '11px',
+    width: '100%',
+    position: 'absolute',
+    top: '50px',
+    zIndex: '-1'
+  }
+}, Memes)
