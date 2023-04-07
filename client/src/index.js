@@ -153,8 +153,17 @@ const Memes = ({ classes }) => (
     <div class={classes.wolfOne} />
     <div class={classes.wolfTwo}> <span style='padding-left: 50px; color: #fe11a0; font-size: 39px; font-family: Times,"Times New Roman",serif'> URSED</span></div>
     <div class={classes.moon} />
+    <div class={classes.blackHole} />
+
+    <div class={classes.computerOne} />
+    <div class={classes.computerTwo} />
 
     <div class={classes.underConstructionRibbon} />
+
+    <div class={classes.amoogusTwerk} />
+    <div class={classes.robot} />
+
+    <div class={classes.glitter} />
   </div>
 )
 
@@ -180,8 +189,35 @@ const StylishMemes = withStyles({
     position: 'absolute',
     width: '72px',
     height: '72px',
-    bottom: '20px',
+    bottom: '80px',
     left: '5%'
+  },
+
+  computerOne: {
+    backgroundImage: 'url(https://www.cameronsworld.net/img/content/23/frame-3/1.gif)',
+    position: 'absolute',
+    width: '107px',
+    height: '92px',
+    top: '100px',
+    left: '20%'
+  },
+  computerTwo: {
+    backgroundImage: 'url(https://www.cameronsworld.net/img/content/15/row-2/7.gif)',
+    position: 'absolute',
+    width: '113px',
+    height: '113px',
+    top: '100px',
+    right: '20%'
+  },
+
+  blackHole: {
+    backgroundImage: 'url(https://www.cameronsworld.net/img/content/21/32.gif)',
+    position: 'absolute',
+    width: '368px',
+    height: '112px',
+    top: '40%',
+    left: '40%',
+    zIndex: '-30'
   },
 
   underConstructionRibbon: {
@@ -192,5 +228,33 @@ const StylishMemes = withStyles({
     position: 'absolute',
     top: '80px',
     zIndex: '-1'
+  },
+  glitter: {
+    backgroundImage: 'url(https://www.cameronsworld.net/img/content/28/21.gif)',
+    backgroundRepeat: 'repeat',
+    height: '50px',
+    width: '30%',
+    position: 'absolute',
+    top: '140px',
+    left: '35%',
+    zIndex: '-1'
+  },
+
+  amoogusTwerk: {
+    backgroundImage: 'url(https://i.redd.it/hfw3b5oqj3481.gif)',
+    backgroundSize: 'cover',
+    position: 'absolute',
+    width: '50px',
+    height: '50px',
+    left: '20%',
+    top: '5px'
+  },
+  robot: {
+    backgroundImage: 'url(https://www.cameronsworld.net/img/content/25/18.gif)',
+    position: 'absolute',
+    width: '137px',
+    height: '175px',
+    bottom: '50px',
+    right: '15%'
   }
 }, Memes)

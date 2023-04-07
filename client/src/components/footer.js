@@ -13,6 +13,7 @@ const Footer = ({ classes }) => (
 
 export default withStyles({
   root: {
+    backgroundImage: 'url("https://www.cameronsworld.net/img/content/22/left-side/28.gif")',
     display: 'flex',
     justifyContent: 'center',
     padding: '1rem',
