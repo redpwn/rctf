@@ -6,7 +6,7 @@ function Header ({ classes, paths }) {
   const loggedIn = localStorage.getItem('token') !== null
 
   return (
-    <div class='tab-container tabs-center'>
+    <div style='display: flex;' class='tab-container tabs-center'>
       <ul class={classes.list}>
         {
           paths.map(({ props: { path, name } }) =>
@@ -31,14 +31,17 @@ function Header ({ classes, paths }) {
 
 export default withStyles({
   link: {
-    '&:focus': {
-      boxShadow: 'none',
-      // color copied from Cirrus styles - there is no variable for it
-      borderBottomColor: 'rgba(240,61,77,.6)'
-    },
-    background: '#0000 !important',
-    color: '#fff !important',
-    padding: '.5rem .7rem !important'
+    boxSizing: 'border-box !important',
+    border: 'solid 5px #959595 !important',
+    borderTopColor: '#fff !important',
+    borderLeftColor: '#fff !important',
+    width: '140px !important',
+    height: '60px !important',
+    backgroundColor: '#c3c3c3 !important',
+    boxShadow: '0 0 0 1px rgba(0,0,0,.75) !important',
+    fontSize: '13px !important',
+    color: '#000 !important',
+    textAlign: 'center !important'
   },
   list: {
     borderBottomColor: '#333 !important',

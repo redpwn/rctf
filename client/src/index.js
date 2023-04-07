@@ -190,7 +190,7 @@ const StylishMemes = withStyles({
     height: '11px',
     width: '100%',
     position: 'absolute',
-    top: '50px',
+    top: '80px',
     zIndex: '-1'
   }
 }, Memes)
