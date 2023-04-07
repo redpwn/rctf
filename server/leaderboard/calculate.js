@@ -19,6 +19,22 @@ for (let i = 0; i < allChallenges.length; i++) {
   solveAmount.set(challenge.id, 0)
   challengeTiebreakEligibles.set(challenge.id, challenge.tiebreakEligible)
 }
+
+const hoarderChall = allChallenges.find((c) => c.name === 'hoarder')
+const hoarderSolvesTs = new Map()
+
+const computeHoarderScore = (submissionTime, endTime) => {
+  if (submissionTime >= endTime) {
+    return 0
+  }
+  const timeDiff = endTime - submissionTime
+  const score = -Math.pow(timeDiff / 10000 - 8, 3)
+  if (score < 0) {
+    return 0
+  }
+  return Math.min(score, 500)
+}
+
 const userSolves = new Map()
 const userTiebreakEligibleLastSolves = new Map()
 const userLastSolves = new Map()
@@ -53,6 +69,9 @@ const calculateScores = (sample) => {
     } else {
       userSolves.get(userId).push(challId)
     }
+    if (hoarderChall && challId === hoarderChall.id) {
+      hoarderSolvesTs.set(userId, createdAt)
+    }
   }
 
   let maxSolveAmount = 0
@@ -65,12 +84,16 @@ const calculateScores = (sample) => {
 
   for (let i = 0; i < allChallenges.length; i++) {
     const challenge = allChallenges[i]
-    challengeValues.set(challenge.id, getScore(
-      challenge.points.min,
-      challenge.points.max,
-      maxSolveAmount,
-      solveAmount.get(challenge.id)
-    ))
+    if (hoarderChall && challenge.id === hoarderChall.id) {
+      challengeValues.set(challenge.id, 500)
+    } else {
+      challengeValues.set(challenge.id, getScore(
+        challenge.points.min,
+        challenge.points.max,
+        maxSolveAmount,
+        solveAmount.get(challenge.id)
+      ))
+    }
   }
 
   for (let i = 0; i < users.length; i++) {
@@ -81,10 +104,14 @@ const calculateScores = (sample) => {
     if (lastSolve === undefined) continue // If the user has not solved any challenges, do not add to leaderboard
     const solvedChalls = userSolves.get(user.id)
     for (let j = 0; j < solvedChalls.length; j++) {
-      // Add the score for the specific solve loaded from the challengeValues array using ids
-      const value = challengeValues.get(solvedChalls[j])
-      if (value !== undefined) {
-        currScore += value
+      if (hoarderChall && solvedChalls[j] === hoarderChall.id) {
+        currScore += computeHoarderScore(hoarderSolvesTs.get(user.id), config.endTime)
+      } else {
+        // Add the score for the specific solve loaded from the challengeValues array using ids
+        const value = challengeValues.get(solvedChalls[j])
+        if (value !== undefined) {
+          currScore += value
+        }
       }
     }
     userScores.push([
