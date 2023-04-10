@@ -257,6 +257,8 @@ const Scoreboard = withStyles({
                 { scores.map(({ id, name, score, rank }) => {
                   const isSelf = profile != null && profile.id === id
 
+                  if (name === 'LiveOverflow') return null
+
                   return (
                     <tr key={id}
                       class={isSelf ? classes.selected : ''}
