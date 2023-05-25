@@ -10,7 +10,7 @@ Option|Description
 -|-
 `credentials.private_key`|The PEM-encoded private key for the service account with access to the GCS bucket.
 `credentials.client_email`|The email of the service account with access to the GCS bucket.
-`bucket`|The name of the GCS bucket.
+`bucketName`|The name of the GCS bucket.
 
 ## Configuration Example
 
