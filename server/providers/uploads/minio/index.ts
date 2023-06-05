@@ -29,14 +29,14 @@ class MinioFile {
   }
 
   async exists (minioClient: MinioClient): Promise<boolean> {
-    const stat: any = await new Promise((resolve, reject) => {
+    const stat = await new Promise((resolve, reject) => {
       return minioClient.statObject(
         this.bucket,
         this.key,
         (err, stat) => {
           if (err) {
             console.log(err)
-            return resolve(null)
+            return reject(err)
           }
           return resolve(stat)
         }
