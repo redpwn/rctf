@@ -36,7 +36,7 @@ class MinioFile {
         (err, stat) => {
           if (err) {
             console.log(err)
-            return reject(err)
+            return resolve(null)
           }
           return resolve(stat)
         }
