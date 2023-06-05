@@ -102,7 +102,7 @@ export default class MinioProvider implements Provider {
     return file.url
   }
 
-  async stream2buffer (stream: Stream): Promise<Buffer> {
+  private async stream2buffer (stream: Stream): Promise<Buffer> {
     return new Promise <Buffer>((resolve, reject) => {
       const _buf: any[] = []
       stream.on('data', chunk => _buf.push(chunk))
@@ -111,7 +111,7 @@ export default class MinioProvider implements Provider {
     })
   }
 
-  private async streamFile (name: string): Promise<Buffer> {
+  async streamFile (name: string): Promise<Buffer> {
     const fileStream = await this.minioClient.getObject(this.bucketName, name)
     return this.stream2buffer(fileStream)
   }

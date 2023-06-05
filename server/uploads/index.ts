@@ -5,7 +5,7 @@ import { FastifyInstance } from 'fastify'
 
 let provider: Provider | null = null
 
-export const init = (app: FastifyInstance | null): void => {
+export const init = (app: FastifyInstance | null): Provider => {
   const name = app === null ? 'uploads/dummy' : config.uploadProvider.name
 
   // FIXME: use async loading
@@ -13,6 +13,7 @@ export const init = (app: FastifyInstance | null): void => {
   const { default: ProviderClass } = require(path.join('../providers', name)) as { default: ProviderConstructor }
 
   provider = new ProviderClass(config.uploadProvider.options ?? {}, app)
+  return provider
 }
 
 export const upload = (data: Buffer, name: string): Promise<string> => {

@@ -4,7 +4,7 @@ import fastifyStatic from 'fastify-static'
 import helmet from 'fastify-helmet'
 import hyperid from 'hyperid'
 import config from './config/server'
-import { serveIndex, getRealIp } from './util'
+import { serveIndex, serveMinioFiles, getRealIp } from './util'
 import { init as uploadProviderInit } from './uploads'
 import api, { logSerializers as apiLogSerializers } from './api'
 
@@ -49,12 +49,17 @@ app.register(helmet, {
   }
 })
 
-uploadProviderInit(app)
+const uploadProvider = uploadProviderInit(app)
 
 app.register(api, {
   prefix: '/api/v1/',
   logSerializers: apiLogSerializers
 })
+
+if (config.uploadProvider.name === 'uploads/minio') {
+  // if minio (private) as uploads provider, we need a route to proxy the files download
+  app.register(serveMinioFiles(uploadProvider), {})
+}
 
 const staticPath = path.join(__dirname, '../build')
 

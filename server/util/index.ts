@@ -3,6 +3,8 @@ import clientConfig from '../config/client'
 import { promises as fs } from 'fs'
 import mustache from 'mustache'
 import { FastifyPluginAsync, FastifyRequest, RouteHandlerMethod } from 'fastify'
+import { Readable } from 'stream'
+import MinioProvider from '../providers/uploads/minio'
 
 export * as normalize from './normalize'
 export * as validate from './validate'
@@ -15,6 +17,26 @@ export * as recaptcha from './recaptcha'
  */
 export const deepCopy = <T>(data: T): T => {
   return JSON.parse(JSON.stringify(data)) as T
+}
+
+export const serveMinioFiles = (uploadProvider: MinioProvider) => {
+  const serve: FastifyPluginAsync = async (fastify, opts) => {
+    fastify.get('/proxy/file/*', async (req, reply): Promise<void> => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
+      const filePath = (req.params as any)['*']
+      const buffer = await uploadProvider.streamFile(filePath)
+
+      const myStream = new Readable({
+        read () {
+          this.push(buffer)
+          this.push(null)
+        }
+      })
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      reply.send(myStream)
+    })
+  }
+  return serve
 }
 
 export const serveIndex: FastifyPluginAsync<{ indexPath: string; }> = async (fastify, opts) => {
