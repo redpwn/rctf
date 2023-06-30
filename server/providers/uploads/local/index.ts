@@ -26,6 +26,7 @@ export default class LocalProvider implements Provider {
   private uploadDirectory: string
   private endpoint: string
 
+  private uploadMapPath: string
   private uploadMap: Map<string, Upload>
 
   constructor (options: LocalProviderOptions, app: FastifyInstance) {
@@ -38,7 +39,15 @@ export default class LocalProvider implements Provider {
     this.uploadDirectory = path.resolve(options.uploadDirectory)
     this.endpoint = options.endpoint || '/uploads'
 
-    this.uploadMap = new Map<string, Upload>()
+    this.uploadMapPath = path.join(this.uploadDirectory, 'uploadMap.json')
+
+    if (fs.existsSync(this.uploadMapPath)) {
+      this.uploadMap = new Map<string, Upload>(
+        JSON.parse(fs.readFileSync(this.uploadMapPath, 'utf8'))
+      )
+    } else {
+      this.uploadMap = new Map<string, Upload>()
+    }
 
     void app.register(async (fastify) => {
       void fastify.register(fastifyStatic, {
@@ -107,6 +116,10 @@ export default class LocalProvider implements Provider {
     })
 
     await fs.promises.writeFile(filePath, data)
+    await fs.promises.writeFile(
+      this.uploadMapPath,
+      JSON.stringify(Array.from(this.uploadMap))
+    )
 
     return (config.origin || '') + urlPath
   }
