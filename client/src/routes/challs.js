@@ -82,8 +82,8 @@ const Challenges = ({ classes }) => {
 
       if (config.instancerUrl !== '') {
         data.forEach(problem => {
-          problem.description = problem.description.replaceAll('INSTANCER_TOKEN', encodeURIComponent(profileData.instancerToken))
-          problem.description = problem.description.replaceAll('INSTANCER_URL', encodeURI(config.instancerUrl))
+          problem.description = problem.description.replaceAll('{instancer_token}', encodeURIComponent(profileData.instancerToken))
+          problem.description = problem.description.replaceAll('{instancer_url}', encodeURI(config.instancerUrl))
         })
       }
 
