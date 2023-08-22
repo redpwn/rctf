@@ -11,12 +11,15 @@ export enum tokenKinds {
   auth = 0,
   team = 1,
   verify = 2,
-  ctftimeAuth = 4
+  ctftimeAuth = 4,
+  instancer = 8
 }
 
 export type VerifyTokenKinds = 'update' | 'register' | 'recover'
 
 export type AuthTokenData = string
+
+export type InstancerAuthTokenData = string
 
 export type TeamTokenData = string
 
@@ -59,6 +62,7 @@ type TokenDataTypes = {
   [tokenKinds.team]: TeamTokenData;
   [tokenKinds.verify]: VerifyTokenData;
   [tokenKinds.ctftimeAuth]: CtftimeAuthTokenData;
+  [tokenKinds.instancer]: InstancerAuthTokenData;
 }
 
 export type Token = string
@@ -73,7 +77,8 @@ const tokenExpiries: Record<ValueOf<typeof tokenKinds>, number> = {
   [tokenKinds.auth]: Infinity,
   [tokenKinds.team]: Infinity,
   [tokenKinds.verify]: config.loginTimeout,
-  [tokenKinds.ctftimeAuth]: config.loginTimeout
+  [tokenKinds.ctftimeAuth]: config.loginTimeout,
+  [tokenKinds.instancer]: Infinity,
 }
 
 const timeNow = () => Math.floor(Date.now() / 1000)
