@@ -149,6 +149,27 @@ const TeamCodeCard = withStyles({
   )
 })
 
+const InstancerCodeCard = withStyles({
+  btn: {
+    marginRight: '10px'
+  }
+}, ({ instancerToken, classes }) => {
+  const instancerURL = `${config.instancerUrl}/login?token=${encodeURIComponent(instancerToken)}`
+
+  return (
+    <div class='card'>
+      <div class='content'>
+        <p>Instancer Login</p>
+        <p class='font-thin'>Use this link to login to the challenge instancer.</p>
+
+        <a href={instancerURL} target='_blank' rel='noreferrer'>
+          <button class={`${classes.btn} btn-info u-center`} name='btn' value='submit' type='button'>Instancer Login</button>
+        </a>
+      </div>
+    </div>
+  )
+})
+
 const UpdateCard = withStyles({
   form: {
     '& button': {
@@ -302,6 +323,7 @@ const Profile = ({ uuid, classes }) => {
     score,
     solves,
     teamToken,
+    instancerToken,
     ctftimeId,
     allowedDivisions
   } = data
@@ -370,6 +392,7 @@ const Profile = ({ uuid, classes }) => {
       {isPrivate && (
         <div class={classes.privateCol}>
           <TeamCodeCard {...{ teamToken }} />
+          { config.instancerUrl !== '' && <InstancerCodeCard {...{ instancerToken }} /> }
           <UpdateCard {...{ name, email, divisionId, allowedDivisions, onUpdate: onProfileUpdate }} />
           {config.ctftime && (
             <CtftimeCard {...{ ctftimeId, onUpdate: onProfileUpdate }} />

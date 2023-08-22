@@ -92,6 +92,8 @@ export type ServerConfig = {
     graphSampleTime: number;
   }
   loginTimeout: number;
+
+  instancerUrl: string;
 }
 
 const jsonLoader = (file: string) => JSON.parse(file) as PartialDeep<ServerConfig>
@@ -168,7 +170,8 @@ const envConfig: PartialDeep<ServerConfig> = {
     graphMaxTeams: nullsafeParseInt(process.env.RCTF_LEADERBOARD_GRAPH_MAX_TEAMS),
     graphSampleTime: nullsafeParseInt(process.env.RCTF_LEADERBOARD_GRAPH_SAMPLE_TIME)
   },
-  loginTimeout: nullsafeParseInt(process.env.RCTF_LOGIN_TIMEOUT)
+  loginTimeout: nullsafeParseInt(process.env.RCTF_LOGIN_TIMEOUT),
+  instancerUrl: process.env.RCTF_INSTANCER_URL
 }
 
 const defaultConfig: PartialDeep<ServerConfig> = {
@@ -201,7 +204,8 @@ const defaultConfig: PartialDeep<ServerConfig> = {
     graphMaxTeams: 10,
     graphSampleTime: 1800000
   },
-  loginTimeout: 3600000
+  loginTimeout: 3600000,
+  instancerUrl: ''
 }
 
 const config = deepMerge.all([defaultConfig, ...fileConfigs, removeUndefined(envConfig)]) as ServerConfig
