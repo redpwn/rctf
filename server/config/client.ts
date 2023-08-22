@@ -41,7 +41,7 @@ const config: ClientConfig = {
     siteKey: server.recaptcha.siteKey,
     protectedActions: server.recaptcha.protectedActions
   },
-  instancerUrl: server.instancerUrl 
+  instancerUrl: server.instancerUrl
 }
 
 export default config

@@ -6,7 +6,9 @@ import Problem from '../components/problem'
 import NotStarted from '../components/not-started'
 import { useToast } from '../components/toast'
 
-import { getChallenges, getPrivateSolves } from '../api/challenges'
+import { privateProfile } from '../api/profile'
+
+import { getChallenges } from '../api/challenges'
 
 const loadStates = {
   pending: 0,
@@ -58,6 +60,14 @@ const Challenges = ({ classes }) => {
         return
       }
 
+      const { data: profileData, error: profileError } = await privateProfile()
+      if (profileError) {
+        toast({ body: error, type: 'error' })
+        return
+      }
+
+      setSolveIDs(profileData.solves.map(solve => solve.id))
+
       setLoadState(notStarted ? loadStates.notStarted : loadStates.loaded)
       if (notStarted) {
         return
@@ -70,24 +80,31 @@ const Challenges = ({ classes }) => {
         }
       })
 
+      if (config.instancerUrl !== '') {
+        data.forEach(problem => {
+          problem.description = problem.description.replaceAll('INSTANCER_TOKEN', encodeURIComponent(profileData.instancerToken))
+          problem.description = problem.description.replaceAll('INSTANCER_URL', encodeURI(config.instancerUrl))
+        })
+      }
+
       setProblems(data)
       setCategories(newCategories)
     }
     action()
   }, [toast, categories, problems])
 
-  useEffect(() => {
-    const action = async () => {
-      const { data, error } = await getPrivateSolves()
-      if (error) {
-        toast({ body: error, type: 'error' })
-        return
-      }
+  // useEffect(() => {
+  //   const action = async () => {
+  //     const { data, error } = await getPrivateSolves()
+  //     if (error) {
+  //       toast({ body: error, type: 'error' })
+  //       return
+  //     }
 
-      setSolveIDs(data.map(solve => solve.id))
-    }
-    action()
-  }, [toast])
+  //     setSolveIDs(data.map(solve => solve.id))
+  //   }
+  //   action()
+  // }, [toast])
 
   useEffect(() => {
     localStorage.challPageState = JSON.stringify({ categories, showSolved })
