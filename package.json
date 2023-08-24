@@ -94,7 +94,7 @@
     "jss-vendor-prefixer": "8.0.1",
     "linkstate": "1.1.1",
     "lint-staged": "10.2.11",
-    "loader-utils": "2.0.0",
+    "loader-utils": "2.0.4",
     "nodemon": "2.0.4",
     "nyc": "15.1.0",
     "pascal-case": "3.1.1",
