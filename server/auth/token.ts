@@ -12,14 +12,19 @@ export enum tokenKinds {
   team = 1,
   verify = 2,
   ctftimeAuth = 4,
-  instancer = 8
+  // 8 is reserved for instancer "non-updating" urls, aka urls that do *not* update the username and email
+  instancer = 16,
 }
 
 export type VerifyTokenKinds = 'update' | 'register' | 'recover'
 
 export type AuthTokenData = string
 
-export type InstancerAuthTokenData = string
+export type InstancerAuthTokenData = {
+  teamId: string
+  email: User['email']
+  name: User['name']
+}
 
 export type TeamTokenData = string
 
@@ -78,7 +83,7 @@ const tokenExpiries: Record<ValueOf<typeof tokenKinds>, number> = {
   [tokenKinds.team]: Infinity,
   [tokenKinds.verify]: config.loginTimeout,
   [tokenKinds.ctftimeAuth]: config.loginTimeout,
-  [tokenKinds.instancer]: Infinity,
+  [tokenKinds.instancer]: Infinity
 }
 
 const timeNow = () => Math.floor(Date.now() / 1000)
