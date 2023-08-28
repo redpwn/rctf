@@ -80,7 +80,7 @@ const Challenges = ({ classes }) => {
         }
       })
 
-      const instancerPlaceholderRegex = new RegExp(/{instancer:([a-zA-Z-]+)}/g)
+      const instancerPlaceholderRegex = new RegExp(/{instancer:([a-zA-Z0-9-]+)}/g)
       if (config.instancerUrl !== '') {
         data.forEach(problem => {
           problem.description = problem.description.replaceAll('{instancer_token}', encodeURIComponent(profileData.instancerToken))
