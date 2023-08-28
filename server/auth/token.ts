@@ -12,8 +12,7 @@ export enum tokenKinds {
   team = 1,
   verify = 2,
   ctftimeAuth = 4,
-  // 8 is reserved for instancer "non-updating" urls, aka urls that do *not* update the username and email
-  instancer = 16,
+  instancer = 8,
 }
 
 export type VerifyTokenKinds = 'update' | 'register' | 'recover'
