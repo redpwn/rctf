@@ -133,7 +133,10 @@ export default withStyles({
     '--cirrus-link': '#72b4e0',
     '--cirrus-link-dark': '#277edb',
     '--cirrus-select-bg': 'rgba(0, 161, 255, 0.4)',
-    '--cirrus-code-bg': '#333'
+    '--cirrus-code-bg': '#333',
+    '--cirrus-info-hover': '#ffba44',
+    '--cirrus-info': '#FFBA44',
+    '--cirrus-light': '#000000'
   },
   contentWrapper: {
     flex: '1 0 auto'
