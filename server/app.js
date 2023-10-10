@@ -1,7 +1,7 @@
 import path from 'path'
 import fastify from 'fastify'
-import fastifyStatic from 'fastify-static'
-import helmet from 'fastify-helmet'
+import fastifyStatic from '@fastify/static'
+import helmet from '@fastify/helmet'
 import hyperid from 'hyperid'
 import config from './config/server'
 import { serveIndex, serveMinioFiles, getRealIp } from './util'
@@ -20,7 +20,7 @@ const app = fastify({
         version: req.headers['accept-version'],
         hostname: req.hostname,
         remoteAddress: getRealIp(req),
-        remotePort: req.connection.remotePort,
+        remotePort: req.socket.remotePort,
         userAgent: req.headers['user-agent']
       })
     }

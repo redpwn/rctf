@@ -40,12 +40,11 @@ class DatabaseProvider extends EventEmitter implements Provider {
   challengeToRow (chall: Challenge): DatabaseChallenge {
     chall = deepCopy(chall)
 
-    const id = chall.id
-    delete chall.id
+    const { id, ...challWithoutId } = chall
 
     return {
       id,
-      data: chall
+      data: { ...challWithoutId }
     }
   }
 

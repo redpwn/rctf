@@ -5,7 +5,7 @@ import fs from 'fs'
 import crypto from 'crypto'
 import config from '../../../config/server'
 import { FastifyInstance } from 'fastify'
-import fastifyStatic from 'fastify-static'
+import fastifyStatic from '@fastify/static'
 import contentDisposition from 'content-disposition'
 
 interface LocalProviderOptions {
