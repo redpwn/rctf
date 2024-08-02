@@ -16,5 +16,5 @@ email:
   provider:
     name: 'emails/smtp'
     options:
-      smtpUrl: 'smtp://a:b@example.com'
+      smtpUrl: 'smtp://{USERNAME}:{PASSWORD}@{DOMAIN}'
 ```
