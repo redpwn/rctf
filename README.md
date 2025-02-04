@@ -3,7 +3,9 @@
 [![Build Status](https://github.com/redpwn/rctf/workflows/CI/badge.svg?branch=master)](https://github.com/redpwn/rctf/actions?query=workflow%3ACI+branch%3Amaster)
 [![Code Coverage](https://img.shields.io/codecov/c/github/redpwn/rctf.svg)](https://codecov.io/github/redpwn/rctf/)
 
-rCTF is redpwnCTF's CTF platform. It is developed and (used to be) maintained by the [redpwn](https://redpwn.net) CTF team.
+**This version is no longer maintained, please submit issues and feature requests to [otter-sec/rctf](https://github.com/otter-sec/rctf).**
+
+rCTF is redpwnCTF's CTF platform. It is developed by the [redpwn](https://redpwn.net) CTF team.
 
 ## Getting Started
 
