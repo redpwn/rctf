@@ -69,7 +69,7 @@ do_install() {
 
   RCTF_GIT_REF="${RCTF_GIT_REF:-"master"}"
 
-  mkdir -p conf.d data/rctf-postgres data/rctf-redis
+  mkdir -p conf.d data/rctf-postgres data/rctf-redis data/rctf-uploads
 
   printf "%s\n" \
   "RCTF_DATABASE_PASSWORD=$(get_key)" \

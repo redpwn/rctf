@@ -13,6 +13,7 @@ services:
       - PORT=80
     volumes:
       - ./conf.d:/app/conf.d
+      - ./data/rctf-uploads:/app/uploads
     depends_on:
       - redis
       - postgres
